@@ -1,0 +1,2211 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "Z_DUMMY_TARGET"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"add_definitions",
+			"include",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt",
+			"CMakeListsPrivate.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 33,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 15,
+				"parent" : 0
+			},
+			{
+				"file" : 1,
+				"parent" : 2
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 29,
+				"parent" : 3
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 28,
+				"parent" : 3
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 26,
+				"parent" : 3
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 27,
+				"parent" : 3
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 25,
+				"parent" : 3
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 30,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 32,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 33,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 34,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 35,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 36,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 37,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 38,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 39,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 40,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 41,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 42,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 43,
+				"parent" : 3
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-fno-exceptions;-fno-threadsafe-statics;-fpermissive;-std=gnu++11;-mmcu=atmega328p;-Os;-Wall;-ffunction-sections;-fdata-sections;-flto"
+				},
+				{
+					"fragment" : "-std=gnu++11"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 4,
+					"define" : "ARDUINO=10808"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "ARDUINO_ARCH_AVR"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "ARDUINO_AVR_UNO"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "F_CPU=16000000L"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "PLATFORMIO=60109"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "__AVR_ATmega328P__"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 10,
+					"path" : "C:/Users/mr/Arduino Wall-E/Wall-E/include"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "C:/Users/mr/Arduino Wall-E/Wall-E/src"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "C:/Users/mr/.platformio/packages/framework-arduino-avr/cores/arduino"
+				},
+				{
+					"backtrace" : 13,
+					"path" : "C:/Users/mr/.platformio/packages/framework-arduino-avr/variants/standard"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "C:/Users/mr/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "C:/Users/mr/.platformio/packages/framework-arduino-avr/libraries/HID/src"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "C:/Users/mr/.platformio/packages/framework-arduino-avr/libraries/SPI/src"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "C:/Users/mr/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "C:/Users/mr/.platformio/packages/framework-arduino-avr/libraries/Wire/src"
+				},
+				{
+					"backtrace" : 19,
+					"path" : "C:/Users/mr/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include"
+				},
+				{
+					"backtrace" : 20,
+					"path" : "C:/Users/mr/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed"
+				},
+				{
+					"backtrace" : 21,
+					"path" : "C:/Users/mr/.platformio/packages/toolchain-atmelavr/avr/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "11"
+			},
+			"sourceIndexes" : 
+			[
+				2,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31,
+				35,
+				37,
+				39,
+				41,
+				46,
+				48,
+				51,
+				70,
+				72,
+				74,
+				133,
+				149,
+				166,
+				182,
+				194,
+				196,
+				206,
+				236,
+				238,
+				240,
+				242,
+				244,
+				246,
+				248,
+				250,
+				252,
+				254,
+				256,
+				258,
+				260,
+				262,
+				264,
+				267,
+				269,
+				271,
+				278
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-std=gnu11;-fno-fat-lto-objects;-mmcu=atmega328p;-Os;-Wall;-ffunction-sections;-fdata-sections;-flto"
+				},
+				{
+					"fragment" : "-std=gnu11"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 4,
+					"define" : "ARDUINO=10808"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "ARDUINO_ARCH_AVR"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "ARDUINO_AVR_UNO"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "F_CPU=16000000L"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "PLATFORMIO=60109"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "__AVR_ATmega328P__"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 10,
+					"path" : "C:/Users/mr/Arduino Wall-E/Wall-E/include"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "C:/Users/mr/Arduino Wall-E/Wall-E/src"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "C:/Users/mr/.platformio/packages/framework-arduino-avr/cores/arduino"
+				},
+				{
+					"backtrace" : 13,
+					"path" : "C:/Users/mr/.platformio/packages/framework-arduino-avr/variants/standard"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "C:/Users/mr/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "C:/Users/mr/.platformio/packages/framework-arduino-avr/libraries/HID/src"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "C:/Users/mr/.platformio/packages/framework-arduino-avr/libraries/SPI/src"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "C:/Users/mr/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "C:/Users/mr/.platformio/packages/framework-arduino-avr/libraries/Wire/src"
+				},
+				{
+					"backtrace" : 19,
+					"path" : "C:/Users/mr/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include"
+				},
+				{
+					"backtrace" : 20,
+					"path" : "C:/Users/mr/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed"
+				},
+				{
+					"backtrace" : 21,
+					"path" : "C:/Users/mr/.platformio/packages/toolchain-atmelavr/avr/include"
+				}
+			],
+			"language" : "C",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "11"
+			},
+			"sourceIndexes" : 
+			[
+				137,
+				141
+			]
+		}
+	],
+	"id" : "Z_DUMMY_TARGET::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-fno-exceptions;-fno-threadsafe-statics;-fpermissive;-std=gnu++11;-mmcu=atmega328p;-Os;-Wall;-ffunction-sections;-fdata-sections;-flto",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "",
+				"role" : "flags"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "Z_DUMMY_TARGET",
+	"nameOnDisk" : "Z_DUMMY_TARGET",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				5,
+				6,
+				7,
+				8,
+				10,
+				32,
+				33,
+				34,
+				42,
+				43,
+				44,
+				45,
+				53,
+				54,
+				55,
+				56,
+				57,
+				58,
+				59,
+				60,
+				61,
+				62,
+				63,
+				64,
+				65,
+				66,
+				67,
+				68,
+				69,
+				77,
+				130,
+				131,
+				132,
+				135,
+				136,
+				138,
+				139,
+				142,
+				143,
+				144,
+				145,
+				146,
+				147,
+				148,
+				151,
+				152,
+				153,
+				154,
+				155,
+				156,
+				157,
+				158,
+				159,
+				160,
+				161,
+				162,
+				163,
+				164,
+				165,
+				168,
+				169,
+				170,
+				171,
+				172,
+				173,
+				174,
+				175,
+				176,
+				177,
+				178,
+				180,
+				181,
+				184,
+				185,
+				186,
+				187,
+				188,
+				189,
+				190,
+				191,
+				192,
+				193,
+				198,
+				199,
+				200,
+				201,
+				202,
+				203,
+				204,
+				205,
+				208,
+				209,
+				210,
+				211,
+				212,
+				213,
+				214,
+				215,
+				216,
+				217,
+				218,
+				219,
+				220,
+				221,
+				222,
+				223,
+				224,
+				225,
+				226,
+				227,
+				228,
+				229,
+				230,
+				231,
+				232,
+				233,
+				234,
+				235,
+				273,
+				274,
+				275,
+				276,
+				277,
+				280
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				2,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31,
+				35,
+				37,
+				39,
+				41,
+				46,
+				48,
+				51,
+				70,
+				72,
+				74,
+				133,
+				137,
+				141,
+				149,
+				166,
+				182,
+				194,
+				196,
+				206,
+				236,
+				238,
+				240,
+				242,
+				244,
+				246,
+				248,
+				250,
+				252,
+				254,
+				256,
+				258,
+				260,
+				262,
+				264,
+				267,
+				269,
+				271,
+				278
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				3,
+				4,
+				9,
+				21,
+				36,
+				38,
+				40,
+				47,
+				49,
+				50,
+				52,
+				71,
+				73,
+				75,
+				76,
+				78,
+				79,
+				80,
+				81,
+				82,
+				83,
+				84,
+				85,
+				86,
+				87,
+				88,
+				89,
+				90,
+				91,
+				92,
+				93,
+				94,
+				95,
+				96,
+				97,
+				98,
+				99,
+				100,
+				101,
+				102,
+				103,
+				104,
+				105,
+				106,
+				107,
+				108,
+				109,
+				110,
+				111,
+				112,
+				113,
+				114,
+				115,
+				116,
+				117,
+				118,
+				119,
+				120,
+				121,
+				122,
+				123,
+				124,
+				125,
+				126,
+				127,
+				128,
+				129,
+				134,
+				140,
+				150,
+				167,
+				179,
+				183,
+				195,
+				197,
+				207,
+				237,
+				239,
+				241,
+				243,
+				245,
+				247,
+				249,
+				251,
+				253,
+				255,
+				257,
+				259,
+				261,
+				263,
+				265,
+				266,
+				268,
+				270,
+				272,
+				279
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "lib/IRremoteTank/Contributing.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "lib/IRremoteTank/Contributors.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/IRremote.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "lib/IRremoteTank/IRremoteInt.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : "lib/IRremoteTank/IRremoteTank.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : "lib/IRremoteTank/ISSUE_TEMPLATE.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "lib/IRremoteTank/LICENSE.txt",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "lib/IRremoteTank/README.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "lib/IRremoteTank/arduino-irremote.sublime-workspace",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "lib/IRremoteTank/boarddefs.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : "lib/IRremoteTank/changelog.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/esp32.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/irPronto.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/irRecv.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/irSend.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/ir_Aiwa.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/ir_Denon.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/ir_Dish.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/ir_JVC.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/ir_LG.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/ir_Lego_PF.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "lib/IRremoteTank/ir_Lego_PF_BitStreamEncoder.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/ir_Mitsubishi.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/ir_NEC.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/ir_Panasonic.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/ir_RC5_RC6.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/ir_Samsung.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/ir_Sanyo.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/ir_Sharp.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/ir_Sony.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/ir_Template.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/ir_Whynter.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "lib/IRremoteTank/keywords.txt",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "lib/IRremoteTank/library.json",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "lib/IRremoteTank/library.properties",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/IRremoteTank/sam.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "lib/Servo/src/Servo.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Servo/src/avr/Servo.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "lib/Servo/src/avr/ServoTimers.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Servo/src/sam/Servo.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "lib/Servo/src/sam/ServoTimers.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/main.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/.github/ISSUE_TEMPLATE.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/.github/PULL_REQUEST_TEMPLATE.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/.github/workflows/githubci.yml",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/.piopm",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/Adafruit_BusIO_Register.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/Adafruit_BusIO_Register.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/Adafruit_I2CDevice.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/Adafruit_I2CDevice.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/Adafruit_I2CRegister.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/Adafruit_SPIDevice.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/Adafruit_SPIDevice.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/CMakeLists.txt",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/README.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/component.mk",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/examples/i2c_address_detect/i2c_address_detect.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/examples/i2c_readwrite/i2c_readwrite.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/examples/i2c_registers/i2c_registers.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/examples/i2corspi_register/i2corspi_register.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/examples/spi_modetest/spi_modetest.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/examples/spi_readwrite/spi_readwrite.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/examples/spi_register_bits/spi_register_bits.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/examples/spi_registers/spi_registers.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit BusIO/library.properties",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/.github/ISSUE_TEMPLATE.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/.github/PULL_REQUEST_TEMPLATE.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/.github/workflows/githubci.yml",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/.gitignore",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/.piopm",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Adafruit_GFX.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Adafruit_GFX.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Adafruit_GrayOLED.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Adafruit_GrayOLED.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Adafruit_SPITFT.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Adafruit_SPITFT.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Adafruit_SPITFT_Macros.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/CMakeLists.txt",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMono12pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMono18pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMono24pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMono9pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoBold12pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoBold18pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoBold24pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoBold9pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoBoldOblique12pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoBoldOblique18pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoBoldOblique24pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoBoldOblique9pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoOblique12pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoOblique18pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoOblique24pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoOblique9pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSans12pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSans18pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSans24pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSans9pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansBold12pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansBold18pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansBold24pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansBold9pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansBoldOblique12pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansBoldOblique18pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansBoldOblique24pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansBoldOblique9pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansOblique12pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansOblique18pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansOblique24pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansOblique9pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerif12pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerif18pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerif24pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerif9pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifBold12pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifBold18pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifBold24pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifBold9pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifBoldItalic12pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifBoldItalic18pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifBoldItalic24pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifBoldItalic9pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifItalic12pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifItalic18pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifItalic24pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifItalic9pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/Org_01.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/Picopixel.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/Tiny3x3a2pt7b.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/Fonts/TomThumb.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/README.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/component.mk",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/examples/GFXcanvas/GFXcanvas.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/examples/GFXcanvas/GFXcanvasSerialDemo.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/examples/GFXcanvas/GFXcanvasSerialDemo.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/examples/mock_ili9341/mock_ili9341.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/fontconvert/bdf2adafruit.py",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/fontconvert/fontconvert.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/fontconvert/fontconvert_win.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/fontconvert/makefonts.sh",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/gfxfont.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/glcdfont.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/library.properties",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit GFX Library/license.txt",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit MPU6050/.github/ISSUE_TEMPLATE.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit MPU6050/.github/PULL_REQUEST_TEMPLATE.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit MPU6050/.github/workflows/githubci.yml",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit MPU6050/.gitignore",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit MPU6050/.piopm",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/Adafruit MPU6050/Adafruit_MPU6050.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit MPU6050/Adafruit_MPU6050.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit MPU6050/README.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit MPU6050/code-of-conduct.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit MPU6050/examples/MPU6050_oled/MPU6050_oled.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit MPU6050/examples/basic_readings/basic_readings.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit MPU6050/examples/motion_detection/motion_detection.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit MPU6050/examples/mpu6050_unifiedsensors/mpu6050_unifiedsensors.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit MPU6050/examples/plotter/plotter.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit MPU6050/examples/sleep_demo/sleep_demo.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit MPU6050/library.properties",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit MPU6050/license.txt",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit SSD1306/.github/ISSUE_TEMPLATE.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit SSD1306/.github/PULL_REQUEST_TEMPLATE.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit SSD1306/.github/workflows/githubci.yml",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit SSD1306/.gitignore",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit SSD1306/.piopm",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/Adafruit SSD1306/Adafruit_SSD1306.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit SSD1306/Adafruit_SSD1306.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit SSD1306/CMakeLists.txt",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit SSD1306/README.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit SSD1306/component.mk",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit SSD1306/examples/OLED_featherwing/OLED_featherwing.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit SSD1306/examples/ssd1306_128x32_i2c/ssd1306_128x32_i2c.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit SSD1306/examples/ssd1306_128x32_spi/ssd1306_128x32_spi.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit SSD1306/examples/ssd1306_128x64_i2c/ssd1306_128x64_i2c.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit SSD1306/examples/ssd1306_128x64_spi/ssd1306_128x64_spi.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit SSD1306/library.properties",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit SSD1306/license.txt",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit SSD1306/scripts/make_splash.py",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit SSD1306/splash.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit Unified Sensor/.gitignore",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit Unified Sensor/.piopm",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/Adafruit Unified Sensor/Adafruit_Sensor.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit Unified Sensor/Adafruit_Sensor.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit Unified Sensor/LICENSE.txt",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit Unified Sensor/README.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit Unified Sensor/examples/sensortest/sensortest.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/Adafruit Unified Sensor/library.properties",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/DHT sensor library/.github/ISSUE_TEMPLATE.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/DHT sensor library/.github/PULL_REQUEST_TEMPLATE.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/DHT sensor library/.github/workflows/githubci.yml",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/DHT sensor library/.gitignore",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/DHT sensor library/.piopm",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/DHT sensor library/CONTRIBUTING.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/DHT sensor library/DHT.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/DHT sensor library/DHT.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/DHT sensor library/DHT_U.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/DHT sensor library/DHT_U.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/DHT sensor library/README.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/DHT sensor library/code-of-conduct.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/DHT sensor library/examples/DHT_Unified_Sensor/DHT_Unified_Sensor.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/DHT sensor library/examples/DHTtester/DHTtester.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/DHT sensor library/keywords.txt",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/DHT sensor library/library.properties",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/DHT sensor library/license.txt",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/LiquidCrystal_I2C/.piopm",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/LiquidCrystal_I2C/LiquidCrystal_I2C.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/LiquidCrystal_I2C/LiquidCrystal_I2C.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/LiquidCrystal_I2C/README.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/LiquidCrystal_I2C/examples/CustomChars/CustomChars.pde",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/LiquidCrystal_I2C/examples/HelloWorld/HelloWorld.pde",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/LiquidCrystal_I2C/examples/SerialDisplay/SerialDisplay.pde",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/LiquidCrystal_I2C/keywords.txt",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/LiquidCrystal_I2C/library.json",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/LiquidCrystal_I2C/library.properties",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/.piopm",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/README.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/documents/README.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM1637_extended/TM1637_extended.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM1637_matrix/TM1637_matrix.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM1638_Anode_two_modules_Display_Print/TM1638_Anode_two_modules_Display_Print.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM1638_TM1637ex_two_modules/TM1638_TM1637ex_two_modules.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM1640_basic/TM1640_basic.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM1640_matrix/TM1640_matrix.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM1668_one_module/TM1668_one_module.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM16xxButtons_clicks/TM16xxButtons_clicks.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM16xxDisplay_Print/TM16xxDisplay_Print.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM16xxDisplay_ScrolledPrint/TM16xxDisplay_ScrolledPrint.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM16xxMatrixGFX_MadFly/TM16xxMatrixGFX_MadFly.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM16xxMatrixGFX_Ticker/TM16xxMatrixGFX_Ticker.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM16xxMatrixGFX_TickerTwoModules/TM16xxMatrixGFX_TickerTwoModules.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM16xxMatrix_Snake/TM16xxMatrix_Snake.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM16xx_setSegments/TM16xx_setSegments.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM16xx_setSegmentsDebug/TM16xx_setSegmentsDebug.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/keywords.txt",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/library.properties",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/InvertedTM1638.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/InvertedTM1638.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1620.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1620.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1628.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1628.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1630.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1630.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1637.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1637.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1638.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1638.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1638Anode.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1638Anode.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1638QYF.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1638QYF.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1640.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1640.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1640Anode.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1640Anode.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1650.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1650.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1668.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1668.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xx.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxButtons.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxButtons.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxDisplay.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxDisplay.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxFonts.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxMatrix.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxMatrix.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxMatrix16.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxMatrix16.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxMatrixGFX.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxMatrixGFX.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TimerEvent/.piopm",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TimerEvent/examples/ThreeTimers/ThreeTimers.ino",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TimerEvent/keywords.txt",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TimerEvent/library.properties",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TimerEvent/readme.md",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : ".pio/libdeps/uno/TimerEvent/src/TimerEvent.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/TimerEvent/src/TimerEvent.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".pio/libdeps/uno/integrity.dat",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "EXECUTABLE"
+}
