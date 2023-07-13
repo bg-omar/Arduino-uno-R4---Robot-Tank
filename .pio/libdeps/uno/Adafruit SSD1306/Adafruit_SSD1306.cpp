@@ -866,7 +866,7 @@ void Adafruit_SSD1306::drawFastVLineInternal(int16_t x, int16_t __y,
       if (mod) {
         // mask off the high n bits we want to set
         mod = 8 - mod;
-        // note - lookup table IR_in in a nearly 10% performance
+        // note - lookup table results in a nearly 10% performance
         // improvement in fill* functions
         // uint8_t mask = ~(0xFF >> mod);
         static const uint8_t PROGMEM premask[8] = {0x00, 0x80, 0xC0, 0xE0,
@@ -918,7 +918,7 @@ void Adafruit_SSD1306::drawFastVLineInternal(int16_t x, int16_t __y,
           // this time we want to mask the low bits of the byte,
           // vs the high bits we did above
           // uint8_t mask = (1 << mod) - 1;
-          // note - lookup table IR_in in a nearly 10% performance
+          // note - lookup table results in a nearly 10% performance
           // improvement in fill* functions
           static const uint8_t PROGMEM postmask[8] = {0x00, 0x01, 0x03, 0x07,
                                                       0x0F, 0x1F, 0x3F, 0x7F};

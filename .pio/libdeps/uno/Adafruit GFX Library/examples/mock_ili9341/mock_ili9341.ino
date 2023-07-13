@@ -250,7 +250,7 @@ unsigned long testFilledRects(uint16_t color1, uint16_t color2) {
     start = micros();
     tft.fillRect(cx-i2, cy-i2, i, i, color1);
     t    += micros() - start;
-    // Outlines are not included in timing IR_in
+    // Outlines are not included in timing results
     tft.drawRect(cx-i2, cy-i2, i, i, color2);
     yield();
   }

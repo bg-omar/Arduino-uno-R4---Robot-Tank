@@ -32,8 +32,8 @@ unsigned char clear[] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
 
 int IR_Pin = A2;//define the pin of IR receiver as A0
 int a=0;
-IRrecv Remote(IR_Pin);
-decode_results IR_in;
+IRrecv irrecv(IR_Pin);
+decode_results results;
 
 
 TM1640 module(4, 5);
@@ -100,8 +100,8 @@ int sensorValueL = 0;        // value read from the pot
 int outputValueR = 0;        // value output to the PWM (analog out)
 int outputValueL = 0;        // value output to the PWM (analog out)
 int calcValue = 255;      // inverse input
-int pulsewidthXY;
-int pulsewidthZ;
+int pulsewidth;
+
 
 /************the function to run motor**************/
 void Car_front()
@@ -208,25 +208,16 @@ void timerDHTFunc(){
 }
 
 //The function to control servo
-void procedureXY(int myangle) {
+void procedure(int pin,int myangle) {
     for (int i = 0; i <= 50; i = i + (1)) {
-        pulsewidthXY = myangle * 11 + 500;
-        digitalWrite(servoPinXY, HIGH);
-        delayMicroseconds(pulsewidthXY);
-        digitalWrite(servoPinXY, LOW);
-        delay((20 - pulsewidthXY / 1000));
+        pulsewidth = myangle * 11 + 500;
+        digitalWrite(pin, HIGH);
+        delayMicroseconds(pulsewidth);
+        digitalWrite(pin, LOW);
+        delay((20 - pulsewidth / 1000));
     }
 }
-//The function to control servo
-void procedureZ(int myangleZ) {
-    for (int i = 0; i <= 50; i = i + (1)) {
-        pulsewidthZ = myangleZ * 11 + 500;
-        digitalWrite(servoPinZ, HIGH);
-        delayMicroseconds(pulsewidthZ);
-        digitalWrite(servoPinZ, LOW);
-        delay((20 - pulsewidthZ / 1000));
-    }
-}
+
 //The function to control ultrasonic sensor
 float checkdistance() {
     digitalWrite(Trig, LOW);
@@ -244,10 +235,10 @@ void setup(){
     Serial.begin(115200);
 
     pinMode(servoPinXY, OUTPUT);
-    procedureXY(0); //set servo to 90°
+    procedure(servoPinXY, 0); //set servo to 90°
     pinMode(servoPinZ, OUTPUT);
-    procedureZ(0); //set servo to 90°
-    Remote.enableIRIn(); // Initialize the IR receiver
+    procedure(servoPinZ, 0); //set servo to 90°
+    irrecv.enableIRIn(); // Initialize the IR receiver
 
     pinMode(Trig, OUTPUT);
     pinMode(Echo, INPUT);
@@ -348,7 +339,7 @@ void loop(){
         analogWrite (Led, 250);
         delay(500); //delay in 500ms
 
-        procedureXY(160);  //Ultrasonic platform turns left
+        procedure(servoPinXY, 160);  //Ultrasonic platform turns left
         //for statement, the data will be more accurate if ultrasonic sensor detect a few times.
         for (int j = 1; j <= 10; j = j + (1)) {
             //assign the left distance detected by ultrasonic sensor to variable a1
@@ -356,7 +347,7 @@ void loop(){
         }
         delay(300);
 
-        procedureXY(20); //Ultrasonic platform turns right
+        procedure(servoPinXY, 20); //Ultrasonic platform turns right
         for (int k = 1; k <= 10; k = k + (1)) {
             //assign the right distance detected by ultrasonic sensor to variable a2
             distance2 = checkdistance();
@@ -366,14 +357,14 @@ void loop(){
         {
             if (distance1 > distance2) //left distance is greater than right side
             {
-                procedureXY(85);  //Ultrasonic platform turns back to right ahead
+                procedure(servoPinXY, 85);  //Ultrasonic platform turns back to right ahead
                 Car_left();  //robot turns left
                 delay(500);  //turn left for 500ms
                 Car_front(); //go front
             }
             else
             {
-                procedureXY(85);
+                procedure(servoPinXY, 85);
                 Car_right(); //robot turns right
                 delay(500);
                 Car_front();  //go front
@@ -383,14 +374,14 @@ void loop(){
         {
             if ((long) (random2) % (long) (2) == 0)  //When the random number is even
             {
-                procedureXY(85);
+                procedure(servoPinXY, 85);
                 Car_left(); //tank robot turns left
                 delay(500);
                 Car_front(); //go front
             }
             else
             {
-                procedureXY(85);
+                procedure(servoPinXY, 85);
                 Car_right(); //robot turns right
                 delay(500);
                 Car_front(); //go front

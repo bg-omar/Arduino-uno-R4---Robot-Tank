@@ -234,7 +234,7 @@ An example of reading the [TSL2561](https://github.com/adafruit/Adafruit_TSL2561
  sensors_event_t event;
  tsl.getEvent(&event);
  
- /* Display the IR_in (light is measured in lux) */
+ /* Display the results (light is measured in lux) */
  if (event.light)
  {
    Serial.print(event.light); Serial.println(" lux");

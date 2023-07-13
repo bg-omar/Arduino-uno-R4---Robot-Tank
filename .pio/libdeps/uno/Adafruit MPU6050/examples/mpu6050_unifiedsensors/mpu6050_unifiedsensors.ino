@@ -42,7 +42,7 @@ void loop() {
   Serial.print(temp.temperature);
   Serial.println(" deg C");
 
-  /* Display the IR_in (acceleration is measured in m/s^2) */
+  /* Display the results (acceleration is measured in m/s^2) */
   Serial.print("\t\tAccel X: ");
   Serial.print(accel.acceleration.x);
   Serial.print(" \tY: ");
@@ -51,7 +51,7 @@ void loop() {
   Serial.print(accel.acceleration.z);
   Serial.println(" m/s^2 ");
 
-  /* Display the IR_in (rotation is measured in rad/s) */
+  /* Display the results (rotation is measured in rad/s) */
   Serial.print("\t\tGyro X: ");
   Serial.print(gyro.gyro.x);
   Serial.print(" \tY: ");

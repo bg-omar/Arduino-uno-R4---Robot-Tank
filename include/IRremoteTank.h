@@ -237,11 +237,11 @@ class IRrecv
 #		endif
 		//......................................................................
 #		if DECODE_DISH
-			bool  decodeDish (decode_results *IR_in) ; // NOT WRITTEN
+			bool  decodeDish (decode_results *results) ; // NOT WRITTEN
 #		endif
 		//......................................................................
 #		if DECODE_SHARP
-			bool  decodeSharp (decode_results *IR_in) ; // NOT WRITTEN
+			bool  decodeSharp (decode_results *results) ; // NOT WRITTEN
 #		endif
 		//......................................................................
 #		if DECODE_DENON
@@ -249,7 +249,7 @@ class IRrecv
 #		endif
 //......................................................................
 #		if DECODE_LEGO_PF
-			bool  decodeLegoPowerFunctions (decode_results *IR_in) ;
+			bool  decodeLegoPowerFunctions (decode_results *results) ;
 #		endif
 } ;
 
