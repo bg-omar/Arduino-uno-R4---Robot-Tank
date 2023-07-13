@@ -8,13 +8,9 @@
 #include "../.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xx.h"
 #include "../.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1640.h"
 #include "../.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxMatrix.h"
+#include "../.pio/libdeps/uno/IRremoteTank/IRremoteTank.h"
+#include "../.pio/libdeps/uno/Servo/src/Servo.h"
 
-TM1640 module(7, 6, 16);
-#define MATRIX_NUMCOLUMNS 16
-#define MATRIX_NUMROWS 8
-TM16xxMatrix matrix(&module, MATRIX_NUMCOLUMNS, MATRIX_NUMROWS);    // TM16xx object, columns, rows
-
-LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x3F for a 16 chars and 2 line display
 byte Heart[8] = {
         0b00000,
         0b01010,
@@ -114,17 +110,41 @@ unsigned char met[] = {0xf8, 0x0c, 0xf8, 0x0c, 0xf8, 0x00, 0x78, 0xa8, 0xa8, 0xb
 unsigned char pesto[] = {0xfe, 0x12, 0x12, 0x7c, 0xb0, 0xb0, 0x80, 0xb8, 0xa8, 0xe8, 0x08, 0xf8, 0x08, 0xe8, 0x90, 0xe0};
 unsigned char bleh[] = {0x00,0x11,0x0a,0x04,0x8a,0x51,0x40,0x40,0x40,0x40,0x51,0x8a,0x04,0x0a,0x11,0x00};
 unsigned char clear[] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+
+
+
+int IR_Pin = A3;//define the pin of IR receiver as A0
+int a=0;
+IRrecv Remote(IR_Pin);
+decode_results IR_in;
+
+
+TM1640 module(7, 6, 16);
+#define MATRIX_NUMCOLUMNS 16
+#define MATRIX_NUMROWS 8
+TM16xxMatrix matrix(&module, MATRIX_NUMCOLUMNS, MATRIX_NUMROWS);    // TM16xx object, columns, rows
+
+LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x3F for a 16 chars and 2 line display
 #define SCL_Pin  6  //Set clock pin to A5
 #define SDA_Pin  7  //Set data pin to A4
+
+#define Rem_OK 0xFF02FD
+#define Rem_U 0xFF629D
+#define Rem_D 0xFFA857
+#define Rem_L 0xFF22DD
+#define Rem_R 0xFFC23D
+
+
 
 #define ML_Ctrl 13  //define the direction control pin of left motor
 #define ML_PWM 11   //define PWM control pin of left motor
 #define MR_Ctrl 12  //define the direction control pin of right motor
 #define MR_PWM 3   //define PWM control pin of right motor
-#define Trig 5  //ultrasonic trig Pin
-#define Echo 4  //ultrasonic echo Pin
-#define servoPin 9  //servo Pin
-#define Led 10
+#define Trig 0  //ultrasonic trig Pin
+#define Echo 1  //ultrasonic echo Pin
+#define servoPinXY 9  //servo Pin
+#define servoPinZ 10  //servo Pin
+#define Led 4
 // Initialize DHT sensor for normal 16mhz Arduino:
 #define DHTPIN 8
 #define DHTTYPE DHT11
@@ -222,8 +242,8 @@ void timerSixFunc(){
     module.setDisplay(bleh,16);
 }
 
-void timerGyroFunc(){
-    /* Get new sensor events with the readings */
+/*void timerGyroFunc(){
+    *//* Get new sensor events with the readings *//*
     sensors_event_t a, g, temp;
     mpu.getEvent(&a, &g, &temp);
 
@@ -241,7 +261,7 @@ void timerGyroFunc(){
     lcd.print(g.gyro.y);
     lcd.print(" ");
     lcd.print(g.gyro.z);
-}
+}*/
 void timerDHTFunc(){
     // Reading temperature or humidity takes about 250 milliseconds!
     // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
@@ -269,12 +289,22 @@ void timerDHTFunc(){
 }
 
 //The function to control servo
-void procedure(int myangle) {
+void procedureXY(int myangle) {
     for (int i = 0; i <= 50; i = i + (1)) {
         pulsewidth = myangle * 11 + 500;
-        digitalWrite(servoPin,HIGH);
+        digitalWrite(servoPinXY, HIGH);
         delayMicroseconds(pulsewidth);
-        digitalWrite(servoPin,LOW);
+        digitalWrite(servoPinXY, LOW);
+        delay((20 - pulsewidth / 1000));
+    }
+}
+//The function to control servo
+void procedureZ(int myangle) {
+    for (int i = 0; i <= 50; i = i + (1)) {
+        pulsewidth = myangle * 11 + 500;
+        digitalWrite(servoPinZ, HIGH);
+        delayMicroseconds(pulsewidth);
+        digitalWrite(servoPinZ, LOW);
         delay((20 - pulsewidth / 1000));
     }
 }
@@ -294,8 +324,11 @@ float checkdistance() {
 void setup(){
     Serial.begin(115200);
 
-    pinMode(servoPin, OUTPUT);
-    procedure(85); //set servo to 90°
+    pinMode(servoPinXY, OUTPUT);
+    procedureXY(85); //set servo to 90°
+    pinMode(servoPinZ, OUTPUT);
+    procedureZ(85); //set servo to 90°
+    Remote.enableIRIn(); // Initialize the IR receiver
 
     pinMode(Trig, OUTPUT);
     pinMode(Echo, INPUT);
@@ -344,7 +377,7 @@ void setup(){
     timerFive.set(timerFivePeriod, timerFiveFunc);
     timerSix.set(timerSixPeriod, timerSixFunc);
     timerDHT.set(timerDHTPeriod, timerDHTFunc);
-    timerGyro.set(timerGyroPeriod, timerGyroFunc);
+/*    timerGyro.set(timerGyroPeriod, timerGyroFunc);*/
     dht.begin();
     lcd.init();
     lcd.clear();
@@ -380,8 +413,7 @@ void loop(){
     timerFive.update();
     timerSix.update();
     timerDHT.update();
-    timerGyro.update();
-
+    /*timerGyro.update();*/
 
     random2 = random(1, 100);
     sensorValueR = analogRead(analogInPinR);
@@ -398,7 +430,7 @@ void loop(){
         analogWrite (Led, 250);
         delay(500); //delay in 500ms
 
-        procedure(160);  //Ultrasonic platform turns left
+        procedureXY(160);  //Ultrasonic platform turns left
         //for statement, the data will be more accurate if ultrasonic sensor detect a few times.
         for (int j = 1; j <= 10; j = j + (1)) {
             //assign the left distance detected by ultrasonic sensor to variable a1
@@ -406,7 +438,7 @@ void loop(){
         }
         delay(300);
 
-        procedure(20); //Ultrasonic platform turns right
+        procedureXY(20); //Ultrasonic platform turns right
         for (int k = 1; k <= 10; k = k + (1)) {
             //assign the right distance detected by ultrasonic sensor to variable a2
             distance2 = checkdistance();
@@ -416,14 +448,14 @@ void loop(){
         {
             if (distance1 > distance2) //left distance is greater than right side
             {
-                procedure(85);  //Ultrasonic platform turns back to right ahead
+                procedureXY(85);  //Ultrasonic platform turns back to right ahead
                 Car_left();  //robot turns left
                 delay(500);  //turn left for 500ms
                 Car_front(); //go front
             }
             else
             {
-                procedure(85);
+                procedureXY(85);
                 Car_right(); //robot turns right
                 delay(500);
                 Car_front();  //go front
@@ -433,14 +465,14 @@ void loop(){
         {
             if ((long) (random2) % (long) (2) == 0)  //When the random number is even
             {
-                procedure(85);
+                procedureXY(85);
                 Car_left(); //tank robot turns left
                 delay(500);
                 Car_front(); //go front
             }
             else
             {
-                procedure(85);
+                procedureXY(85);
                 Car_right(); //robot turns right
                 delay(500);
                 Car_front(); //go front
