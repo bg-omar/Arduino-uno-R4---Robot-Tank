@@ -8,8 +8,8 @@
 #include "../.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xx.h"
 #include "../.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1640.h"
 #include "../.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxMatrix.h"
-#include "../.pio/libdeps/uno/IRremoteTank/IRremoteTank.h"
-#include "../.pio/libdeps/uno/Servo/src/Servo.h"
+#include "../lib/IRremoteTank/IRremoteTank.h"
+#include "../lib/Servo/src/Servo.h"
 
 byte Heart[8] = {
         0b00000,
