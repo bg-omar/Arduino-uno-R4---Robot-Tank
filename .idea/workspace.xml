@@ -22,9 +22,9 @@
     <list default="true" id="d123a1cc-6578-4e4d-813c-6829b258db73" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.pio/build/uno/.sconsign311.dblite" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/build/uno/.sconsign311.dblite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/firmware.elf" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/build/uno/firmware.elf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/firmware.hex" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/build/uno/firmware.hex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.pio/build/uno/src/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/build/uno/src/main.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-uno/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-uno/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/Testing/Temporary/LastTest.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,6 +119,7 @@
       <workItem from="1689287481452" duration="3037000" />
       <workItem from="1689290859771" duration="1695000" />
       <workItem from="1689327225718" duration="2000" />
+      <workItem from="1689329936584" duration="1000" />
     </task>
     <task id="LOCAL-00001" summary="1st">
       <created>1689277148054</created>
