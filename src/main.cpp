@@ -4,6 +4,7 @@
 #include "../.pio/libdeps/uno/TimerEvent/src/TimerEvent.h"
 #include "../.pio/libdeps/uno/DHT sensor library/DHT.h"
 #include "../.pio/libdeps/uno/Adafruit Unified Sensor/Adafruit_Sensor.h"
+#include "../.pio/libdeps/uno/Adafruit HMC5883 Unified/Adafruit_HMC5883_U.h"
 #include "../.pio/libdeps/uno/LiquidCrystal_I2C/LiquidCrystal_I2C.h"
 #include "../.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xx.h"
 #include "../.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1640.h"
@@ -12,13 +13,7 @@
 #include "../.pio/libdeps/uno/IRremoteTank/IRremoteTank.h"
 
 byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000, 0b00000};
-byte Bell[8] = { 0b00100, 0b01110, 0b01110, 0b01110, 0b11111, 0b00000, 0b00100, 0b00000};
-byte Alien[8] = { 0b11111, 0b10101, 0b11111, 0b11111, 0b01110, 0b01010, 0b11011, 0b00000};
-byte Check[8] = { 0b00000, 0b00001, 0b00011, 0b10110, 0b11100, 0b01000, 0b00000, 0b00000};
-byte Speaker[8] = { 0b00001, 0b00011, 0b01111, 0b01111, 0b01111, 0b00011, 0b00001, 0b00000};
-byte Sound[8] = { 0b00001, 0b00011, 0b00101, 0b01001, 0b01001, 0b01011, 0b11011, 0b11000};
-byte Skull[8] = { 0b00000, 0b01110, 0b10101, 0b11011, 0b01110, 0b01110, 0b00000, 0b00000};
-byte Lock[8] = { 0b01110, 0b10001, 0b10001, 0b11111, 0b11011, 0b11011, 0b11111, 0b00000 };
+
 //Array, used to store the data of the pattern, can be calculated by yourself or obtained from the modulus tool
 unsigned char STOP01[] = {0x2E,0x2A,0x3A,0x00,0x02,0x3E,0x02,0x00,0x3E,0x22,0x3E,0x00,0x3E,0x0A,0x0E,0x00};
 unsigned char hou[] = {0x00, 0x7f, 0x08, 0x08, 0x7f, 0x00, 0x3c, 0x42, 0x42, 0x3c, 0x00, 0x3e, 0x40, 0x40, 0x3e, 0x00};
@@ -28,7 +23,6 @@ unsigned char pesto[] = {0xfe, 0x12, 0x12, 0x7c, 0xb0, 0xb0, 0x80, 0xb8, 0xa8, 0
 unsigned char bleh[] = {0x00,0x11,0x0a,0x04,0x8a,0x51,0x40,0x40,0x40,0x40,0x51,0x8a,0x04,0x0a,0x11,0x00};
 unsigned char clear[] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 const uint8_t pesto2[] = {0x11, 0x0a, 0x04, 0x0a, 0x11, 0xc0, 0x40, 0x40, 0x40, 0x40, 0xc0, 0x11, 0x0a, 0x04, 0x0a, 0x11};
-
 
 LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x3F for a 16 chars and 2 line display
 
@@ -58,25 +52,24 @@ LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x3F for a 16 chars
 #define Rem_y 0xFF52AD
 
 
-#define Trig 1  //ultrasonic trig Pin
-#define Echo 0  //ultrasonic echo Pin
+#define Trig 6  //ultrasonic trig Pin
+#define Echo 7  //ultrasonic echo Pin
 #define Led 2
 
 #define matrixData 4  //servo Pin
 #define matrixClock 5  //servo Pin
-#define DHTPIN 6
+#define DHTPIN 8
 
-#define servoPinXY 9  //servo Pin
-#define servoPinZ 10  //servo Pin
+#define servoPinXY 0  //servo Pin
+#define servoPinZ 1  //servo Pin
 #define ML_PWM 11   //define PWM control pin of left motor
 #define MR_Ctrl 12  //define the direction control pin of right motor
 #define ML_Ctrl 13  //define the direction control pin of left motor
 #define MR_PWM 3   //define PWM control pin of right motor
 
-int a=0;
 IRrecv irrecv(IR_Pin);
 decode_results results;
-unsigned long ir_rec, duration, cm;
+long ir_rec, duration, cm;
 
 // Initialize DHT sensor for normal 16mhz Arduino:
 
@@ -86,26 +79,8 @@ DHT dht = DHT(DHTPIN, DHT11);
 
 Adafruit_MPU6050 mpu;
 
-const unsigned int timerOnePeriod = 1000;
-const unsigned int timerTwoPeriod = 1250;
-const unsigned int timerThreePeriod = 1666;
-const unsigned int timerFourPeriod = 2200;
-const unsigned int timerFivePeriod = 2500;
-const unsigned int timerSixPeriod = 2700;
-const unsigned int timerDHTPeriod = 1440;
-const unsigned int timerGyroPeriod = 1000;
-
-TimerEvent timerOne;
-TimerEvent timerTwo;
-TimerEvent timerThree;
-TimerEvent timerFour;
-TimerEvent timerFive;
-TimerEvent timerSix;
-TimerEvent timerDHT;
-TimerEvent timerGyro;
-
 long random2;
-float distancef;
+float distanceF;
 float distanceR;
 float distanceL;
 
@@ -115,13 +90,16 @@ int sensorValueL ;        // value read from the pot
 int outputValueR ;        // value output to the PWM (analog out)
 int outputValueL ;        // value output to the PWM (analog out)
 int calcValue ;      // inverse input
-int pulsewidth;
 
-char bluetooth_val; ///save the value of Bluetooth reception
+int posXY = 0;
+int posZ = 25;
+
+
+
 int flag; ///flag variable, it is used to entry and exist function
 
-
-
+/* Assign a unique ID to this sensor at the same time */
+Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(1337);
 
 /************the function to run motor**************/
 void Car_front()
@@ -163,55 +141,73 @@ void Car_Stop()
 void Car_T_left()
 {
     digitalWrite(MR_Ctrl,HIGH);
-    analogWrite(MR_PWM,50);
+    analogWrite(MR_PWM,255);
     digitalWrite(ML_Ctrl,HIGH);
-    analogWrite(ML_PWM,30);
+    analogWrite(ML_PWM,180);
 }
 void Car_T_right()
 {
     digitalWrite(MR_Ctrl,HIGH);
-    analogWrite(MR_PWM,30);
+    analogWrite(MR_PWM,180);
     digitalWrite(ML_Ctrl,HIGH);
-    analogWrite(ML_PWM,50);
+    analogWrite(ML_PWM,255);
 }
-/*
 
-// This function will be called every timerOnePeriod
-void timerOneFunc(){
-    module.sendChar(pesto, 16);
+void endall(){
+    if (irrecv.decode(&results)) //receive the IR remote value
+    {
+        ir_rec=results.value;
+        if (ir_rec == Rem_5)   //Robot car stops
+        {
+            Car_Stop();
+        }
+    }
 }
-void timerTwoFunc(){
-    module.sendChar(reinterpret_cast<byte>(hou));
+
+//The function to control servo
+void servoXY(int myangle) {
+    for (int i = 0; i <= 50; i = i + (1)) {
+        auto pulsewidth = myangle * 11 + 500;
+        digitalWrite(servoPinXY,HIGH);
+        delayMicroseconds(pulsewidth);
+        digitalWrite(servoPinXY,LOW);
+        delay((20 - pulsewidth / 1000));
+    }
 }
-void timerThreeFunc(){
-    module.sendChar(op,16);
+
+//The function to control servo
+void servoZ(int myangle) {
+    for (int i = 0; i <= 50; i = i + (1)) {
+        auto pulsewidth = myangle * 11 + 500;
+        digitalWrite(servoPinZ,HIGH);
+        delayMicroseconds(pulsewidth);
+        digitalWrite(servoPinZ,LOW);
+        delay((20 - pulsewidth / 1000));
+    }
 }
-void timerFourFunc(){
-    module.sendChar(met,16);
+
+void displaySensorDetails()
+{
+    sensor_t sensor;
+    mag.getSensor(&sensor);
+    Serial.println("------------------------------------");
+    Serial.print  ("Sensor:       "); Serial.println(sensor.name);
+    Serial.print  ("Driver Ver:   "); Serial.println(sensor.version);
+    Serial.print  ("Unique ID:    "); Serial.println(sensor.sensor_id);
+    Serial.print  ("Max Value:    "); Serial.print(sensor.max_value); Serial.println(" uT");
+    Serial.print  ("Min Value:    "); Serial.print(sensor.min_value); Serial.println(" uT");
+    Serial.print  ("Resolution:   "); Serial.print(sensor.resolution); Serial.println(" uT");
+    Serial.println("------------------------------------");
+    Serial.println("");
+    delay(500);
 }
-void timerFiveFunc(){
-    module.sendChar(pesto,16);
-}
-void timerSixFunc(){
-    module.sendChar(bleh,16);
-}
-*/
 
 void timerGyroFunc(){
     // Get new sensor events with the readings
     sensors_event_t a, g, temp;
     mpu.getEvent(&a, &g, &temp);
 
-    lcd.setCursor(2,0);   //Set cursor to character 2 on line 0
-    lcd.print("Hello Pesto!");
-    lcd.setCursor(3, 1);
-    lcd.write(0);
-    lcd.setCursor(5, 1);
-    lcd.print("Love u");
-    lcd.setCursor(12, 1);
-    lcd.write(0);
-
-/*    lcd.setCursor(0,0); // Sets the location at which subsequent text written to the LCD will be displayed
+    lcd.setCursor(0,0); // Sets the location at which subsequent text written to the LCD will be displayed
     lcd.print("A:"); // m/s2
     lcd.print(a.acceleration.x);
     lcd.print(" ");
@@ -224,8 +220,10 @@ void timerGyroFunc(){
     lcd.print(" ");
     lcd.print(g.gyro.y);
     lcd.print(" ");
-    lcd.print(g.gyro.z);*/
+    lcd.print(g.gyro.z);
+    endall();
 }
+
 void timerDHTFunc(){
     // Reading temperature or humidity takes about 250 milliseconds!
     // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
@@ -250,18 +248,47 @@ void timerDHTFunc(){
     lcd.print(" H:");
     lcd.print(h);
     lcd.print("%");
+    endall();
 }
 
-//The function to control servo
-void procedure(int pin,int myangle) {
-    for (int i = 0; i <= 50; i = i + (1)) {
-        pulsewidth = myangle * 11 + 500;
-        digitalWrite(pin, HIGH);
-        delayMicroseconds(pulsewidth);
-        digitalWrite(pin, LOW);
-        delay((20 - pulsewidth / 1000));
-    }
+void compass(){
+    /* Get a new sensor event */
+    sensors_event_t event;
+    mag.getEvent(&event);
+
+    /* Display the results (magnetic vector values are in micro-Tesla (uT)) */
+    Serial.print("X: "); Serial.print(event.magnetic.x); Serial.print("  ");
+    Serial.print("Y: "); Serial.print(event.magnetic.y); Serial.print("  ");
+    Serial.print("Z: "); Serial.print(event.magnetic.z); Serial.print("  ");Serial.println("uT");
+
+    // Hold the module so that Z is pointing 'up' and you can measure the heading with x&y
+    // Calculate heading when the magnetometer is level, then correct for signs of axis.
+    float heading = atan2(event.magnetic.y, event.magnetic.x);
+
+    // Once you have your heading, you must then add your 'Declination Angle', which is the 'Error' of the magnetic field in your location.
+    // Find yours here: http://www.magnetic-declination.com/
+    // Mine is: -13* 2' W, which is ~13 Degrees, or (which we need) 0.22 radians
+    // If you cannot find your Declination, comment out these two lines, your compass will be slightly off.
+    float declinationAngle = 0.035;
+    heading += declinationAngle;
+
+    // Correct for when signs are reversed.
+    if(heading < 0)
+        heading += 2*PI;
+
+    // Check for wrap due to addition of declination.
+    if(heading > 2*PI)
+        heading -= 2*PI;
+
+    // Convert radians to degrees for readability.
+    float headingDegrees = heading * 180/M_PI;
+    // Print a message on both lines of the LCD.
+    lcd.setCursor(0,0);   //Set cursor to character 2 on line 0
+    lcd.print("Compass ");
+    lcd.print(headingDegrees);
+    endall();
 }
+
 
 //The function to control ultrasonic sensor
 float checkdistance() {
@@ -274,6 +301,7 @@ float checkdistance() {
     delay(10);
     return checkDistance;
 }
+
 //****************************************************************
 void dance() {
     flag = 0; ///the design that enter obstacle avoidance function
@@ -282,8 +310,6 @@ void dance() {
         {
             for(int j=0; j<8; j++)
             {
-                procedure(servoPinXY, i*10);
-                procedure(servoPinZ, j*10);
                 matrix.setPixel(i,j, true);
                 delay(10);
                 matrix.setPixel(i,j, false);
@@ -295,8 +321,6 @@ void dance() {
         {
             for(int j=0; j<16; j++)
             {
-                procedure(servoPinXY, -i*10);
-                procedure(servoPinZ, -j*10);
                 matrix.setPixel(j,i, true);
                 delay(10);
                 matrix.setPixel(j,i, false);
@@ -304,44 +328,15 @@ void dance() {
         }
         for (int myangle = 0; myangle <= 180; myangle += 1) { // goes from 0 degrees to 180 degrees
             // in steps of 1 degree
-            procedure(servoPinXY, myangle);              // tell servo to go to position in variable 'myangle'
+            servoXY(myangle);              // tell servo to go to position in variable 'myangle'
             delay(15);                   //control the rotation speed of servo
-            // The sensor is triggered by a HIGH pulse of 10 or more microseconds.
-            // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
-            digitalWrite(Trig, LOW);
-            delayMicroseconds(2);
-            digitalWrite(Trig, HIGH);
-            delayMicroseconds(10);
-            digitalWrite(Trig, LOW);
-            // Read the signal from the sensor: a HIGH pulse whose
-            // duration is the time (in microseconds) from the sending
-            // of the ping to the reception of its echo off of an object.
-            duration = pulseIn(Echo, HIGH);
-            // Convert the time into a distance
-            cm = (duration/2) / 29.1;     // Divide by 29.1 or multiply by 0.0343
-            Serial.print(cm);
-            Serial.print("cm");
-            Serial.println();
-            delay(5);
-            if (cm>=2 && cm<=10)
-                digitalWrite(10, HIGH);
-            delay(100);
-            digitalWrite(10, LOW);
-            delay(100);
+
         }
         for (int myangle = 100; myangle >= 0; myangle -= 1) { // goes from 180 degrees to 0 degrees
-            procedure(servoPinXY, myangle);              // tell servo to go to position in variable 'myangle'
+            servoXY(myangle);              // tell servo to go to position in variable 'myangle'
             delay(10);
         }
-        if (irrecv.decode(&results)) //receive the IR remote value
-        {
-            ir_rec=results.value;
-            if (ir_rec == Rem_5)   //Robot car stops
-            {
-                Car_Stop();
-                // matrix_display(STOP01);  //show stop image
-            }
-        }
+        endall();
 
     }
 }
@@ -353,21 +348,21 @@ void avoid()
     while (flag == 0)
     {
         random2 = random(1, 100);
-        a = checkdistance(); ///assign the front distance detected by ultrasonic sensor to variable a
-        if (a < 20) ///when the front distance detected is less than 20cm
+        distanceF= checkdistance(); ///assign the front distance detected by ultrasonic sensor to variable a
+        if (distanceF < 20) ///when the front distance detected is less than 20cm
         {
-            analogWrite (Led, 0);
+            analogWrite (Led, 255);
             Car_Stop(); /// robot stops
-            procedure(servoPinZ,45);
+            servoZ(45);
             delay(200); ///delay in 200ms
-            procedure(servoPinZ,0);
+            servoZ(0);
             delay(200); ///delay in 200ms
-            procedure(servoPinXY,160); ///Ultrasonic platform turns left
+            servoXY(160); ///Ultrasonic platform turns left
             for (int j = 1; j <= 10; j = j + (1)) { ///for statement, the data will be more accurate if ultrasonic sensor detect a few times.
                 distanceL = checkdistance(); ///assign the left distance detected  by ultrasonic sensor to variable a1
             }
             delay(200);
-            procedure(servoPinXY,20); ///Ultrasonic platform turns right
+            servoXY(20); ///Ultrasonic platform turns right
             for (int k = 1; k <= 10; k = k + (1)) {
                 distanceR = checkdistance(); ///assign the right distance detected by ultrasonic sensor to variable a2
             }
@@ -377,14 +372,14 @@ void avoid()
             {
                 if (distanceL > distanceR) ///left distance is greater than right
                 {
-                    procedure(servoPinXY,90); ///Ultrasonic platform turns back to right ahead ultrasonic platform turns front
+                    servoXY(90); ///Ultrasonic platform turns back to right ahead ultrasonic platform turns front
                     Car_left(); ///robot turns left
                     delay(500); ///turn left 500ms
                     Car_front(); ///go forward
                 }
                 else
                 {
-                    procedure(servoPinXY,90);
+                    servoXY(90);
                     Car_right(); ///robot turns right
                     delay(500);
                     Car_front(); ///go forward
@@ -394,14 +389,14 @@ void avoid()
             {
                 if ((long) (random2) % (long) (2) == 0) ///when the random number is even
                 {
-                    procedure(servoPinXY,90);
+                    servoXY(90);
                     Car_left(); ///robot turns left
                     delay(500);
                     Car_front(); ///go forward
                 }
                 else
                 {
-                    procedure(servoPinXY,90);
+                    servoXY(90);
                     Car_right(); ///robot turns right
                     delay(500);
                     Car_front(); ///go forward
@@ -410,28 +405,19 @@ void avoid()
         {
             Car_front(); ///go forward
         }
-        if (irrecv.decode(&results)) //receive the IR remote value
-        {
-            ir_rec=results.value;
-            if (ir_rec == Rem_5)   //Robot car stops
-            {
-                Car_Stop();
-                // matrix_display(STOP01);  //show stop image
-            }
-        }
+         endall();
     }
 }
 
-
-
-
 void setup(){
     Serial.begin(115200);
-
     pinMode(servoPinXY, OUTPUT);
-    procedure(servoPinXY, 90); //set servo to 90°
     pinMode(servoPinZ, OUTPUT);
-    procedure(servoPinZ, 0); //set servo to 90°
+    servoXY(posXY);              // tell servo to go to position in variable 'pos'
+    delay(15);
+    servoZ(posZ);              // tell servo to go to position in variable 'pos'
+    delay(15);
+
     irrecv.enableIRIn(); // Initialize the IR receiver
 
     pinMode(Trig, OUTPUT);
@@ -447,19 +433,26 @@ void setup(){
     digitalWrite(SCL_Pin,LOW);
     digitalWrite(SDA_Pin,LOW);
 
+    Serial.println("HMC5883 Magnetometer Test"); Serial.println("");
+
+    /* Initialise the sensor */
+    if(!mag.begin())
+    {
+        /* There was a problem detecting the HMC5883 ... check your connections */
+        Serial.println("Ooops, no HMC5883 detected ... Check your wiring!");
+        while(1);
+    }
+
+    /* Display some basic information on this sensor */
+    displaySensorDetails();
+
+
     dht.begin();
     lcd.init();
     lcd.clear();
     lcd.backlight();      // Make sure backlight is on
     // create a new characters
     lcd.createChar(0, Heart);
-    lcd.createChar(1, Bell);
-    lcd.createChar(2, Alien);
-    lcd.createChar(3, Check);
-    lcd.createChar(4, Speaker);
-    lcd.createChar(5, Sound);
-    lcd.createChar(6, Skull);
-    lcd.createChar(7, Lock);
 
     // Print a message on both lines of the LCD.
     lcd.setCursor(2,0);   //Set cursor to character 2 on line 0
@@ -499,29 +492,10 @@ void setup(){
     }
 
 
-/*    timerOne.set(timerOnePeriod, timerOneFunc);
-    timerTwo.set(timerTwoPeriod, timerTwoFunc);
-    timerThree.set(timerThreePeriod, timerThreeFunc);
-    timerFour.set(timerFourPeriod, timerFourFunc);
-    timerFive.set(timerFivePeriod, timerFiveFunc);
-    timerSix.set(timerSixPeriod, timerSixFunc);*/
-    timerDHT.set(timerDHTPeriod, timerDHTFunc);
-    timerGyro.set(timerGyroPeriod, timerGyroFunc);
-
 }
 
 
 void loop(){
-
-    timerOne.update();
-    timerTwo.update();
-    timerThree.update();
-    timerFour.update();
-    timerFive.update();
-    timerSix.update();
-    timerDHT.update();
-    timerGyro.update();
-
     random2 = random(1, 100);
     sensorValueR = analogRead(light_R_Pin);
     sensorValueL = analogRead(light_L_Pin);
@@ -529,85 +503,79 @@ void loop(){
     outputValueL = map(sensorValueL, 0, 1023, 0, 255);
     calcValue = 255 - ((outputValueR + outputValueL) * 1.5);
     calcValue = (calcValue < 0) ? 0 : calcValue;
-    distancef = checkdistance();  //assign the front distance detected by ultrasonic sensor to variable a
-
-    if (Serial.available())
-    {
-        bluetooth_val = Serial.read();
-        Serial.println(bluetooth_val);
+    distanceF = checkdistance();  //assign the front distance detected by ultrasonic sensor to variable a
+    if (distanceF < 20) {
+        analogWrite (Led, 255);
+    } else {
+        analogWrite (Led, 0);
     }
-
-
-    if (irrecv.decode(&results)) //receive the IR remote value
-    {
-        ir_rec=results.value;
-        String type="UNKNOWN";
-        String typelist[14]={"UNKNOWN", "NEC", "SONY", "RC5", "RC6", "DISH", "SHARP", "PANASONIC", "JVC", "SANYO", "MITSUBISHI", "SAMSUNG", "LG", "WHYNTER"};
-        if(results.decode_type>=1&&results.decode_type<=13){
-            type=typelist[results.decode_type];
-        }
-        Serial.print("IR TYPE:"+type+"  ");
-        Serial.println(ir_rec,HEX);
+    if (irrecv.decode(&results)) {
+        ir_rec = results.value;
         irrecv.resume();
-    }
 
-    if (ir_rec == Rem_2) //Go forward
-    {
-        procedure(servoPinXY, 90);  //Servo rotates to 90°
-        procedure(servoPinZ, 0);
-        Car_front();
-//        matrix_display(&hou);  //Display front image
+        if (ir_rec == Rem_2) {
+            Car_front();
+        }
+        if (ir_rec == Rem_8) {
+            Car_back();
+        }
+        if (ir_rec == Rem_1) {
+            Car_T_left();
+        }
+        if (ir_rec == Rem_3) {
+            Car_T_right();
+        }
+        if (ir_rec == Rem_5) {
+            Car_Stop();
+        }
+        if (ir_rec == Rem_4) {
+            Car_left();
+        }
+        if (ir_rec == Rem_6) {
+            Car_right();
+        }
+        if (ir_rec == Rem_x) {
+            avoid();
+        }
+        if (ir_rec == Rem_y) {
+            dance();
+        }
+        if (ir_rec == Rem_OK) {
+            servoXY(90);
+            delay(30);
+            servoZ(25);
+            delay(30);
+        }
+        if (ir_rec == Rem_U) //Go forward
+        {
+            servoZ(0);
+            delay(30);
+        }
+        if (ir_rec == Rem_D)  //Robot car goes back
+        {
+            servoZ(90);
+            delay(30);
+        }
+        if (ir_rec == Rem_L)   //Robot car turns left
+        {
+            servoXY(160);
+            delay(30);//Servo rotates to 90°
+        }
+        if (ir_rec == Rem_R)   //Robot car turns right
+        {
+            servoXY(20);
+            delay(30);//Servo rotates to 90°
+        }
+        if (ir_rec == Rem_7) {
+            timerDHTFunc();
+        }
+        if (ir_rec == Rem_9) {
+            timerGyroFunc();
+        }
+        if (ir_rec == Rem_0) {
+            compass();
+        }
     }
-    if (ir_rec == Rem_8)  //Robot car goes back
-    {
-        procedure(servoPinXY, 90);  //Servo rotates to 90°
-        procedure(servoPinZ, 0);
-        Car_back();
-//        matrix_display(op);  //Go back
-    }
-    if (ir_rec == Rem_1)   //Robot car turns left
-    {
-        procedure(servoPinXY, 160);  //Servo rotates to 90°
-        procedure(servoPinZ, 30);
-        Car_T_left();
-//        matrix_display(met);  //Display left-turning image
-    }
-    if (ir_rec == Rem_3)   //Robot car turns right
-    {
-        procedure(servoPinXY, 20);  //Servo rotates to 90°
-        procedure(servoPinZ, 30);
-        Car_T_right();
-//        matrix_display(pesto);  //Display right-turning image
-    }
-    if (ir_rec == Rem_5)   //Robot car stops
-    {
-        Car_Stop();
-       // matrix_display(STOP01);  //show stop image
-    }
-    if (ir_rec == Rem_4)   //robot car rotates anticlockwise
-    {        procedure(servoPinXY, 160);  //Servo rotates to 90°
-        procedure(servoPinZ, 30);
-        Car_left();
-//        matrix_display(bleh);  //show anticlockwise rotation picture
-    }
-    if (ir_rec == Rem_6)  //robot car rotates clockwise
-    {        procedure(servoPinXY, 20);  //Servo rotates to 90°
-        procedure(servoPinZ, 30);
-        Car_right();
-//        matrix_display(bleh);  //show clockwise rotation picture
-    }
-    if (ir_rec == Rem_x)  //robot car rotates clockwise
-    {
-        avoid();
-
-    }
-    if (ir_rec == Rem_y)  //robot car rotates clockwise
-    {
-        dance();
-
-    }
-
-
 }
 
 

@@ -21,350 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d123a1cc-6578-4e4d-813c-6829b258db73" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/project.checksum" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/.sconsign311.dblite" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/CDC.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/HardwareSerial.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/HardwareSerial0.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/HardwareSerial1.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/HardwareSerial2.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/HardwareSerial3.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/IPAddress.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/PluggableUSB.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/Print.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/Stream.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/Tone.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/USBCore.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/WInterrupts.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/WMath.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/WString.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/abi.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/hooks.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/main.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/new.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/wiring.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/wiring_analog.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/wiring_digital.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/wiring_pulse.S.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/wiring_pulse.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/FrameworkArduino/wiring_shift.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/firmware.elf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/firmware.hex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/lib139/Adafruit MPU6050/Adafruit_MPU6050.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/lib139/libAdafruit MPU6050.a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/lib165/SPI/SPI.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/lib165/libSPI.a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/lib810/Adafruit Unified Sensor/Adafruit_Sensor.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/lib810/libAdafruit Unified Sensor.a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/lib86c/LiquidCrystal_I2C/LiquidCrystal_I2C.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/lib86c/libLiquidCrystal_I2C.a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libFrameworkArduino.a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libFrameworkArduinoVariant.a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libaad/Servo/avr/Servo.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libaad/Servo/sam/Servo.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libaad/libServo.a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libb2f/Adafruit BusIO/Adafruit_BusIO_Register.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libb2f/Adafruit BusIO/Adafruit_I2CDevice.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libb2f/Adafruit BusIO/Adafruit_SPIDevice.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libb2f/libAdafruit BusIO.a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libc11/Wire/Wire.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libc11/Wire/utility/twi.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libc11/libWire.a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libc26/TimerEvent/TimerEvent.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libc26/libTimerEvent.a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libc99/Adafruit GFX Library/Adafruit_GFX.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libc99/Adafruit GFX Library/Adafruit_GrayOLED.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libc99/Adafruit GFX Library/Adafruit_SPITFT.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libc99/Adafruit GFX Library/glcdfont.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libc99/libAdafruit GFX Library.a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/IRremote.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/esp32.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/irPronto.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/irRecv.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/irSend.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/ir_Aiwa.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/ir_Denon.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/ir_Dish.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/ir_JVC.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/ir_LG.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/ir_Lego_PF.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/ir_Mitsubishi.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/ir_NEC.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/ir_Panasonic.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/ir_RC5_RC6.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/ir_Samsung.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/ir_Sanyo.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/ir_Sharp.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/ir_Sony.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/ir_Template.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/ir_Whynter.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/IRremoteTank/sam.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libcdd/libIRremoteTank.a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libd36/TM16xx LEDs and Buttons/InvertedTM1638.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libd36/TM16xx LEDs and Buttons/TM1620.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libd36/TM16xx LEDs and Buttons/TM1628.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libd36/TM16xx LEDs and Buttons/TM1630.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libd36/TM16xx LEDs and Buttons/TM1637.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libd36/TM16xx LEDs and Buttons/TM1638.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libd36/TM16xx LEDs and Buttons/TM1638Anode.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libd36/TM16xx LEDs and Buttons/TM1638QYF.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libd36/TM16xx LEDs and Buttons/TM1640.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libd36/TM16xx LEDs and Buttons/TM1640Anode.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libd36/TM16xx LEDs and Buttons/TM1650.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libd36/TM16xx LEDs and Buttons/TM1668.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libd36/TM16xx LEDs and Buttons/TM16xx.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libd36/TM16xx LEDs and Buttons/TM16xxButtons.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libd36/TM16xx LEDs and Buttons/TM16xxDisplay.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libd36/TM16xx LEDs and Buttons/TM16xxMatrix.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libd36/TM16xx LEDs and Buttons/TM16xxMatrix16.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libd36/TM16xx LEDs and Buttons/TM16xxMatrixGFX.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libd36/libTM16xx LEDs and Buttons.a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libed1/DHT sensor library/DHT.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libed1/DHT sensor library/DHT_U.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/libed1/libDHT sensor library.a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/build/uno/src/main.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/.github/ISSUE_TEMPLATE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/.github/PULL_REQUEST_TEMPLATE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/.github/workflows/githubci.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/.piopm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/Adafruit_BusIO_Register.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/Adafruit_BusIO_Register.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/Adafruit_I2CDevice.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/Adafruit_I2CDevice.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/Adafruit_I2CRegister.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/Adafruit_SPIDevice.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/Adafruit_SPIDevice.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/component.mk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/examples/i2c_address_detect/i2c_address_detect.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/examples/i2c_readwrite/i2c_readwrite.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/examples/i2c_registers/i2c_registers.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/examples/i2corspi_register/i2corspi_register.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/examples/spi_modetest/spi_modetest.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/examples/spi_readwrite/spi_readwrite.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/examples/spi_register_bits/spi_register_bits.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/examples/spi_registers/spi_registers.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/library.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/.github/ISSUE_TEMPLATE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/.github/PULL_REQUEST_TEMPLATE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/.github/workflows/githubci.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/.piopm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Adafruit_GFX.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Adafruit_GFX.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Adafruit_GrayOLED.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Adafruit_GrayOLED.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Adafruit_SPITFT.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Adafruit_SPITFT.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Adafruit_SPITFT_Macros.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMono12pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMono18pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMono24pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMono9pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoBold12pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoBold18pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoBold24pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoBold9pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoBoldOblique12pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoBoldOblique18pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoBoldOblique24pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoBoldOblique9pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoOblique12pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoOblique18pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoOblique24pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeMonoOblique9pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSans12pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSans18pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSans24pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSans9pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansBold12pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansBold18pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansBold24pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansBold9pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansBoldOblique12pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansBoldOblique18pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansBoldOblique24pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansBoldOblique9pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansOblique12pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansOblique18pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansOblique24pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSansOblique9pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerif12pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerif18pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerif24pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerif9pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifBold12pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifBold18pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifBold24pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifBold9pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifBoldItalic12pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifBoldItalic18pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifBoldItalic24pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifBoldItalic9pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifItalic12pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifItalic18pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifItalic24pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/FreeSerifItalic9pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/Org_01.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/Picopixel.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/Tiny3x3a2pt7b.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/Fonts/TomThumb.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/component.mk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/examples/GFXcanvas/GFXcanvas.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/examples/GFXcanvas/GFXcanvasSerialDemo.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/examples/GFXcanvas/GFXcanvasSerialDemo.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/examples/mock_ili9341/mock_ili9341.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/fontconvert/Makefile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/fontconvert/bdf2adafruit.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/fontconvert/fontconvert.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/fontconvert/fontconvert_win.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/fontconvert/makefonts.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/gfxfont.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/glcdfont.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/library.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit GFX Library/license.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit MPU6050/.github/ISSUE_TEMPLATE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit MPU6050/.github/PULL_REQUEST_TEMPLATE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit MPU6050/.github/workflows/githubci.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit MPU6050/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit MPU6050/.piopm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit MPU6050/Adafruit_MPU6050.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit MPU6050/Adafruit_MPU6050.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit MPU6050/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit MPU6050/code-of-conduct.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit MPU6050/examples/MPU6050_oled/MPU6050_oled.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit MPU6050/examples/basic_readings/basic_readings.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit MPU6050/examples/motion_detection/motion_detection.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit MPU6050/examples/mpu6050_unifiedsensors/mpu6050_unifiedsensors.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit MPU6050/examples/plotter/plotter.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit MPU6050/examples/sleep_demo/sleep_demo.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit MPU6050/library.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit MPU6050/license.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit SSD1306/.github/ISSUE_TEMPLATE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit SSD1306/.github/PULL_REQUEST_TEMPLATE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit SSD1306/.github/workflows/githubci.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit SSD1306/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit SSD1306/.piopm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit SSD1306/Adafruit_SSD1306.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit SSD1306/Adafruit_SSD1306.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit SSD1306/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit SSD1306/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit SSD1306/component.mk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit SSD1306/examples/OLED_featherwing/OLED_featherwing.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit SSD1306/examples/ssd1306_128x32_i2c/ssd1306_128x32_i2c.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit SSD1306/examples/ssd1306_128x32_spi/ssd1306_128x32_spi.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit SSD1306/examples/ssd1306_128x64_i2c/ssd1306_128x64_i2c.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit SSD1306/examples/ssd1306_128x64_spi/ssd1306_128x64_spi.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit SSD1306/library.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit SSD1306/license.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit SSD1306/scripts/Makefile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit SSD1306/scripts/make_splash.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit SSD1306/splash.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit Unified Sensor/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit Unified Sensor/.piopm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit Unified Sensor/Adafruit_Sensor.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit Unified Sensor/Adafruit_Sensor.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit Unified Sensor/LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit Unified Sensor/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit Unified Sensor/examples/sensortest/sensortest.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit Unified Sensor/library.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/DHT sensor library/.github/ISSUE_TEMPLATE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/DHT sensor library/.github/PULL_REQUEST_TEMPLATE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/DHT sensor library/.github/workflows/githubci.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/DHT sensor library/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/DHT sensor library/.piopm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/DHT sensor library/CONTRIBUTING.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/DHT sensor library/DHT.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/DHT sensor library/DHT.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/DHT sensor library/DHT_U.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/DHT sensor library/DHT_U.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/DHT sensor library/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/DHT sensor library/code-of-conduct.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/DHT sensor library/examples/DHT_Unified_Sensor/DHT_Unified_Sensor.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/DHT sensor library/examples/DHTtester/DHTtester.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/DHT sensor library/keywords.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/DHT sensor library/library.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/DHT sensor library/license.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/IRremoteTank/IRremoteInt.h" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/IRremoteTank/IRremoteInt.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/LiquidCrystal_I2C/.piopm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/LiquidCrystal_I2C/LiquidCrystal_I2C.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/LiquidCrystal_I2C/LiquidCrystal_I2C.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/LiquidCrystal_I2C/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/LiquidCrystal_I2C/examples/CustomChars/CustomChars.pde" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/LiquidCrystal_I2C/examples/HelloWorld/HelloWorld.pde" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/LiquidCrystal_I2C/examples/SerialDisplay/SerialDisplay.pde" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/LiquidCrystal_I2C/keywords.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/LiquidCrystal_I2C/library.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/LiquidCrystal_I2C/library.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/.piopm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/documents/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM1637_extended/TM1637_extended.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM1637_matrix/TM1637_matrix.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM1638_Anode_two_modules_Display_Print/TM1638_Anode_two_modules_Display_Print.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM1638_TM1637ex_two_modules/TM1638_TM1637ex_two_modules.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM1640_basic/TM1640_basic.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM1640_matrix/TM1640_matrix.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM1668_one_module/TM1668_one_module.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM16xxButtons_clicks/TM16xxButtons_clicks.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM16xxDisplay_Print/TM16xxDisplay_Print.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM16xxDisplay_ScrolledPrint/TM16xxDisplay_ScrolledPrint.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM16xxMatrixGFX_MadFly/TM16xxMatrixGFX_MadFly.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM16xxMatrixGFX_Ticker/TM16xxMatrixGFX_Ticker.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM16xxMatrixGFX_TickerTwoModules/TM16xxMatrixGFX_TickerTwoModules.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM16xxMatrix_Snake/TM16xxMatrix_Snake.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM16xx_setSegments/TM16xx_setSegments.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/examples/TM16xx_setSegmentsDebug/TM16xx_setSegmentsDebug.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/keywords.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/library.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/InvertedTM1638.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/InvertedTM1638.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1620.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1620.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1628.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1628.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1630.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1630.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1637.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1637.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1638.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1638.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1638Anode.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1638Anode.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1638QYF.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1638QYF.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1640.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1640.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1640Anode.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1640Anode.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1650.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1650.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1668.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1668.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xx.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xx.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxButtons.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxButtons.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxDisplay.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxDisplay.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxFonts.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxMatrix.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxMatrix.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxMatrix16.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxMatrix16.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxMatrixGFX.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxMatrixGFX.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TimerEvent/.piopm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TimerEvent/examples/ThreeTimers/ThreeTimers.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TimerEvent/keywords.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TimerEvent/library.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TimerEvent/readme.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TimerEvent/src/TimerEvent.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/TimerEvent/src/TimerEvent.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/IRremoteTank/IRremoteTank.h" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/IRremoteTank/IRremoteTank.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/integrity.dat" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/integrity.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_15/lesson_15.ino" beforeDir="false" afterPath="$PROJECT_DIR$/arduino_tutorials/lesson_15/lesson_15.ino" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-uno/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/.ninja_log" afterDir="false" />
@@ -409,21 +67,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "last_opened_file_path": "C:/Users/mr/Arduino Wall-E/ESP32-Cam",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.Console Font"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mr/Arduino Wall-E/ESP32-Cam&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.Console Font&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\arduino_tutorials" />
@@ -483,7 +141,8 @@
       <workItem from="1689329936584" duration="151000" />
       <workItem from="1689355473448" duration="2070000" />
       <workItem from="1689364464366" duration="1202000" />
-      <workItem from="1689370176332" duration="11105000" />
+      <workItem from="1689370176332" duration="11126000" />
+      <workItem from="1689430664123" duration="10509000" />
     </task>
     <task id="LOCAL-00001" summary="1st">
       <created>1689277148054</created>
@@ -534,7 +193,14 @@
       <option name="project" value="LOCAL" />
       <updated>1689365356666</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="dance">
+      <created>1689382543592</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1689382543592</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -571,6 +237,7 @@
     <MESSAGE value="4" />
     <MESSAGE value="5" />
     <MESSAGE value="Added Raspberry tutorials" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Raspberry tutorials" />
+    <MESSAGE value="dance" />
+    <option name="LAST_COMMIT_MESSAGE" value="dance" />
   </component>
 </project>

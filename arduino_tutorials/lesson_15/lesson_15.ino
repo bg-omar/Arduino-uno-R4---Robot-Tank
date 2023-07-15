@@ -60,7 +60,7 @@ char bluetooth_val; ///save the value of Bluetooth reception
 int flag; ///flag variable, it is used to entry and exist function
 // This function will be called every timerOnePeriod
 
-void timerOneFunc(){
+void compass(){
   matrix_display(STOP01);
 }
 void timerTwoFunc(){
