@@ -20,15 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d123a1cc-6578-4e4d-813c-6829b258db73" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/arduino_tutorials/OGArduiont/lesson_15-all-in-1.ino" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/IRremoteTank/IRremoteInt.h" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/IRremoteTank/IRremoteInt.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/IRremoteTank/IRremoteTank.h" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/IRremoteTank/IRremoteTank.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/integrity.dat" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/integrity.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_15/lesson_15.ino" beforeDir="false" afterPath="$PROJECT_DIR$/arduino_tutorials/lesson_15/lesson_15.ino" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-uno/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/.ninja_log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-uno/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +137,7 @@
       <workItem from="1689355473448" duration="2070000" />
       <workItem from="1689364464366" duration="1202000" />
       <workItem from="1689370176332" duration="11126000" />
-      <workItem from="1689430664123" duration="10509000" />
+      <workItem from="1689430664123" duration="11931000" />
     </task>
     <task id="LOCAL-00001" summary="1st">
       <created>1689277148054</created>
@@ -200,7 +195,14 @@
       <option name="project" value="LOCAL" />
       <updated>1689382543592</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="dance">
+      <created>1689454810795</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1689454810795</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
