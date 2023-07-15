@@ -1,8 +1,10 @@
-adafruit/Adafruit Unified Sensor@^1.1.9
 adafruit/DHT sensor library@^1.4.4
-marcoschwartz/LiquidCrystal_I2C@^1.1.4
 adafruit/Adafruit GFX Library@^1.11.5
-maxint-rd/TM16xx LEDs and Buttons@^0.5.2110
 cygig/TimerEvent@^0.5.0
-adafruit/Adafruit BusIO@^1.14.1
 adafruit/Adafruit MPU6050@^2.2.4
+jrowberg/I2Cdevlib-HMC5883L@^1.0.0
+adafruit/Adafruit Unified Sensor@^1.1.9
+adafruit/Adafruit BusIO@^1.14.1
+marcoschwartz/LiquidCrystal_I2C@^1.1.4
+adafruit/Adafruit BME280 Library@^2.2.2
+maxint-rd/TM16xx LEDs and Buttons@^0.5.2110
