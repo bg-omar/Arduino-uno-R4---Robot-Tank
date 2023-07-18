@@ -10,27 +10,25 @@
 #include "../.pio/libdeps/uno/Servo/src/Servo.h"
 #include "../.pio/libdeps/uno/RobotIRremote/src/RobotIRremote.h"
 
-byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000, 0b00000};
-
-//Array, used to store the data of the pattern, can be calculated by yourself or obtained from the modulus tool
+// Array, used to store the data of the pattern, can be calculated by yourself or obtained from the modulus tool
 unsigned char STOP01[] = {0x2E,0x2A,0x3A,0x00,0x02,0x3E,0x02,0x00,0x3E,0x22,0x3E,0x00,0x3E,0x0A,0x0E,0x00};
-unsigned char hou[] = {0x00, 0x7f, 0x08, 0x08, 0x7f, 0x00, 0x3c, 0x42, 0x42, 0x3c, 0x00, 0x3e, 0x40, 0x40, 0x3e, 0x00};
-unsigned char op[] = {0x00, 0x00, 0x3c, 0x42, 0x42, 0x3c, 0x00, 0x7e, 0x12, 0x12, 0x0c, 0x00, 0x00, 0x5e, 0x00, 0x00};
-unsigned char met[] = {0xf8, 0x0c, 0xf8, 0x0c, 0xf8, 0x00, 0x78, 0xa8, 0xa8, 0xb8, 0x00, 0x08, 0x08, 0xf8, 0x08, 0x08};
-unsigned char pesto[] = {0xfe, 0x12, 0x12, 0x7c, 0xb0, 0xb0, 0x80, 0xb8, 0xa8, 0xe8, 0x08, 0xf8, 0x08, 0xe8, 0x90, 0xe0};
-unsigned char bleh[] = {0x00,0x11,0x0a,0x04,0x8a,0x51,0x40,0x40,0x40,0x40,0x51,0x8a,0x04,0x0a,0x11,0x00};
-unsigned char clear[] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
-const uint8_t pesto2[] = {0x11, 0x0a, 0x04, 0x0a, 0x11, 0xc0, 0x40, 0x40, 0x40, 0x40, 0xc0, 0x11, 0x0a, 0x04, 0x0a, 0x11};
+unsigned char hou[] =    {0x00,0x7f,0x08,0x08,0x7f,0x00,0x3c,0x42,0x42,0x3c,0x00,0x3e,0x40,0x40,0x3e,0x00};
+unsigned char op[] =     {0x00,0x00,0x3c,0x42,0x42,0x3c,0x00,0x7e,0x12,0x12,0x0c,0x00,0x00,0x5e,0x00,0x00};
+unsigned char met[] =    {0xf8,0x0c,0xf8,0x0c,0xf8,0x00,0x78,0xa8,0xa8,0xb8,0x00,0x08,0x08,0xf8,0x08,0x08};
+unsigned char pesto[] =  {0xfe,0x12,0x12,0x7c,0xb0,0xb0,0x80,0xb8,0xa8,0xe8,0x08,0xf8,0x08,0xe8,0x90,0xe0};
+unsigned char bleh[] =   {0x00,0x11,0x0a,0x04,0x8a,0x51,0x40,0x40,0x40,0x40,0x51,0x8a,0x04,0x0a,0x11,0x00};
+unsigned char clear[] =  {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 
+byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000, 0b00000};
 LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x3F for a 16 chars and 2 line display
 
-#define light_L_Pin A0 ///define the pin of left photo resistor sensor
-#define light_R_Pin A1 ///define the pin of right photo resistor sensor
-#define IR_Pin A2
-#define SCL_Pin  A5  //Set clock pin to A5
-#define SDA_Pin  A4  //Set data pin to A4
+#define light_L_Pin A0 // define the pin of left photo resistor sensor
+#define light_R_Pin A1 // define the pin of right photo resistor sensor
+#define IR_Pin      A2
+#define SCL_Pin     A5  // Set clock pin to A5
+#define SDA_Pin     A4  // Set data pin to A4
 
-#define Rem_OK 0xFF02FD
+#define Rem_OK 0xFF02FD // Set al remote buttons
 #define Rem_U  0xFF629D
 #define Rem_D  0xFFA857
 #define Rem_L  0xFF22DD
@@ -49,53 +47,47 @@ LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x3F for a 16 chars
 #define Rem_x  0xFF42BD
 #define Rem_y  0xFF52AD
 
-
 #define Trig 6  //ultrasonic trig Pin
 #define Echo 7  //ultrasonic echo Pin
-#define Led 2
+#define Led  2
 
-#define matrixData 4  //servo Pin
+#define matrixData  4  //servo Pin
 #define matrixClock 5  //servo Pin
-#define DHTPIN 8
 
 #define servoPinXY 0  //servo Pin
-#define servoPinZ 1  //servo Pin
-#define ML_PWM 11   //define PWM control pin of left motor
-#define MR_Ctrl 12  //define the direction control pin of right motor
-#define ML_Ctrl 13  //define the direction control pin of left motor
-#define MR_PWM 3   //define PWM control pin of right motor
+#define servoPinZ  1  //servo Pin
 
-IRrecv IRrecv(IR_Pin);
+#define ML_PWM     11   //define PWM control pin of left motor
+#define MR_Ctrl    12  //define the direction control pin of right motor
+#define MR_PWM     3   //define PWM control pin of right motor
+#define ML_Ctrl    13  //define the direction control pin of left motor
+
+IRrecv IRrecv(IR_Pin); // Set the remote
 decode_results results;
-long ir_rec, duration, cm;
+long ir_rec, duration, cm, previousIR; // set remote vars
 
-TM1640 module(matrixData, matrixClock);
+TM1640 module(matrixData, matrixClock); // Set the 16 x 8 dot matrix
 TM16xxMatrix matrix(&module, 16, 8);    // TM16xx object, columns, rows
 
+Adafruit_MPU6050 mpu; // Set the gyroscope
 
-Adafruit_MPU6050 mpu;
+long random2;     //set random for choice making
+float distanceF, distanceR, distanceL; // set var for distance mesure 
 
-long random2;
-float distanceF;
-float distanceR;
-float distanceL;
+int sensorValueR ;        // value read from the R light sensor
+int sensorValueL ;        // value read from the L light sensor
+int outputValueR ;        // value output to the R PWM (analog out)
+int outputValueL ;        // value output to the L PWM (analog out)
+int calcValue ;           // inverse input
 
+Servo servoXY; // set horizontal servo
+Servo servoZ;  // set vertical servo
 
-int sensorValueR ;        // value read from the pot
-int sensorValueL ;        // value read from the pot
-int outputValueR ;        // value output to the PWM (analog out)
-int outputValueL ;        // value output to the PWM (analog out)
-int calcValue ;      // inverse input
-
-Servo servoXY;
-Servo servoZ;
-
-int posXY = 90;
+int posXY = 90;  // set horizontal servo position
 int speedXY = 3;
 
-int posZ = 90;
+int posZ = 90;   // set vertical servo position
 int speedZ = 3;
-long previousIR; //handles NEC repeat codes
 
 int flag; ///flag variable, it is used to entry and exist function
 
@@ -103,7 +95,7 @@ int flag; ///flag variable, it is used to entry and exist function
 Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(1337);
 
 
-/************the function to run motor**************/
+/************ the function to run motor **************/
 void Car_front()
 {
     digitalWrite(MR_Ctrl,HIGH);
@@ -153,7 +145,7 @@ void Car_T_right()
     digitalWrite(ML_Ctrl,HIGH);
     analogWrite(ML_PWM,255);
 }
-
+/************ the gyroscope **************/
 void gyroFunc(){
     // Get new sensor events with the readings
     sensors_event_t a, g, temp;
@@ -174,7 +166,7 @@ void gyroFunc(){
     lcd.print(" ");
     lcd.print(g.gyro.z);
 }
-
+/************ the Compass **************/
 void compass(){
     /* Get a new sensor event */
     sensors_event_t event;
@@ -214,7 +206,7 @@ void compass(){
 }
 
 
-//The function to control ultrasonic sensor
+/************ control ultrasonic sensor **************/
 float checkdistance() {
     digitalWrite(Trig, LOW);
     delayMicroseconds(2);
@@ -226,7 +218,7 @@ float checkdistance() {
     return checkDistance;
 }
 
-//****************************************************************
+/************ arbitrary sequence **************/
 void dance() {
     for(int i=0; i<16; i++)
     {
@@ -260,7 +252,7 @@ void dance() {
     }
 }
 
-/*****************Obstacle Avoidance Function**************/
+/***************** Obstacle Avoidance Function **************/
 void avoid()
 {
     flag = 0; ///the design that enter obstacle avoidance function
@@ -268,14 +260,15 @@ void avoid()
     {
         random2 = random(1, 100);
         distanceF= checkdistance(); ///assign the front distance detected by ultrasonic sensor to variable a
-        if (distanceF < 20) ///when the front distance detected is less than 20cm
+        if (distanceF < 25) ///when the front distance detected is less than 20cm
         {
             analogWrite (Led, 255);
             Car_Stop(); /// robot stops
-            servoZ.write(45);
-            delay(200); ///delay in 200ms
-            servoZ.write(0);
-            delay(200); ///delay in 200ms
+            servoZ.write(115);
+            delay(50); ///delay in 200ms
+            servoZ.write(90);
+            delay(50); ///delay in 200ms
+            analogWrite (Led, 0);
             servoXY.write(160); ///Ultrasonic platform turns left
             for (int j = 1; j <= 10; j = j + (1)) { ///for statement, the data will be more accurate if ultrasonic sensor detect a few times.
                 distanceL = checkdistance(); ///assign the left distance detected  by ultrasonic sensor to variable a1
@@ -326,7 +319,7 @@ void avoid()
         }
     }
 }
-
+/************ IfraRed Remote controls **************/
 void ir_buttons(){
     if (IRrecv.decode(&results)) { //receive the IR remote value
         ir_rec = results.value;
@@ -402,7 +395,7 @@ void ir_buttons(){
         avoid();
     }
 }
-
+/************ Setup (booting the arduino) **************/
 void setup(){
     lcd.init();
     lcd.clear();
@@ -515,10 +508,8 @@ void setup(){
     digitalWrite(SCL_Pin,LOW);
     digitalWrite(SDA_Pin,LOW);
 
-
     module.clearDisplay();
-    // One pixel, column by column
-    for(int i=0; i<16; i++)
+    for(int i=0; i<16; i++) // One pixel, column by column
     {
         for(int j=0; j<8; j++)
         {
@@ -528,8 +519,7 @@ void setup(){
         }
     }
 
-    // One pixel, row by row
-    for(int i=0; i<8; i++)
+    for(int i=0; i<8; i++) // One pixel, row by row
     {
         for(int j=0; j<16; j++)
         {
@@ -543,14 +533,13 @@ void setup(){
     lcd.setCursor(2,0);   //Set cursor to character 2 on line 0
     lcd.print("Hello Pesto!");
     lcd.setCursor(3, 1);
-    lcd.write(0);
+    lcd.write(0); // show custom caracter (heart)
     lcd.setCursor(5, 1);
     lcd.print("Love u");
     lcd.setCursor(12, 1);
     lcd.write(0);
 }
-
-
+/************ Main loop (running the arduino) **************/
 void loop(){
     if (IRrecv.decode(&results)) { //receive the IR remote value
         ir_rec = results.value;
@@ -562,7 +551,6 @@ void loop(){
         }
         IRrecv.resume();
     }
-
 
     if(ir_rec==0xFFFFFFFF) {
         ir_rec = previousIR;
@@ -602,7 +590,7 @@ void loop(){
     calcValue = (calcValue < 0) ? 0 : calcValue;
     analogWrite(Led, calcValue);
     distanceF = checkdistance();  //assign the front distance detected by ultrasonic sensor to variable a
-    if (distanceF < 20) {
+    if (distanceF < 25) {
         analogWrite (Led, 255);
     } else {
         analogWrite (Led, 0);
