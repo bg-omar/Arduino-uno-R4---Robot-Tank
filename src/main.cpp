@@ -543,44 +543,74 @@ void setup(){
 void loop(){
     if (IRrecv.decode(&results)) { //receive the IR remote value
         ir_rec = results.value;
-        String type = "UNKNOWN";
-        String typelist[14] = {"UNKNOWN", "NEC", "SONY", "RC5", "RC6", "DISH", "SHARP", "PANASONIC", "JVC", "SANYO",
-                               "MITSUBISHI", "SAMSUNG", "LG", "WHYNTER"};
-        if (results.decode_type >= 1 && results.decode_type <= 13) {
-            type = typelist[results.decode_type];
-        }
+        //lcd.println(results.value, HEX);//Wrap word in 16 HEX to output and receive code
         IRrecv.resume();
-    }
 
-    if(ir_rec==0xFFFFFFFF) {
-        ir_rec = previousIR;
-    }
-    switch(ir_rec) {
-        case Rem_L:  posXY=min(180,posXY+speedXY);  break;
-        case Rem_R:  posXY=max(0,posXY-speedXY);    break;
-        case Rem_OK: posXY=90; posZ=90;             break;
-        case Rem_U:   posZ=min(180,posZ+speedZ);    break;
-        case Rem_D:   posZ=max(0,posZ-speedZ);      break;
-        case Rem_0:    avoid();       break;
-        case Rem_1:    Car_T_left();  break;
-        case Rem_2:    Car_front();   break;
-        case Rem_3:    Car_T_right(); break;
-        case Rem_4:    Car_left();    break;
-        case Rem_5:    Car_Stop();    break;
-        case Rem_6:    Car_right();   break;
-        case Rem_7:    compass();     break;
-        case Rem_8:    Car_back();    break;
-        case Rem_9:    gyroFunc();    break;
-        case Rem_x:    dance();       break;
-        case Rem_y:    dance();       break;
-    }
-    servoXY.write(posXY);
-    delay(10);
-    servoZ.write(posZ);
-    delay(10);
-    previousIR=ir_rec;
-    //ir_rec=0x000000;
 
+        if (ir_rec == 0xFFFFFFFF) {
+            ir_rec = previousIR;
+        }
+        switch (ir_rec) {
+            case Rem_L:
+                posXY = min(180, posXY + speedXY);
+                break;
+            case Rem_R:
+                posXY = max(0, posXY - speedXY);
+                break;
+            case Rem_OK:
+                posXY = 90;
+                posZ = 90;
+                break;
+            case Rem_U:
+                posZ = min(160, posZ + speedZ);
+                break;
+            case Rem_D:
+                posZ = max(0, posZ - speedZ);
+                break;
+            case Rem_0:
+                avoid();
+                break;
+            case Rem_1:
+                Car_T_left();
+                break;
+            case Rem_2:
+                Car_front();
+                break;
+            case Rem_3:
+                Car_T_right();
+                break;
+            case Rem_4:
+                Car_left();
+                break;
+            case Rem_5:
+                Car_Stop();
+                break;
+            case Rem_6:
+                Car_right();
+                break;
+            case Rem_7:
+                compass();
+                break;
+            case Rem_8:
+                Car_back();
+                break;
+            case Rem_9:
+                gyroFunc();
+                break;
+            case Rem_x:
+                dance();
+                break;
+            case Rem_y:
+                dance();
+                break;
+        }
+        servoXY.write(posXY);
+        delay(10);
+        servoZ.write(posZ);
+        delay(10);
+        previousIR = ir_rec;
+        //ir_rec=0x000000;
+    }
     random2 = random(1, 100);
     sensorValueR = analogRead(light_R_Pin);
     sensorValueL = analogRead(light_L_Pin);
