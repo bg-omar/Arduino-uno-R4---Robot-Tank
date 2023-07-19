@@ -5,4 +5,3 @@
 
 Problems were encountered while collecting compiler information:
 	avr-g++.exe: error: unrecognized command line option '-fno-exceptions;-fno-threadsafe-statics;-fpermissive;-std=gnu++11;-mmcu=atmega328p;-Os;-Wall;-ffunction-sections;-fdata-sections;-flto'
-	avr-gcc.exe: error: unrecognized command line option '-std=gnu11;-fno-fat-lto-objects;-mmcu=atmega328p;-Os;-Wall;-ffunction-sections;-fdata-sections;-flto'

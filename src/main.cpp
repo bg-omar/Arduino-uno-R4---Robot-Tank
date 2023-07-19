@@ -9,8 +9,32 @@
 #include "../.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxMatrix.h"
 #include "../.pio/libdeps/uno/Servo/src/Servo.h"
 #include "../.pio/libdeps/uno/RobotIRremote/src/RobotIRremote.h"
+#include "../.pio/libdeps/uno/TimerEvent/src/TimerEvent.h"
 
-// Array, used to store the data of the pattern, can be calculated by yourself or obtained from the modulus tool
+/***************** Declare all the functions *****************/
+void Car_front();
+void Car_back();
+void Car_left();
+void Car_right();
+void Car_Stop();
+void Car_T_left();
+void Car_T_right();
+
+void gyroFunc();
+void compass();
+float checkdistance();
+void dance();
+void avoid();
+void light_track();
+void IIC_start();
+void IIC_send(unsigned char send_data);
+void IIC_end();
+void matrix_display(unsigned char matrix_value[]);
+void pestoMatrix();
+void timerOneFunc();
+
+/***************** Make DotMatric Images *****************/
+// Array, used to store the data of the pattern
 unsigned char STOP01[] = {0x2E,0x2A,0x3A,0x00,0x02,0x3E,0x02,0x00,0x3E,0x22,0x3E,0x00,0x3E,0x0A,0x0E,0x00};
 unsigned char hou[] =    {0x00,0x7f,0x08,0x08,0x7f,0x00,0x3c,0x42,0x42,0x3c,0x00,0x3e,0x40,0x40,0x3e,0x00};
 unsigned char op[] =     {0x00,0x00,0x3c,0x42,0x42,0x3c,0x00,0x7e,0x12,0x12,0x0c,0x00,0x00,0x5e,0x00,0x00};
@@ -19,14 +43,17 @@ unsigned char pesto[] =  {0xfe,0x12,0x12,0x7c,0xb0,0xb0,0x80,0xb8,0xa8,0xe8,0x08
 unsigned char bleh[] =   {0x00,0x11,0x0a,0x04,0x8a,0x51,0x40,0x40,0x40,0x40,0x51,0x8a,0x04,0x0a,0x11,0x00};
 unsigned char clear[] =  {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 
+/***************** Set timer period for function  *****************/
+const unsigned int timerOnePeriod = 1000;
+TimerEvent timerOne;
+
+/***************** Setup LCD & Make icon images *****************/
 byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000, 0b00000};
 LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x3F for a 16 chars and 2 line display
 
 #define light_L_Pin A0 // define the pin of left photo resistor sensor
 #define light_R_Pin A1 // define the pin of right photo resistor sensor
 #define IR_Pin      A2
-#define SCL_Pin     A5  // Set clock pin to A5
-#define SDA_Pin     A4  // Set data pin to A4
 
 #define Rem_OK 0xFF02FD // Set al remote buttons
 #define Rem_U  0xFF629D
@@ -47,27 +74,31 @@ LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x3F for a 16 chars
 #define Rem_x  0xFF42BD
 #define Rem_y  0xFF52AD
 
-#define Trig 6  //ultrasonic trig Pin
-#define Echo 7  //ultrasonic echo Pin
+#define Trig 6  // ultrasonic trig Pin
+#define Echo 7  // ultrasonic echo Pin
 #define Led  2
 
-#define matrixData  4  //servo Pin
-#define matrixClock 5  //servo Pin
+#define matrixData  4  // Set data  pin to 4
+#define matrixClock 5  // Set clock pin to 5
+#define SCL_Pin  matrixClock  //Set clock pin to A5
+#define SDA_Pin  matrixData  //Set data pin to A4
 
-#define servoPinXY 0  //servo Pin
-#define servoPinZ  1  //servo Pin
+#define servoPinXY 0  // servo Pin horizontal
+#define servoPinZ  1  // servo Pin vertical
 
-#define ML_PWM     11   //define PWM control pin of left motor
-#define MR_Ctrl    12  //define the direction control pin of right motor
-#define MR_PWM     3   //define PWM control pin of right motor
-#define ML_Ctrl    13  //define the direction control pin of left motor
+#define ML_PWM     11  // define PWM control pin of left motor
+#define MR_Ctrl    12  // define the direction control pin of right motor
+#define MR_PWM     3   // define PWM control pin of right motor
+#define ML_Ctrl    13  // define the direction control pin of left motor
 
 IRrecv IRrecv(IR_Pin); // Set the remote
 decode_results results;
-long ir_rec, duration, cm, previousIR; // set remote vars
+long ir_rec, previousIR; // set remote vars
+int previousXY, previousZ;
 
 TM1640 module(matrixData, matrixClock); // Set the 16 x 8 dot matrix
 TM16xxMatrix matrix(&module, 16, 8);    // TM16xx object, columns, rows
+int screen = 0;
 
 Adafruit_MPU6050 mpu; // Set the gyroscope
 
@@ -89,7 +120,7 @@ int speedXY = 3;
 int posZ = 90;   // set vertical servo position
 int speedZ = 3;
 
-int flag; ///flag variable, it is used to entry and exist function
+int flag; // flag variable, it is used to entry and exist function
 
 /* Assign a unique ID to this sensor at the same time */
 Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(1337);
@@ -151,6 +182,7 @@ void gyroFunc(){
     sensors_event_t a, g, temp;
     mpu.getEvent(&a, &g, &temp);
 
+    lcd.clear();
     lcd.setCursor(0,0); // Sets the location at which subsequent text written to the LCD will be displayed
     lcd.print("A:"); // m/s2
     lcd.print(a.acceleration.x);
@@ -220,35 +252,46 @@ float checkdistance() {
 
 /************ arbitrary sequence **************/
 void dance() {
-    for(int i=0; i<16; i++)
-    {
-        for(int j=0; j<8; j++)
+    flag = 0; ///the design that enter obstacle avoidance function
+    while (flag == 0) {
+        for(int i=0; i<16; i++)
         {
-            matrix.setPixel(i,j, true);
-            delay(10);
-            matrix.setPixel(i,j, false);
+            for(int j=0; j<8; j++)
+            {
+                matrix.setPixel(i,j, true);
+                delay(10);
+                matrix.setPixel(i,j, false);
+            }
         }
-    }
 
-    // One pixel, row by row
-    for(int i=0; i<8; i++)
-    {
-        for(int j=0; j<16; j++)
+        // One pixel, row by row
+        for(int i=0; i<8; i++)
         {
-            matrix.setPixel(j,i, true);
-            delay(10);
-            matrix.setPixel(j,i, false);
+            for(int j=0; j<16; j++)
+            {
+                matrix.setPixel(j,i, true);
+                delay(10);
+                matrix.setPixel(j,i, false);
+            }
         }
-    }
-    for (int myangle = 0; myangle <= 180; myangle += 1) { // goes from 0 degrees to 180 degrees
-        // in steps of 1 degree
-        servoXY.write(myangle);              // tell servo to go to position in variable 'myangle'
-        delay(15);                   //control the rotation speed of servo
+        for (int myangle = 0; myangle <= 180; myangle += 1) { // goes from 0 degrees to 180 degrees
+            // in steps of 1 degree
+            servoXY.write(myangle);              // tell servo to go to position in variable 'myangle'
+            delay(15);                   //control the rotation speed of servo
 
-    }
-    for (int myangle = 100; myangle >= 0; myangle -= 1) { // goes from 180 degrees to 0 degrees
-        servoXY.write(myangle);              // tell servo to go to position in variable 'myangle'
-        delay(10);
+        }
+        for (int myangle = 100; myangle >= 0; myangle -= 1) { // goes from 180 degrees to 0 degrees
+            servoXY.write(myangle);              // tell servo to go to position in variable 'myangle'
+            delay(10);
+        }
+        if (IRrecv.decode(&results))
+        {
+            ir_rec = results.value;
+            IRrecv.resume();
+            if (ir_rec == true) {
+                flag = 1;
+            }
+        }
     }
 }
 
@@ -256,49 +299,40 @@ void dance() {
 void avoid()
 {
     flag = 0; ///the design that enter obstacle avoidance function
-    while (flag == 0)
-    {
+    while (flag == 0) {
         random2 = random(1, 100);
-        distanceF= checkdistance(); ///assign the front distance detected by ultrasonic sensor to variable a
-        if (distanceF < 25) ///when the front distance detected is less than 20cm
-        {
+        distanceF= checkdistance();
+        if (distanceF < 25) {
             analogWrite (Led, 255);
             Car_Stop(); /// robot stops
             servoZ.write(115);
-            delay(50); ///delay in 200ms
+            delay(10); ///delay in 200ms
             servoZ.write(90);
-            delay(50); ///delay in 200ms
+            delay(10); ///delay in 200ms
             analogWrite (Led, 0);
-            servoXY.write(160); ///Ultrasonic platform turns left
-            for (int j = 1; j <= 10; j = j + (1)) { ///for statement, the data will be more accurate if ultrasonic sensor detect a few times.
-                distanceL = checkdistance(); ///assign the left distance detected  by ultrasonic sensor to variable a1
+            servoXY.write(160); /// look left
+            for (int j = 1; j <= 10; j = j + (1)) { ///  the data will be more accurate if sensor detect a few times.
+                distanceL = checkdistance();
             }
             delay(200);
-            servoXY.write(20); ///Ultrasonic platform turns right
+            servoXY.write(20); /// look right
             for (int k = 1; k <= 10; k = k + (1)) {
-                distanceR = checkdistance(); ///assign the right distance detected by ultrasonic sensor to variable a2
+                distanceR = checkdistance();
             }
-            if (distanceL < 50 || distanceR < 50)
-                ///robot will turn to the longer distance side when left or right distance is less than 50cm.if the left or right
-                /// distance is less than 50cm, the robot will turn to the greater distance
-            {
-                if (distanceL > distanceR) ///left distance is greater than right
-                {
-                    servoXY.write(90); ///Ultrasonic platform turns back to right ahead ultrasonic platform turns front
-                    Car_left(); ///robot turns left
-                    delay(500); ///turn left 500ms
-                    Car_front(); ///go forward
-                }
-                else
-                {
+            if (distanceL < 50 || distanceR < 50) {
+                if (distanceL > distanceR) {
                     servoXY.write(90);
-                    Car_right(); ///robot turns right
-                    delay(500);
-                    Car_front(); ///go forward
+                    Car_left();
+                    delay(500); ///turn left 500ms
+                    Car_front();
                 }
-            }
-            else ///both distance on two side is greater than or equal to 50cm, turn randomly
-            {
+                else {
+                    servoXY.write(90);
+                    Car_right();
+                    delay(500);
+                    Car_front();
+                }
+            } else {  /// not (distanceL < 50 || distanceR < 50)
                 if ((long) (random2) % (long) (2) == 0) ///when the random number is even
                 {
                     servoXY.write(90);
@@ -313,87 +347,133 @@ void avoid()
                     delay(500);
                     Car_front(); ///go forward
                 } } }
-        else ///If the front distance is greater than or equal to 20cm, robot car will go front
+        else /// if (distanceF < 25) { If the front distance is greater than or equal, robot car will go forward
         {
-            Car_front(); ///go forward
+            Car_front();
+        }
+        if (IRrecv.decode(&results))
+        {
+            ir_rec = results.value;
+            IRrecv.resume();
+            if (ir_rec == true) {
+                flag = 1;
+            }
         }
     }
 }
-/************ IfraRed Remote controls **************/
-void ir_buttons(){
-    if (IRrecv.decode(&results)) { //receive the IR remote value
-        ir_rec = results.value;
-        String type = "UNKNOWN";
-        String typelist[14] = {"UNKNOWN", "NEC", "SONY", "RC5", "RC6", "DISH", "SHARP", "PANASONIC", "JVC", "SANYO",
-                               "MITSUBISHI", "SAMSUNG", "LG", "WHYNTER"};
-        if (results.decode_type >= 1 && results.decode_type <= 13) {
-            type = typelist[results.decode_type];
+
+/****************Light Follow******************/
+void light_track() {
+    flag = 0;
+    while (flag == 0) {
+        sensorValueL = analogRead(light_L_Pin);
+        sensorValueR = analogRead(light_R_Pin);
+        if (sensorValueL > 650 && sensorValueR > 650)
+        {
+            Car_front();
         }
-        IRrecv.resume();
+        else if (sensorValueL > 650 && sensorValueR <= 650)
+        {
+            Car_left();
+        }
+        else if (sensorValueL <= 650 && sensorValueR > 650)
+        {
+            Car_right();
+        }
+        else //other situations, stop
+        {
+            Car_Stop();
+        }
+        if (IRrecv.decode(&results))
+        {
+            ir_rec = results.value;
+            IRrecv.resume();
+            if (ir_rec == true) {
+                flag = 1;
+            }
+        }
+    }
+}
+/********************** the function for dot matrix display ***********************/
+void matrix_display(unsigned char matrix_value[])
+{
+    IIC_start();  // use the function of the data transmission start condition
+    IIC_send(0xc0);  //select address
+
+    for(int i = 0;i < 16;i++) //pattern data has 16 bits
+    {
+        IIC_send(matrix_value[i]); //convey the pattern data
     }
 
-    if (ir_rec == Rem_2) {
-        Car_front();
-    }
-    if (ir_rec == Rem_8) {
-        Car_back();
-    }
-    if (ir_rec == Rem_1) {
-        Car_T_left();
-    }
-    if (ir_rec == Rem_3) {
-        Car_T_right();
-    }
-    if (ir_rec == Rem_5) {
-        Car_Stop();
-    }
-    if (ir_rec == Rem_4) {
-        Car_left();
-    }
-    if (ir_rec == Rem_6) {
-        Car_right();
-    }
-    if (ir_rec == Rem_x) {
-        dance();
-    }
-    if (ir_rec == Rem_y) {
-        dance();
-    }
-    if (ir_rec == Rem_OK) {
-        servoXY.write(90);
-        delay(30);
-        servoZ.write(25);
-        delay(30);
-    }
-    if (ir_rec == Rem_U) //Go forward
+    IIC_end();   //end the transmission of pattern data
+    IIC_start();
+    IIC_send(0x8A);  //display control, set pulse width to 4/16 s
+    IIC_end();
+}
+
+//the condition to start conveying data
+void IIC_start()
+{
+    digitalWrite(SCL_Pin,HIGH);
+    delayMicroseconds(3);
+    digitalWrite(SDA_Pin,HIGH);
+    delayMicroseconds(3);
+    digitalWrite(SDA_Pin,LOW);
+    delayMicroseconds(3);
+}
+//Convey data
+void IIC_send(unsigned char send_data)
+{
+    for(char i = 0;i < 8;i++)  //Each byte has 8 bits 8bit for every character
     {
-        servoZ.write(0);
-        delay(30);
+        digitalWrite(SCL_Pin,LOW);  // pull down clock pin SCL_Pin to change the signal of SDA
+        delayMicroseconds(3);
+        if(send_data & 0x01)  //set high and low level of SDA_Pin according to 1 or 0 of every bit
+        {
+            digitalWrite(SDA_Pin,HIGH);
+        }
+        else
+        {
+            digitalWrite(SDA_Pin,LOW);
+        }
+        delayMicroseconds(3);
+        digitalWrite(SCL_Pin,HIGH); //pull up the clock pin SCL_Pin to stop transmission
+        delayMicroseconds(3);
+        send_data = send_data >> 1;  // detect bit by bit, shift the data to the right by one
     }
-    if (ir_rec == Rem_D)  //Robot car goes back
-    {
-        servoZ.write(90);
-        delay(30);
+}
+
+//The sign of ending data transmission
+void IIC_end()
+{
+    digitalWrite(SCL_Pin,LOW);
+    delayMicroseconds(3);
+    digitalWrite(SDA_Pin,LOW);
+    delayMicroseconds(3);
+    digitalWrite(SCL_Pin,HIGH);
+    delayMicroseconds(3);
+    digitalWrite(SDA_Pin,HIGH);
+    delayMicroseconds(3);
+}
+/********************** END of the function for dot matrix display ***********************/
+
+/************ Show matrix images **************/
+void pestoMatrix() {
+
+    switch (screen) {
+        case 1: matrix_display(STOP01); break;
+        case 2: matrix_display(hou);    break;
+        case 3: matrix_display(op);     break;
+        case 4: matrix_display(met);    break;
+        case 5: matrix_display(pesto);  break;
+        case 6: matrix_display(bleh);   break;
+        default:matrix_display(bleh);
     }
-    if (ir_rec == Rem_L)   //Robot car turns left
-    {
-        servoXY.write(160);
-        delay(30);//Servo rotates to 90°
-    }
-    if (ir_rec == Rem_R)   //Robot car turns right
-    {
-        servoXY.write(20);
-        delay(30);//Servo rotates to 90°
-    }
-    if (ir_rec == Rem_7) {
-        compass();
-    }
-    if (ir_rec == Rem_9) {
-        gyroFunc();
-    }
-    if (ir_rec == Rem_0) {
-        avoid();
-    }
+    screen == 6 ? screen = 0 : screen += 1;
+}
+
+void timerOneFunc(){
+    pestoMatrix();
 }
 /************ Setup (booting the arduino) **************/
 void setup(){
@@ -503,10 +583,15 @@ void setup(){
     pinMode(MR_PWM, OUTPUT);
     pinMode(Led, OUTPUT);
 
-    pinMode(SCL_Pin,OUTPUT);
-    pinMode(SDA_Pin,OUTPUT);
-    digitalWrite(SCL_Pin,LOW);
-    digitalWrite(SDA_Pin,LOW);
+    pinMode(matrixClock,OUTPUT);
+    pinMode(matrixData,OUTPUT);
+    digitalWrite(matrixClock,LOW);
+    digitalWrite(matrixData,LOW);
+    matrix_display(clear);
+    timerOne.set(timerOnePeriod, timerOneFunc);
+    pestoMatrix();
+    delay(1000);
+
 
     module.clearDisplay();
     for(int i=0; i<16; i++) // One pixel, column by column
@@ -541,9 +626,9 @@ void setup(){
 }
 /************ Main loop (running the arduino) **************/
 void loop(){
-    if (IRrecv.decode(&results)) { //receive the IR remote value
+    if (IRrecv.decode(&results)) { /// receive the IR remote value
         ir_rec = results.value;
-        //lcd.println(results.value, HEX);//Wrap word in 16 HEX to output and receive code
+        //lcd.println(results.value, HEX); ///Wrap word in 16 HEX to output and receive code
         IRrecv.resume();
 
 
@@ -601,16 +686,20 @@ void loop(){
                 dance();
                 break;
             case Rem_y:
-                dance();
+                light_track();
                 break;
         }
-        servoXY.write(posXY);
-        delay(10);
-        servoZ.write(posZ);
-        delay(10);
+        if (posXY != previousXY) {
+            servoXY.write(posXY);
+        }
+        if (posZ != previousZ) {
+            servoZ.write(posZ);
+        }
         previousIR = ir_rec;
-        //ir_rec=0x000000;
+        previousXY = posXY;
+        previousZ = posZ;
     }
+    timerOne.update();
     random2 = random(1, 100);
     sensorValueR = analogRead(light_R_Pin);
     sensorValueL = analogRead(light_L_Pin);
@@ -619,7 +708,7 @@ void loop(){
     calcValue = 255 - ((outputValueR + outputValueL) * 1.5);
     calcValue = (calcValue < 0) ? 0 : calcValue;
     analogWrite(Led, calcValue);
-    distanceF = checkdistance();  //assign the front distance detected by ultrasonic sensor to variable a
+    distanceF = checkdistance();  /// assign the front distance detected by ultrasonic sensor to variable a
     if (distanceF < 25) {
         analogWrite (Led, 255);
     } else {
