@@ -254,41 +254,32 @@ float checkdistance() {
 void dance() {
     flag = 0; ///the design that enter obstacle avoidance function
     while (flag == 0) {
-        for(int i=0; i<16; i++)
-        {
-            for(int j=0; j<8; j++)
-            {
+        for(int i=0; i<16; i++) {
+            for(int j=0; j<8; j++) {
                 matrix.setPixel(i,j, true);
                 delay(10);
                 matrix.setPixel(i,j, false);
             }
         }
-
-        // One pixel, row by row
-        for(int i=0; i<8; i++)
-        {
-            for(int j=0; j<16; j++)
-            {
+        for(int i=0; i<8; i++) {         // One pixel, row by row
+            for(int j=0; j<16; j++) {
                 matrix.setPixel(j,i, true);
                 delay(10);
                 matrix.setPixel(j,i, false);
             }
         }
         for (int myangle = 0; myangle <= 180; myangle += 1) { // goes from 0 degrees to 180 degrees
-            // in steps of 1 degree
             servoXY.write(myangle);              // tell servo to go to position in variable 'myangle'
             delay(15);                   //control the rotation speed of servo
-
         }
         for (int myangle = 100; myangle >= 0; myangle -= 1) { // goes from 180 degrees to 0 degrees
             servoXY.write(myangle);              // tell servo to go to position in variable 'myangle'
             delay(10);
         }
-        if (IRrecv.decode(&results))
-        {
+        if (IRrecv.decode(&results)) {
             ir_rec = results.value;
             IRrecv.resume();
-            if (ir_rec == true) {
+            if (ir_rec == Rem_OK) {
                 flag = 1;
             }
         }
@@ -355,7 +346,7 @@ void avoid()
         {
             ir_rec = results.value;
             IRrecv.resume();
-            if (ir_rec == true) {
+            if (ir_rec == Rem_OK) {
                 flag = 1;
             }
         }
@@ -388,7 +379,7 @@ void light_track() {
         {
             ir_rec = results.value;
             IRrecv.resume();
-            if (ir_rec == true) {
+            if (ir_rec == Rem_OK) {
                 flag = 1;
             }
         }
@@ -709,8 +700,10 @@ void loop(){
     calcValue = (calcValue < 0) ? 0 : calcValue;
     analogWrite(Led, calcValue);
     distanceF = checkdistance();  /// assign the front distance detected by ultrasonic sensor to variable a
-    if (distanceF < 25) {
+    if (distanceF < 35) {
         analogWrite (Led, 255);
+        pestoMatrix();
+        delay(distanceF);
     } else {
         analogWrite (Led, 0);
     }
