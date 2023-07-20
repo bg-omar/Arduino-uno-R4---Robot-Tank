@@ -10,6 +10,19 @@
 #include "../.pio/libdeps/uno/Servo/src/Servo.h"
 #include "../.pio/libdeps/uno/RobotIRremote/src/RobotIRremote.h"
 #include "../.pio/libdeps/uno/TimerEvent/src/TimerEvent.h"
+#include "../.pio/libdeps/uno/Arduino_TensorFlowLite/src/tensorflow/lite/core/api\error_reporter.h"
+#include "../.pio/libdeps/uno/Arduino_TensorFlowLite\src\tensorflow/lite/micro/micro_interpreter.h"
+#include "../.pio/libdeps/uno/Arduino_TensorFlowLite\src\tensorflow/lite/micro/micro_mutable_op_resolver.h"
+#include "../.pio/libdeps/uno/Arduino_TensorFlowLite\src\tensorflow/lite/schema/schema_generated.h"
+#include "../.pio/libdeps/uno/tensorflow\lite/version.h"
+#include "../.pio/libdeps/uno/tensorflow\lite/tools/model_loader.h"
+#include "../.pio/libdeps/uno/tensorflow/lite/micro/kernels/micro_ops.h"
+#include "../.pio/libdeps/uno/Arduino_TensorFlowLite\src/TensorFlowLite.h"
+#include "../.pio/libdeps/uno/Arduino_TensorFlowLite/src/tensorflow/lite/core/c/common.h"
+#include "../.pio/libdeps/uno/Arduino_TensorFlowLite/src/tensorflow/lite/c/c_api_types.h"
+#include "../.pio/libdeps/uno/Arduino_TensorFlowLite/src/tensorflow/lite/core/c/c_api_types.h"
+#include "../.pio/libdeps/uno/Tensorflow/lite/micro/tflite_bridge/micro_error_reporter.h"
+
 
 /***************** Declare all the functions *****************/
 void Car_front();
@@ -91,6 +104,9 @@ LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x3F for a 16 chars
 #define MR_PWM     3   // define PWM control pin of right motor
 #define ML_Ctrl    13  // define the direction control pin of left motor
 
+#define THRESHOLD 20
+#define READINGS_PER_SAMPLE 40
+
 IRrecv IRrecv(IR_Pin); // Set the remote
 decode_results results;
 long ir_rec, previousIR; // set remote vars
@@ -101,12 +117,13 @@ TM16xxMatrix matrix(&module, 16, 8);    // TM16xx object, columns, rows
 int screen = 0;
 
 Adafruit_MPU6050 mpu; // Set the gyroscope
+float ax, ay, az, baseAx, baseAy, baseAz;
 
 long random2;     //set random for choice making
 float distanceF, distanceR, distanceL; // set var for distance mesure 
 
-int sensorValueR ;        // value read from the R light sensor
-int sensorValueL ;        // value read from the L light sensor
+int lightSensorL ;        // value read from the R light sensor
+int lightSensorR ;        // value read from the L light sensor
 int outputValueR ;        // value output to the R PWM (analog out)
 int outputValueL ;        // value output to the L PWM (analog out)
 int calcValue ;           // inverse input
@@ -115,16 +132,73 @@ Servo servoXY; // set horizontal servo
 Servo servoZ;  // set vertical servo
 
 int posXY = 90;  // set horizontal servo position
-int speedXY = 3;
+int speedXY = 30;
 
-int posZ = 90;   // set vertical servo position
-int speedZ = 3;
+int posZ = 45;   // set vertical servo position
+int speedZ =  30;
 
 int flag; // flag variable, it is used to entry and exist function
 
 /* Assign a unique ID to this sensor at the same time */
 Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(1337);
 
+namespace{
+    const tflite::Model*  tflModel;
+    tflite::ErrorReporter*  tflErrorReporter;
+    constexpr int tensorArenaSize = 31 * 1024;
+    uint8_t tensorArena[tensorArenaSize];
+    TfLiteTensor* tflInputTensor;
+    TfLiteTensor* tflOutputTensor;
+    tflite::MicroInterpreter* tflInterpreter;
+}
+
+void run_inference(){
+    sensors_event_t a, g, temp;
+    for(int i =0; i< READINGS_PER_SAMPLE; i++){
+        mpu.getEvent(&a, &g, &temp);
+        ax = a.acceleration.x - baseAx;
+        ay = a.acceleration.y - baseAy;
+        az = a.acceleration.z - baseAz;
+        tflInputTensor->data.f[i * 3 + 0] = (ax + 8.0) / 16.0;
+        tflInputTensor->data.f[i * 3 + 1] = (ay + 8.0) / 16.0;
+        tflInputTensor->data.f[i * 3 + 2] = (az + 8.0) / 16.0;
+        delay(10);
+    }
+
+    TfLiteStatus invokeStatus = tflInterpreter->Invoke();
+    float out = tflOutputTensor->data.f[1];
+    if(out >= 0.80){
+        Serial.println("Shoot");
+    }
+    else{
+        Serial.println("Unknown");
+    }
+
+}
+void  detectMovement() {
+    sensors_event_t a, g, temp;
+    mpu.getEvent(&a, &g, &temp);
+    if( abs(a.acceleration.x - baseAx) +abs(a.acceleration.y - baseAy) + abs(a.acceleration.z - baseAz) > THRESHOLD){
+        run_inference();
+    }
+    else{
+        delay(5);
+    }
+}
+void calibrate_sensor() {
+    float totX, totY, totZ;
+    sensors_event_t a, g, temp;
+
+    for (int i = 0; i < 10; i++) {
+        mpu.getEvent(&a, &g, &temp);
+        totX = totX + a.acceleration.x;
+        totY = totY + a.acceleration.y;
+        totZ = totZ + a.acceleration.z;
+    }
+    baseAx = totX / 10;
+    baseAy = totY / 10;
+    baseAz = totZ / 10;
+}
 
 /************ the function to run motor **************/
 void Car_front()
@@ -252,38 +326,29 @@ float checkdistance() {
 
 /************ arbitrary sequence **************/
 void dance() {
-    flag = 0; ///the design that enter obstacle avoidance function
-    while (flag == 0) {
-        for(int i=0; i<16; i++) {
-            for(int j=0; j<8; j++) {
-                matrix.setPixel(i,j, true);
-                delay(10);
-                matrix.setPixel(i,j, false);
-            }
-        }
-        for(int i=0; i<8; i++) {         // One pixel, row by row
-            for(int j=0; j<16; j++) {
-                matrix.setPixel(j,i, true);
-                delay(10);
-                matrix.setPixel(j,i, false);
-            }
-        }
-        for (int myangle = 0; myangle <= 180; myangle += 1) { // goes from 0 degrees to 180 degrees
-            servoXY.write(myangle);              // tell servo to go to position in variable 'myangle'
-            delay(15);                   //control the rotation speed of servo
-        }
-        for (int myangle = 100; myangle >= 0; myangle -= 1) { // goes from 180 degrees to 0 degrees
-            servoXY.write(myangle);              // tell servo to go to position in variable 'myangle'
+    for(int i=0; i<16; i++) {
+        for(int j=0; j<8; j++) {
+            matrix.setPixel(i,j, true);
             delay(10);
-        }
-        if (IRrecv.decode(&results)) {
-            ir_rec = results.value;
-            IRrecv.resume();
-            if (ir_rec == Rem_OK) {
-                flag = 1;
-            }
+            matrix.setPixel(i,j, false);
         }
     }
+    for(int i=0; i<8; i++) {         // One pixel, row by row
+        for(int j=0; j<16; j++) {
+            matrix.setPixel(j,i, true);
+            delay(10);
+            matrix.setPixel(j,i, false);
+        }
+    }
+    for (int myangle = 0; myangle <= 180; myangle += 1) { // goes from 0 degrees to 180 degrees
+        servoXY.write(myangle);              // tell servo to go to position in variable 'myangle'
+        delay(15);                   //control the rotation speed of servo
+    }
+    for (int myangle = 100; myangle >= 0; myangle -= 1) { // goes from 180 degrees to 0 degrees
+        servoXY.write(myangle);              // tell servo to go to position in variable 'myangle'
+        delay(10);
+    }
+
 }
 
 /***************** Obstacle Avoidance Function **************/
@@ -357,17 +422,17 @@ void avoid()
 void light_track() {
     flag = 0;
     while (flag == 0) {
-        sensorValueL = analogRead(light_L_Pin);
-        sensorValueR = analogRead(light_R_Pin);
-        if (sensorValueL > 650 && sensorValueR > 650)
+        lightSensorR = analogRead(light_R_Pin);
+        lightSensorL = analogRead(light_L_Pin);
+        if (lightSensorR > 650 && lightSensorL > 650)
         {
             Car_front();
         }
-        else if (sensorValueL > 650 && sensorValueR <= 650)
+        else if (lightSensorR > 650 && lightSensorL <= 650)
         {
             Car_left();
         }
-        else if (sensorValueL <= 650 && sensorValueR > 650)
+        else if (lightSensorR <= 650 && lightSensorL > 650)
         {
             Car_right();
         }
@@ -548,6 +613,32 @@ void setup(){
             lcd.println("5 Hz");
             break;
     }
+    calibrate_sensor();
+    lcd.println("");
+
+    static tflite::ErrorReporter error_reporter;
+    tflErrorReporter = &error_reporter;
+
+    tflModel = tflite::GetModel(g_model);
+    if (model->version() != TFLITE_SCHEMA_VERSION) {
+        error_reporter->Report(
+                "Model provided is schema version %d not equal "
+                "to supported version %d.",
+                model->version(), TFLITE_SCHEMA_VERSION);
+        return;
+    }
+    static tflite::MutableOpResolver micro_mutable_op_resolver;
+    micro_mutable_op_resolver.AddBuiltin(
+            tflite::BuiltinOperator_FULLY_CONNECTED,
+            tflite::ops::micro::Register_FULLY_CONNECTED());
+
+    static tflite::MicroInterpreter static_interpreter(tflModel, micro_mutable_op_resolver, tensorArena, tensorArenaSize, tflErrorReporter);
+    tflInterpreter = &static_interpreter;
+
+    tflInterpreter->AllocateTensors();
+    Serial.print("setup complete");
+    tflInputTensor = tflInterpreter->input(0);
+    tflOutputTensor = tflInterpreter->output(0);
 
     delay(1000);
     lcd.clear();
@@ -627,58 +718,23 @@ void loop(){
             ir_rec = previousIR;
         }
         switch (ir_rec) {
-            case Rem_L:
-                posXY = min(180, posXY + speedXY);
-                break;
-            case Rem_R:
-                posXY = max(0, posXY - speedXY);
-                break;
-            case Rem_OK:
-                posXY = 90;
-                posZ = 90;
-                break;
-            case Rem_U:
-                posZ = min(160, posZ + speedZ);
-                break;
-            case Rem_D:
-                posZ = max(0, posZ - speedZ);
-                break;
-            case Rem_0:
-                avoid();
-                break;
-            case Rem_1:
-                Car_T_left();
-                break;
-            case Rem_2:
-                Car_front();
-                break;
-            case Rem_3:
-                Car_T_right();
-                break;
-            case Rem_4:
-                Car_left();
-                break;
-            case Rem_5:
-                Car_Stop();
-                break;
-            case Rem_6:
-                Car_right();
-                break;
-            case Rem_7:
-                compass();
-                break;
-            case Rem_8:
-                Car_back();
-                break;
-            case Rem_9:
-                gyroFunc();
-                break;
-            case Rem_x:
-                dance();
-                break;
-            case Rem_y:
-                light_track();
-                break;
+            case Rem_L: posXY = min(180, posXY + speedXY); break;
+            case Rem_R: posXY = max(0, posXY - speedXY); break;
+            case Rem_OK: posXY = 90; posZ = 45; break;
+            case Rem_U: posZ = min(160, posZ + speedZ); break;
+            case Rem_D: posZ = max(0, posZ - speedZ); break;
+            case Rem_0: avoid(); break;
+            case Rem_1: Car_T_left(); break;
+            case Rem_2: Car_front(); break;
+            case Rem_3: Car_T_right(); break;
+            case Rem_4: Car_left(); break;
+            case Rem_5: Car_Stop(); break;
+            case Rem_6: Car_right(); break;
+            case Rem_7: compass(); break;
+            case Rem_8: Car_back(); break;
+            case Rem_9: gyroFunc(); break;
+            case Rem_x: dance(); break;
+            case Rem_y: light_track(); break;
         }
         if (posXY != previousXY) {
             servoXY.write(posXY);
@@ -690,12 +746,13 @@ void loop(){
         previousXY = posXY;
         previousZ = posZ;
     }
+    detectMovement();
     timerOne.update();
     random2 = random(1, 100);
-    sensorValueR = analogRead(light_R_Pin);
-    sensorValueL = analogRead(light_L_Pin);
-    outputValueR = map(sensorValueR, 0, 1023, 0, 255);
-    outputValueL = map(sensorValueL, 0, 1023, 0, 255);
+    lightSensorL = analogRead(light_R_Pin);
+    lightSensorR = analogRead(light_L_Pin);
+    outputValueR = map(lightSensorL, 0, 1023, 0, 255);
+    outputValueL = map(lightSensorR, 0, 1023, 0, 255);
     calcValue = 255 - ((outputValueR + outputValueL) * 1.5);
     calcValue = (calcValue < 0) ? 0 : calcValue;
     analogWrite(Led, calcValue);
