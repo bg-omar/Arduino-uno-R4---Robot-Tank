@@ -1,5 +1,0 @@
-C:/Users/mr/Arduino Wall-E/Wall-E/cmake-build-uno/CMakeFiles/Production.dir
-C:/Users/mr/Arduino Wall-E/Wall-E/cmake-build-uno/CMakeFiles/Debug.dir
-C:/Users/mr/Arduino Wall-E/Wall-E/cmake-build-uno/CMakeFiles/Z_DUMMY_TARGET.dir
-C:/Users/mr/Arduino Wall-E/Wall-E/cmake-build-uno/CMakeFiles/edit_cache.dir
-C:/Users/mr/Arduino Wall-E/Wall-E/cmake-build-uno/CMakeFiles/rebuild_cache.dir

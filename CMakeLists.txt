@@ -30,4 +30,4 @@ add_custom_target(
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_executable(Z_DUMMY_TARGET ${SRC_LIST} arduino_tutorials/OGArduiont/IRremote.cpp)
+add_executable(Z_DUMMY_TARGET ${SRC_LIST} examples/arduino_tutorials/OGArduiont/IRremote.cpp)

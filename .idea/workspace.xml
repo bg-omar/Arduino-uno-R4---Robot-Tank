@@ -21,35 +21,129 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d123a1cc-6578-4e4d-813c-6829b258db73" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitmodules" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.ipynb_checkpoints/Untitled-checkpoint.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/esp32-camera" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/Servo.h" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/Servo.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/avr/Servo.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/avr/Servo.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/avr/ServoTimers.h" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/avr/ServoTimers.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/sam/Servo.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/sam/Servo.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/sam/ServoTimers.h" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/sam/ServoTimers.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/integrity.dat" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/integrity.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeListsPrivate.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeListsPrivate.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-uno/.cmake/api/v1/reply/toolchains-v1-9933946cc6514d066203.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-uno/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-uno/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/3.23.2/CMakeCCompiler.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/3.23.2/CMakeCCompiler.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/3.23.2/CMakeCXXCompiler.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/3.23.2/CMakeCXXCompiler.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/3.23.2/CompilerIdC/a.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/3.23.2/CompilerIdC/a.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/3.23.2/CompilerIdCXX/a.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/3.23.2/CompilerIdCXX/a.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/CMakeError.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/CMakeError.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/clion-environment.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/clion-environment.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/clion-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/rules.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/rules.ninja" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-uno/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-uno/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/build.ninja" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-uno/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_examples/AiwaRCT501SendDemo/AiwaRCT501SendDemo.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_examples/AiwaRCT501SendDemo/AiwaRCT501SendDemo.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_examples/IRrecord/IRrecord.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_examples/IRrecord/IRrecord.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_examples/IRrecvDemo/IRrecvDemo.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_examples/IRrecvDemo/IRrecvDemo.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_examples/IRrecvDump/IRrecvDump.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_examples/IRrecvDump/IRrecvDump.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_examples/IRrecvDumpV2/IRrecvDumpV2.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_examples/IRrecvDumpV2/IRrecvDumpV2.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_examples/IRrelay/IRrelay.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_examples/IRrelay/IRrelay.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_examples/IRremoteInfo/IRremoteInfo.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_examples/IRremoteInfo/IRremoteInfo.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_examples/IRsendDemo/IRsendDemo.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_examples/IRsendDemo/IRsendDemo.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_examples/IRsendRawDemo/IRsendRawDemo.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_examples/IRsendRawDemo/IRsendRawDemo.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_examples/IRtest/IRtest.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_examples/IRtest/IRtest.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_examples/IRtest2/IRtest2.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_examples/IRtest2/IRtest2.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_examples/JVCPanasonicSendDemo/JVCPanasonicSendDemo.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_examples/JVCPanasonicSendDemo/JVCPanasonicSendDemo.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_examples/Knob/Knob.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_examples/Knob/Knob.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_examples/LGACSendDemo/LGACSendDemo.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_examples/LGACSendDemo/LGACSendDemo.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_examples/LGACSendDemo/LGACSendDemo.md" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_examples/LGACSendDemo/LGACSendDemo.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_examples/LegoPowerFunctionsSendDemo/LegoPowerFunctionsSendDemo.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_examples/LegoPowerFunctionsSendDemo/LegoPowerFunctionsSendDemo.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_examples/LegoPowerFunctionsTests/LegoPowerFunctionsTests.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_examples/LegoPowerFunctionsTests/LegoPowerFunctionsTests.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_examples/Sweep/Sweep.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_examples/Sweep/Sweep.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/KS0428  Keyestudio Mini Tank Robot v2.0 for Arduino.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/KS0428  Keyestudio Mini Tank Robot v2.0 for Arduino.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/OGArduiont/IRremote.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/OGArduiont/IRremote.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/OGArduiont/lesson_10-light-follow.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/OGArduiont/lesson_10-light-follow.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/OGArduiont/lesson_11_ultrasonic_avoid_tank.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/OGArduiont/lesson_11_ultrasonic_avoid_tank.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/OGArduiont/lesson_12-sonic-follow.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/OGArduiont/lesson_12-sonic-follow.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/OGArduiont/lesson_13-remote-control.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/OGArduiont/lesson_13-remote-control.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/OGArduiont/lesson_14.2-bluetooth.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/OGArduiont/lesson_14.2-bluetooth.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/OGArduiont/lesson_15-all-in-1.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/OGArduiont/lesson_15-all-in-1.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/OGArduiont/lesson_3.2-photosensor2pwmLed/lesson_3.2-photosensor2pwmLed.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/OGArduiont/lesson_3.2-photosensor2pwmLed/lesson_3.2-photosensor2pwmLed.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/OGArduiont/lesson_4.1-servo-180degree/lesson_4.1-servo-180degree.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/OGArduiont/lesson_4.1-servo-180degree/lesson_4.1-servo-180degree.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/OGArduiont/lesson_4.2-servo-180deg.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/OGArduiont/lesson_4.2-servo-180deg.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/OGArduiont/lesson_5-LED- Ultrasonic-LED.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/OGArduiont/lesson_5-LED- Ultrasonic-LED.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/OGArduiont/lesson_6.2-ir-toggle/lesson_6.2-ir-toggle.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/OGArduiont/lesson_6.2-ir-toggle/lesson_6.2-ir-toggle.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/OGArduiont/lesson_8.1-motor-drive.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/OGArduiont/lesson_8.1-motor-drive.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/OGArduiont/lesson_8.2-motor-driver-pwm.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/OGArduiont/lesson_8.2-motor-driver-pwm.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/OGArduiont/lesson_9.1-matrix-face.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/OGArduiont/lesson_9.1-matrix-face.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/OGArduiont/lesson_9.2-matrix-loop/lesson_9.2-matrix-loop.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/OGArduiont/lesson_9.2-matrix-loop/lesson_9.2-matrix-loop.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/10_Stepper_Motor/Stepper_Motor.c" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/10_Stepper_Motor/Stepper_Motor.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/10_Stepper_Motor/SteppingMotor" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/10_Stepper_Motor/SteppingMotor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/11_Segment_Display/Segment_Display.c" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/11_Segment_Display/Segment_Display.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/12_DHT11/DHT.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/12_DHT11/DHT.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/12_DHT11/DHT.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/12_DHT11/DHT.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/12_DHT11/DHT11.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/12_DHT11/DHT11.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/13_Ultrasonic/Ultrasonic.c" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/13_Ultrasonic/Ultrasonic.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/14_Membrane_Switch_Module/Key.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/14_Membrane_Switch_Module/Key.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/14_Membrane_Switch_Module/Key.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/14_Membrane_Switch_Module/Key.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/14_Membrane_Switch_Module/Keypad.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/14_Membrane_Switch_Module/Keypad.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/14_Membrane_Switch_Module/Keypad.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/14_Membrane_Switch_Module/Keypad.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/14_Membrane_Switch_Module/Membrane_Switch_Module.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/14_Membrane_Switch_Module/Membrane_Switch_Module.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/15_MPU6050/15_MPU6050.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/15_MPU6050/15_MPU6050.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/15_MPU6050/I2Cdev.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/15_MPU6050/I2Cdev.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/15_MPU6050/I2Cdev.h" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/15_MPU6050/I2Cdev.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/15_MPU6050/MPU6050.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/15_MPU6050/MPU6050.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/15_MPU6050/MPU6050.h" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/15_MPU6050/MPU6050.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/16_LED_Matrix/LED_Matrix.c" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/16_LED_Matrix/LED_Matrix.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/17_IR_Control/IR_Control.c" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/17_IR_Control/IR_Control.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/18_4_digit_LED_Segment/4_digit_LED_Segment.c" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/18_4_digit_LED_Segment/4_digit_LED_Segment.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/1_Blink/Blink.c" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/1_Blink/Blink.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/2_Button_LED/ButtonLED.c" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/2_Button_LED/ButtonLED.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/3_Flowing_LED_Lights/Flowing_LED_Lights.c" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/3_Flowing_LED_Lights/Flowing_LED_Lights.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/4_RGB_LED/RGB_LED.c" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/4_RGB_LED/RGB_LED.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/5_Buzzer/Buzzer.c" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/5_Buzzer/Buzzer.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/6_DC_Motor/DC_Motor.c" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/6_DC_Motor/DC_Motor.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/7_Servo/Servo.c" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/7_Servo/Servo.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/8_LCD1602/LCD1602.c" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/8_LCD1602/LCD1602.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Raspberry_PI_C/9_PIR_motion_sensor/PIR_motion_sensor.c" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Raspberry_PI_C/9_PIR_motion_sensor/PIR_motion_sensor.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/Super Starter Kit for Raspberry Pi.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/Super Starter Kit for Raspberry Pi.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/led_Matrix/led_matrix.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/led_Matrix/led_matrix.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_1.1_blink/lesson_1.1_blink.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_1.1_blink/lesson_1.1_blink.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_1.2_delay/lesson_1.2_delay.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_1.2_delay/lesson_1.2_delay.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_10/lesson_10.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_10/lesson_10.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_11/lesson_11.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_11/lesson_11.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_12/lesson_12.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_12/lesson_12.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_13/lesson_13.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_13/lesson_13.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_14.1/lesson_14.1.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_14.1/lesson_14.1.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_14.2/lesson_14.2.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_14.2/lesson_14.2.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_15/lesson_15.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_15/lesson_15.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_2.1/lesson_2.1.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_2.1/lesson_2.1.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_2.2/lesson_2.2.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_2.2/lesson_2.2.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_3.1/lesson_3.1.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_3.1/lesson_3.1.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_3.2/lesson_3.2.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_3.2/lesson_3.2.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_4.1/lesson_4.1.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_4.1/lesson_4.1.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_4.2/lesson_4.2.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_4.2/lesson_4.2.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_5-LED/lesson_5-LED.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_5-LED/lesson_5-LED.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_6.2/lesson_6.2.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_6.2/lesson_6.2.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_6/lesson_6.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_6/lesson_6.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_7.1_Bluetooth/lesson_7.1_Bluetooth.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_7.1_Bluetooth/lesson_7.1_Bluetooth.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_7.2_Bluetooth/lesson_7.2_Bluetooth.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_7.2_Bluetooth/lesson_7.2_Bluetooth.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_8.1/lesson_8.1.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_8.1/lesson_8.1.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_8.2/lesson_8.2.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_8.2/lesson_8.2.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_9.1/lesson_9.1.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_9.1/lesson_9.1.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arduino_tutorials/lesson_9.2/lesson_9.2.ino" beforeDir="false" afterPath="$PROJECT_DIR$/examples/arduino_tutorials/lesson_9.2/lesson_9.2.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/query/cache-v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/query/cmakeFiles-v1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/query/codemodel-v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/query/toolchains-v1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/cache-v2-1f02eb7e39e6dba8d2e3.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-bad3c87ad77089859d8f.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-29aa4ffdc1b09bab29fb.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/directory-.-Debug-d0094a50bb2071803777.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/index-2023-07-12T07-42-54-0661.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/target-Debug-Debug-10255051cea920044ced.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/target-Production-Debug-59dee6b3be6979191108.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/target-Z_DUMMY_TARGET-Debug-b076a67960e010d12192.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/toolchains-v1-9933946cc6514d066203.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.23.2/CMakeCCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.23.2/CMakeCXXCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.23.2/CMakeSystem.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.23.2/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.23.2/CompilerIdC/a.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.23.2/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.23.2/CompilerIdCXX/a.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeError.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/cmake.check_cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/rules.ninja" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/build.ninja" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,14 +207,19 @@
       <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\include" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\examples" />
       <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\arduino_tutorials\OGArduiont" />
       <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\.pio\libdeps\uno" />
-      <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\examples" />
       <recent name="C:\Users\mr\Arduino Wall-E\Wall-E" />
       <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\lib" />
     </key>
   </component>
   <component name="RunManager" selected="PlatformIO.PlatformIO Upload">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="PlatformIO Debug" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Wall-E" TARGET_NAME="Debug" CONFIG_NAME="uno-MinGW" RUN_TARGET_PROJECT_NAME="Wall-E" RUN_TARGET_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -171,7 +270,7 @@
       <workItem from="1689928008411" duration="2518000" />
       <workItem from="1689937495833" duration="15607000" />
       <workItem from="1689957034027" duration="1661000" />
-      <workItem from="1689963697092" duration="6130000" />
+      <workItem from="1689963697092" duration="6322000" />
     </task>
     <task id="LOCAL-00001" summary="1st">
       <created>1689277148054</created>
@@ -271,7 +370,14 @@
       <option name="project" value="LOCAL" />
       <updated>1689896052815</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="ai?">
+      <created>1689969907672</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1689969907672</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
