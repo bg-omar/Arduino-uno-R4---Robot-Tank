@@ -1,5 +1,9 @@
 // Include the libraries: mklink /J arduino_libraries "C:\Program Files (x86)\Arduino\libraries"
 #include <Arduino.h>
+#include <math.h>
+#include <Wire.h>
+#include "../.pio/libdeps/uno/ArduinoSTL/src/ArduinoSTL.h"
+
 #include "../.pio/libdeps/uno/Adafruit MPU6050/Adafruit_MPU6050.h"
 #include "../.pio/libdeps/uno/Adafruit Unified Sensor/Adafruit_Sensor.h"
 #include "../.pio/libdeps/uno/Adafruit HMC5883 Unified/Adafruit_HMC5883_U.h"
@@ -10,29 +14,19 @@
 #include "../.pio/libdeps/uno/Servo/src/Servo.h"
 #include "../.pio/libdeps/uno/RobotIRremote/src/RobotIRremote.h"
 #include "../.pio/libdeps/uno/TimerEvent/src/TimerEvent.h"
-#include "../.pio/libdeps/uno/Arduino_TensorFlowLite/src/tensorflow/lite/core/api\error_reporter.h"
-#include "../.pio/libdeps/uno/Arduino_TensorFlowLite\src\tensorflow/lite/micro/micro_interpreter.h"
-#include "../.pio/libdeps/uno/Arduino_TensorFlowLite\src\tensorflow/lite/micro/micro_mutable_op_resolver.h"
-#include "../.pio/libdeps/uno/Arduino_TensorFlowLite\src\tensorflow/lite/schema/schema_generated.h"
-#include "../.pio/libdeps/uno/tensorflow\lite/version.h"
-#include "../.pio/libdeps/uno/tensorflow\lite/tools/model_loader.h"
-#include "../.pio/libdeps/uno/tensorflow/lite/micro/kernels/micro_ops.h"
-#include "../.pio/libdeps/uno/Arduino_TensorFlowLite\src/TensorFlowLite.h"
-#include "../.pio/libdeps/uno/Arduino_TensorFlowLite/src/tensorflow/lite/core/c/common.h"
-#include "../.pio/libdeps/uno/Arduino_TensorFlowLite/src/tensorflow/lite/c/c_api_types.h"
-#include "../.pio/libdeps/uno/Arduino_TensorFlowLite/src/tensorflow/lite/core/c/c_api_types.h"
-#include "../.pio/libdeps/uno/Tensorflow/lite/micro/tflite_bridge/micro_error_reporter.h"
+
 
 
 /***************** Declare all the functions *****************/
 void Car_front();
-void Car_back();
 void Car_left();
 void Car_right();
 void Car_Stop();
-void Car_T_left();
-void Car_T_right();
+void Car_Back();
 
+void I2CScanner();
+void calibrate_sensor();
+void detectMovement();
 void gyroFunc();
 void compass();
 float checkdistance();
@@ -44,7 +38,8 @@ void IIC_send(unsigned char send_data);
 void IIC_end();
 void matrix_display(unsigned char matrix_value[]);
 void pestoMatrix();
-void timerOneFunc();
+void perstoTimer();
+void sensorTimer();
 
 /***************** Make DotMatric Images *****************/
 // Array, used to store the data of the pattern
@@ -54,11 +49,25 @@ unsigned char op[] =     {0x00,0x00,0x3c,0x42,0x42,0x3c,0x00,0x7e,0x12,0x12,0x0c
 unsigned char met[] =    {0xf8,0x0c,0xf8,0x0c,0xf8,0x00,0x78,0xa8,0xa8,0xb8,0x00,0x08,0x08,0xf8,0x08,0x08};
 unsigned char pesto[] =  {0xfe,0x12,0x12,0x7c,0xb0,0xb0,0x80,0xb8,0xa8,0xe8,0x08,0xf8,0x08,0xe8,0x90,0xe0};
 unsigned char bleh[] =   {0x00,0x11,0x0a,0x04,0x8a,0x51,0x40,0x40,0x40,0x40,0x51,0x8a,0x04,0x0a,0x11,0x00};
+
+unsigned char front[] = {0x00,0x00,0x00,0x00,0x00,0x24,0x12,0x09,0x12,0x24,0x00,0x00,0x00,0x00,0x00,0x00};
+unsigned char back[] = {0x00,0x00,0x00,0x00,0x00,0x24,0x48,0x90,0x48,0x24,0x00,0x00,0x00,0x00,0x00,0x00};
+unsigned char left[] = {0x00,0x00,0x00,0x00,0x00,0x00,0x44,0x28,0x10,0x44,0x28,0x10,0x44,0x28,0x10,0x00};
+unsigned char right[] = {0x00,0x10,0x28,0x44,0x10,0x28,0x44,0x10,0x28,0x44,0x00,0x00,0x00,0x00,0x00,0x00};
+
 unsigned char clear[] =  {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 
 /***************** Set timer period for function  *****************/
-const unsigned int timerOnePeriod = 1000;
+const int timerOnePeriod = 1000;
+const int timerTwoPeriod = 250;
+const int timerThreePeriod = 7000;
 TimerEvent timerOne;
+TimerEvent timerTwo;
+TimerEvent timerThree;
+boolean timerTwoActive = false;
+boolean timerTreeActive = false;
+
+char bluetooth_val; //save the value of Bluetooth reception
 
 /***************** Setup LCD & Make icon images *****************/
 byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000, 0b00000};
@@ -86,6 +95,7 @@ LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x3F for a 16 chars
 #define Rem_0  0xFF4AB5
 #define Rem_x  0xFF42BD
 #define Rem_y  0xFF52AD
+#define IRepeat 0xFFFFFFFF
 
 #define Trig 6  // ultrasonic trig Pin
 #define Echo 7  // ultrasonic echo Pin
@@ -104,12 +114,11 @@ LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x3F for a 16 chars
 #define MR_PWM     3   // define PWM control pin of right motor
 #define ML_Ctrl    13  // define the direction control pin of left motor
 
-#define THRESHOLD 20
-#define READINGS_PER_SAMPLE 40
+#define THRESHOLD 5
 
 IRrecv IRrecv(IR_Pin); // Set the remote
 decode_results results;
-long ir_rec, previousIR; // set remote vars
+long ir_rec, previousIR, timerButton; // set remote vars
 int previousXY, previousZ;
 
 TM1640 module(matrixData, matrixClock); // Set the 16 x 8 dot matrix
@@ -117,9 +126,10 @@ TM16xxMatrix matrix(&module, 16, 8);    // TM16xx object, columns, rows
 int screen = 0;
 
 Adafruit_MPU6050 mpu; // Set the gyroscope
-float ax, ay, az, baseAx, baseAy, baseAz;
+float ax, ay, az, gx, gy, gz;
+float baseAx, baseAy, baseAz, baseGx, baseGy, baseGz;
 
-long random2;     //set random for choice making
+long random2, randomXY, randomZ;     //set random for choice making
 float distanceF, distanceR, distanceL; // set var for distance mesure 
 
 int lightSensorL ;        // value read from the R light sensor
@@ -132,182 +142,220 @@ Servo servoXY; // set horizontal servo
 Servo servoZ;  // set vertical servo
 
 int posXY = 90;  // set horizontal servo position
-int speedXY = 30;
+int speedXY = 20;
 
-int posZ = 45;   // set vertical servo position
-int speedZ =  30;
+int posZ = 25;   // set vertical servo position
+int speedZ =  20;
 
 int flag; // flag variable, it is used to entry and exist function
 
 /* Assign a unique ID to this sensor at the same time */
-Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(1337);
+Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(12345);
 
-namespace{
-    const tflite::Model*  tflModel;
-    tflite::ErrorReporter*  tflErrorReporter;
-    constexpr int tensorArenaSize = 31 * 1024;
-    uint8_t tensorArena[tensorArenaSize];
-    TfLiteTensor* tflInputTensor;
-    TfLiteTensor* tflOutputTensor;
-    tflite::MicroInterpreter* tflInterpreter;
-}
 
-void run_inference(){
-    sensors_event_t a, g, temp;
-    for(int i =0; i< READINGS_PER_SAMPLE; i++){
-        mpu.getEvent(&a, &g, &temp);
-        ax = a.acceleration.x - baseAx;
-        ay = a.acceleration.y - baseAy;
-        az = a.acceleration.z - baseAz;
-        tflInputTensor->data.f[i * 3 + 0] = (ax + 8.0) / 16.0;
-        tflInputTensor->data.f[i * 3 + 1] = (ay + 8.0) / 16.0;
-        tflInputTensor->data.f[i * 3 + 2] = (az + 8.0) / 16.0;
-        delay(10);
-    }
-
-    TfLiteStatus invokeStatus = tflInterpreter->Invoke();
-    float out = tflOutputTensor->data.f[1];
-    if(out >= 0.80){
-        Serial.println("Shoot");
-    }
-    else{
-        Serial.println("Unknown");
-    }
-
-}
-void  detectMovement() {
-    sensors_event_t a, g, temp;
-    mpu.getEvent(&a, &g, &temp);
-    if( abs(a.acceleration.x - baseAx) +abs(a.acceleration.y - baseAy) + abs(a.acceleration.z - baseAz) > THRESHOLD){
-        run_inference();
-    }
-    else{
-        delay(5);
-    }
-}
-void calibrate_sensor() {
-    float totX, totY, totZ;
-    sensors_event_t a, g, temp;
-
-    for (int i = 0; i < 10; i++) {
-        mpu.getEvent(&a, &g, &temp);
-        totX = totX + a.acceleration.x;
-        totY = totY + a.acceleration.y;
-        totZ = totZ + a.acceleration.z;
-    }
-    baseAx = totX / 10;
-    baseAy = totY / 10;
-    baseAz = totZ / 10;
-}
 
 /************ the function to run motor **************/
-void Car_front()
-{
+void Car_front(){
     digitalWrite(MR_Ctrl,HIGH);
     analogWrite(MR_PWM,255);
     digitalWrite(ML_Ctrl,HIGH);
     analogWrite(ML_PWM,255);
 }
-void Car_back()
-{
-    digitalWrite(MR_Ctrl,LOW);
-    analogWrite(MR_PWM,200);
-    digitalWrite(ML_Ctrl,LOW);
-    analogWrite(ML_PWM,200);
-}
-void Car_left()
-{
+
+void Car_left(){
     digitalWrite(MR_Ctrl,LOW);
     analogWrite(MR_PWM,255);
     digitalWrite(ML_Ctrl,HIGH);
     analogWrite(ML_PWM,255);
 }
-void Car_right()
-{
+void Car_right(){
     digitalWrite(MR_Ctrl,HIGH);
     analogWrite(MR_PWM,255);
     digitalWrite(ML_Ctrl,LOW);
     analogWrite(ML_PWM,255);
 }
-void Car_Stop()
-{
+void Car_Stop(){
     digitalWrite(MR_Ctrl,LOW);
     analogWrite(MR_PWM,0);
     digitalWrite(ML_Ctrl,LOW);
     analogWrite(ML_PWM,0);
 }
-void Car_T_left()
-{
-    digitalWrite(MR_Ctrl,HIGH);
+void Car_Back(){
+    digitalWrite(MR_Ctrl,LOW);
     analogWrite(MR_PWM,255);
-    digitalWrite(ML_Ctrl,HIGH);
-    analogWrite(ML_PWM,180);
-}
-void Car_T_right()
-{
-    digitalWrite(MR_Ctrl,HIGH);
-    analogWrite(MR_PWM,180);
-    digitalWrite(ML_Ctrl,HIGH);
+    digitalWrite(ML_Ctrl,LOW);
     analogWrite(ML_PWM,255);
 }
-/************ the gyroscope **************/
-void gyroFunc(){
+
+void I2CScanner() {
+    byte error, address;
+    int nDevices;
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.println("I2C Scanning...");
+    nDevices = 0;
+    lcd.setCursor(0,1);
+    delay(20);
+    for(address = 1; address < 127; address++ ) {
+        Wire.beginTransmission(address);
+        error = Wire.endTransmission();
+        if (error == 0) {
+            lcd.print(" 0x");
+            if (address<16) {
+                lcd.print("0");
+            }
+            lcd.print(address,HEX);
+            nDevices++;
+            delay(200);
+        }
+        else if (error==4) {
+            lcd.clear();
+            lcd.setCursor(0,0);
+            lcd.print("Unknow error at address 0x");
+            if (address<16) {
+                lcd.setCursor(0,1);
+                lcd.print("0");
+            }
+            lcd.setCursor(0,1);
+            lcd.print(address,HEX);
+        }
+    }
+    delay(20);
+    lcd.clear();
+    delay(20);
+    lcd.setCursor(0,0);
+    lcd.print(nDevices);
+    delay(20);
+    lcd.print(" devices");
+    delay(100);
+    if (nDevices == 0) {
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.println("No I2C devices found");
+    }
+}
+
+
+void gyroRead(){
     // Get new sensor events with the readings
     sensors_event_t a, g, temp;
     mpu.getEvent(&a, &g, &temp);
 
-    lcd.clear();
+    ax = a.acceleration.x - baseAx;
+    ay = a.acceleration.y - baseAy;
+    az = a.acceleration.z - baseAz;
+    gx = g.gyro.x - baseGx;
+    gy = g.gyro.y - baseGy;
+    gz = g.gyro.z - baseGz;
+}
+
+/************ the gyroscope **************/
+void gyroFunc(){
+    gyroRead();
     lcd.setCursor(0,0); // Sets the location at which subsequent text written to the LCD will be displayed
-    lcd.print("A:"); // m/s2
-    lcd.print(a.acceleration.x);
+    (ax > 0) ? lcd.print("+"), lcd.print(ax) : lcd.print(ax);
     lcd.print(" ");
-    lcd.print(a.acceleration.y);
+    (ay > 0) ? lcd.print("+"), lcd.print(ay) : lcd.print(ay);
     lcd.print(" ");
-    lcd.print(a.acceleration.z);
+    (az > 0) ? lcd.print("+"), lcd.print(az) : lcd.print(az);
+    lcd.print("   ");
     lcd.setCursor(0,1);
-    lcd.print("R:");
-    lcd.print(g.gyro.x);
+    (gx > 0) ? lcd.print("+"), lcd.print(gx) : lcd.print(gx);
     lcd.print(" ");
-    lcd.print(g.gyro.y);
+    (gy > 0) ? lcd.print("+"), lcd.print(gy) : lcd.print(gy);
     lcd.print(" ");
-    lcd.print(g.gyro.z);
+    (gz > 0) ? lcd.print("+"), lcd.print(gz) : lcd.print(gz);
+    lcd.print("   ");
+}
+
+void detectMovement() {
+    gyroRead();
+    if(( abs(ax) + abs(ay) + abs(az)) > THRESHOLD){
+        timerTwoActive = true;
+        timerTreeActive = true;
+        timerButton = Rem_9;
+    }
+    if(( abs(gx) + abs(gy) + abs(gz)) > THRESHOLD){
+        timerTwoActive = true;
+        timerTreeActive = true;
+        timerButton = Rem_7;
+    }
+}
+void calibrate_sensor() {
+    float totX = 0;
+    float totY = 0;
+    float totZ = 0;
+    float totgX = 0;
+    float totgY = 0;
+    float totgZ = 0;
+    sensors_event_t a, g, temp;
+    delay(10);
+    for (size_t i = 0; i < 10; i++) {
+        mpu.getEvent(&a, &g, &temp);
+        delay(10);
+        totX += a.acceleration.x;
+        delay(10);
+        totY += a.acceleration.y;
+        delay(10);
+        totZ += a.acceleration.z;
+        delay(10);
+        totgX += g.gyro.x;
+        delay(10);
+        totgY += g.gyro.y;
+        delay(10);
+        totgZ += g.gyro.z;
+        delay(10);
+    }
+    baseAx = totX / 10;
+    baseAy = totY / 10;
+    baseAz = totZ / 10;
+    baseGx = totgX / 10;
+    baseGy = totgY / 10;
+    baseGz = totgZ / 10;
 }
 /************ the Compass **************/
-void compass(){
-    /* Get a new sensor event */
-    sensors_event_t event;
-    mag.getEvent(&event);
-    float heading = atan2(event.magnetic.y, event.magnetic.x);
-    float declinationAngle = -90;
-    heading += declinationAngle;
-
-    if(heading < 0)
-        heading += 2*PI;
-
-    if(heading > 2*PI)
-        heading -= 2*PI;
-
-    float headingDegrees = heading * 180/M_PI;
-    lcd.clear();
-    // Print a message on both lines of the LCD.
+float readCompass(){
     lcd.setCursor(0,0);   //Set cursor to character 2 on line 0
     lcd.print("Compass ");
+    sensors_event_t event; /// Get a new sensor event */
+    mag.getEvent(&event);
+
+    float heading = atan2(event.magnetic.y, event.magnetic.x);
+    float declinationAngle = 0.035;
+    heading += declinationAngle;
+
+    if(heading < 0) {
+        heading += 2 * PI;
+    }
+    if(heading > 2*PI) {
+        heading -= 2 * PI;
+    }
+    float headingDegrees = (heading * 180/M_PI) - 90;
+    return (headingDegrees < 0) ? 360 + headingDegrees : headingDegrees;
+}
+
+void compass(){
+    float headingDegrees = readCompass();
     lcd.print(headingDegrees);
-    lcd.setCursor(4,1);
     if (headingDegrees >= 0 && headingDegrees < 45){
-        lcd.println("North");
+        lcd.setCursor(4,1);
+        lcd.print("North       ");
     }
     if (headingDegrees >= 45 && headingDegrees < 135){
-        lcd.println("East ");
+        lcd.setCursor(4,1);
+        lcd.print("East        ");
     }
     if (headingDegrees >= 135 && headingDegrees < 225){
-        lcd.println("South");
+        lcd.setCursor(4,1);
+        lcd.print("South       ");
     }
     if (headingDegrees >= 225 && headingDegrees < 315){
-        lcd.println("West ");
+        lcd.setCursor(4,1);
+        lcd.print("West        ");
     }
     if (headingDegrees >= 315 && headingDegrees < 360){
-        lcd.println("North");
+        lcd.setCursor(4,1);
+        lcd.print("North       ");
     }
 }
 
@@ -327,6 +375,12 @@ float checkdistance() {
 /************ arbitrary sequence **************/
 void dance() {
     for(int i=0; i<16; i++) {
+        randomXY = random(1, 180);
+        randomZ = random(1, 160);
+        servoXY.write(randomXY);
+        delay(10);
+        servoZ.write(randomZ);
+        delay(30);
         for(int j=0; j<8; j++) {
             matrix.setPixel(i,j, true);
             delay(10);
@@ -339,14 +393,29 @@ void dance() {
             delay(10);
             matrix.setPixel(j,i, false);
         }
+        randomXY = random(1, 180);
+        randomZ = random(1, 160);
+        servoXY.write(randomXY);
+        delay(50);
+        servoZ.write(randomZ);
+        delay(50);
     }
-    for (int myangle = 0; myangle <= 180; myangle += 1) { // goes from 0 degrees to 180 degrees
-        servoXY.write(myangle);              // tell servo to go to position in variable 'myangle'
-        delay(15);                   //control the rotation speed of servo
+    for(int i=0; i<8; i++) {
+        randomXY = random(1, 180);
+        randomZ = random(1, 160);
+        servoXY.write(randomXY);
+        delay(50);
+        servoZ.write(randomZ);
+        delay(50);
     }
-    for (int myangle = 100; myangle >= 0; myangle -= 1) { // goes from 180 degrees to 0 degrees
-        servoXY.write(myangle);              // tell servo to go to position in variable 'myangle'
-        delay(10);
+
+    for (int myangle = 0; myangle <= 180; myangle += 45) { // goes from 0 degrees to 180 degrees
+        servoXY.write(myangle);
+        delay(50); // tell servo to go to position in variable 'myangle'
+    }
+    for (int myangle = 100; myangle >= 0; myangle -= 45) { // goes from 180 degrees to 0 degrees
+        servoXY.write(myangle);
+        delay(50); // tell servo to go to position in variable 'myangle'
     }
 
 }
@@ -407,12 +476,17 @@ void avoid()
         {
             Car_front();
         }
-        if (IRrecv.decode(&results))
-        {
+        if (IRrecv.decode(&results)) {
             ir_rec = results.value;
             IRrecv.resume();
             if (ir_rec == Rem_OK) {
                 flag = 1;
+            }
+        }
+        if (Serial.available()) {
+            bluetooth_val = Serial.read();
+            if (bluetooth_val == 'S') {//receive S
+                flag = 1; //when assign 1 to flag, end loop
             }
         }
     }
@@ -424,40 +498,39 @@ void light_track() {
     while (flag == 0) {
         lightSensorR = analogRead(light_R_Pin);
         lightSensorL = analogRead(light_L_Pin);
-        if (lightSensorR > 650 && lightSensorL > 650)
-        {
+        if (lightSensorR > 650 && lightSensorL > 650) {
             Car_front();
         }
-        else if (lightSensorR > 650 && lightSensorL <= 650)
-        {
+        else if (lightSensorR > 650 && lightSensorL <= 650) {
             Car_left();
         }
-        else if (lightSensorR <= 650 && lightSensorL > 650)
-        {
+        else if (lightSensorR <= 650 && lightSensorL > 650) {
             Car_right();
         }
-        else //other situations, stop
-        {
+        else {
             Car_Stop();
         }
-        if (IRrecv.decode(&results))
-        {
+        if (IRrecv.decode(&results)) {
             ir_rec = results.value;
             IRrecv.resume();
             if (ir_rec == Rem_OK) {
                 flag = 1;
             }
         }
+        if (Serial.available()) {
+            bluetooth_val = Serial.read();
+            if (bluetooth_val == 'S') {//receive S
+                flag = 1; //when assign 1 to flag, end loop
+            }
+        }
     }
 }
 /********************** the function for dot matrix display ***********************/
-void matrix_display(unsigned char matrix_value[])
-{
+void matrix_display(unsigned char matrix_value[]) {
     IIC_start();  // use the function of the data transmission start condition
     IIC_send(0xc0);  //select address
 
-    for(int i = 0;i < 16;i++) //pattern data has 16 bits
-    {
+    for(int i = 0;i < 16;i++) { //pattern data has 16 bits
         IIC_send(matrix_value[i]); //convey the pattern data
     }
 
@@ -468,8 +541,7 @@ void matrix_display(unsigned char matrix_value[])
 }
 
 //the condition to start conveying data
-void IIC_start()
-{
+void IIC_start() {
     digitalWrite(SCL_Pin,HIGH);
     delayMicroseconds(3);
     digitalWrite(SDA_Pin,HIGH);
@@ -478,18 +550,13 @@ void IIC_start()
     delayMicroseconds(3);
 }
 //Convey data
-void IIC_send(unsigned char send_data)
-{
-    for(char i = 0;i < 8;i++)  //Each byte has 8 bits 8bit for every character
-    {
+void IIC_send(unsigned char send_data) {
+    for(char i = 0;i < 8;i++){  //Each byte has 8 bits 8bit for every character
         digitalWrite(SCL_Pin,LOW);  // pull down clock pin SCL_Pin to change the signal of SDA
         delayMicroseconds(3);
-        if(send_data & 0x01)  //set high and low level of SDA_Pin according to 1 or 0 of every bit
-        {
+        if(send_data & 0x01){  //set high and low level of SDA_Pin according to 1 or 0 of every bit
             digitalWrite(SDA_Pin,HIGH);
-        }
-        else
-        {
+        } else {
             digitalWrite(SDA_Pin,LOW);
         }
         delayMicroseconds(3);
@@ -500,8 +567,7 @@ void IIC_send(unsigned char send_data)
 }
 
 //The sign of ending data transmission
-void IIC_end()
-{
+void IIC_end() {
     digitalWrite(SCL_Pin,LOW);
     delayMicroseconds(3);
     digitalWrite(SDA_Pin,LOW);
@@ -515,7 +581,6 @@ void IIC_end()
 
 /************ Show matrix images **************/
 void pestoMatrix() {
-
     switch (screen) {
         case 1: matrix_display(STOP01); break;
         case 2: matrix_display(hou);    break;
@@ -528,125 +593,83 @@ void pestoMatrix() {
     screen == 6 ? screen = 0 : screen += 1;
 }
 
-void timerOneFunc(){
-    pestoMatrix();
+void defaultLCD(){
+    lcd.setCursor(2,0);   //Set cursor to character 2 on line 0
+    lcd.print("Hello Pesto!");
+    lcd.setCursor(3, 1);
+    lcd.write(0); // show custom caracter (heart)
+    lcd.setCursor(5, 1);
+    lcd.print("Love u");
+    lcd.setCursor(12, 1);
+    lcd.write(0);
 }
+
+void perstoTimer(){ pestoMatrix();}
+void sensorTimer(){
+    if (timerTwoActive && timerButton == Rem_7){
+        compass();
+    }
+    if (timerTwoActive && timerButton == Rem_9){
+        gyroFunc();
+    }
+}
+void resetTimers(){
+    timerTwoActive = false;
+    timerTreeActive = false;
+    lcd.clear();
+}
+
 /************ Setup (booting the arduino) **************/
 void setup(){
+    Serial.begin(9600);
+    Wire.begin();
     lcd.init();
-    lcd.clear();
     lcd.backlight();      // Make sure backlight is on
     // create a new characters
     lcd.createChar(0, Heart);
+    I2CScanner();
+    delay(1000);
 
     lcd.clear();
     lcd.setCursor(2,0);   //Set cursor to character 2 on line 0
-    lcd.print("MPU6050 test!");
-    delay(500);
+    lcd.print("MPU6050 test!    ");
 
-    lcd.setCursor(0,1);
     // Try to initialize!
     if (!mpu.begin()) {
+        lcd.setCursor(0,1);
         lcd.println("MPU6050 not found");
         while (1) {
-            delay(10);
+            delay(1000);
         }
+    } else {
+        lcd.setCursor(2,1);
+        lcd.println("MPU6050 Found!    ");
+        delay(1000);
+        mpu.setAccelerometerRange(MPU6050_RANGE_4_G);
+        mpu.setGyroRange(MPU6050_RANGE_500_DEG);
+        mpu.setFilterBandwidth(MPU6050_BAND_260_HZ); /// 5, 10, 21, 44, 94, 184, 260(off)
+        calibrate_sensor();
+        lcd.clear();
+        gyroFunc();
+        delay(1000);
     }
-    lcd.println("MPU6050 Found!");
     lcd.clear();
-
-    mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
-    lcd.print("Accelerometer range set to: ");
-    switch (mpu.getAccelerometerRange()) {
-        case MPU6050_RANGE_2_G:
-            lcd.println("+-2G");
-            break;
-        case MPU6050_RANGE_4_G:
-            lcd.println("+-4G");
-            break;
-        case MPU6050_RANGE_8_G:
-            lcd.println("+-8G");
-            break;
-        case MPU6050_RANGE_16_G:
-            lcd.println("+-16G");
-            break;
+    /* Initialise the sensor */
+    if(!mag.begin()) {
+        lcd.setCursor(0,1);
+        lcd.print("HMC5883 not found   ");
+        while (1) {
+            delay(1000);
+        }
+    } else {
+        lcd.setCursor(0,1);
+        lcd.print("HMC5883 Found!     ");
+        delay(1000);
+        lcd.clear();
+        compass();
+        delay(1000);
     }
-    mpu.setGyroRange(MPU6050_RANGE_500_DEG);
-    lcd.print("Gyro range set to: ");
-    switch (mpu.getGyroRange()) {
-        case MPU6050_RANGE_250_DEG:
-            lcd.println("+- 250 deg/s");
-            break;
-        case MPU6050_RANGE_500_DEG:
-            lcd.println("+- 500 deg/s");
-            break;
-        case MPU6050_RANGE_1000_DEG:
-            lcd.println("+- 1000 deg/s");
-            break;
-        case MPU6050_RANGE_2000_DEG:
-            lcd.println("+- 2000 deg/s");
-            break;
-    }
-
-    mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
-    lcd.print("Filter bandwidth set to: ");
-    switch (mpu.getFilterBandwidth()) {
-        case MPU6050_BAND_260_HZ:
-            lcd.println("260 Hz");
-            break;
-        case MPU6050_BAND_184_HZ:
-            lcd.println("184 Hz");
-            break;
-        case MPU6050_BAND_94_HZ:
-            lcd.println("94 Hz");
-            break;
-        case MPU6050_BAND_44_HZ:
-            lcd.println("44 Hz");
-            break;
-        case MPU6050_BAND_21_HZ:
-            lcd.println("21 Hz");
-            break;
-        case MPU6050_BAND_10_HZ:
-            lcd.println("10 Hz");
-            break;
-        case MPU6050_BAND_5_HZ:
-            lcd.println("5 Hz");
-            break;
-    }
-    calibrate_sensor();
-    lcd.println("");
-
-    static tflite::ErrorReporter error_reporter;
-    tflErrorReporter = &error_reporter;
-
-    tflModel = tflite::GetModel(g_model);
-    if (model->version() != TFLITE_SCHEMA_VERSION) {
-        error_reporter->Report(
-                "Model provided is schema version %d not equal "
-                "to supported version %d.",
-                model->version(), TFLITE_SCHEMA_VERSION);
-        return;
-    }
-    static tflite::MutableOpResolver micro_mutable_op_resolver;
-    micro_mutable_op_resolver.AddBuiltin(
-            tflite::BuiltinOperator_FULLY_CONNECTED,
-            tflite::ops::micro::Register_FULLY_CONNECTED());
-
-    static tflite::MicroInterpreter static_interpreter(tflModel, micro_mutable_op_resolver, tensorArena, tensorArenaSize, tflErrorReporter);
-    tflInterpreter = &static_interpreter;
-
-    tflInterpreter->AllocateTensors();
-    Serial.print("setup complete");
-    tflInputTensor = tflInterpreter->input(0);
-    tflOutputTensor = tflInterpreter->output(0);
-
-    delay(1000);
-    lcd.clear();
-    gyroFunc();
-    delay(1000);
-    lcd.clear();
-    compass();
-    delay(1000);
+    timerButton = Rem_OK;
 
     servoXY.attach(servoPinXY);
     servoZ.attach(servoPinZ);
@@ -670,26 +693,24 @@ void setup(){
     digitalWrite(matrixClock,LOW);
     digitalWrite(matrixData,LOW);
     matrix_display(clear);
-    timerOne.set(timerOnePeriod, timerOneFunc);
+    timerOne.set(timerOnePeriod, perstoTimer);
+    timerTwo.set(timerTwoPeriod, sensorTimer);
+    timerThree.set(timerThreePeriod, resetTimers);
     pestoMatrix();
     delay(1000);
 
 
     module.clearDisplay();
-    for(int i=0; i<16; i++) // One pixel, column by column
-    {
-        for(int j=0; j<8; j++)
-        {
+    for(int i=0; i<16; i++) {// One pixel, column by column
+        for(int j=0; j<8; j++){
             matrix.setPixel(i,j, true);
             delay(10);
             matrix.setPixel(i,j, false);
         }
     }
 
-    for(int i=0; i<8; i++) // One pixel, row by row
-    {
-        for(int j=0; j<16; j++)
-        {
+    for(int i=0; i<8; i++){ // One pixel, row by row
+        for(int j=0; j<16; j++){
             matrix.setPixel(j,i, true);
             delay(10);
             matrix.setPixel(j,i, false);
@@ -697,44 +718,112 @@ void setup(){
     }
     // Print a message on both lines of the LCD.
     lcd.clear();
-    lcd.setCursor(2,0);   //Set cursor to character 2 on line 0
-    lcd.print("Hello Pesto!");
-    lcd.setCursor(3, 1);
-    lcd.write(0); // show custom caracter (heart)
-    lcd.setCursor(5, 1);
-    lcd.print("Love u");
-    lcd.setCursor(12, 1);
-    lcd.write(0);
 }
 /************ Main loop (running the arduino) **************/
 void loop(){
+    if (Serial.available())
+    {
+        bluetooth_val = Serial.read();
+        Serial.println(bluetooth_val);
+    }
+    switch (bluetooth_val)
+    {
+        case 'F': //Forward instruction
+            Car_front();
+            matrix_display(front); //display forward pattern
+            break;
+        case 'B': //Back instruction
+            Car_Back();
+            matrix_display(back); // display back pattern
+            break;
+        case 'L': //left-turning instruction
+            Car_left();
+            matrix_display(left); //show left-turning pattern
+            break;
+        case 'R': //right-turning instruction
+            Car_right();
+            matrix_display(right); //show right-turning pattern
+            break;
+        case 'S': //stop instruction
+            Car_Stop();
+            matrix_display(STOP01); //display stop pattern
+            break;
+        case 'Y':
+            matrix_display(pesto); //show start pattern
+            dance();
+            break;
+        case 'U':
+            matrix_display(bleh); //show start pattern
+            avoid();
+            break;
+        case 'X':
+            matrix_display(bleh); //show start pattern
+            light_track();
+            break;
+        case 'C':
+            lcd.clear();
+            timerTwoActive = !timerTwoActive;
+            timerTreeActive = false;
+            timerButton = Rem_9;
+            delay(100);
+            break;
+        case 'A':
+            lcd.clear();
+            timerTwoActive = !timerTwoActive;
+            timerTreeActive = false;
+            timerButton = Rem_7;
+            delay(100);
+            break;
+        case 'a': posXY = min(180, posXY + speedXY); break;
+        case 'w': posZ = min(160, posZ + speedZ); break;
+        case 'd': posXY = max(0, posXY - speedXY); break;
+        case 'q': posXY = 90; posZ = 45; break;
+        case 's': posZ = max(0, posZ - speedZ); break;
+        case 'e': posXY = 90; posZ = 15; break;
+    }
     if (IRrecv.decode(&results)) { /// receive the IR remote value
         ir_rec = results.value;
         //lcd.println(results.value, HEX); ///Wrap word in 16 HEX to output and receive code
         IRrecv.resume();
 
-
-        if (ir_rec == 0xFFFFFFFF) {
+        if (ir_rec == IRepeat) {
             ir_rec = previousIR;
         }
         switch (ir_rec) {
-            case Rem_L: posXY = min(180, posXY + speedXY); break;
-            case Rem_R: posXY = max(0, posXY - speedXY); break;
-            case Rem_OK: posXY = 90; posZ = 45; break;
-            case Rem_U: posZ = min(160, posZ + speedZ); break;
-            case Rem_D: posZ = max(0, posZ - speedZ); break;
-            case Rem_0: avoid(); break;
-            case Rem_1: Car_T_left(); break;
-            case Rem_2: Car_front(); break;
-            case Rem_3: Car_T_right(); break;
-            case Rem_4: Car_left(); break;
-            case Rem_5: Car_Stop(); break;
-            case Rem_6: Car_right(); break;
-            case Rem_7: compass(); break;
-            case Rem_8: Car_back(); break;
-            case Rem_9: gyroFunc(); break;
-            case Rem_x: dance(); break;
+            /******* Head movements    *******/
+            case Rem_1: posXY = min(180, posXY + speedXY); break;
+            case Rem_2: posZ = min(160, posZ + speedZ); break;
+            case Rem_3: posXY = max(0, posXY - speedXY); break;
+            case Rem_4: posXY = 90; posZ = 45; break;
+            case Rem_5: posZ = max(0, posZ - speedZ); break;
+            case Rem_6: posXY = 90; posZ = 15; break;
+
+            /******* Options & Sensors *******/
+            case Rem_7:
+                lcd.clear();
+                timerTwoActive = !timerTwoActive;
+                timerTreeActive = false;
+                timerButton = Rem_7;
+                delay(100);
+                break;
+            case Rem_8: dance(); break;
+            case Rem_9:
+                lcd.clear();
+                timerTwoActive = !timerTwoActive;
+                timerTreeActive = false;
+                timerButton = Rem_9;
+                delay(100);
+                break;
+            case Rem_x: avoid(); break;
             case Rem_y: light_track(); break;
+
+            /******* Engine - driving  *******/
+            case Rem_OK: Car_Stop(); break;
+            case Rem_U: Car_front(); break;
+            case Rem_D:
+                Car_Back(); break;
+            case Rem_L: Car_left(); break;
+            case Rem_R: Car_right(); break;
         }
         if (posXY != previousXY) {
             servoXY.write(posXY);
@@ -748,12 +837,14 @@ void loop(){
     }
     detectMovement();
     timerOne.update();
-    random2 = random(1, 100);
+    timerTwo.update();
+    timerThree.update();
+    if (!timerTwoActive){defaultLCD();}
     lightSensorL = analogRead(light_R_Pin);
     lightSensorR = analogRead(light_L_Pin);
     outputValueR = map(lightSensorL, 0, 1023, 0, 255);
     outputValueL = map(lightSensorR, 0, 1023, 0, 255);
-    calcValue = 255 - ((outputValueR + outputValueL) * 1.5);
+    calcValue = 255 - (outputValueR + outputValueL);
     calcValue = (calcValue < 0) ? 0 : calcValue;
     analogWrite(Led, calcValue);
     distanceF = checkdistance();  /// assign the front distance detected by ultrasonic sensor to variable a

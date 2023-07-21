@@ -15,17 +15,39 @@
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
     <configurations>
+      <configuration PROFILE_NAME="uno-MinGW" ENABLED="true" CONFIG_NAME="uno" TOOLCHAIN_NAME="MinGW" GENERATION_OPTIONS="-G &quot;MinGW Makefiles&quot;" />
       <configuration PROFILE_NAME="uno" ENABLED="true" CONFIG_NAME="uno" />
     </configurations>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d123a1cc-6578-4e4d-813c-6829b258db73" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitmodules" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.ipynb_checkpoints/Untitled-checkpoint.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/esp32-camera" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/Servo.h" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/Servo.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/avr/Servo.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/avr/Servo.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/avr/ServoTimers.h" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/avr/ServoTimers.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/sam/Servo.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/sam/Servo.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/sam/ServoTimers.h" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/sam/ServoTimers.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/integrity.dat" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/integrity.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeListsPrivate.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeListsPrivate.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-uno/.cmake/api/v1/reply/toolchains-v1-9933946cc6514d066203.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-uno/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-uno/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/CMakeCache.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/3.23.2/CMakeCCompiler.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/3.23.2/CMakeCCompiler.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/3.23.2/CMakeCXXCompiler.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/3.23.2/CMakeCXXCompiler.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/3.23.2/CompilerIdC/a.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/3.23.2/CompilerIdC/a.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/3.23.2/CompilerIdCXX/a.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/3.23.2/CompilerIdCXX/a.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/CMakeError.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/CMakeError.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/CMakeOutput.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/clion-environment.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/clion-environment.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/clion-log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/rules.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/CMakeFiles/rules.ninja" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-uno/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/Testing/Temporary/LastTest.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-uno/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/build.ninja" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-uno/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-uno/cmake_install.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
@@ -37,7 +59,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:uno" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:uno-MinGW" />
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
@@ -66,25 +88,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "cf.advertisement.text.has.clang-format": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "last_opened_file_path": "C:/Users/mr/Arduino Wall-E/Wall-E/.pio/libdeps/uno",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.advertisement.text.has.clang-format&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mr/Arduino Wall-E/Wall-E/.pio/libdeps/uno&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.intentionPowerPack&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\.pio\libdeps\uno" />
+      <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\.pio\libdeps\uno\Tensorflow" />
       <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\arduino_tutorials" />
       <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\include" />
     </key>
@@ -96,37 +120,20 @@
       <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\lib" />
     </key>
   </component>
-  <component name="RunManager" selected="CMake Application.Z_DUMMY_TARGET">
-    <configuration name="Z_DUMMY_TARGET" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Wall-E" TARGET_NAME="Z_DUMMY_TARGET" CONFIG_NAME="uno" RUN_TARGET_PROJECT_NAME="Wall-E" RUN_TARGET_NAME="Z_DUMMY_TARGET">
+  <component name="RunManager" selected="PlatformIO.PlatformIO Upload">
+    <configuration name="PlatformIO Debug" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Wall-E" TARGET_NAME="Debug" CONFIG_NAME="uno-MinGW" RUN_TARGET_PROJECT_NAME="Wall-E" RUN_TARGET_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PlatformIO Debug" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Wall-E" TARGET_NAME="Debug" CONFIG_NAME="uno" RUN_TARGET_PROJECT_NAME="Wall-E" RUN_TARGET_NAME="Debug">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PlatformIO Upload" type="platformio" factoryName="PlatformIO Upload" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Wall-E" TARGET_NAME="Production" CONFIG_NAME="uno" RUN_TARGET_PROJECT_NAME="Wall-E" RUN_TARGET_NAME="Production">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PlatformIO esp" type="platformio" factoryName="PlatformIO Upload" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Wall-E" TARGET_NAME="Production" CONFIG_NAME="uno">
+    <configuration name="PlatformIO Upload" type="platformio" factoryName="PlatformIO Upload" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Wall-E" TARGET_NAME="Production" CONFIG_NAME="uno-MinGW" RUN_TARGET_PROJECT_NAME="Wall-E" RUN_TARGET_NAME="Production">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="CMake Application.Z_DUMMY_TARGET" />
       <item itemvalue="PlatformIO.PlatformIO Debug" />
       <item itemvalue="PlatformIO.PlatformIO Upload" />
-      <item itemvalue="PlatformIO.PlatformIO esp" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -155,7 +162,16 @@
       <workItem from="1689750375490" duration="13159000" />
       <workItem from="1689798335406" duration="2360000" />
       <workItem from="1689889253358" duration="65000" />
-      <workItem from="1689889512723" duration="5780000" />
+      <workItem from="1689889512723" duration="6295000" />
+      <workItem from="1689919817675" duration="1560000" />
+      <workItem from="1689921935386" duration="1251000" />
+      <workItem from="1689924298605" duration="1501000" />
+      <workItem from="1689925846098" duration="1143000" />
+      <workItem from="1689927031440" duration="924000" />
+      <workItem from="1689928008411" duration="2518000" />
+      <workItem from="1689937495833" duration="15607000" />
+      <workItem from="1689957034027" duration="1661000" />
+      <workItem from="1689963697092" duration="6130000" />
     </task>
     <task id="LOCAL-00001" summary="1st">
       <created>1689277148054</created>
@@ -248,7 +264,14 @@
       <option name="project" value="LOCAL" />
       <updated>1689781124303</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="ai?">
+      <created>1689896052815</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1689896052815</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -279,6 +302,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="1st" />
     <MESSAGE value="2" />
     <MESSAGE value="3" />
@@ -290,6 +314,11 @@
     <MESSAGE value="Decent working" />
     <MESSAGE value="hou op met pesto is back" />
     <MESSAGE value="cleanup" />
-    <option name="LAST_COMMIT_MESSAGE" value="cleanup" />
+    <MESSAGE value="ai?" />
+    <option name="LAST_COMMIT_MESSAGE" value="ai?" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

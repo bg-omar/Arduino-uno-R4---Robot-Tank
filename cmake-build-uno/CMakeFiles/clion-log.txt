@@ -1,8 +1,9 @@
-"C:\Program Files\JetBrains\CLion 2022.2\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=uno "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2022.2/bin/ninja/win/ninja.exe" -G Ninja -S "C:\Users\mr\Arduino Wall-E\Wall-E" -B "C:\Users\mr\Arduino Wall-E\Wall-E\cmake-build-uno"
+"C:\Program Files\JetBrains\CLion 2022.2\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=uno "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2022.2/bin/ninja/win/ninja.exe" -DCMAKE_C_COMPILER=C:/msys64/mingw64/bin/cc.exe -DCMAKE_CXX_COMPILER=C:/msys64/mingw64/bin/g++.exe -G Ninja -S "C:\Users\mr\Arduino Wall-E\Wall-E" -B "C:\Users\mr\Arduino Wall-E\Wall-E\cmake-build-uno"
 -- Configuring done
 -- Generating done
 -- Build files have been written to: C:/Users/mr/Arduino Wall-E/Wall-E/cmake-build-uno
 
 Problems were encountered while collecting compiler information:
-	avr-gcc.exe: error: unrecognized command line option '-std=gnu11;-fno-fat-lto-objects;-mmcu=atmega328p;-Os;-Wall;-ffunction-sections;-fdata-sections;-flto'
-	avr-g++.exe: error: unrecognized command line option '-fno-exceptions;-fno-threadsafe-statics;-fpermissive;-std=gnu++11;-mmcu=atmega328p;-Os;-Wall;-ffunction-sections;-fdata-sections;-flto'
+	avr-gcc.exe: error: unrecognized command line option '-std=gnu17;-fno-fat-lto-objects;-mmcu=atmega328p;-Os;-Wall;-ffunction-sections;-fdata-sections;-flto'
+	avr-gcc.exe: error: unrecognized command line option '-std=gnu17'; did you mean '-std=gnu11'?
+	avr-g++.exe: error: unrecognized command line option '-fno-exceptions;-fno-threadsafe-statics;-fpermissive;-std=gnu++17;-mmcu=atmega328p;-Os;-Wall;-ffunction-sections;-fdata-sections;-flto'

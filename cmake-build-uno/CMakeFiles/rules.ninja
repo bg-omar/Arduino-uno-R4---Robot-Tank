@@ -35,8 +35,10 @@ rule CXX_COMPILER__Z_DUMMY_TARGET_uno
 # Rule for linking CXX executable.
 
 rule CXX_EXECUTABLE_LINKER__Z_DUMMY_TARGET_uno
-  command = cmd.exe /C "$PRE_LINK && C:\Users\mr\.platformio\packages\toolchain-atmelavr\bin\avr-g++.exe $FLAGS $LINK_FLAGS $in -o $TARGET_FILE $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
+  command = cmd.exe /C "$PRE_LINK && C:\Users\mr\.platformio\packages\toolchain-atmelavr\bin\avr-g++.exe $FLAGS $LINK_FLAGS @$RSP_FILE -o $TARGET_FILE  && $POST_BUILD"
   description = Linking CXX executable $TARGET_FILE
+  rspfile = $RSP_FILE
+  rspfile_content = $in $LINK_PATH $LINK_LIBRARIES
   restat = $RESTAT
 
 
