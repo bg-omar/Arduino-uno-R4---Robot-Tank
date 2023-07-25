@@ -3,7 +3,6 @@
 #include <math.h>
 #include <Wire.h>
 #include "../.pio/libdeps/uno/ArduinoSTL/src/ArduinoSTL.h"
-
 #include "../.pio/libdeps/uno/Adafruit MPU6050/Adafruit_MPU6050.h"
 #include "../.pio/libdeps/uno/Adafruit Unified Sensor/Adafruit_Sensor.h"
 #include "../.pio/libdeps/uno/Adafruit HMC5883 Unified/Adafruit_HMC5883_U.h"
@@ -65,9 +64,8 @@ TimerEvent timerOne;
 TimerEvent timerTwo;
 TimerEvent timerThree;
 boolean timerTwoActive = false;
-boolean timerTreeActive = false;
+[[maybe_unused]] boolean timerTreeActive = false;
 
-char bluetooth_val; //save the value of Bluetooth reception
 
 /***************** Setup LCD & Make icon images *****************/
 byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000, 0b00000};
@@ -378,9 +376,9 @@ void dance() {
         randomXY = random(1, 180);
         randomZ = random(1, 160);
         servoXY.write(randomXY);
-        delay(10);
+        delay(100);
         servoZ.write(randomZ);
-        delay(30);
+        delay(100);
         for(int j=0; j<8; j++) {
             matrix.setPixel(i,j, true);
             delay(10);
@@ -396,26 +394,26 @@ void dance() {
         randomXY = random(1, 180);
         randomZ = random(1, 160);
         servoXY.write(randomXY);
-        delay(50);
+        delay(100);
         servoZ.write(randomZ);
-        delay(50);
+        delay(100);
     }
     for(int i=0; i<8; i++) {
         randomXY = random(1, 180);
         randomZ = random(1, 160);
         servoXY.write(randomXY);
-        delay(50);
+        delay(100);
         servoZ.write(randomZ);
-        delay(50);
+        delay(100);
     }
 
     for (int myangle = 0; myangle <= 180; myangle += 45) { // goes from 0 degrees to 180 degrees
         servoXY.write(myangle);
-        delay(50); // tell servo to go to position in variable 'myangle'
+        delay(100); // tell servo to go to position in variable 'myangle'
     }
     for (int myangle = 100; myangle >= 0; myangle -= 45) { // goes from 180 degrees to 0 degrees
         servoXY.write(myangle);
-        delay(50); // tell servo to go to position in variable 'myangle'
+        delay(100); // tell servo to go to position in variable 'myangle'
     }
 
 }
@@ -483,12 +481,6 @@ void avoid()
                 flag = 1;
             }
         }
-        if (Serial.available()) {
-            bluetooth_val = Serial.read();
-            if (bluetooth_val == 'S') {//receive S
-                flag = 1; //when assign 1 to flag, end loop
-            }
-        }
     }
 }
 
@@ -515,12 +507,6 @@ void light_track() {
             IRrecv.resume();
             if (ir_rec == Rem_OK) {
                 flag = 1;
-            }
-        }
-        if (Serial.available()) {
-            bluetooth_val = Serial.read();
-            if (bluetooth_val == 'S') {//receive S
-                flag = 1; //when assign 1 to flag, end loop
             }
         }
     }
@@ -621,7 +607,6 @@ void resetTimers(){
 
 /************ Setup (booting the arduino) **************/
 void setup(){
-    Serial.begin(9600);
     Wire.begin();
     lcd.init();
     lcd.backlight();      // Make sure backlight is on
@@ -719,8 +704,8 @@ void setup(){
     // Print a message on both lines of the LCD.
     lcd.clear();
 }
-/************ Main loop (running the arduino) **************/
-void loop(){
+
+/*void bluetooth(){
     if (Serial.available())
     {
         bluetooth_val = Serial.read();
@@ -781,6 +766,9 @@ void loop(){
         case 's': posZ = max(0, posZ - speedZ); break;
         case 'e': posXY = 90; posZ = 15; break;
     }
+}*/
+/************ Main loop (running the arduino) **************/
+void loop(){
     if (IRrecv.decode(&results)) { /// receive the IR remote value
         ir_rec = results.value;
         //lcd.println(results.value, HEX); ///Wrap word in 16 HEX to output and receive code
