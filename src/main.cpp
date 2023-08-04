@@ -99,8 +99,8 @@ LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x3F for a 16 chars
 #define Echo 7  // ultrasonic echo Pin
 #define Led  2
 
-#define matrixData  4  // Set data  pin to 4
-#define matrixClock 5  // Set clock pin to 5
+#define matrixData  A5  // Set data  pin to 4
+#define matrixClock A4  // Set clock pin to 5
 #define SCL_Pin  matrixClock  //Set clock pin to A5
 #define SDA_Pin  matrixData  //Set data pin to A4
 

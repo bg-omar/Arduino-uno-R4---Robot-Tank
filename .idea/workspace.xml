@@ -21,273 +21,49 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d123a1cc-6578-4e4d-813c-6829b258db73" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/AltSoftSerial/.piopm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/AltSoftSerial/AltSoftSerial.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/AltSoftSerial/AltSoftSerial.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/AltSoftSerial/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/AltSoftSerial/config/AltSoftSerial_Boards.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/AltSoftSerial/config/AltSoftSerial_Timers.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/AltSoftSerial/examples/Echo/Echo.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/AltSoftSerial/examples/ReceiveTest/ReceiveTest.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/AltSoftSerial/keywords.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/AltSoftSerial/library.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/AltSoftSerial/library.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/.github/workflows/build.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/.github/workflows/stale.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/.github/workflows/upload_component.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/.piopm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/Kconfig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/component.mk" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/conversions/esp_jpg_decode.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/conversions/include/esp_jpg_decode.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/conversions/include/img_converters.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/conversions/jpge.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/conversions/private_include/jpge.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/conversions/private_include/yuv.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/conversions/to_bmp.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/conversions/to_jpg.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/conversions/yuv.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/driver/cam_hal.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/driver/esp_camera.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/driver/include/esp_camera.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/driver/include/sensor.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/driver/private_include/cam_hal.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/driver/private_include/sccb.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/driver/private_include/xclk.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/driver/sccb.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/driver/sensor.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/examples/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/examples/Makefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/examples/main/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/examples/main/component.mk" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/examples/main/take_picture.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/examples/sdkconfig.defaults" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/idf_component.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/library.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/bf20a6.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/bf3005.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/gc0308.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/gc032a.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/gc2145.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/nt99141.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/ov2640.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/ov3660.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/ov5640.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/ov7670.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/ov7725.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/bf20a6.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/bf20a6_regs.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/bf20a6_settings.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/bf3005.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/bf3005_regs.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/gc0308.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/gc0308_regs.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/gc0308_settings.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/gc032a.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/gc032a_regs.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/gc032a_settings.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/gc2145.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/gc2145_regs.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/gc2145_settings.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/nt99141.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/nt99141_regs.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/nt99141_settings.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/ov2640.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/ov2640_regs.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/ov2640_settings.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/ov3660.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/ov3660_regs.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/ov3660_settings.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/ov5640.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/ov5640_regs.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/ov5640_settings.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/ov7670.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/ov7670_regs.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/ov7725.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/ov7725_regs.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/sc030iot.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/sc030iot_settings.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/sc031gs.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/sc031gs_settings.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/sc101iot.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/private_include/sc101iot_settings.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/sc030iot.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/sc031gs.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/sensors/sc101iot.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/target/esp32/ll_cam.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/target/esp32s2/ll_cam.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/target/esp32s2/private_include/tjpgd.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/target/esp32s3/ll_cam.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/target/jpeg_include/tjpgd.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/target/private_include/ll_cam.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/target/tjpgd.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/esp32-camera/target/xclk.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/AltSoftSerial/AltSoftSerial.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/AltSoftSerial/AltSoftSerial.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/AltSoftSerial/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/AltSoftSerial/config/AltSoftSerial_Boards.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/AltSoftSerial/config/AltSoftSerial_Timers.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/AltSoftSerial/examples/Echo/Echo.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/AltSoftSerial/examples/ReceiveTest/ReceiveTest.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/AltSoftSerial/keywords.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/AltSoftSerial/library.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/AltSoftSerial/library.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/DiscoverConnect/.skip.esp32c3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/DiscoverConnect/.skip.esp32s2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/DiscoverConnect/.skip.esp32s3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/DiscoverConnect/DiscoverConnect.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/GetLocalMAC/.skip.esp32c3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/GetLocalMAC/.skip.esp32s2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/GetLocalMAC/.skip.esp32s3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/GetLocalMAC/GetLocalMAC.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/SerialToSerialBT/.skip.esp32c3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/SerialToSerialBT/.skip.esp32s2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/SerialToSerialBT/.skip.esp32s3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/SerialToSerialBT/SerialToSerialBT.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/SerialToSerialBTM/.skip.esp32c3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/SerialToSerialBTM/.skip.esp32s2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/SerialToSerialBTM/.skip.esp32s3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/SerialToSerialBTM/SerialToSerialBTM.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/SerialToSerialBT_SSP_pairing/.skip.esp32c3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/SerialToSerialBT_SSP_pairing/.skip.esp32s2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/SerialToSerialBT_SSP_pairing/.skip.esp32s3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/SerialToSerialBT_SSP_pairing/SerialToSerialBT_SSP_pairing.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/bt_classic_device_discovery/.skip.esp32c3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/bt_classic_device_discovery/.skip.esp32s2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/bt_classic_device_discovery/.skip.esp32s3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/bt_classic_device_discovery/bt_classic_device_discovery.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/bt_remove_paired_devices/.skip.esp32c3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/bt_remove_paired_devices/.skip.esp32s2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/bt_remove_paired_devices/.skip.esp32s3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/examples/bt_remove_paired_devices/bt_remove_paired_devices.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/keywords.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/library.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/src/BTAddress.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/src/BTAddress.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/src/BTAdvertisedDevice.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/src/BTAdvertisedDeviceSet.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/src/BTScan.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/src/BTScanResultsSet.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/src/BluetoothSerial.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/BluetoothSerial/src/BluetoothSerial.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ESP32_I2C_Slave/CHANGELOG.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ESP32_I2C_Slave/LICENSE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ESP32_I2C_Slave/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ESP32_I2C_Slave/examples/master_reader/master_reader.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ESP32_I2C_Slave/examples/master_writer/master_writer.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ESP32_I2C_Slave/examples/slave_receiver/slave_receiver.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ESP32_I2C_Slave/examples/slave_sender/slave_sender.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ESP32_I2C_Slave/keywords.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ESP32_I2C_Slave/library.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ESP32_I2C_Slave/library.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ESP32_I2C_Slave/src/WireCrc.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ESP32_I2C_Slave/src/WirePacker.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ESP32_I2C_Slave/src/WirePacker.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ESP32_I2C_Slave/src/WireSlave.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ESP32_I2C_Slave/src/WireSlave.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ESP32_I2C_Slave/src/WireSlaveRequest.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ESP32_I2C_Slave/src/WireSlaveRequest.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ESP32_I2C_Slave/src/WireUnpacker.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ESP32_I2C_Slave/src/WireUnpacker.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/EspSoftwareSerial/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/EspSoftwareSerial/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/EspSoftwareSerial/examples/bitpattern/bitpattern.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/EspSoftwareSerial/examples/circular_queue_mp_test/mp_queue_test.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/EspSoftwareSerial/examples/loopback/loopback.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/EspSoftwareSerial/examples/onewiretest/onewiretest.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/EspSoftwareSerial/examples/onreceive/onreceive.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/EspSoftwareSerial/examples/repeater/repeater.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/EspSoftwareSerial/examples/swsertest/swsertest.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/EspSoftwareSerial/keywords.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/EspSoftwareSerial/library.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/EspSoftwareSerial/library.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/EspSoftwareSerial/src/SoftwareSerial.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/EspSoftwareSerial/src/SoftwareSerial.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/EspSoftwareSerial/src/circular_queue/Delegate.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/EspSoftwareSerial/src/circular_queue/MultiDelegate.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/EspSoftwareSerial/src/circular_queue/circular_queue.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/EspSoftwareSerial/src/circular_queue/circular_queue_mp.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/EspSoftwareSerial/src/circular_queue/ghostl.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/HTTPClient/examples/Authorization/Authorization.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/HTTPClient/examples/BasicHttpClient/BasicHttpClient.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/HTTPClient/examples/BasicHttpsClient/BasicHttpsClient.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/HTTPClient/examples/HTTPClientEnterprise/HTTPClientEnterprise.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/HTTPClient/examples/ReuseConnection/ReuseConnection.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/HTTPClient/examples/StreamHttpClient/StreamHttpClient.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/HTTPClient/library.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/HTTPClient/src/HTTPClient.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/HTTPClient/src/HTTPClient.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/HTTPUpdate/examples/httpUpdate/httpUpdate.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/HTTPUpdate/examples/httpUpdateSPIFFS/httpUpdateSPIFFS.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/HTTPUpdate/examples/httpUpdateSecure/httpUpdateSecure.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/HTTPUpdate/keywords.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/HTTPUpdate/library.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/HTTPUpdate/src/HTTPUpdate.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/HTTPUpdate/src/HTTPUpdate.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/HTTPUpdateServer/examples/WebUpdater/WebUpdater.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/HTTPUpdateServer/keywords.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/HTTPUpdateServer/library.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/HTTPUpdateServer/src/HTTPUpdateServer.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/I2S/examples/ADCPlotter/.skip.esp32c3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/I2S/examples/ADCPlotter/ADCPlotter.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/I2S/examples/FullDuplex/.skip.esp32c3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/I2S/examples/FullDuplex/FullDuplex.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/I2S/examples/InputSerialPlotter/.skip.esp32c3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/I2S/examples/InputSerialPlotter/InputSerialPlotter.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/I2S/examples/SimpleTone/.skip.esp32c3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/I2S/examples/SimpleTone/SimpleTone.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/I2S/keywords.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/I2S/library.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/I2S/src/I2S.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/I2S/src/I2S.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/examples/AdvancedWebServer/AdvancedWebServer.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/examples/FSBrowser/FSBrowser.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/examples/FSBrowser/data/edit.htm.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/examples/FSBrowser/data/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/examples/FSBrowser/data/graphs.js.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/examples/FSBrowser/data/index.htm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/examples/HelloServer/HelloServer.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/examples/HttpAdvancedAuth/HttpAdvancedAuth.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/examples/HttpBasicAuth/HttpBasicAuth.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/examples/MultiHomedServers/MultiHomedServers.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/examples/MultiHomedServers/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/examples/PathArgServer/PathArgServer.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/examples/SDWebServer/SDWebServer.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/examples/SDWebServer/SdRoot/edit/index.htm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/examples/SDWebServer/SdRoot/index.htm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/examples/SDWebServer/SdRoot/pins.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/examples/SimpleAuthentification/SimpleAuthentification.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/examples/WebUpdate/WebUpdate.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/keywords.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/library.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/src/HTTP_Method.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/src/Parsing.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/src/Uri.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/src/WebServer.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/src/WebServer.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/src/detail/RequestHandler.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/src/detail/RequestHandlersImpl.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/src/detail/mimetable.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/src/detail/mimetable.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/src/uri/UriBraces.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/src/uri/UriGlob.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/WebServer/src/uri/UriRegex.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/BluetoothSerial/.hg_archival.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/BluetoothSerial/.piopm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/BluetoothSerial/BluetoothSerial.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/BluetoothSerial/BluetoothSerial.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/BluetoothSerial/library.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/.piopm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/SoftPWM.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/SoftPWM.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/SoftPWM_timer.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/changelog.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/examples/SoftPWM_Arduino_LED_Blink/SoftPWM_Arduino_LED_Blink.pde" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/examples/SoftPWM_LEDHead_Bounce/SoftPWM_LEDHead_Bounce.pde" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/examples/SoftPWM_LEDHead_Bounce2/SoftPWM_LEDHead_Bounce2.pde" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/examples/SoftPWM_LEDHead_Random_Blink/SoftPWM_LEDHead_Random_Blink.pde" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/examples/SoftPWM_Wiring_HeartBeat/SoftPWM_Wiring_HeartBeat.pde" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/keywords.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/library.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/.github/workflows/compiler-test.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/.github/workflows/lint-test.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/.piopm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/examples/ArduinoTone/ArduinoTone.ino" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/library.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/Tone432.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/Tone434.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/Tone436.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/Tone438.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/Tone440.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/Tone442.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/Tone444.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/Tone446.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/ToneDefault.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/TonePitch.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/ToneUndef.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/ToneVerify.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/Adafruit_BusIO_Register.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/Adafruit BusIO/Adafruit_BusIO_Register.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/examples/Knob/Knob.ino" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/examples/Knob/Knob.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/examples/Sweep/Sweep.ino" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/examples/Sweep/Sweep.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/Servo.h" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/Servo.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/avr/Servo.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/avr/Servo.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/avr/ServoTimers.h" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/avr/ServoTimers.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/sam/Servo.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/sam/Servo.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/sam/ServoTimers.h" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/Servo/src/sam/ServoTimers.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/integrity.dat" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/integrity.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/esp32-camera" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
@@ -299,7 +75,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:uno-MinGW" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:uno" />
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
@@ -308,11 +84,11 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$USER_HOME$/.platformio/packages/framework-arduino-avr/cores/arduino/Tone.cpp" root0="SKIP_INSPECTION" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
-  </component>
-  <component name="OCResolveContextSettings">
-    <option name="configuration" value="0-uno-Z_DUMMY_TARGET" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
@@ -421,6 +197,15 @@
       <workItem from="1690180439259" duration="4588000" />
       <workItem from="1690231179236" duration="7826000" />
       <workItem from="1690285504060" duration="1122000" />
+      <workItem from="1690347785009" duration="2493000" />
+      <workItem from="1690408182220" duration="639000" />
+      <workItem from="1690572718904" duration="3000" />
+      <workItem from="1690574561400" duration="1266000" />
+      <workItem from="1690673711767" duration="931000" />
+      <workItem from="1690758076079" duration="763000" />
+      <workItem from="1690767671347" duration="3247000" />
+      <workItem from="1690785943944" duration="1199000" />
+      <workItem from="1691060724788" duration="4620000" />
     </task>
     <task id="LOCAL-00001" summary="1st">
       <created>1689277148054</created>
