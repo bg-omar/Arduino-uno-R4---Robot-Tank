@@ -2,21 +2,31 @@
 #include <Arduino.h>
 #include <math.h>
 #include <Wire.h>
-#include "../.pio/libdeps/uno/ArduinoSTL/src/ArduinoSTL.h"
-#include "../.pio/libdeps/uno/Adafruit MPU6050/Adafruit_MPU6050.h"
-#include "../.pio/libdeps/uno/Adafruit Unified Sensor/Adafruit_Sensor.h"
-#include "../.pio/libdeps/uno/Adafruit HMC5883 Unified/Adafruit_HMC5883_U.h"
-#include "../.pio/libdeps/uno/LiquidCrystal_I2C/LiquidCrystal_I2C.h"
-#include "../.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xx.h"
-#include "../.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM1640.h"
-#include "../.pio/libdeps/uno/TM16xx LEDs and Buttons/src/TM16xxMatrix.h"
-#include "../.pio/libdeps/uno/Servo/src/Servo.h"
-#include "../.pio/libdeps/uno/RobotIRremote/src/RobotIRremote.h"
-#include "../.pio/libdeps/uno/TimerEvent/src/TimerEvent.h"
+//#include "../.pio/libdeps/uno_r4_wifi/ArduinoSTL/src/ArduinoSTL.h"
+#include "../.pio/libdeps/uno_r4_wifi/Adafruit MPU6050/Adafruit_MPU6050.h"
+#include "../.pio/libdeps/uno_r4_wifi/Adafruit Unified Sensor/Adafruit_Sensor.h"
+#include "../.pio/libdeps/uno_r4_wifi/Adafruit HMC5883 Unified/Adafruit_HMC5883_U.h"
+#include "../.pio/libdeps/uno_r4_wifi/LiquidCrystal_I2C/LiquidCrystal_I2C.h"
+#include "../.pio/libdeps/uno_r4_wifi/TM16xx LEDs and Buttons/src/TM16xx.h"
+#include "../.pio/libdeps/uno_r4_wifi/TM16xx LEDs and Buttons/src/TM1640.h"
+#include "../.pio/libdeps/uno_r4_wifi/TM16xx LEDs and Buttons/src/TM16xxMatrix.h"
+#include "../.pio/libdeps/uno_r4_wifi/Servo/src/Servo.h"
+#include "../.pio/libdeps/uno_r4_wifi/RobotIRremote/src/RobotIRremote.h"
+#include "../.pio/libdeps/uno_r4_wifi/TimerEvent/src/TimerEvent.h"
+#include "../.pio/libdeps/uno_r4_wifi/U8g2/src/U8g2lib.h"
+
+#ifdef U8X8_HAVE_HW_SPI
+#include <SPI.h>
+#endif
+#ifdef U8X8_HAVE_HW_I2C
+#include <Wire.h>
+#endif
 
 
+U8G2_SSD1306_128X64_NONAME_1_SW_I2C u8g2(U8G2_R0, SCL, SDA,U8X8_PIN_NONE);
 
-/***************** Declare all the functions *****************/
+
+/********************************************** Declare all the functions**********************************************/
 void Car_front();
 void Car_left();
 void Car_right();
@@ -40,7 +50,7 @@ void pestoMatrix();
 void perstoTimer();
 void sensorTimer();
 
-/***************** Make DotMatric Images *****************/
+/********************************************** Make DotMatric Images**********************************************/
 // Array, used to store the data of the pattern
 unsigned char STOP01[] = {0x2E,0x2A,0x3A,0x00,0x02,0x3E,0x02,0x00,0x3E,0x22,0x3E,0x00,0x3E,0x0A,0x0E,0x00};
 unsigned char hou[] =    {0x00,0x7f,0x08,0x08,0x7f,0x00,0x3c,0x42,0x42,0x3c,0x00,0x3e,0x40,0x40,0x3e,0x00};
@@ -56,7 +66,7 @@ unsigned char right[] = {0x00,0x10,0x28,0x44,0x10,0x28,0x44,0x10,0x28,0x44,0x00,
 
 unsigned char clear[] =  {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 
-/***************** Set timer period for function  *****************/
+/********************************************** Set timer period for function **********************************************/
 const int timerOnePeriod = 1000;
 const int timerTwoPeriod = 250;
 const int timerThreePeriod = 7000;
@@ -67,7 +77,7 @@ boolean timerTwoActive = false;
 [[maybe_unused]] boolean timerTreeActive = false;
 
 
-/***************** Setup LCD & Make icon images *****************/
+/********************************************** Setup LCD & Make icon images**********************************************/
 byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000, 0b00000};
 LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x3F for a 16 chars and 2 line display
 
@@ -152,7 +162,7 @@ Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(12345);
 
 
 
-/************ the function to run motor **************/
+/********************************************** the function to run motor**********************************************/
 void Car_front(){
     digitalWrite(MR_Ctrl,HIGH);
     analogWrite(MR_PWM,255);
@@ -247,7 +257,7 @@ void gyroRead(){
     gz = g.gyro.z - baseGz;
 }
 
-/************ the gyroscope **************/
+/********************************************** the gyroscope**********************************************/
 void gyroFunc(){
     gyroRead();
     lcd.setCursor(0,0); // Sets the location at which subsequent text written to the LCD will be displayed
@@ -266,6 +276,139 @@ void gyroFunc(){
     lcd.print("   ");
 }
 
+/************************************************ MouthDisplay *************************************************/
+void u8g2_prepare() {
+    u8g2.setFont(u8g2_font_6x10_tf);
+    u8g2.setFontRefHeightExtendedText();
+    u8g2.setDrawColor(1);
+    u8g2.setFontPosTop();
+    u8g2.setFontDirection(0);
+}
+
+void u8g2_box_title(uint8_t a) {
+    u8g2.drawStr( 10+a*2, 5, "Awall-A");
+    u8g2.drawStr( 10, 20, "Thets me");
+
+    u8g2.drawFrame(0,0,u8g2.getDisplayWidth(),u8g2.getDisplayHeight() );
+}
+
+void u8g2_box_frame(uint8_t a) {
+    u8g2.drawStr( 0, 0, "drawBox");
+    u8g2.drawBox(5,10,20,10);
+    u8g2.drawBox(10+a,15,30,7);
+    u8g2.drawStr( 0, 30, "drawFrame");
+    u8g2.drawFrame(5,10+30,20,10);
+    u8g2.drawFrame(10+a,15+30,30,7);
+}
+
+void u8g2_disc_circle(uint8_t a) {
+    u8g2.drawStr( 0, 0, "drawDisc");
+    u8g2.drawDisc(10,18,9);
+    u8g2.drawDisc(24+a,16,7);
+    u8g2.drawStr( 0, 30, "drawCircle");
+    u8g2.drawCircle(10,18+30,9);
+    u8g2.drawCircle(24+a,16+30,7);
+}
+
+void u8g2_r_frame(uint8_t a) {
+    u8g2.drawStr( 0, 0, "drawRFrame/Box");
+    u8g2.drawRFrame(5, 10,40,30, a+1);
+    u8g2.drawRBox(50, 10,25,40, a+1);
+}
+
+void u8g2_string(uint8_t a) {
+    u8g2.setFontDirection(0);
+    u8g2.drawStr(30+a,31, " 0");
+    u8g2.setFontDirection(1);
+    u8g2.drawStr(30,31+a, " 90");
+    u8g2.setFontDirection(2);
+    u8g2.drawStr(30-a,31, " 180");
+    u8g2.setFontDirection(3);
+    u8g2.drawStr(30,31-a, " 270");
+}
+
+void u8g2_line(uint8_t a) {
+    u8g2.drawStr( 0, 0, "drawLine");
+    u8g2.drawLine(7+a, 10, 40, 55);
+    u8g2.drawLine(7+a*2, 10, 60, 55);
+    u8g2.drawLine(7+a*3, 10, 80, 55);
+    u8g2.drawLine(7+a*4, 10, 100, 55);
+}
+
+void u8g2_triangle(uint8_t a) {
+    uint16_t offset = a;
+    u8g2.drawStr( 0, 0, "drawTriangle");
+    u8g2.drawTriangle(14,7, 45,30, 10,40);
+    u8g2.drawTriangle(14+offset,7-offset, 45+offset,30-offset, 57+offset,10-offset);
+    u8g2.drawTriangle(57+offset*2,10, 45+offset*2,30, 86+offset*2,53);
+    u8g2.drawTriangle(10+offset,40+offset, 45+offset,30+offset, 86+offset,53+offset);
+}
+
+
+#define cross_width 24
+#define cross_height 24
+static const unsigned char cross_bits[] U8X8_PROGMEM  = {
+        0x00, 0x18, 0x00, 0x00, 0x24, 0x00, 0x00, 0x24, 0x00, 0x00, 0x42, 0x00,
+        0x00, 0x42, 0x00, 0x00, 0x42, 0x00, 0x00, 0x81, 0x00, 0x00, 0x81, 0x00,
+        0xC0, 0x00, 0x03, 0x38, 0x3C, 0x1C, 0x06, 0x42, 0x60, 0x01, 0x42, 0x80,
+        0x01, 0x42, 0x80, 0x06, 0x42, 0x60, 0x38, 0x3C, 0x1C, 0xC0, 0x00, 0x03,
+        0x00, 0x81, 0x00, 0x00, 0x81, 0x00, 0x00, 0x42, 0x00, 0x00, 0x42, 0x00,
+        0x00, 0x42, 0x00, 0x00, 0x24, 0x00, 0x00, 0x24, 0x00, 0x00, 0x18, 0x00, };
+
+#define cross_fill_width 24
+#define cross_fill_height 24
+static const unsigned char cross_fill_bits[] U8X8_PROGMEM  = {
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18, 0x00, 0x18, 0x64, 0x00, 0x26,
+        0x84, 0x00, 0x21, 0x08, 0x81, 0x10, 0x08, 0x42, 0x10, 0x10, 0x3C, 0x08,
+        0x20, 0x00, 0x04, 0x40, 0x00, 0x02, 0x80, 0x00, 0x01, 0x80, 0x18, 0x01,
+        0x80, 0x18, 0x01, 0x80, 0x00, 0x01, 0x40, 0x00, 0x02, 0x20, 0x00, 0x04,
+        0x10, 0x3C, 0x08, 0x08, 0x42, 0x10, 0x08, 0x81, 0x10, 0x84, 0x00, 0x21,
+        0x64, 0x00, 0x26, 0x18, 0x00, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, };
+
+#define cross_block_width 14
+#define cross_block_height 14
+static const unsigned char cross_block_bits[] U8X8_PROGMEM  = {
+        0xFF, 0x3F, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20,
+        0xC1, 0x20, 0xC1, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20,
+        0x01, 0x20, 0xFF, 0x3F, };
+
+void u8g2_bitmap_overlay(uint8_t a) {
+    uint8_t frame_size = 28;
+
+    u8g2.drawStr(0, 0, "Bitmap overlay");
+
+    u8g2.drawStr(0, frame_size + 12, "Solid / transparent");
+    u8g2.setBitmapMode(false /* solid */);
+    u8g2.drawFrame(0, 10, frame_size, frame_size);
+    u8g2.drawXBMP(2, 12, cross_width, cross_height, cross_bits);
+    if(a & 4)
+        u8g2.drawXBMP(7, 17, cross_block_width, cross_block_height, cross_block_bits);
+
+    u8g2.setBitmapMode(true /* transparent*/);
+    u8g2.drawFrame(frame_size + 5, 10, frame_size, frame_size);
+    u8g2.drawXBMP(frame_size + 7, 12, cross_width, cross_height, cross_bits);
+    if(a & 4)
+        u8g2.drawXBMP(frame_size + 12, 17, cross_block_width, cross_block_height, cross_block_bits);
+}
+
+uint8_t draw_state = 0;
+
+void draw(void) {
+    u8g2_prepare();
+    switch(draw_state >> 3) {
+        case 0: u8g2_box_title(draw_state&7); break;
+        case 1: u8g2_box_frame(draw_state&7); break;
+        case 2: u8g2_disc_circle(draw_state&7); break;
+        case 3: u8g2_r_frame(draw_state&7); break;
+        case 4: u8g2_string(draw_state&7); break;
+        case 5: u8g2_line(draw_state&7); break;
+        case 6: u8g2_triangle(draw_state&7); break;
+        case 7: u8g2_bitmap_overlay(draw_state&7); break;
+    }
+}
+/************************************************ MouthDisplay END *************************************************/
+
+/************************************************ Is acceleration? *************************************************/
 void detectMovement() {
     gyroRead();
     if(( abs(ax) + abs(ay) + abs(az)) > THRESHOLD){
@@ -279,6 +422,7 @@ void detectMovement() {
         timerButton = Rem_7;
     }
 }
+
 void calibrate_sensor() {
     float totX = 0;
     float totY = 0;
@@ -311,7 +455,7 @@ void calibrate_sensor() {
     baseGy = totgY / 10;
     baseGz = totgZ / 10;
 }
-/************ the Compass **************/
+/*********************************************** the Compass **********************************************/
 float readCompass(){
     lcd.setCursor(0,0);   //Set cursor to character 2 on line 0
     lcd.print("Compass ");
@@ -358,7 +502,7 @@ void compass(){
 }
 
 
-/************ control ultrasonic sensor **************/
+/********************************************** control ultrasonic sensor**********************************************/
 float checkdistance() {
     digitalWrite(Trig, LOW);
     delayMicroseconds(2);
@@ -370,7 +514,7 @@ float checkdistance() {
     return checkDistance;
 }
 
-/************ arbitrary sequence **************/
+/********************************************** arbitrary sequence**********************************************/
 void dance() {
     for(int i=0; i<16; i++) {
         randomXY = random(1, 180);
@@ -418,7 +562,7 @@ void dance() {
 
 }
 
-/***************** Obstacle Avoidance Function **************/
+/********************************************** Obstacle Avoidance Function**********************************************/
 void avoid()
 {
     flag = 0; ///the design that enter obstacle avoidance function
@@ -484,7 +628,7 @@ void avoid()
     }
 }
 
-/****************Light Follow******************/
+/********************************************** Light Follow **********************************************/
 void light_track() {
     flag = 0;
     while (flag == 0) {
@@ -511,7 +655,7 @@ void light_track() {
         }
     }
 }
-/********************** the function for dot matrix display ***********************/
+/********************************************** the function for dot matrix display ***********************/
 void matrix_display(unsigned char matrix_value[]) {
     IIC_start();  // use the function of the data transmission start condition
     IIC_send(0xc0);  //select address
@@ -563,9 +707,9 @@ void IIC_end() {
     digitalWrite(SDA_Pin,HIGH);
     delayMicroseconds(3);
 }
-/********************** END of the function for dot matrix display ***********************/
+/********************************************** END of the function for dot matrix display ***********************/
 
-/************ Show matrix images **************/
+/********************************************** Show matrix images**********************************************/
 void pestoMatrix() {
     switch (screen) {
         case 1: matrix_display(STOP01); break;
@@ -605,7 +749,7 @@ void resetTimers(){
     lcd.clear();
 }
 
-/************ Setup (booting the arduino) **************/
+/********************************************** Setup (booting the arduino)**********************************************/
 void setup(){
     Wire.begin();
     lcd.init();
@@ -664,6 +808,14 @@ void setup(){
     delay(15);
 
     IRrecv.enableIRIn(); // Initialize the IR receiver
+
+    /* U8g2 Project: SSD1306 Test Board */
+    pinMode(10, OUTPUT);
+    pinMode(9, OUTPUT);
+    digitalWrite(10, 0);
+    digitalWrite(9, 0);
+    u8g2.begin();
+    //u8g2.setFlipMode(0);
 
     pinMode(Trig, OUTPUT);
     pinMode(Echo, INPUT);
@@ -767,7 +919,7 @@ void setup(){
         case 'e': posXY = 90; posZ = 15; break;
     }
 }*/
-/************ Main loop (running the arduino) **************/
+/********************************************** Main loop (running the arduino)**********************************************/
 void loop(){
     if (IRrecv.decode(&results)) { /// receive the IR remote value
         ir_rec = results.value;
@@ -786,7 +938,7 @@ void loop(){
             case Rem_5: posZ = max(0, posZ - speedZ); break;
             case Rem_6: posXY = 90; posZ = 15; break;
 
-            /******* Options & Sensors *******/
+                /******* Options & Sensors *******/
             case Rem_7:
                 lcd.clear();
                 timerTwoActive = !timerTwoActive;
@@ -805,7 +957,7 @@ void loop(){
             case Rem_x: avoid(); break;
             case Rem_y: light_track(); break;
 
-            /******* Engine - driving  *******/
+                /******* Engine - driving  *******/
             case Rem_OK: Car_Stop(); break;
             case Rem_U: Car_front(); break;
             case Rem_D:
@@ -828,6 +980,16 @@ void loop(){
     timerTwo.update();
     timerThree.update();
     if (!timerTwoActive){defaultLCD();}
+    u8g2.firstPage();
+    do {
+        draw();
+    } while( u8g2.nextPage() );
+
+    // increase the state
+    draw_state++;
+    if ( draw_state >= 14*8 )
+        draw_state = 0;
+
     lightSensorL = analogRead(light_R_Pin);
     lightSensorR = analogRead(light_L_Pin);
     outputValueR = map(lightSensorL, 0, 1023, 0, 255);

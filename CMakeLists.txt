@@ -10,7 +10,7 @@ set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_C_COMPILER_WORKS 1)
 set(CMAKE_CXX_COMPILER_WORKS 1)
 
-project("Wall-E" C CXX)
+project("Arduino-Wall-E-R4-Wifi" C CXX)
 
 include(CMakeListsPrivate.txt)
 
@@ -30,4 +30,4 @@ add_custom_target(
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_executable(Z_DUMMY_TARGET ${SRC_LIST} examples/arduino_tutorials/OGArduiont/IRremote.cpp)
+add_executable(Z_DUMMY_TARGET ${SRC_LIST})
