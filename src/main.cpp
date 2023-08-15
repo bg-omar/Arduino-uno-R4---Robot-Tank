@@ -1,52 +1,33 @@
-// Include the libraries: mklink /J arduino_libraries "C:\Program Files (x86)\Arduino\libraries"
+// section #include
+#include "index.h"
+#include "secrets.h"
+#include "mouth-display.h"
+
 #include <Arduino.h>
 #include <cmath>
 #include <Wire.h>
 #include <SD.h>
-
 
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_HMC5883_U.h>
 #include <Adafruit_PWMServoDriver.h>
 
-
 #include <LiquidCrystal_I2C.h>
 #include <TimerEvent.h>
 #include <U8g2lib.h>
 #include <WiFiS3.h>
 
-#include "index.h"
-#include "secrets.h"
-
-
-#define RAW_BUFFER_LENGTH  750  // 750 (600 if we have only 2k RAM) is the value for air condition remotes. Default is 112 if DECODE_MAGIQUEST is enabled, otherwise 100.
-#define MARK_EXCESS_MICROS    20    // Adapt it to your IR receiver module. 20 is recommended for the cheap VS1838 modules.
+#define RAW_BUFFER_LENGTH  750
+#define MARK_EXCESS_MIC_PINROS    20
 #include <IRremote.hpp>
 
-
-U8G2_SSD1306_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
-
-Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 #define MIN_PULSE_WIDTH       650
 #define MAX_PULSE_WIDTH       2350
 #define DEFAULT_PULSE_WIDTH   1500
 #define FREQUENCY             50
 
-uint8_t servonum = 0;
-
-
-
-// set up variables using the SD utility library functions:
-Sd2Card card;
-SdVolume volume;
-SdFile root;
-
-
-// Adafruit SD shields and modules: pin 10
-const int chipSelect = 10;
-
-
+// section declaration
 /********************************************** Declare all the functions**********************************************/
 void Car_front();
 void Car_left();
@@ -83,13 +64,13 @@ unsigned char met[] =    {0xf8,0x0c,0xf8,0x0c,0xf8,0x00,0x78,0xa8,0xa8,0xb8,0x00
 unsigned char pesto[] =  {0xfe,0x12,0x12,0x7c,0xb0,0xb0,0x80,0xb8,0xa8,0xe8,0x08,0xf8,0x08,0xe8,0x90,0xe0};
 unsigned char bleh[] =   {0x00,0x11,0x0a,0x04,0x8a,0x51,0x40,0x40,0x40,0x40,0x51,0x8a,0x04,0x0a,0x11,0x00};
 
-unsigned char front[] = {0x00,0x00,0x00,0x00,0x00,0x24,0x12,0x09,0x12,0x24,0x00,0x00,0x00,0x00,0x00,0x00};
-unsigned char back[] = {0x00,0x00,0x00,0x00,0x00,0x24,0x48,0x90,0x48,0x24,0x00,0x00,0x00,0x00,0x00,0x00};
-unsigned char left[] = {0x00,0x00,0x00,0x00,0x00,0x00,0x44,0x28,0x10,0x44,0x28,0x10,0x44,0x28,0x10,0x00};
-unsigned char right[] = {0x00,0x10,0x28,0x44,0x10,0x28,0x44,0x10,0x28,0x44,0x00,0x00,0x00,0x00,0x00,0x00};
+unsigned char front[] =  {0x00,0x00,0x00,0x00,0x00,0x24,0x12,0x09,0x12,0x24,0x00,0x00,0x00,0x00,0x00,0x00};
+unsigned char back[] =   {0x00,0x00,0x00,0x00,0x00,0x24,0x48,0x90,0x48,0x24,0x00,0x00,0x00,0x00,0x00,0x00};
+unsigned char left[] =   {0x00,0x00,0x00,0x00,0x00,0x00,0x44,0x28,0x10,0x44,0x28,0x10,0x44,0x28,0x10,0x00};
+unsigned char right[] =  {0x00,0x10,0x28,0x44,0x10,0x28,0x44,0x10,0x28,0x44,0x00,0x00,0x00,0x00,0x00,0x00};
 
 unsigned char clear[] =  {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
-
+byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000, 0b00000};
 /********************************************** Set timer period for function **********************************************/
 const int timerOnePeriod = 1000;
 const int timerTwoPeriod = 250;
@@ -100,85 +81,71 @@ TimerEvent timerThree;
 boolean timerTwoActive = false;
 boolean timerTreeActive = false;
 
-
+// section pin define
 /********************************************** Setup LCD & Make icon images**********************************************/
-byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000, 0b00000};
-LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x3F for a 16 chars and 2 line display
 
-#define light_L_Pin A0 // define the pin of left photo resistor sensor
-#define light_R_Pin A1 // define the pin of right photo resistor sensor
-#define IR_Pin      A2
-
-#define IR_RECEIVE_PIN      IR_Pin
 
 #define STR_HELPER(x) #x
 #define STR(x) STR_HELPER(x)
 
-#define Rem_OK 0xBF407F00 // Set al remote buttons
-#define Rem_U  0xB946FF00
-#define Rem_D  0xEA15FF00
-#define Rem_L  0xBB44FF00
-#define Rem_R  0xBC43FF00
+#define Rem_OK  0xBF407F00
+#define Rem_U   0xB946FF00
+#define Rem_D   0xEA15FF00
+#define Rem_L   0xBB44FF00
+#define Rem_R   0xBC43FF00
 
-#define Rem_1  0xE916FF00
-#define Rem_2  0xE619FE00
-#define Rem_3  0xF20DFE00
-#define Rem_4  0xF30CFF00
-#define Rem_5  0xE718FF00
-#define Rem_6  0xA15EFD00
-#define Rem_7  0xF708FF00
-#define Rem_8  0xE31CFF00
-#define Rem_9  0xA55AFF00
-#define Rem_0  0xAD52FF00
-#define Rem_x  0xBD42FF00
-#define Rem_y  0xB54ADF00
+#define Rem_1   0xE916FF00
+#define Rem_2   0xE619FE00
+#define Rem_3   0xF20DFE00
+#define Rem_4   0xF30CFF00
+#define Rem_5   0xE718FF00
+#define Rem_6   0xA15EFD00
+#define Rem_7   0xF708FF00
+#define Rem_8   0xE31CFF00
+#define Rem_9   0xA55AFF00
+#define Rem_0   0xAD52FF00
+#define Rem_x   0xBD42FF00
+#define Rem_y   0xB54ADF00
 #define IRepeat 0xFFFFFFFF
 
-#define Trig 6  // ultrasonic trig Pin
-#define Echo 7  // ultrasonic echo Pin
-#define Led  2
-const int LED_PIN = Led;  // Arduino pin connected to LED's pin
+#define RX_PIN      0
+#define TX_PIN      1
+#define LED_PIN     2
+#define MR_PWM      3   // define PWM control pin of right motor
 
-#define matrixData  4  // Set data  pin to 4
-#define matrixClock 5  // Set clock pin to 5
-#define SCL_Pin  matrixClock  //Set clock pin to A5
-#define SDA_Pin  matrixData  //Set data pin to A4
+#define DotDataPIN  4  // Set data  pin to 4
+#define DotClockPIN 5  // Set clock pin to 5
+#define Trig_PIN    6  // ultrasonic trig Pin
+#define Echo_PIN    7  // ultrasonic echo Pin
 
-#define MIC 8
-unsigned long last_event = 0;
-
+#define MIC_PIN     8
+#define PIN_9       9
+#define PIN_10     10
 #define ML_PWM     11  // define PWM control pin of left motor
+
 #define MR_Ctrl    12  // define the direction control pin of right motor
-#define MR_PWM     3   // define PWM control pin of right motor
 #define ML_Ctrl    13  // define the direction control pin of left motor
 
-#define THRESHOLD 5
-
-#define top  0
-#define bot  1
-
+#define light_L_Pin A0
+#define light_R_Pin A1
+#define IR_Pin      A2
 
 
+unsigned long last_event = 0;
 int status = WL_IDLE_STATUS;
+#define THRESHOLD 5
+#define top  0 // lcd screen top line
+#define bot  1 // lcd screen bottom line
 
-WiFiServer server(80);
-
+uint8_t servonum = 0;
 uint64_t ir_rec, previousIR, timerButton; // set remote vars
 int previousXY, previousZ;
-
 int screen = 0;
-
-Adafruit_MPU6050 mpu; // Set the gyroscope
 float ax, ay, az, gx, gy, gz, baseAx, baseAy, baseAz, baseGx, baseGy, baseGz;
-
 long random2, randomXY, randomZ;     //set random for choice making
 float distanceF, distanceR, distanceL; // set var for distance mesure 
 
-int lightSensorL ;        // value read from the R light sensor
-int lightSensorR ;        // value read from the L light sensor
-int outputValueR ;        // value output to the R PWM (analog out)
-int outputValueL ;        // value output to the L PWM (analog out)
-int calcValue ;           // inverse input
+int lightSensorL, lightSensorR, outputValueR, outputValueL, calcValue ;           // inverse input
 
 int posXY = 90;  // set horizontal servo position
 int speedXY = 20;
@@ -190,9 +157,14 @@ int flag; // flag variable, it is used to entry and exist function
 
 /* Assign a unique ID to this sensor at the same time */
 Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(12345);
+U8G2_SSD1306_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE);
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
+LiquidCrystal_I2C lcd(0x27,16,2);
+WiFiServer server(80);
+Adafruit_MPU6050 mpu; // Set the gyroscope
 
 
-
+// section motor
 /********************************************** the function to run motor**********************************************/
 void Car_front(){
     digitalWrite(MR_Ctrl,HIGH);
@@ -227,6 +199,7 @@ void Car_Back(){
     analogWrite(ML_PWM,255);
 }
 
+// section I2CScanner
 void I2CScanner() {
     byte error, address;
     int nDevices;
@@ -278,9 +251,9 @@ void I2CScanner() {
     }
 }
 
-
+/********************************************** the gyroscope **********************************************/
+// section gyroRead
 void gyroRead(){
-    // Get new sensor events with the readings
     sensors_event_t a, g, temp;
     mpu.getEvent(&a, &g, &temp);
 
@@ -292,7 +265,6 @@ void gyroRead(){
     gz = g.gyro.z - baseGz;
 }
 
-/********************************************** the gyroscope**********************************************/
 void gyroFunc(){
     gyroRead();
     lcd.setCursor(0, top); // Sets the location at which subsequent text written to the LCD will be displayed
@@ -310,11 +282,58 @@ void gyroFunc(){
     (gz > 0) ? lcd.print("+"), lcd.print(gz) : lcd.print(gz);
     lcd.print("   ");
 }
+/************************************************ Is acceleration? *************************************************/
+void detectMovement() {
+    gyroRead();
+    if(( abs(ax) + abs(ay) + abs(az)) > THRESHOLD){
+        timerTwoActive = true;
+        timerTreeActive = true;
+        timerButton = Rem_9;
+    }
+    if(( abs(gx) + abs(gy) + abs(gz)) > THRESHOLD){
+        timerTwoActive = true;
+        timerTreeActive = true;
+        timerButton = Rem_7;
+    }
+}
+
+void calibrate_sensor() {
+    float totX = 0;
+    float totY = 0;
+    float totZ = 0;
+    float totgX = 0;
+    float totgY = 0;
+    float totgZ = 0;
+    sensors_event_t a, g, temp;
+    delay(10);
+    for (size_t i = 0; i < 10; i++) {
+        mpu.getEvent(&a, &g, &temp);
+        delay(10);
+        totX += a.acceleration.x;
+        delay(10);
+        totY += a.acceleration.y;
+        delay(10);
+        totZ += a.acceleration.z;
+        delay(10);
+        totgX += g.gyro.x;
+        delay(10);
+        totgY += g.gyro.y;
+        delay(10);
+        totgZ += g.gyro.z;
+        delay(10);
+    }
+    baseAx = totX / 10;
+    baseAy = totY / 10;
+    baseAz = totZ / 10;
+    baseGx = totgX / 10;
+    baseGy = totgY / 10;
+    baseGz = totgZ / 10;
+}
 
 /************************************************ MouthDisplay *************************************************/
-
-
-void u8g2_prepare(void) {
+// section MouthDisplay
+/************************************************ MouthDisplay *************************************************/
+void u8g2_prepare() {
     u8g2.setFont(u8g2_font_6x10_tf);
     u8g2.setFontRefHeightExtendedText();
     u8g2.setDrawColor(1);
@@ -536,55 +555,8 @@ void draw(void) {
 }
 
 /************************************************ MouthDisplay END *************************************************/
-
-/************************************************ Is acceleration? *************************************************/
-void detectMovement() {
-    gyroRead();
-    if(( abs(ax) + abs(ay) + abs(az)) > THRESHOLD){
-        timerTwoActive = true;
-        timerTreeActive = true;
-        timerButton = Rem_9;
-    }
-    if(( abs(gx) + abs(gy) + abs(gz)) > THRESHOLD){
-        timerTwoActive = true;
-        timerTreeActive = true;
-        timerButton = Rem_7;
-    }
-}
-
-void calibrate_sensor() {
-    float totX = 0;
-    float totY = 0;
-    float totZ = 0;
-    float totgX = 0;
-    float totgY = 0;
-    float totgZ = 0;
-    sensors_event_t a, g, temp;
-    delay(10);
-    for (size_t i = 0; i < 10; i++) {
-        mpu.getEvent(&a, &g, &temp);
-        delay(10);
-        totX += a.acceleration.x;
-        delay(10);
-        totY += a.acceleration.y;
-        delay(10);
-        totZ += a.acceleration.z;
-        delay(10);
-        totgX += g.gyro.x;
-        delay(10);
-        totgY += g.gyro.y;
-        delay(10);
-        totgZ += g.gyro.z;
-        delay(10);
-    }
-    baseAx = totX / 10;
-    baseAy = totY / 10;
-    baseAz = totZ / 10;
-    baseGx = totgX / 10;
-    baseGy = totgY / 10;
-    baseGz = totgZ / 10;
-}
-/*********************************************** the Compass **********************************************/
+/*************************************************** the Compass ***************************************************/
+// section Compass
 float readCompass(){
     lcd.setCursor(0, top);   //Set cursor to character 2 on line 0
     lcd.print("Compass ");
@@ -633,17 +605,18 @@ void compass(){
 
 /********************************************** control ultrasonic sensor**********************************************/
 float checkdistance() {
-    digitalWrite(Trig, LOW);
+    digitalWrite(Trig_PIN, LOW);
     delayMicroseconds(2);
-    digitalWrite(Trig, HIGH);
+    digitalWrite(Trig_PIN, HIGH);
     delayMicroseconds(10);
-    digitalWrite(Trig, LOW);
-    float checkDistance = pulseIn(Echo, HIGH) / 58.00;  //58.20, that is, 2*29.1=58.2
+    digitalWrite(Trig_PIN, LOW);
+    float checkDistance = pulseIn(Echo_PIN, HIGH) / 58.00;  //58.20, that is, 2*29.1=58.2
     delay(10);
     return checkDistance;
 }
 
 /********************************************** arbitrary sequence**********************************************/
+// section Dance
 void dance() {
 
         randomXY = random(1, 180);
@@ -673,20 +646,20 @@ void dance() {
 }
 
 /********************************************** Obstacle Avoidance Function**********************************************/
-void avoid()
-{
+// section Avoid
+void avoid() {
     flag = 0; ///the design that enter obstacle avoidance function
     while (flag == 0) {
         random2 = random(1, 100);
         distanceF= checkdistance();
         if (distanceF < 25) {
-            analogWrite (Led, 255);
+            analogWrite (LED_PIN, 255);
             Car_Stop(); /// robot stops
                 pwm.setPWM(1, 0, pulseWidth(115));
             delay(10); ///delay in 200ms
                 pwm.setPWM(1, 0, pulseWidth(90));
             delay(10); ///delay in 200ms
-            analogWrite (Led, 0);
+            analogWrite (LED_PIN, 0);
                 pwm.setPWM(0, 0, pulseWidth(160)); /// look left
             for (int j = 1; j <= 10; j = j + (1)) { ///  the data will be more accurate if sensor detect a few times.
                 distanceL = checkdistance();
@@ -732,6 +705,7 @@ void avoid()
 }
 
 /********************************************** Light Follow **********************************************/
+// section Follow Light
 void light_track() {
     flag = 0;
     while (flag == 0) {
@@ -751,7 +725,9 @@ void light_track() {
         }
     }
 }
+
 /********************************************** the function for dot matrix display ***********************/
+// section Dot Matrix
 void matrix_display(unsigned char matrix_value[]) {
     IIC_start();  // use the function of the data transmission start condition
     IIC_send(0xc0);  //select address
@@ -768,25 +744,25 @@ void matrix_display(unsigned char matrix_value[]) {
 
 //the condition to start conveying data
 void IIC_start() {
-    digitalWrite(SCL_Pin,HIGH);
+    digitalWrite(DotClockPIN,HIGH);
     delayMicroseconds(3);
-    digitalWrite(SDA_Pin,HIGH);
+    digitalWrite(DotDataPIN,HIGH);
     delayMicroseconds(3);
-    digitalWrite(SDA_Pin,LOW);
+    digitalWrite(DotDataPIN,LOW);
     delayMicroseconds(3);
 }
 //Convey data
 void IIC_send(unsigned char send_data) {
     for(char i = 0;i < 8;i++){  //Each byte has 8 bits 8bit for every character
-        digitalWrite(SCL_Pin,LOW);  // pull down clock pin SCL_Pin to change the signal of SDA
+        digitalWrite(DotClockPIN,LOW);  // pull down clock pin DotClockPIN to change the signal of SDA
         delayMicroseconds(3);
-        if(send_data & 0x01){  //set high and low level of SDA_Pin according to 1 or 0 of every bit
-            digitalWrite(SDA_Pin,HIGH);
+        if(send_data & 0x01){  //set high and low level of DotDataPIN according to 1 or 0 of every bit
+            digitalWrite(DotDataPIN,HIGH);
         } else {
-            digitalWrite(SDA_Pin,LOW);
+            digitalWrite(DotDataPIN,LOW);
         }
         delayMicroseconds(3);
-        digitalWrite(SCL_Pin,HIGH); //pull up the clock pin SCL_Pin to stop transmission
+        digitalWrite(DotClockPIN,HIGH); //pull up the clock pin DotClockPIN to stop transmission
         delayMicroseconds(3);
         send_data = send_data >> 1;  // detect bit by bit, shift the data to the right by one
     }
@@ -794,18 +770,19 @@ void IIC_send(unsigned char send_data) {
 
 //The sign of ending data transmission
 void IIC_end() {
-    digitalWrite(SCL_Pin,LOW);
+    digitalWrite(DotClockPIN,LOW);
     delayMicroseconds(3);
-    digitalWrite(SDA_Pin,LOW);
+    digitalWrite(DotDataPIN,LOW);
     delayMicroseconds(3);
-    digitalWrite(SCL_Pin,HIGH);
+    digitalWrite(DotClockPIN,HIGH);
     delayMicroseconds(3);
-    digitalWrite(SDA_Pin,HIGH);
+    digitalWrite(DotDataPIN,HIGH);
     delayMicroseconds(3);
 }
 /********************************************** END of the function for dot matrix display ***********************/
 
-/********************************************** Show matrix images**********************************************/
+/********************************************** Functions s**********************************************/
+// section Functions
 void pestoMatrix() {
     switch (screen) {
         case 1: matrix_display(STOP01); break;
@@ -888,17 +865,18 @@ void printWifiStatus() {
     lcd.clear();
     // print your board's IP address:
     lcd.setCursor(0, top);   //Set cursor to line 0
-    lcd.println(WiFi.localIP());
+    lcd.print(WiFi.localIP());
 
     // print the received signal strength:
     lcd.setCursor(0,bot);   //Set cursor to line 1
     lcd.print("signal: ");
     lcd.print(WiFi.RSSI());
-    lcd.println(" dBm");
+    lcd.print(" dBm");
     delay(1000);
 }
 
 /********************************************** Setup (booting the arduino)**********************************************/
+// section Setup
 void setup(){
 
     Wire.begin();
@@ -909,23 +887,28 @@ void setup(){
     I2CScanner();
     delay(1000);
 
-    // Start the receiver and if not 3. parameter specified, take LED_BUILTIN pin from the internal boards definition as default feedback LED
-    IrReceiver.begin(IR_Pin, ENABLE_LED_FEEDBACK);
-    lcd.print(F("Ready to receive IR signals"));
-
-
-
-    /* U8g2 Project: SSD1306 Test Board */
-    pinMode(10, OUTPUT);
-    pinMode(9, OUTPUT);
-    digitalWrite(10, 0);
-    digitalWrite(9, 0);
-    u8g2.begin();
-
-
     lcd.clear();
     lcd.setCursor(2,top);   //Set cursor to character 2 on line 0
-    lcd.print("MPU6050 test!    ");
+    lcd.print("Modules tests!    ");
+    delay(1000);
+
+    if (!u8g2.begin()) {
+        lcd.clear();
+        lcd.setCursor(0,top);
+        lcd.println("Mouth Display");
+        lcd.setCursor(4,bot);
+        lcd.println("not found");
+        while (1) {
+            delay(1000);
+        }
+    } else {
+        lcd.clear();
+        lcd.setCursor(0,top);
+        lcd.println("Mouth Display");
+        lcd.setCursor(4,bot);
+        lcd.println("found!");
+        delay(1000);
+    }
 
     // Try to initialize!
     if (!mpu.begin()) {
@@ -963,7 +946,11 @@ void setup(){
         delay(1000);
     }
 
-    pinMode(MIC, INPUT);
+    pinMode(MIC_PIN, INPUT);
+
+    // Start the receiver and if not 3. parameter specified, take LED_BUILTIN pin from the internal boards definition as default feedback LED
+    IrReceiver.begin(IR_Pin, ENABLE_LED_FEEDBACK);
+    lcd.print(F("Ready to receive IR signals"));
 
     pwm.begin();
     pwm.setPWMFreq(FREQUENCY);  // Analog servos run at ~50 Hz updates
@@ -1003,18 +990,18 @@ void setup(){
 
     timerButton = Rem_OK;
 
-    pinMode(Trig, OUTPUT);
-    pinMode(Echo, INPUT);
+    pinMode(Trig_PIN, OUTPUT);
+    pinMode(Echo_PIN, INPUT);
     pinMode(ML_Ctrl, OUTPUT);
     pinMode(ML_PWM, OUTPUT);
     pinMode(MR_Ctrl, OUTPUT);
     pinMode(MR_PWM, OUTPUT);
-    pinMode(Led, OUTPUT);
+    pinMode(LED_PIN, OUTPUT);
 
-    pinMode(matrixClock,OUTPUT);
-    pinMode(matrixData,OUTPUT);
-    digitalWrite(matrixClock,LOW);
-    digitalWrite(matrixData,LOW);
+    pinMode(DotClockPIN,OUTPUT);
+    pinMode(DotDataPIN,OUTPUT);
+    digitalWrite(DotClockPIN,LOW);
+    digitalWrite(DotDataPIN,LOW);
     matrix_display(clear);
     timerOne.set(timerOnePeriod, perstoTimer);
     timerTwo.set(timerTwoPeriod, sensorTimer);
@@ -1031,6 +1018,7 @@ void setup(){
 
 
 /********************************************** Main loop (running the arduino)**********************************************/
+// section Loop
 void loop(){
     // listen for incoming clients
     WiFiClient client = server.available();
@@ -1175,14 +1163,14 @@ void loop(){
     outputValueL = map(lightSensorR, 0, 1023, 0, 255);
     calcValue = 255 - (outputValueR + outputValueL);
     calcValue = (calcValue < 0) ? 0 : calcValue;
-    analogWrite(Led, calcValue);
+    analogWrite(LED_PIN, calcValue);
     distanceF = checkdistance();  /// assign the front distance detected by ultrasonic sensor to variable a
     if (distanceF < 35) {
-        analogWrite (Led, 255);
+        analogWrite (LED_PIN, 255);
         pestoMatrix();
         delay(distanceF);
     } else {
-        analogWrite (Led, 0);
+        analogWrite (LED_PIN, 0);
     }
 /*    int r,g,b;
     r=random(0,100)%100; //get a random in (0,100)
@@ -1190,7 +1178,7 @@ void loop(){
     b=random(0,100)%100;
     ledColorSet(r,g,b);//set random as a duty cycle value*/
 
-    int output = digitalRead(MIC);
+    int output = digitalRead(MIC_PIN);
     if (output == LOW) {
         if (millis() - last_event > 25) {
             lcd.println("Clap sound was detected!");
@@ -1210,5 +1198,3 @@ void loop(){
 
 
 }
-
-
