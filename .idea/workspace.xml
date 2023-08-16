@@ -8,63 +8,19 @@
   </component>
   <component name="CMakeRunConfigurationManager">
     <generated>
-      <config projectName="Wall-E" targetName="Production" />
-      <config projectName="Wall-E" targetName="Debug" />
-      <config projectName="Wall-E" targetName="Z_DUMMY_TARGET" />
+      <config projectName="Arduino-Wall-E-R4-Wifi" targetName="Debug" />
+      <config projectName="Arduino-Wall-E-R4-Wifi" targetName="Production" />
+      <config projectName="Arduino-Wall-E-R4-Wifi" targetName="Z_DUMMY_TARGET" />
     </generated>
   </component>
-  <component name="CMakeSettings" AUTO_RELOAD="true">
+  <component name="CMakeSettings">
     <configurations>
-      <configuration PROFILE_NAME="uno-MinGW" ENABLED="true" CONFIG_NAME="uno" TOOLCHAIN_NAME="MinGW" GENERATION_OPTIONS="-G &quot;MinGW Makefiles&quot;" />
-      <configuration PROFILE_NAME="uno" ENABLED="true" CONFIG_NAME="uno" />
+      <configuration PROFILE_NAME="uno_r4_wifi" ENABLED="true" CONFIG_NAME="uno_r4_wifi" />
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d123a1cc-6578-4e4d-813c-6829b258db73" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/BluetoothSerial/.hg_archival.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/BluetoothSerial/.piopm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/BluetoothSerial/BluetoothSerial.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/BluetoothSerial/BluetoothSerial.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/BluetoothSerial/library.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/.piopm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/SoftPWM.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/SoftPWM.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/SoftPWM_timer.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/changelog.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/examples/SoftPWM_Arduino_LED_Blink/SoftPWM_Arduino_LED_Blink.pde" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/examples/SoftPWM_LEDHead_Bounce/SoftPWM_LEDHead_Bounce.pde" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/examples/SoftPWM_LEDHead_Bounce2/SoftPWM_LEDHead_Bounce2.pde" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/examples/SoftPWM_LEDHead_Random_Blink/SoftPWM_LEDHead_Random_Blink.pde" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/examples/SoftPWM_Wiring_HeartBeat/SoftPWM_Wiring_HeartBeat.pde" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/keywords.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/SoftPWM/library.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/.gitattributes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/.github/workflows/compiler-test.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/.github/workflows/lint-test.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/.piopm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/examples/ArduinoTone/ArduinoTone.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/library.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/Tone432.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/Tone434.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/Tone436.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/Tone438.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/Tone440.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/Tone442.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/Tone444.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/Tone446.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/ToneDefault.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/TonePitch.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/ToneUndef.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.pio/libdeps/uno/TonePitch/src/ToneVerify.h" afterDir="false" />
+    <list default="true" id="a86e6fa4-da29-4af9-9e57-dbb78076f1ea" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pio/libdeps/uno/integrity.dat" beforeDir="false" afterPath="$PROJECT_DIR$/.pio/libdeps/uno/integrity.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -75,20 +31,34 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:uno" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:uno_r4_wifi" />
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="esp32s-cam" />
+        <entry key="$PROJECT_DIR$" value="a5de6681fff942b7641cd4c9901dac265f8c6aaf" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitRewordedCommitMessages">
+    <option name="commitMessagesMapping">
+      <RewordedCommitMessageMapping>
+        <option name="originalMessage" value="Going to uno r4 wifi" />
+        <option name="rewordedMessage" value="Going to uno r4 wifi&#10;&#10;&#10;Going to uno r4 wifi" />
+      </RewordedCommitMessageMapping>
+    </option>
+    <option name="currentCommit" value="1" />
+    <option name="onto" value="a5de6681fff942b7641cd4c9901dac265f8c6aaf" />
+  </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$USER_HOME$/.platformio/packages/framework-arduino-avr/cores/arduino/Tone.cpp" root0="SKIP_INSPECTION" />
+    <setting file="file://$USER_HOME$/.platformio/packages/framework-arduinorenesas-uno/libraries/WiFiS3/src/WiFi.cpp" root0="SKIP_INSPECTION" />
+    <setting file="file://$USER_HOME$/.platformio/packages/framework-arduinorenesas-uno/libraries/WiFiS3/src/WiFiTypes.h" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="OCResolveContextSettings">
+    <option name="configuration" value="0-uno_r4_wifi-Z_DUMMY_TARGET" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
@@ -96,12 +66,10 @@
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
     <option name="majorVersion" value="2022" />
-    <option name="minorVersion" value="2" />
+    <option name="minorVersion" value="2.5" />
   </component>
-  <component name="ProjectId" id="2SSlGGtQSngRN1YmkuQozPydoth" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="2TXR7jHAR0fEI5qrrioPMH21TIB" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -109,49 +77,44 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;cf.advertisement.text.has.clang-format&quot;: &quot;true&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/mr/Arduino Wall-E/Wall-E/include&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mr/Arduino Wall-E/Arduino-Wall-E-R4-Wifi/src&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.intentionPowerPack&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\include" />
-      <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\lib\Wire\src" />
-      <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\lib" />
-      <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\.pio\libdeps\uno" />
-      <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\.pio\libdeps\uno\Tensorflow" />
+      <recent name="C:\Users\mr\Arduino Wall-E\Arduino-Wall-E-R4-Wifi\src" />
+      <recent name="C:\Users\mr\Arduino Wall-E\Arduino-Wall-E-R4-Wifi\.pio\libdeps\uno_r4_wifi" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\include" />
-      <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\lib" />
-      <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\lib\esp32cam\src" />
-      <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\lib\esp32-core" />
-      <recent name="C:\Users\mr\Arduino Wall-E\Wall-E\examples" />
+      <recent name="C:\Users\mr\Arduino Wall-E\Arduino-Wall-E-R4-Wifi" />
     </key>
   </component>
   <component name="RunManager" selected="PlatformIO.PlatformIO Upload">
-    <configuration name="PlatformIO Debug" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Wall-E" TARGET_NAME="Debug" CONFIG_NAME="uno-MinGW" RUN_TARGET_PROJECT_NAME="Wall-E" RUN_TARGET_NAME="Debug">
+    <configuration name="Z_DUMMY_TARGET" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-Wall-E-R4-Wifi" TARGET_NAME="Z_DUMMY_TARGET" CONFIG_NAME="uno_r4_wifi" RUN_TARGET_PROJECT_NAME="Arduino-Wall-E-R4-Wifi" RUN_TARGET_NAME="Z_DUMMY_TARGET">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PlatformIO Upload" type="platformio" factoryName="PlatformIO Upload" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Wall-E" TARGET_NAME="Production" CONFIG_NAME="uno-MinGW" RUN_TARGET_PROJECT_NAME="Wall-E" RUN_TARGET_NAME="Production">
+    <configuration name="PlatformIO Debug" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-Wall-E-R4-Wifi" TARGET_NAME="Debug" CONFIG_NAME="uno_r4_wifi" RUN_TARGET_PROJECT_NAME="Arduino-Wall-E-R4-Wifi" RUN_TARGET_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlatformIO Upload" type="platformio" factoryName="PlatformIO Upload" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-Wall-E-R4-Wifi" TARGET_NAME="Production" CONFIG_NAME="uno_r4_wifi" RUN_TARGET_PROJECT_NAME="Arduino-Wall-E-R4-Wifi" RUN_TARGET_NAME="Production">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <list>
+      <item itemvalue="CMake Application.Z_DUMMY_TARGET" />
       <item itemvalue="PlatformIO.PlatformIO Debug" />
       <item itemvalue="PlatformIO.PlatformIO Upload" />
     </list>
@@ -159,167 +122,49 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="d123a1cc-6578-4e4d-813c-6829b258db73" name="Changes" comment="" />
-      <created>1689147765716</created>
+      <changelist id="a86e6fa4-da29-4af9-9e57-dbb78076f1ea" name="Changes" comment="" />
+      <created>1691187273399</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1689147765716</updated>
-      <workItem from="1689147767121" duration="352000" />
-      <workItem from="1689153191823" duration="2994000" />
-      <workItem from="1689160053754" duration="145000" />
-      <workItem from="1689167855672" duration="10067000" />
-      <workItem from="1689192924380" duration="9437000" />
-      <workItem from="1689287481452" duration="3037000" />
-      <workItem from="1689290859771" duration="1695000" />
-      <workItem from="1689327225718" duration="2000" />
-      <workItem from="1689329936584" duration="151000" />
-      <workItem from="1689355473448" duration="2070000" />
-      <workItem from="1689364464366" duration="1202000" />
-      <workItem from="1689370176332" duration="11126000" />
-      <workItem from="1689430664123" duration="12140000" />
-      <workItem from="1689537192804" duration="2276000" />
-      <workItem from="1689587942065" duration="21002000" />
-      <workItem from="1689750375490" duration="13159000" />
-      <workItem from="1689798335406" duration="2360000" />
-      <workItem from="1689889253358" duration="65000" />
-      <workItem from="1689889512723" duration="6295000" />
-      <workItem from="1689919817675" duration="1560000" />
-      <workItem from="1689921935386" duration="1251000" />
-      <workItem from="1689924298605" duration="1501000" />
-      <workItem from="1689925846098" duration="1143000" />
-      <workItem from="1689927031440" duration="924000" />
-      <workItem from="1689928008411" duration="2518000" />
-      <workItem from="1689937495833" duration="15607000" />
-      <workItem from="1689957034027" duration="1661000" />
-      <workItem from="1689963697092" duration="7662000" />
-      <workItem from="1690115253798" duration="3307000" />
-      <workItem from="1690149959312" duration="1902000" />
-      <workItem from="1690180439259" duration="4588000" />
-      <workItem from="1690231179236" duration="7826000" />
-      <workItem from="1690285504060" duration="1122000" />
-      <workItem from="1690347785009" duration="2493000" />
-      <workItem from="1690408182220" duration="639000" />
-      <workItem from="1690572718904" duration="3000" />
-      <workItem from="1690574561400" duration="1266000" />
-      <workItem from="1690673711767" duration="931000" />
-      <workItem from="1690758076079" duration="763000" />
-      <workItem from="1690767671347" duration="3247000" />
-      <workItem from="1690785943944" duration="1199000" />
-      <workItem from="1691060724788" duration="4620000" />
+      <updated>1691187273399</updated>
+      <workItem from="1691187274840" duration="4447000" />
+      <workItem from="1691213261483" duration="655000" />
+      <workItem from="1691436476929" duration="396000" />
+      <workItem from="1691526348283" duration="7591000" />
+      <workItem from="1691562403950" duration="14567000" />
+      <workItem from="1691640519522" duration="2378000" />
+      <workItem from="1691756047839" duration="681000" />
+      <workItem from="1691953799834" duration="5355000" />
+      <workItem from="1691992020516" duration="11103000" />
+      <workItem from="1692026778966" duration="7109000" />
+      <workItem from="1692080927904" duration="638000" />
+      <workItem from="1692115095013" duration="756000" />
+      <workItem from="1692115979852" duration="1532000" />
+      <workItem from="1692134045996" duration="2946000" />
+      <workItem from="1692163923654" duration="8659000" />
     </task>
-    <task id="LOCAL-00001" summary="1st">
-      <created>1689277148054</created>
+    <task id="LOCAL-00001" summary="Going to uno r4 wifi">
+      <created>1691526729834</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1689277148054</updated>
+      <updated>1691526729834</updated>
     </task>
-    <task id="LOCAL-00002" summary="2">
-      <created>1689285961948</created>
+    <task id="LOCAL-00002" summary="Going to uno r4 wifi">
+      <created>1691616475890</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1689285961948</updated>
+      <updated>1691616475890</updated>
     </task>
-    <task id="LOCAL-00003" summary="3">
-      <created>1689286522761</created>
+    <task id="LOCAL-00003" summary="Going to uno r4 wifi">
+      <created>1692081066054</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1689286522761</updated>
+      <updated>1692081066054</updated>
     </task>
-    <task id="LOCAL-00004" summary="4">
-      <created>1689290549970</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1689290549970</updated>
-    </task>
-    <task id="LOCAL-00005" summary="5">
-      <created>1689292732835</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1689292732835</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Added Raspberry tutorials">
-      <created>1689330067012</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1689330067012</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Added Raspberry tutorials">
-      <created>1689365356666</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1689365356666</updated>
-    </task>
-    <task id="LOCAL-00008" summary="dance">
-      <created>1689382543592</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1689382543592</updated>
-    </task>
-    <task id="LOCAL-00009" summary="dance">
-      <created>1689454810795</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1689454810795</updated>
-    </task>
-    <task id="LOCAL-00010" summary="New lesson15">
-      <created>1689456240365</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1689456240365</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Decent working">
-      <created>1689722334079</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1689722334079</updated>
-    </task>
-    <task id="LOCAL-00012" summary="hou op met pesto is back">
-      <created>1689777903748</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1689777903748</updated>
-    </task>
-    <task id="LOCAL-00013" summary="cleanup">
-      <created>1689781124303</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1689781124303</updated>
-    </task>
-    <task id="LOCAL-00014" summary="ai?">
-      <created>1689896052815</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1689896052815</updated>
-    </task>
-    <task id="LOCAL-00015" summary="ai?">
-      <created>1689969907672</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1689969907672</updated>
-    </task>
-    <task id="LOCAL-00016" summary="Add all files incl libraries">
-      <created>1689970373893</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1689970373893</updated>
-    </task>
-    <option name="localTasksCounter" value="17" />
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -336,7 +181,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="master" />
+                        <option value="Going_Uno_R4_wifi" />
                       </list>
                     </value>
                   </entry>
@@ -350,24 +195,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="1st" />
-    <MESSAGE value="2" />
-    <MESSAGE value="3" />
-    <MESSAGE value="4" />
-    <MESSAGE value="5" />
-    <MESSAGE value="Added Raspberry tutorials" />
-    <MESSAGE value="dance" />
-    <MESSAGE value="New lesson15" />
-    <MESSAGE value="Decent working" />
-    <MESSAGE value="hou op met pesto is back" />
-    <MESSAGE value="cleanup" />
-    <MESSAGE value="ai?" />
-    <MESSAGE value="Add all files incl libraries" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add all files incl libraries" />
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
+    <MESSAGE value="Going to uno r4 wifi" />
+    <option name="LAST_COMMIT_MESSAGE" value="Going to uno r4 wifi" />
   </component>
 </project>
