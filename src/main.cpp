@@ -1,7 +1,8 @@
-// section #include
+/***************************************************************************************************************/
+// section include
+/***************************************************************************************************************/
 #include "index.h"
 #include "secrets.h"
-#include "mouth-display.h"
 
 #include <Arduino.h>
 #include <cmath>
@@ -27,8 +28,10 @@
 #define DEFAULT_PULSE_WIDTH   1500
 #define FREQUENCY             50
 
+
+/********************************************** Declare all the functions***************************************/
 // section declaration
-/********************************************** Declare all the functions**********************************************/
+/***************************************************************************************************************/
 void Car_front();
 void Car_left();
 void Car_right();
@@ -55,7 +58,9 @@ void perstoTimer();
 void sensorTimer();
 int pulseWidth(int);
 
-/********************************************** Make DotMatric Images**********************************************/
+/********************************************** Make DotMatric Images*******************************************/
+// section DotMatrix Images
+/***************************************************************************************************************/
 // Array, used to store the data of the pattern
 unsigned char STOP01[] = {0x2E,0x2A,0x3A,0x00,0x02,0x3E,0x02,0x00,0x3E,0x22,0x3E,0x00,0x3E,0x0A,0x0E,0x00};
 unsigned char hou[] =    {0x00,0x7f,0x08,0x08,0x7f,0x00,0x3c,0x42,0x42,0x3c,0x00,0x3e,0x40,0x40,0x3e,0x00};
@@ -71,19 +76,38 @@ unsigned char right[] =  {0x00,0x10,0x28,0x44,0x10,0x28,0x44,0x10,0x28,0x44,0x00
 
 unsigned char clear[] =  {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000, 0b00000};
-/********************************************** Set timer period for function **********************************************/
-const int timerOnePeriod = 1000;
-const int timerTwoPeriod = 250;
-const int timerThreePeriod = 7000;
-TimerEvent timerOne;
-TimerEvent timerTwo;
-TimerEvent timerThree;
-boolean timerTwoActive = false;
-boolean timerTreeActive = false;
 
+#define cross_width 24
+#define cross_height 24
+static const unsigned char cross_bits[] U8X8_PROGMEM  = {
+        0x00, 0x18, 0x00, 0x00, 0x24, 0x00, 0x00, 0x24, 0x00, 0x00, 0x42, 0x00,
+        0x00, 0x42, 0x00, 0x00, 0x42, 0x00, 0x00, 0x81, 0x00, 0x00, 0x81, 0x00,
+        0xC0, 0x00, 0x03, 0x38, 0x3C, 0x1C, 0x06, 0x42, 0x60, 0x01, 0x42, 0x80,
+        0x01, 0x42, 0x80, 0x06, 0x42, 0x60, 0x38, 0x3C, 0x1C, 0xC0, 0x00, 0x03,
+        0x00, 0x81, 0x00, 0x00, 0x81, 0x00, 0x00, 0x42, 0x00, 0x00, 0x42, 0x00,
+        0x00, 0x42, 0x00, 0x00, 0x24, 0x00, 0x00, 0x24, 0x00, 0x00, 0x18, 0x00, };
+
+#define cross_fill_width 24
+#define cross_fill_height 24
+static const unsigned char cross_fill_bits[] U8X8_PROGMEM  = {
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18, 0x00, 0x18, 0x64, 0x00, 0x26,
+        0x84, 0x00, 0x21, 0x08, 0x81, 0x10, 0x08, 0x42, 0x10, 0x10, 0x3C, 0x08,
+        0x20, 0x00, 0x04, 0x40, 0x00, 0x02, 0x80, 0x00, 0x01, 0x80, 0x18, 0x01,
+        0x80, 0x18, 0x01, 0x80, 0x00, 0x01, 0x40, 0x00, 0x02, 0x20, 0x00, 0x04,
+        0x10, 0x3C, 0x08, 0x08, 0x42, 0x10, 0x08, 0x81, 0x10, 0x84, 0x00, 0x21,
+        0x64, 0x00, 0x26, 0x18, 0x00, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, };
+
+#define cross_block_width 14
+#define cross_block_height 14
+static const unsigned char cross_block_bits[] U8X8_PROGMEM  = {
+        0xFF, 0x3F, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20,
+        0xC1, 0x20, 0xC1, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20,
+        0x01, 0x20, 0xFF, 0x3F, };
+
+
+/********************************************** PIN Defines ****************************************************/
 // section pin define
-/********************************************** Setup LCD & Make icon images**********************************************/
-
+/***************************************************************************************************************/
 
 #define STR_HELPER(x) #x
 #define STR(x) STR_HELPER(x)
@@ -130,7 +154,34 @@ boolean timerTreeActive = false;
 #define light_R_Pin A1
 #define IR_Pin      A2
 
+#define PWM_0       0
+#define PWM_1       1
+#define PWM_2       2
+#define PWM_3       3
+#define PWM_4       4
+#define PWM_5       5
+#define PWM_6       6
+#define PWM_7       7
+#define PWM_8       8
+#define PWM_9       9
+#define PWM_10     10
+#define PWM_11     11
+#define PWM_12     12
+#define PWM_13     13
+#define PWM_14     14
+#define PWM_15     15
+#define PWM_16     16
 
+/*************************************************** the Global Variables **************************************/
+// section Global Variables
+/***************************************************************************************************************/
+
+const int timerOnePeriod = 1000;
+const int timerTwoPeriod = 250;
+const int timerThreePeriod = 7000;
+
+boolean timerTwoActive = false;
+boolean timerTreeActive = false;
 unsigned long last_event = 0;
 int status = WL_IDLE_STATUS;
 #define THRESHOLD 5
@@ -141,10 +192,11 @@ uint8_t servonum = 0;
 uint64_t ir_rec, previousIR, timerButton; // set remote vars
 int previousXY, previousZ;
 int screen = 0;
-float ax, ay, az, gx, gy, gz, baseAx, baseAy, baseAz, baseGx, baseGy, baseGz;
-long random2, randomXY, randomZ;     //set random for choice making
-float distanceF, distanceR, distanceL; // set var for distance mesure 
+float ax, ay, az, gx, gy, gz, baseAx, baseAy, baseAz, baseGx, baseGy, baseGz, temperature;
+long random2, randomXY, randomZ;
+float distanceF, distanceR, distanceL;
 
+int r,g,b;
 int lightSensorL, lightSensorR, outputValueR, outputValueL, calcValue ;           // inverse input
 
 int posXY = 90;  // set horizontal servo position
@@ -155,6 +207,14 @@ int speedZ =  20;
 
 int flag; // flag variable, it is used to entry and exist function
 
+/***************************************************** the Sensor Assigns **************************************/
+// section Sensor Assigns
+/***************************************************************************************************************/
+
+TimerEvent timerOne;
+TimerEvent timerTwo;
+TimerEvent timerThree;
+
 /* Assign a unique ID to this sensor at the same time */
 Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(12345);
 U8G2_SSD1306_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE);
@@ -163,9 +223,10 @@ LiquidCrystal_I2C lcd(0x27,16,2);
 WiFiServer server(80);
 Adafruit_MPU6050 mpu; // Set the gyroscope
 
+/********************************************** the function to run motor **************************************/
+// section motor function
+/***************************************************************************************************************/
 
-// section motor
-/********************************************** the function to run motor**********************************************/
 void Car_front(){
     digitalWrite(MR_Ctrl,HIGH);
     analogWrite(MR_PWM,255);
@@ -199,7 +260,10 @@ void Car_Back(){
     analogWrite(ML_PWM,255);
 }
 
+/************************************************** the I2CScanner *********************************************/
 // section I2CScanner
+/***************************************************************************************************************/
+
 void I2CScanner() {
     byte error, address;
     int nDevices;
@@ -251,12 +315,15 @@ void I2CScanner() {
     }
 }
 
-/********************************************** the gyroscope **********************************************/
+/************************************************** the gyroscope **********************************************/
 // section gyroRead
+/***************************************************************************************************************/
+
 void gyroRead(){
     sensors_event_t a, g, temp;
     mpu.getEvent(&a, &g, &temp);
 
+    temperature = temp.temperature;
     ax = a.acceleration.x - baseAx;
     ay = a.acceleration.y - baseAy;
     az = a.acceleration.z - baseAz;
@@ -282,7 +349,7 @@ void gyroFunc(){
     (gz > 0) ? lcd.print("+"), lcd.print(gz) : lcd.print(gz);
     lcd.print("   ");
 }
-/************************************************ Is acceleration? *************************************************/
+
 void detectMovement() {
     gyroRead();
     if(( abs(ax) + abs(ay) + abs(az)) > THRESHOLD){
@@ -332,7 +399,8 @@ void calibrate_sensor() {
 
 /************************************************ MouthDisplay *************************************************/
 // section MouthDisplay
-/************************************************ MouthDisplay *************************************************/
+/***************************************************************************************************************/
+
 void u8g2_prepare() {
     u8g2.setFont(u8g2_font_6x10_tf);
     u8g2.setFontRefHeightExtendedText();
@@ -463,33 +531,6 @@ void u8g2_xor(uint8_t a) {
 
 }
 
-#define cross_width 24
-#define cross_height 24
-static const unsigned char cross_bits[] U8X8_PROGMEM  = {
-        0x00, 0x18, 0x00, 0x00, 0x24, 0x00, 0x00, 0x24, 0x00, 0x00, 0x42, 0x00,
-        0x00, 0x42, 0x00, 0x00, 0x42, 0x00, 0x00, 0x81, 0x00, 0x00, 0x81, 0x00,
-        0xC0, 0x00, 0x03, 0x38, 0x3C, 0x1C, 0x06, 0x42, 0x60, 0x01, 0x42, 0x80,
-        0x01, 0x42, 0x80, 0x06, 0x42, 0x60, 0x38, 0x3C, 0x1C, 0xC0, 0x00, 0x03,
-        0x00, 0x81, 0x00, 0x00, 0x81, 0x00, 0x00, 0x42, 0x00, 0x00, 0x42, 0x00,
-        0x00, 0x42, 0x00, 0x00, 0x24, 0x00, 0x00, 0x24, 0x00, 0x00, 0x18, 0x00, };
-
-#define cross_fill_width 24
-#define cross_fill_height 24
-static const unsigned char cross_fill_bits[] U8X8_PROGMEM  = {
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18, 0x00, 0x18, 0x64, 0x00, 0x26,
-        0x84, 0x00, 0x21, 0x08, 0x81, 0x10, 0x08, 0x42, 0x10, 0x10, 0x3C, 0x08,
-        0x20, 0x00, 0x04, 0x40, 0x00, 0x02, 0x80, 0x00, 0x01, 0x80, 0x18, 0x01,
-        0x80, 0x18, 0x01, 0x80, 0x00, 0x01, 0x40, 0x00, 0x02, 0x20, 0x00, 0x04,
-        0x10, 0x3C, 0x08, 0x08, 0x42, 0x10, 0x08, 0x81, 0x10, 0x84, 0x00, 0x21,
-        0x64, 0x00, 0x26, 0x18, 0x00, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, };
-
-#define cross_block_width 14
-#define cross_block_height 14
-static const unsigned char cross_block_bits[] U8X8_PROGMEM  = {
-        0xFF, 0x3F, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20,
-        0xC1, 0x20, 0xC1, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20,
-        0x01, 0x20, 0xFF, 0x3F, };
-
 void u8g2_bitmap_overlay(uint8_t a) {
     uint8_t frame_size = 28;
 
@@ -534,7 +575,7 @@ void u8g2_bitmap_modes(uint8_t transparent) {
 
 uint8_t draw_state = 0;
 
-void draw(void) {
+void draw() {
     u8g2_prepare();
     switch(draw_state >> 3) {
         case 0: u8g2_box_title(draw_state&7); break;
@@ -554,9 +595,11 @@ void draw(void) {
     }
 }
 
-/************************************************ MouthDisplay END *************************************************/
-/*************************************************** the Compass ***************************************************/
+
+/*************************************************** the Compass ***********************************************/
 // section Compass
+/***************************************************************************************************************/
+
 float readCompass(){
     lcd.setCursor(0, top);   //Set cursor to character 2 on line 0
     lcd.print("Compass ");
@@ -603,7 +646,10 @@ void compass(){
 }
 
 
-/********************************************** control ultrasonic sensor**********************************************/
+/********************************************** control ultrasonic sensor***************************************/
+// section UltraSonic
+/***************************************************************************************************************/
+
 float checkdistance() {
     digitalWrite(Trig_PIN, LOW);
     delayMicroseconds(2);
@@ -611,42 +657,50 @@ float checkdistance() {
     delayMicroseconds(10);
     digitalWrite(Trig_PIN, LOW);
     float checkDistance = pulseIn(Echo_PIN, HIGH) / 58.00;  //58.20, that is, 2*29.1=58.2
+    lcd.clear();
+    lcd.setCursor(4,top);
+    lcd.print("Distance");
+    lcd.setCursor(4,bot);
+    lcd.print(checkDistance);
     delay(10);
     return checkDistance;
 }
 
-/********************************************** arbitrary sequence**********************************************/
+/********************************************** arbitrary sequence *********************************************/
 // section Dance
+/***************************************************************************************************************/
 void dance() {
 
         randomXY = random(1, 180);
         randomZ = random(1, 160);
-            pwm.setPWM(0, 0, pulseWidth(randomXY));
+            pwm.setPWM(PWM_0, 0, pulseWidth(randomXY));
         delay(500);
-            pwm.setPWM(1, 0, pulseWidth(randomZ));
+            pwm.setPWM(PWM_1, 0, pulseWidth(randomZ));
         delay(500);
 
        // One pixel, row by row
         randomXY = random(1, 180);
         randomZ = random(1, 160);
-            pwm.setPWM(0, 0, pulseWidth(randomXY));
+            pwm.setPWM(PWM_0, 0, pulseWidth(randomXY));
         delay(500);
-            pwm.setPWM(1, 0, pulseWidth(randomZ));
+            pwm.setPWM(PWM_1, 0, pulseWidth(randomZ));
         delay(500);
 
 
         randomXY = random(1, 180);
         randomZ = random(1, 160);
-            pwm.setPWM(0, 0, pulseWidth(randomXY));
+            pwm.setPWM(PWM_0, 0, pulseWidth(randomXY));
         delay(500);
-            pwm.setPWM(1, 0, pulseWidth(randomZ));
+            pwm.setPWM(PWM_1, 0, pulseWidth(randomZ));
         delay(500);
 
 
 }
 
-/********************************************** Obstacle Avoidance Function**********************************************/
+/********************************************** Obstacle Avoidance Function*************************************/
 // section Avoid
+/***************************************************************************************************************/
+
 void avoid() {
     flag = 0; ///the design that enter obstacle avoidance function
     while (flag == 0) {
@@ -655,29 +709,29 @@ void avoid() {
         if (distanceF < 25) {
             analogWrite (LED_PIN, 255);
             Car_Stop(); /// robot stops
-                pwm.setPWM(1, 0, pulseWidth(115));
+                pwm.setPWM(PWM_1, 0, pulseWidth(115));
             delay(10); ///delay in 200ms
-                pwm.setPWM(1, 0, pulseWidth(90));
+                pwm.setPWM(PWM_1, 0, pulseWidth(90));
             delay(10); ///delay in 200ms
             analogWrite (LED_PIN, 0);
-                pwm.setPWM(0, 0, pulseWidth(160)); /// look left
+                pwm.setPWM(PWM_0, 0, pulseWidth(160)); /// look left
             for (int j = 1; j <= 10; j = j + (1)) { ///  the data will be more accurate if sensor detect a few times.
                 distanceL = checkdistance();
             }
             delay(200);
-                pwm.setPWM(0, 0, pulseWidth(20)); /// look right
+                pwm.setPWM(PWM_0, 0, pulseWidth(20)); /// look right
             for (int k = 1; k <= 10; k = k + (1)) {
                 distanceR = checkdistance();
             }
             if (distanceL < 50 || distanceR < 50) {
                 if (distanceL > distanceR) {
-                        pwm.setPWM(0, 0, pulseWidth(90));
+                        pwm.setPWM(PWM_0, 0, pulseWidth(90));
                     Car_left();
                     delay(500); ///turn left 500ms
                     Car_front();
                 }
                 else {
-                        pwm.setPWM(0, 0, pulseWidth(90));
+                        pwm.setPWM(PWM_0, 0, pulseWidth(90));
                     Car_right();
                     delay(500);
                     Car_front();
@@ -685,14 +739,14 @@ void avoid() {
             } else {  /// not (distanceL < 50 || distanceR < 50)
                 if ((long) (random2) % (long) (2) == 0) ///when the random number is even
                 {
-                        pwm.setPWM(0, 0, pulseWidth(90));
+                        pwm.setPWM(PWM_0, 0, pulseWidth(90));
                     Car_left(); ///robot turns left
                     delay(500);
                     Car_front(); ///go forward
                 }
                 else
                 {
-                        pwm.setPWM(0, 0, pulseWidth(90));
+                        pwm.setPWM(PWM_0, 0, pulseWidth(90));
                     Car_right(); ///robot turns right
                     delay(500);
                     Car_front(); ///go forward
@@ -704,8 +758,10 @@ void avoid() {
     }
 }
 
-/********************************************** Light Follow **********************************************/
+/*************************************************** Light Follow **********************************************/
 // section Follow Light
+/***************************************************************************************************************/
+
 void light_track() {
     flag = 0;
     while (flag == 0) {
@@ -726,8 +782,10 @@ void light_track() {
     }
 }
 
-/********************************************** the function for dot matrix display ***********************/
-// section Dot Matrix
+/********************************************** the function for dot matrix display ****************************/
+// section Pesto Matrix
+/***************************************************************************************************************/
+
 void matrix_display(unsigned char matrix_value[]) {
     IIC_start();  // use the function of the data transmission start condition
     IIC_send(0xc0);  //select address
@@ -779,10 +837,7 @@ void IIC_end() {
     digitalWrite(DotDataPIN,HIGH);
     delayMicroseconds(3);
 }
-/********************************************** END of the function for dot matrix display ***********************/
 
-/********************************************** Functions s**********************************************/
-// section Functions
 void pestoMatrix() {
     switch (screen) {
         case 1: matrix_display(STOP01); break;
@@ -795,6 +850,10 @@ void pestoMatrix() {
     }
     screen == 6 ? screen = 0 : screen += 1;
 }
+
+/***************************************************** Functions s**********************************************/
+// section Timer Functions
+/***************************************************************************************************************/
 
 void defaultLCD(){
     lcd.setCursor(2,top);   //Set cursor to character 2 on line 0
@@ -809,15 +868,6 @@ void defaultLCD(){
 
 void perstoTimer(){
     pestoMatrix();
-    u8g2.clearBuffer();
-    draw();
-    u8g2.sendBuffer();
-
-    // increase the state
-    draw_state++;
-    if ( draw_state >= 12*8 )
-        draw_state = 0;
-
 }
 void sensorTimer(){
     if (timerTwoActive && timerButton == Rem_7){
@@ -834,32 +884,33 @@ void resetTimers(){
 }
 
 
-int pulseWidth(int angle)  //  pwm.setPWM(0, 0, pulseWidth(0));
-{
+int pulseWidth(int angle){  //  pwm.setPWM(PWM_0, 0, pulseWidth(0));
     int pulse_wide, analog_value;
     pulse_wide   = map(angle, 0, 180, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH);
     analog_value = int(float(pulse_wide) / 1000000 * FREQUENCY * 4096);
-    lcd.println(analog_value);
     return analog_value;
 }
 
+void lightSensor(){
+    lightSensorL = analogRead(light_R_Pin);
+    lightSensorR = analogRead(light_L_Pin);
+    outputValueR = map(lightSensorL, 0, 1023, 0, 255);
+    outputValueL = map(lightSensorR, 0, 1023, 0, 255);
+    calcValue = 255 - (outputValueR + outputValueL);
+    calcValue = (calcValue < 0) ? 0 : calcValue;
+    analogWrite(LED_PIN, calcValue);
+}
 
-void ledColorSet(int r_val, int g_val, int b_val)
-{
-    pwm.setPWM(15, 0, pulseWidth(r_val));
-    pwm.setPWM(14, 0, pulseWidth(g_val));
-    pwm.setPWM(13, 0, pulseWidth(b_val));
+
+void ledRGB(int r_val, int g_val, int b_val) {
+    pwm.setPWM(PWM_8, 0, pulseWidth(r_val));
+    pwm.setPWM(PWM_9, 0, pulseWidth(g_val));
+    pwm.setPWM(PWM_10, 0, pulseWidth(b_val));
 }
 
 float getTemperature() {
-    // YOUR SENSOR IMPLEMENTATION HERE
-    // simulate the temperature value
-    float temp_x100 = random(0, 10000);  // a ramdom value from 0 to 10000
-    return temp_x100 / 100;              // return the simulated temperature value from 0 to 100 in float
+    return temperature;
 }
-
-
-
 
 void printWifiStatus() {
     lcd.clear();
@@ -875,8 +926,10 @@ void printWifiStatus() {
     delay(1000);
 }
 
-/********************************************** Setup (booting the arduino)**********************************************/
+/********************************************** Setup booting the arduino **************************************/
 // section Setup
+/***************************************************************************************************************/
+
 void setup(){
 
     Wire.begin();
@@ -1012,13 +1065,15 @@ void setup(){
 
 
     lcd.clear();
-    pwm.setPWM(0, 0, pulseWidth(posXY));
-    pwm.setPWM(1, 0, pulseWidth(posZ));
+    pwm.setPWM(PWM_0, 0, pulseWidth(posXY));
+    pwm.setPWM(PWM_1, 0, pulseWidth(posZ));
 }
 
 
-/********************************************** Main loop (running the arduino)**********************************************/
-// section Loop
+/********************************************** Main loop running the arduino **********************************/
+// section Loop Wifi
+/***************************************************************************************************************/
+
 void loop(){
     // listen for incoming clients
     WiFiClient client = server.available();
@@ -1083,21 +1138,26 @@ void loop(){
         // close the connection:
         client.stop();
     }
-
+    /***************************** IrReceiver **********************************/
+    // section Loop IrReceiver
+    /***************************************************************************/
 
     if (IrReceiver.decode()) {  // Grab an IR code   At 115200 baud, printing takes 200 ms for NEC protocol and 70 ms for NEC repeat
         if (IrReceiver.decodedIRData.flags & IRDATA_FLAGS_WAS_OVERFLOW) {         // Check if the buffer overflowed
             lcd.clear();
+            lcd.setCursor(0,top);
             lcd.println(F("Try to increase the \"RAW_BUFFER_LENGTH\" value of " STR(RAW_BUFFER_LENGTH) " in " __FILE__));
             delay(100);
         } else {
+            lcd.clear();
             if (IrReceiver.decodedIRData.protocol == UNKNOWN) {
-                lcd.clear();
-                lcd.println(F("Received noise or an unknown (or not yet enabled) protocol"));
+                ir_rec = previousIR;
+                lcd.setCursor(0,top);
+                lcd.print(F("?"));
                 delay(100);
             }
             ir_rec = IrReceiver.decodedIRData.decodedRawData;
-            lcd.clear();
+            lcd.setCursor(0,bot);
             lcd.print(ir_rec, HEX);
         }
         IrReceiver.resume();                            // Prepare for the next value
@@ -1136,54 +1196,58 @@ void loop(){
                 /****** Engine - driving  ******/
             case Rem_OK: Car_Stop(); break;
             case Rem_U: Car_front(); break;
-            case Rem_D:
-                Car_Back(); break;
+            case Rem_D: Car_Back(); break;
             case Rem_L: Car_left(); break;
             case Rem_R: Car_right(); break;
         }
         if (posXY != previousXY) {
-            pwm.setPWM(0, 0, pulseWidth(posXY));
+            pwm.setPWM(PWM_0, 0, pulseWidth(posXY));
         }
         if (posZ != previousZ) {
-            pwm.setPWM(1, 0, pulseWidth(posZ));
+            pwm.setPWM(PWM_1, 0, pulseWidth(posZ));
         }
         previousIR = ir_rec;
         previousXY = posXY;
         previousZ = posZ;
     }
+    /*********************************** Loop **********************************/
+    // section Loop
+    /***************************************************************************/
+
     detectMovement();
     timerOne.update();
     timerTwo.update();
     timerThree.update();
-    if (!timerTwoActive){defaultLCD();}
 
-    lightSensorL = analogRead(light_R_Pin);
-    lightSensorR = analogRead(light_L_Pin);
-    outputValueR = map(lightSensorL, 0, 1023, 0, 255);
-    outputValueL = map(lightSensorR, 0, 1023, 0, 255);
-    calcValue = 255 - (outputValueR + outputValueL);
-    calcValue = (calcValue < 0) ? 0 : calcValue;
-    analogWrite(LED_PIN, calcValue);
+    lightSensor();
     distanceF = checkdistance();  /// assign the front distance detected by ultrasonic sensor to variable a
     if (distanceF < 35) {
-        analogWrite (LED_PIN, 255);
+        ledRGB(0,0,100);
         pestoMatrix();
         delay(distanceF);
     } else {
-        analogWrite (LED_PIN, 0);
+        ledRGB(0,0,0);
     }
-/*    int r,g,b;
+
     r=random(0,100)%100; //get a random in (0,100)
     g=random(0,100)%100;
     b=random(0,100)%100;
-    ledColorSet(r,g,b);//set random as a duty cycle value*/
+    ledRGB(r, g, b);//set random as a duty cycle value
 
-    int output = digitalRead(MIC_PIN);
-    if (output == LOW) {
-        if (millis() - last_event > 25) {
-            lcd.println("Clap sound was detected!");
+    int micStatus = digitalRead(MIC_PIN);
+    if (micStatus == 1) {
+        lcd.clear();
+        lcd.setCursor(0,top);
+        lcd.print("sound detected!");
+        ledRGB(0,0,100);
+        /*    if (millis() - last_event > 25) {
+        lcd.clear();
+        lcd.setCursor(0,top);
+        lcd.print("sound detected!");
         }
-        last_event = millis();
+        last_event = millis();*/
+    } else {
+        if (!timerTwoActive){defaultLCD();}
     }
     // picture loop
     u8g2.firstPage();

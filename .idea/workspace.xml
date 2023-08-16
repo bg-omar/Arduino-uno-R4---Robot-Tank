@@ -20,15 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a86e6fa4-da29-4af9-9e57-dbb78076f1ea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/dotmatrix.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gyro.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/motor.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mouthdisplay.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/serial.read.bluetooth.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/secrets.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeListsPrivate.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeListsPrivate.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -47,6 +39,16 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitRewordedCommitMessages">
+    <option name="commitMessagesMapping">
+      <RewordedCommitMessageMapping>
+        <option name="originalMessage" value="Going to uno r4 wifi" />
+        <option name="rewordedMessage" value="Going to uno r4 wifi&#10;&#10;&#10;Going to uno r4 wifi" />
+      </RewordedCommitMessageMapping>
+    </option>
+    <option name="currentCommit" value="1" />
+    <option name="onto" value="a5de6681fff942b7641cd4c9901dac265f8c6aaf" />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$USER_HOME$/.platformio/packages/framework-arduinorenesas-uno/libraries/WiFiS3/src/WiFi.cpp" root0="SKIP_INSPECTION" />
@@ -83,7 +85,7 @@
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/mr/Arduino Wall-E/Arduino-Wall-E-R4-Wifi/src&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.breadcrumbs&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -135,7 +137,11 @@
       <workItem from="1691953799834" duration="5355000" />
       <workItem from="1691992020516" duration="11103000" />
       <workItem from="1692026778966" duration="7109000" />
-      <workItem from="1692080927904" duration="2000" />
+      <workItem from="1692080927904" duration="638000" />
+      <workItem from="1692115095013" duration="756000" />
+      <workItem from="1692115979852" duration="1532000" />
+      <workItem from="1692134045996" duration="2946000" />
+      <workItem from="1692163923654" duration="8659000" />
     </task>
     <task id="LOCAL-00001" summary="Going to uno r4 wifi">
       <created>1691526729834</created>
@@ -151,7 +157,14 @@
       <option name="project" value="LOCAL" />
       <updated>1691616475890</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Going to uno r4 wifi">
+      <created>1692081066054</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1692081066054</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
