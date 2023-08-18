@@ -43,7 +43,7 @@ void calibrate_sensor();
 void detectMovement();
 void gyroFunc();
 void compass();
-float checkdistance();
+double checkdistance();
 
 void dance();
 void avoid();
@@ -57,6 +57,7 @@ void pestoMatrix();
 void perstoTimer();
 void sensorTimer();
 int pulseWidth(int);
+void ledRGB(int b_val, int g_val, int r_val);
 
 /********************************************** Make DotMatric Images*******************************************/
 // section DotMatrix Images
@@ -76,33 +77,6 @@ unsigned char right[] =  {0x00,0x10,0x28,0x44,0x10,0x28,0x44,0x10,0x28,0x44,0x00
 
 unsigned char clear[] =  {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000, 0b00000};
-
-#define cross_width 24
-#define cross_height 24
-static const unsigned char cross_bits[] U8X8_PROGMEM  = {
-        0x00, 0x18, 0x00, 0x00, 0x24, 0x00, 0x00, 0x24, 0x00, 0x00, 0x42, 0x00,
-        0x00, 0x42, 0x00, 0x00, 0x42, 0x00, 0x00, 0x81, 0x00, 0x00, 0x81, 0x00,
-        0xC0, 0x00, 0x03, 0x38, 0x3C, 0x1C, 0x06, 0x42, 0x60, 0x01, 0x42, 0x80,
-        0x01, 0x42, 0x80, 0x06, 0x42, 0x60, 0x38, 0x3C, 0x1C, 0xC0, 0x00, 0x03,
-        0x00, 0x81, 0x00, 0x00, 0x81, 0x00, 0x00, 0x42, 0x00, 0x00, 0x42, 0x00,
-        0x00, 0x42, 0x00, 0x00, 0x24, 0x00, 0x00, 0x24, 0x00, 0x00, 0x18, 0x00, };
-
-#define cross_fill_width 24
-#define cross_fill_height 24
-static const unsigned char cross_fill_bits[] U8X8_PROGMEM  = {
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18, 0x00, 0x18, 0x64, 0x00, 0x26,
-        0x84, 0x00, 0x21, 0x08, 0x81, 0x10, 0x08, 0x42, 0x10, 0x10, 0x3C, 0x08,
-        0x20, 0x00, 0x04, 0x40, 0x00, 0x02, 0x80, 0x00, 0x01, 0x80, 0x18, 0x01,
-        0x80, 0x18, 0x01, 0x80, 0x00, 0x01, 0x40, 0x00, 0x02, 0x20, 0x00, 0x04,
-        0x10, 0x3C, 0x08, 0x08, 0x42, 0x10, 0x08, 0x81, 0x10, 0x84, 0x00, 0x21,
-        0x64, 0x00, 0x26, 0x18, 0x00, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, };
-
-#define cross_block_width 14
-#define cross_block_height 14
-static const unsigned char cross_block_bits[] U8X8_PROGMEM  = {
-        0xFF, 0x3F, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20,
-        0xC1, 0x20, 0xC1, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20,
-        0x01, 0x20, 0xFF, 0x3F, };
 
 
 /********************************************** PIN Defines ****************************************************/
@@ -142,7 +116,7 @@ static const unsigned char cross_block_bits[] U8X8_PROGMEM  = {
 #define Trig_PIN    6  // ultrasonic trig Pin
 #define Echo_PIN    7  // ultrasonic echo Pin
 
-#define MIC_PIN     8
+#define MIC_PIN     A3
 #define PIN_9       9
 #define PIN_10     10
 #define ML_PWM     11  // define PWM control pin of left motor
@@ -194,7 +168,7 @@ int previousXY, previousZ;
 int screen = 0;
 float ax, ay, az, gx, gy, gz, baseAx, baseAy, baseAz, baseGx, baseGy, baseGz, temperature;
 long random2, randomXY, randomZ;
-float distanceF, distanceR, distanceL;
+double distanceF, distanceR, distanceL;
 
 int r,g,b;
 int lightSensorL, lightSensorR, outputValueR, outputValueL, calcValue ;           // inverse input
@@ -320,16 +294,16 @@ void I2CScanner() {
 /***************************************************************************************************************/
 
 void gyroRead(){
-    sensors_event_t a, g, temp;
-    mpu.getEvent(&a, &g, &temp);
+    sensors_event_t a, gyro, temp;
+    mpu.getEvent(&a, &gyro, &temp);
 
     temperature = temp.temperature;
     ax = a.acceleration.x - baseAx;
     ay = a.acceleration.y - baseAy;
     az = a.acceleration.z - baseAz;
-    gx = g.gyro.x - baseGx;
-    gy = g.gyro.y - baseGy;
-    gz = g.gyro.z - baseGz;
+    gx = gyro.gyro.x - baseGx;
+    gy = gyro.gyro.y - baseGy;
+    gz = gyro.gyro.z - baseGz;
 }
 
 void gyroFunc(){
@@ -371,10 +345,10 @@ void calibrate_sensor() {
     float totgX = 0;
     float totgY = 0;
     float totgZ = 0;
-    sensors_event_t a, g, temp;
+    sensors_event_t a, gyro, temp;
     delay(10);
     for (size_t i = 0; i < 10; i++) {
-        mpu.getEvent(&a, &g, &temp);
+        mpu.getEvent(&a, &gyro, &temp);
         delay(10);
         totX += a.acceleration.x;
         delay(10);
@@ -382,11 +356,11 @@ void calibrate_sensor() {
         delay(10);
         totZ += a.acceleration.z;
         delay(10);
-        totgX += g.gyro.x;
+        totgX += gyro.gyro.x;
         delay(10);
-        totgY += g.gyro.y;
+        totgY += gyro.gyro.y;
         delay(10);
-        totgZ += g.gyro.z;
+        totgZ += gyro.gyro.z;
         delay(10);
     }
     baseAx = totX / 10;
@@ -400,6 +374,7 @@ void calibrate_sensor() {
 /************************************************ MouthDisplay *************************************************/
 // section MouthDisplay
 /***************************************************************************************************************/
+
 
 void u8g2_prepare() {
     u8g2.setFont(u8g2_font_6x10_tf);
@@ -439,7 +414,6 @@ void u8g2_r_frame(uint8_t a) {
     u8g2.drawRFrame(5, 10,40,30, a+1);
     u8g2.drawRBox(50, 10,25,40, a+1);
 }
-
 void u8g2_string(uint8_t a) {
     u8g2.setFontDirection(0);
     u8g2.drawStr(30+a,31, " 0");
@@ -513,6 +487,7 @@ void u8g2_extra_page(uint8_t a)
             break;
     }
 }
+
 void u8g2_xor(uint8_t a) {
     uint8_t i;
     u8g2.drawStr( 0, 0, "XOR");
@@ -531,19 +506,46 @@ void u8g2_xor(uint8_t a) {
 
 }
 
+#define cross_width 24
+#define cross_height 24
+static const unsigned char cross_bits[] U8X8_PROGMEM  = {
+        0x00, 0x18, 0x00, 0x00, 0x24, 0x00, 0x00, 0x24, 0x00, 0x00, 0x42, 0x00,
+        0x00, 0x42, 0x00, 0x00, 0x42, 0x00, 0x00, 0x81, 0x00, 0x00, 0x81, 0x00,
+        0xC0, 0x00, 0x03, 0x38, 0x3C, 0x1C, 0x06, 0x42, 0x60, 0x01, 0x42, 0x80,
+        0x01, 0x42, 0x80, 0x06, 0x42, 0x60, 0x38, 0x3C, 0x1C, 0xC0, 0x00, 0x03,
+        0x00, 0x81, 0x00, 0x00, 0x81, 0x00, 0x00, 0x42, 0x00, 0x00, 0x42, 0x00,
+        0x00, 0x42, 0x00, 0x00, 0x24, 0x00, 0x00, 0x24, 0x00, 0x00, 0x18, 0x00, };
+
+#define cross_fill_width 24
+#define cross_fill_height 24
+static const unsigned char cross_fill_bits[] U8X8_PROGMEM  = {
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18, 0x00, 0x18, 0x64, 0x00, 0x26,
+        0x84, 0x00, 0x21, 0x08, 0x81, 0x10, 0x08, 0x42, 0x10, 0x10, 0x3C, 0x08,
+        0x20, 0x00, 0x04, 0x40, 0x00, 0x02, 0x80, 0x00, 0x01, 0x80, 0x18, 0x01,
+        0x80, 0x18, 0x01, 0x80, 0x00, 0x01, 0x40, 0x00, 0x02, 0x20, 0x00, 0x04,
+        0x10, 0x3C, 0x08, 0x08, 0x42, 0x10, 0x08, 0x81, 0x10, 0x84, 0x00, 0x21,
+        0x64, 0x00, 0x26, 0x18, 0x00, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, };
+
+#define cross_block_width 14
+#define cross_block_height 14
+static const unsigned char cross_block_bits[] U8X8_PROGMEM  = {
+        0xFF, 0x3F, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20,
+        0xC1, 0x20, 0xC1, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20,
+        0x01, 0x20, 0xFF, 0x3F, };
+
 void u8g2_bitmap_overlay(uint8_t a) {
     uint8_t frame_size = 28;
 
     u8g2.drawStr(0, 0, "Bitmap overlay");
 
     u8g2.drawStr(0, frame_size + 12, "Solid / transparent");
-    u8g2.setBitmapMode(false /* solid */);
+    u8g2.setBitmapMode(false);
     u8g2.drawFrame(0, 10, frame_size, frame_size);
     u8g2.drawXBMP(2, 12, cross_width, cross_height, cross_bits);
     if(a & 4)
         u8g2.drawXBMP(7, 17, cross_block_width, cross_block_height, cross_block_bits);
 
-    u8g2.setBitmapMode(true /* transparent*/);
+    u8g2.setBitmapMode(true);
     u8g2.drawFrame(frame_size + 5, 10, frame_size, frame_size);
     u8g2.drawXBMP(frame_size + 7, 12, cross_width, cross_height, cross_bits);
     if(a & 4)
@@ -559,10 +561,10 @@ void u8g2_bitmap_modes(uint8_t transparent) {
     u8g2.drawStr(frame_size * 3.5, 50, "XOR");
 
     if(!transparent) {
-        u8g2.setBitmapMode(false /* solid */);
+        u8g2.setBitmapMode(false );
         u8g2.drawStr(0, 0, "Solid bitmap");
     } else {
-        u8g2.setBitmapMode(true /* transparent*/);
+        u8g2.setBitmapMode(true );
         u8g2.drawStr(0, 0, "Transparent bitmap");
     }
     u8g2.setDrawColor(0);// Black
@@ -572,6 +574,7 @@ void u8g2_bitmap_modes(uint8_t transparent) {
     u8g2.setDrawColor(2); // XOR
     u8g2.drawXBMP(frame_size * 3.5, 24, cross_width, cross_height, cross_bits);
 }
+
 
 uint8_t draw_state = 0;
 
@@ -600,14 +603,14 @@ void draw() {
 // section Compass
 /***************************************************************************************************************/
 
-float readCompass(){
+double readCompass(){
     lcd.setCursor(0, top);   //Set cursor to character 2 on line 0
     lcd.print("Compass ");
     sensors_event_t event; /// Get a new sensor event */
     mag.getEvent(&event);
 
-    float heading = atan2(event.magnetic.y, event.magnetic.x);
-    float declinationAngle = 0.035;
+    double heading = atan2(event.magnetic.y, event.magnetic.x);
+    double declinationAngle = 0.035;
     heading += declinationAngle;
 
     if(heading < 0) {
@@ -616,12 +619,12 @@ float readCompass(){
     if(heading > 2*PI) {
         heading -= 2 * PI;
     }
-    float headingDegrees = (heading * 180/M_PI) - 90;
+    double headingDegrees = (heading * 180/M_PI) - 90;
     return (headingDegrees < 0) ? 360 + headingDegrees : headingDegrees;
 }
 
 void compass(){
-    float headingDegrees = readCompass();
+    double headingDegrees = readCompass();
     lcd.print(headingDegrees);
     if (headingDegrees >= 0 && headingDegrees < 45){
         lcd.setCursor(4,bot);
@@ -650,18 +653,13 @@ void compass(){
 // section UltraSonic
 /***************************************************************************************************************/
 
-float checkdistance() {
+double checkdistance() {
     digitalWrite(Trig_PIN, LOW);
     delayMicroseconds(2);
     digitalWrite(Trig_PIN, HIGH);
     delayMicroseconds(10);
     digitalWrite(Trig_PIN, LOW);
-    float checkDistance = pulseIn(Echo_PIN, HIGH) / 58.00;  //58.20, that is, 2*29.1=58.2
-    lcd.clear();
-    lcd.setCursor(4,top);
-    lcd.print("Distance");
-    lcd.setCursor(4,bot);
-    lcd.print(checkDistance);
+    double checkDistance = pulseIn(Echo_PIN, HIGH) / 58.00;  //58.20, that is, 2*29.1=58.2
     delay(10);
     return checkDistance;
 }
@@ -898,14 +896,14 @@ void lightSensor(){
     outputValueL = map(lightSensorR, 0, 1023, 0, 255);
     calcValue = 255 - (outputValueR + outputValueL);
     calcValue = (calcValue < 0) ? 0 : calcValue;
-    analogWrite(LED_PIN, calcValue);
+    ledRGB(0, calcValue,0);
 }
 
 
-void ledRGB(int r_val, int g_val, int b_val) {
-    pwm.setPWM(PWM_8, 0, pulseWidth(r_val));
-    pwm.setPWM(PWM_9, 0, pulseWidth(g_val));
-    pwm.setPWM(PWM_10, 0, pulseWidth(b_val));
+void ledRGB(int b_val, int g_val, int r_val) {
+    pwm.setPWM(PWM_8, 0, 8*r_val);
+    pwm.setPWM(PWM_9, 0, 8*g_val);
+    pwm.setPWM(PWM_10, 0, 8*b_val);
 }
 
 float getTemperature() {
@@ -926,91 +924,11 @@ void printWifiStatus() {
     delay(1000);
 }
 
-/********************************************** Setup booting the arduino **************************************/
-// section Setup
+
+/********************************************** Main loop running the arduino **********************************/
+// section webserver
 /***************************************************************************************************************/
-
-void setup(){
-
-    Wire.begin();
-    lcd.init();
-    lcd.backlight();      // Make sure backlight is on
-    // create a new characters
-    lcd.createChar(0, Heart);
-    I2CScanner();
-    delay(1000);
-
-    lcd.clear();
-    lcd.setCursor(2,top);   //Set cursor to character 2 on line 0
-    lcd.print("Modules tests!    ");
-    delay(1000);
-
-    if (!u8g2.begin()) {
-        lcd.clear();
-        lcd.setCursor(0,top);
-        lcd.println("Mouth Display");
-        lcd.setCursor(4,bot);
-        lcd.println("not found");
-        while (1) {
-            delay(1000);
-        }
-    } else {
-        lcd.clear();
-        lcd.setCursor(0,top);
-        lcd.println("Mouth Display");
-        lcd.setCursor(4,bot);
-        lcd.println("found!");
-        delay(1000);
-    }
-
-    // Try to initialize!
-    if (!mpu.begin()) {
-        lcd.setCursor(0,bot);
-        lcd.println("MPU6050 not found");
-        while (1) {
-            delay(1000);
-        }
-    } else {
-        lcd.setCursor(2,bot);
-        lcd.println("MPU6050 Found!    ");
-        delay(1000);
-        mpu.setAccelerometerRange(MPU6050_RANGE_4_G);
-        mpu.setGyroRange(MPU6050_RANGE_500_DEG);
-        mpu.setFilterBandwidth(MPU6050_BAND_260_HZ); /// 5, 10, 21, 44, 94, 184, 260(off)
-        calibrate_sensor();
-        lcd.clear();
-        gyroFunc();
-        delay(1000);
-    }
-    lcd.clear();
-    /* Initialise the sensor */
-    if(!mag.begin()) {
-        lcd.setCursor(0,bot);
-        lcd.print("HMC5883 not found   ");
-        while (1) {
-            delay(1000);
-        }
-    } else {
-        lcd.setCursor(0,bot);
-        lcd.print("HMC5883 Found!     ");
-        delay(1000);
-        lcd.clear();
-        compass();
-        delay(1000);
-    }
-
-    pinMode(MIC_PIN, INPUT);
-
-    // Start the receiver and if not 3. parameter specified, take LED_BUILTIN pin from the internal boards definition as default feedback LED
-    IrReceiver.begin(IR_Pin, ENABLE_LED_FEEDBACK);
-    lcd.print(F("Ready to receive IR signals"));
-
-    pwm.begin();
-    pwm.setPWMFreq(FREQUENCY);  // Analog servos run at ~50 Hz updates
-
-
-    delay(1000);
-
+void setupWifi(){
     lcd.clear();
     lcd.setCursor(0,top);
     lcd.print("WiFi Starting!");
@@ -1019,7 +937,7 @@ void setup(){
     if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
         lcd.clear();
         lcd.setCursor(2,top);
-        lcd.println("Please upgrade the firmware");
+        lcd.print("Please upgrade the firmware");
     }
 
     lcd.setCursor(0,bot);
@@ -1028,7 +946,7 @@ void setup(){
     while (status != WL_CONNECTED) {
         lcd.clear();
         lcd.setCursor(2,top);
-        lcd.println(ssid);
+        lcd.print(ssid);
         // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
         status = WiFi.begin(ssid, pass);
 
@@ -1039,47 +957,11 @@ void setup(){
     // you're connected now, so print out the status:
     printWifiStatus();
 
-
-
-    timerButton = Rem_OK;
-
-    pinMode(Trig_PIN, OUTPUT);
-    pinMode(Echo_PIN, INPUT);
-    pinMode(ML_Ctrl, OUTPUT);
-    pinMode(ML_PWM, OUTPUT);
-    pinMode(MR_Ctrl, OUTPUT);
-    pinMode(MR_PWM, OUTPUT);
-    pinMode(LED_PIN, OUTPUT);
-
-    pinMode(DotClockPIN,OUTPUT);
-    pinMode(DotDataPIN,OUTPUT);
-    digitalWrite(DotClockPIN,LOW);
-    digitalWrite(DotDataPIN,LOW);
-    matrix_display(clear);
-    timerOne.set(timerOnePeriod, perstoTimer);
-    timerTwo.set(timerTwoPeriod, sensorTimer);
-    timerThree.set(timerThreePeriod, resetTimers);
-    pestoMatrix();
-    delay(1000);
-
-
-
-    lcd.clear();
-    pwm.setPWM(PWM_0, 0, pulseWidth(posXY));
-    pwm.setPWM(PWM_1, 0, pulseWidth(posZ));
 }
-
-
-/********************************************** Main loop running the arduino **********************************/
-// section Loop Wifi
-/***************************************************************************************************************/
-
-void loop(){
-    // listen for incoming clients
+void webserver(){
     WiFiClient client = server.available();
     if (client) {
-        // read the first line of HTTP request header
-        String HTTP_req = "";
+        String HTTP_req = ""; // read the first line of HTTP request header
         while (client.connected()) {
             if (client.available()) {
                 lcd.println("New HTTP Request");
@@ -1138,6 +1020,137 @@ void loop(){
         // close the connection:
         client.stop();
     }
+}
+/********************************************** Setup booting the arduino **************************************/
+// section Setup
+/***************************************************************************************************************/
+
+void setup(){
+
+    Wire.begin();
+    lcd.init();
+    lcd.backlight();      // Make sure backlight is on
+    lcd.createChar(0, Heart); // create a new characters
+    I2CScanner();
+    delay(1000);
+
+    lcd.clear();
+    lcd.setCursor(2,top);   //Set cursor to character 2 on line 0
+    lcd.print("Modules tests!    ");
+    delay(1000);
+
+    if (!u8g2.begin()) {
+        lcd.clear();
+        lcd.setCursor(0,top);
+        lcd.print("Mouth Display");
+        lcd.setCursor(4,bot);
+        lcd.print("not found :'(");
+        delay(1000);
+    } else {
+        lcd.clear();
+        lcd.setCursor(0,top);
+        lcd.print("Mouth Display");
+        lcd.setCursor(4,bot);
+        lcd.print("found! :)");
+        delay(1000);
+    }
+
+    lcd.clear();
+
+    // Try to initialize!
+    if (!mpu.begin()) {
+        lcd.setCursor(0,bot);
+        lcd.println("MPU6050 not found");
+        delay(1000);
+
+    } else {
+        lcd.setCursor(2,bot);
+        lcd.println("MPU6050 Found!    ");
+        delay(1000);
+        mpu.setAccelerometerRange(MPU6050_RANGE_4_G);
+        mpu.setGyroRange(MPU6050_RANGE_500_DEG);
+        mpu.setFilterBandwidth(MPU6050_BAND_260_HZ); /// 5, 10, 21, 44, 94, 184, 260(off)
+        calibrate_sensor();
+        lcd.clear();
+        gyroFunc();
+        delay(1000);
+    }
+    lcd.clear();
+    /* Initialise the sensor */
+    if(!mag.begin()) {
+        lcd.setCursor(0,top);
+        lcd.print("HMC5883 not found   ");
+        delay(1000);
+
+    } else {
+        lcd.setCursor(0,top);
+        lcd.print("HMC5883 Found!     ");
+        delay(1000);
+        lcd.clear();
+        compass();
+        delay(1000);
+    }
+    lcd.clear();
+    pinMode(MIC_PIN, INPUT);
+
+    // Start the receiver and if not 3. parameter specified, take LED_BUILTIN pin from the internal boards definition as default feedback LED
+    IrReceiver.begin(IR_Pin, ENABLE_LED_FEEDBACK);
+    lcd.print("InfraRed signals");
+
+    pwm.begin();
+    pwm.setPWMFreq(FREQUENCY);  // Analog servos run at ~50 Hz updates
+
+
+    delay(1000);
+
+    setupWifi();
+
+
+    timerButton = Rem_OK;
+
+    pinMode(Trig_PIN, OUTPUT);
+    pinMode(Echo_PIN, INPUT);
+    pinMode(ML_Ctrl, OUTPUT);
+    pinMode(ML_PWM, OUTPUT);
+    pinMode(MR_Ctrl, OUTPUT);
+    pinMode(MR_PWM, OUTPUT);
+    pinMode(LED_PIN, OUTPUT);
+
+    pinMode(DotClockPIN,OUTPUT);
+    pinMode(DotDataPIN,OUTPUT);
+    digitalWrite(DotClockPIN,LOW);
+    digitalWrite(DotDataPIN,LOW);
+    matrix_display(clear);
+    timerOne.set(timerOnePeriod, perstoTimer);
+    timerTwo.set(timerTwoPeriod, sensorTimer);
+    timerThree.set(timerThreePeriod, resetTimers);
+    pestoMatrix();
+    delay(1000);
+
+
+
+    lcd.clear();
+    pwm.setPWM(PWM_0, 0, pulseWidth(posXY));
+    pwm.setPWM(PWM_1, 0, pulseWidth(posZ));
+}
+
+/*********************************** Loop **********************************/
+// section Loop
+/***************************************************************************/
+
+void loop(){
+    webserver();
+    u8g2.firstPage();
+    do {
+        draw();
+    } while( u8g2.nextPage() );
+
+    // increase the state
+    draw_state++;
+    if ( draw_state >= 14*8 )
+        draw_state = 0;
+
+
     /***************************** IrReceiver **********************************/
     // section Loop IrReceiver
     /***************************************************************************/
@@ -1199,6 +1212,8 @@ void loop(){
             case Rem_D: Car_Back(); break;
             case Rem_L: Car_left(); break;
             case Rem_R: Car_right(); break;
+            default:
+                break;
         }
         if (posXY != previousXY) {
             pwm.setPWM(PWM_0, 0, pulseWidth(posXY));
@@ -1210,9 +1225,6 @@ void loop(){
         previousXY = posXY;
         previousZ = posZ;
     }
-    /*********************************** Loop **********************************/
-    // section Loop
-    /***************************************************************************/
 
     detectMovement();
     timerOne.update();
@@ -1222,43 +1234,31 @@ void loop(){
     lightSensor();
     distanceF = checkdistance();  /// assign the front distance detected by ultrasonic sensor to variable a
     if (distanceF < 35) {
-        ledRGB(0,0,100);
+        ledRGB( 255,0,0);
         pestoMatrix();
-        delay(distanceF);
     } else {
         ledRGB(0,0,0);
     }
 
-    r=random(0,100)%100; //get a random in (0,100)
-    g=random(0,100)%100;
-    b=random(0,100)%100;
-    ledRGB(r, g, b);//set random as a duty cycle value
 
-    int micStatus = digitalRead(MIC_PIN);
-    if (micStatus == 1) {
-        lcd.clear();
-        lcd.setCursor(0,top);
-        lcd.print("sound detected!");
-        ledRGB(0,0,100);
-        /*    if (millis() - last_event > 25) {
-        lcd.clear();
-        lcd.setCursor(0,top);
-        lcd.print("sound detected!");
-        }
-        last_event = millis();*/
+    int micStatus = analogRead(MIC_PIN);
+    int mic255 = map(micStatus, 0, 1023, 0, 255);
+
+    if (micStatus > 500)
+    {
+        ledRGB(mic255,0,mic255);
+        defaultLCD();
     } else {
-        if (!timerTwoActive){defaultLCD();}
-    }
-    // picture loop
-    u8g2.firstPage();
-    do {
-        draw();
-    } while( u8g2.nextPage() );
 
-    // increase the state
-    draw_state++;
-    if ( draw_state >= 14*8 )
-        draw_state = 0;
+        lcd.setCursor(3,top);
+        lcd.print(micStatus);
+        ledRGB(0,mic255,0);
+        lcd.print("   ");
+        lcd.print(distanceF);
+    }
+
+
+
 
 
 }

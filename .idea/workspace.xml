@@ -20,6 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a86e6fa4-da29-4af9-9e57-dbb78076f1ea" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
@@ -35,7 +36,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="a5de6681fff942b7641cd4c9901dac265f8c6aaf" />
+        <entry key="$PROJECT_DIR$" value="Going_Uno_R4_wifi" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -103,6 +104,11 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="PlatformIO Debug" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-Wall-E-R4-Wifi" TARGET_NAME="Debug" CONFIG_NAME="uno_r4_wifi" RUN_TARGET_PROJECT_NAME="Arduino-Wall-E-R4-Wifi" RUN_TARGET_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -141,7 +147,8 @@
       <workItem from="1692115095013" duration="756000" />
       <workItem from="1692115979852" duration="1532000" />
       <workItem from="1692134045996" duration="2946000" />
-      <workItem from="1692163923654" duration="8659000" />
+      <workItem from="1692163923654" duration="10555000" />
+      <workItem from="1692301102995" duration="12530000" />
     </task>
     <task id="LOCAL-00001" summary="Going to uno r4 wifi">
       <created>1691526729834</created>
@@ -164,7 +171,14 @@
       <option name="project" value="LOCAL" />
       <updated>1692081066054</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="cleaning up some stuff, added stormselectors">
+      <created>1692180167734</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1692180167734</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -181,7 +195,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="Going_Uno_R4_wifi" />
+                        <option value="master" />
                       </list>
                     </value>
                   </entry>
@@ -196,6 +210,7 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="Going to uno r4 wifi" />
-    <option name="LAST_COMMIT_MESSAGE" value="Going to uno r4 wifi" />
+    <MESSAGE value="cleaning up some stuff, added stormselectors" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleaning up some stuff, added stormselectors" />
   </component>
 </project>
