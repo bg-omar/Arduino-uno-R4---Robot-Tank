@@ -3,7 +3,8 @@
 /***************************************************************************************************************/
 
 //#define USE_WIFI_SERVER
-//#define USE_MOUTH_DISPLAY
+#define USE_MOUTH_DISPLAY
+//#define USE_JOYSTICK
 
 /***************************************************************************************************************/
 // section include
@@ -130,7 +131,6 @@ byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000,
 #define Trig_PIN     6  // ultrasonic trig Pin
 #define Echo_PIN     7  // ultrasonic echo Pin
 
-#define MIC_PIN     A3
 #define PIN_9        9
 #define PIN_10      10
 #define L_PWM       11  // define PWM control pin of left motor
@@ -138,9 +138,19 @@ byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000,
 #define R_Direction 12  // define the direction control pin of right motor
 #define L_Direction 13  // define the direction control pin of left motor
 
-#define light_L_Pin A0
-#define light_R_Pin A1
+
 #define IR_Pin      A2
+#define MIC_PIN     A3
+
+#ifdef USE_JOYSTICK
+    #define Joystick_X  A0
+    #define Joystick_Y  A1
+#else
+    #define light_L_Pin A0
+    #define light_R_Pin A1
+#endif
+
+
 
 #define PWM_0        0
 #define PWM_1        1
@@ -159,6 +169,7 @@ byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000,
 #define PWM_14      14
 #define PWM_15      15
 #define PWM_16      16
+
 
 /*************************************************** the Global Variables **************************************/
 // section Global Variables
@@ -184,6 +195,9 @@ float ax, ay, az, gx, gy, gz, baseAx, baseAy, baseAz, baseGx, baseGy, baseGz, te
 long random2, randomXY, randomZ;
 double distanceF, distanceR, distanceL;
 
+int R_velocity = 0;
+int L_velocity = 0;
+
 long baseSound;
 int r,g,b;
 int lightSensorL, lightSensorR, outputValueR, outputValueL, calcValue ;           // inverse input
@@ -206,48 +220,13 @@ TimerEvent timerThree;
 
 /* Assign a unique ID to this sensor at the same time */
 Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(12345);
-// U8G2_SSD1306_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE);
+#ifdef USE_MOUTH_DISPLAY
+    U8G2_SSD1306_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE);
+#endif
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 LiquidCrystal_I2C lcd(0x27,16,2);
 WiFiServer server(80);
 Adafruit_MPU6050 mpu; // Set the gyroscope
-
-/********************************************** the function to run motor **************************************/
-// section motor function
-/***************************************************************************************************************/
-
-void forward(){
-    digitalWrite(R_Direction, HIGH);
-     analogWrite(R_PWM, 200);
-    digitalWrite(L_Direction, HIGH);
-     analogWrite(L_PWM, 200);
-}
-
-void carLeft(){
-    digitalWrite(R_Direction, LOW);
-     analogWrite(R_PWM, 255);
-    digitalWrite(L_Direction, HIGH);
-     analogWrite(L_PWM, 255);
-}
-void carRight(){
-    digitalWrite(R_Direction, HIGH);
-     analogWrite(R_PWM, 255);
-    digitalWrite(L_Direction, LOW);
-     analogWrite(L_PWM, 255);
-}
-void carStop(){
-    digitalWrite(R_Direction, LOW);
-     analogWrite(R_PWM, 0);
-    digitalWrite(L_Direction, LOW);
-     analogWrite(L_PWM, 0);
-}
-
-void carBack(){
-    digitalWrite(R_Direction, LOW);
-     analogWrite(R_PWM, 200);
-    digitalWrite(L_Direction, LOW);
-     analogWrite(L_PWM, 200);
-}
 
 /************************************************** the I2CScanner *********************************************/
 // section I2CScanner
@@ -390,31 +369,31 @@ void calibrate_sensor() {
 // section MouthDisplay
 /***************************************************************************************************************/
 
-
-/*void u8g2_prepare() {
-    u8g2.setFont(u8g2_font_6x10_tf);
-    u8g2.setFontRefHeightExtendedText();
-    u8g2.setDrawColor(1);
-    u8g2.setFontPosTop();
-    u8g2.setFontDirection(0);
-}
-
-void u8g2_box_title(uint8_t a) {
-    u8g2.drawStr( 10+a*2, 5, "U8g2");
-    u8g2.drawStr( 10, 20, "GraphicsTest");
-
-    u8g2.drawFrame(0,0,u8g2.getDisplayWidth(),u8g2.getDisplayHeight() );
-}
-
-uint8_t draw_state = 0;
-
-void draw() {
-    u8g2_prepare();
-    switch(draw_state >> 3) {
-        case 0: u8g2_box_title(draw_state&7); break;
+#ifdef USE_MOUTH_DISPLAY
+    void u8g2_prepare() {
+        u8g2.setFont(u8g2_font_6x10_tf);
+        u8g2.setFontRefHeightExtendedText();
+        u8g2.setDrawColor(1);
+        u8g2.setFontPosTop();
+        u8g2.setFontDirection(0);
     }
-}*/
 
+    void u8g2_box_title(uint8_t a) {
+        u8g2.drawStr( 10+a*2, 5, "U8g2");
+        u8g2.drawStr( 10, 20, "GraphicsTest");
+
+        u8g2.drawFrame(0,0,u8g2.getDisplayWidth(),u8g2.getDisplayHeight() );
+    }
+
+    uint8_t draw_state = 0;
+
+    void draw() {
+        u8g2_prepare();
+        switch(draw_state >> 3) {
+            case 0: u8g2_box_title(draw_state&7); break;
+        }
+    }
+#endif
 
 /*************************************************** the Compass ***********************************************/
 // section Compass
@@ -692,6 +671,124 @@ void pestoMatrix() {
     screen == 6 ? screen = 0 : screen += 1;
 }
 
+/********************************************** the function to run motor **************************************/
+// section motor function
+/***************************************************************************************************************/
+
+void forward(){
+    digitalWrite(R_Direction, HIGH);
+    analogWrite(R_PWM, 100);
+    digitalWrite(L_Direction, HIGH);
+    analogWrite(L_PWM, 100);
+}
+
+void carLeft(){
+    digitalWrite(R_Direction, LOW);
+    analogWrite(R_PWM, 100);
+    digitalWrite(L_Direction, HIGH);
+    analogWrite(L_PWM, 100);
+}
+void carRight(){
+    digitalWrite(R_Direction, HIGH);
+    analogWrite(R_PWM, 100);
+    digitalWrite(L_Direction, LOW);
+    analogWrite(L_PWM, 100);
+}
+
+void carBack(){
+    digitalWrite(R_Direction, LOW);
+    analogWrite(R_PWM, 100);
+    digitalWrite(L_Direction, LOW);
+    analogWrite(L_PWM, 100);
+}
+
+void carStop(){
+    analogWrite(R_PWM, 0);
+    analogWrite(L_PWM, 0);
+}
+
+void joystick() {
+    #ifdef USE_JOYSTICK
+        int xAxis = analogRead(Joystick_X); // Read Joysticks X-axis
+        int yAxis = analogRead(Joystick_Y); // Read Joysticks Y-axis
+    #else
+        int xAxis = analogRead(light_R_Pin);
+        int yAxis = analogRead(light_L_Pin);
+    #endif
+
+    // Y-axis used for forward and backward control
+    if (yAxis < 470) { // Set Motor A backward
+        digitalWrite(R_Direction, LOW);
+        digitalWrite(L_Direction, LOW);
+        // Convert the declining Y-axis readings for going backward from 470 to 0 into 0 to 255 value for the PWM signal for increasing the motor speed
+        R_velocity = map(yAxis, 470, 0, 0, 255);
+        L_velocity = map(yAxis, 470, 0, 0, 255);
+    }
+    else if (yAxis > 550) { // Set Motor A forward
+        digitalWrite(R_Direction, HIGH);
+        digitalWrite(L_Direction, HIGH);
+        // Convert the increasing Y-axis readings for going forward from 550 to 1023 into 0 to 255 value for the PWM signal for increasing the motor speed
+        R_velocity = map(yAxis, 550, 1023, 0, 255);
+        L_velocity = map(yAxis, 550, 1023, 0, 255);
+    }
+        // If joystick stays in middle the motors are not moving
+    else {
+        R_velocity = 0;
+        L_velocity = 0;
+    }
+
+    // X-axis used for left and right control
+    if (xAxis < 470) {
+        // Convert the declining X-axis readings from 470 to 0 into increasing 0 to 255 value
+        int xMapped = map(xAxis, 470, 0, 0, 255);
+        // Move to left - decrease left motor speed, increase right motor speed
+        R_velocity = R_velocity - xMapped;
+        L_velocity = L_velocity + xMapped;
+        // Confine the range from 0 to 255
+        if (R_velocity < 0) {
+            R_velocity = 0;
+        }
+        if (L_velocity > 255) {
+            L_velocity = 255;
+        }
+    }
+    if (xAxis > 550) {
+        // Convert the increasing X-axis readings from 550 to 1023 into 0 to 255 value
+        int xMapped = map(xAxis, 550, 1023, 0, 255);
+        // Move right - decrease right motor speed, increase left motor speed
+        R_velocity = R_velocity + xMapped;
+        L_velocity = L_velocity - xMapped;
+        // Confine the range from 0 to 255
+        if (R_velocity > 255) {
+            R_velocity = 255;
+        }
+        if (L_velocity < 0) {
+            L_velocity = 0;
+        }
+    }
+    // Prevent buzzing at low speeds (Adjust according to your motors. My motors couldn't start moving if PWM value was below value of 70)
+    if (R_velocity < 70) {
+        R_velocity = 0;
+    }
+    if (L_velocity < 70) {
+        L_velocity = 0;
+    }
+    analogWrite(R_PWM, R_velocity); // Send PWM signal to motor A
+    analogWrite(L_PWM, L_velocity); // Send PWM signal to motor B
+}
+
+int lightSensor(){
+    #ifdef USE_JOYSTICK
+        calcValue = 0
+    #else
+        lightSensorL = analogRead(light_R_Pin);
+        lightSensorR = analogRead(light_L_Pin);
+        outputValueR = map(lightSensorL, 0, 1023, 0, 255);
+        outputValueL = map(lightSensorR, 0, 1023, 0, 255);
+        calcValue = 255 - (outputValueR + outputValueL)*.5;
+    #endif
+        return (calcValue < 0) ? 0 : calcValue;
+}
 /***************************************************** Functions s**********************************************/
 // section Timer Functions
 /***************************************************************************************************************/
@@ -721,17 +818,6 @@ int pulseWidth(int angle){  //  pwm.setPWM(PWM_0, 0, pulseWidth(0));
     analog_value = int(float(pulse_wide) / 1000000 * FREQUENCY * 4096);
     return analog_value;
 }
-
-int lightSensor(){
-    lightSensorL = analogRead(light_R_Pin);
-    lightSensorR = analogRead(light_L_Pin);
-    outputValueR = map(lightSensorL, 0, 1023, 0, 255);
-    outputValueL = map(lightSensorR, 0, 1023, 0, 255);
-    calcValue = 255 - (outputValueR + outputValueL)*.5;
-    return (calcValue < 0) ? 0 : calcValue;
-
-}
-
 
 void ledRGB(int r_val, int g_val, int b_val) {
     pwm.setPWM(PWM_8, 0, (16*b_val<4080) ? 16*b_val : 4080);
@@ -876,6 +962,10 @@ void setup(){
     pinMode(L_PWM, OUTPUT);      /***** 11 ******/
     pinMode(R_Direction, OUTPUT);     /***** 12 ******/
     pinMode(R_PWM, OUTPUT);      /***** 3 ******/
+    digitalWrite(L_Direction, HIGH);
+    digitalWrite(R_Direction, HIGH);
+
+
     pinMode(LED_PIN, OUTPUT);     /***** 2 ******/
     pinMode(MIC_PIN, INPUT);
 
@@ -995,6 +1085,11 @@ void loop(){
             draw_state = 0;
     #endif
 
+    #ifdef USE_JOYSTICK
+        joystick();
+    #endif
+
+
     /***************************** IrReceiver **********************************/
     // section Loop IrReceiver
     /***************************************************************************/
@@ -1012,16 +1107,14 @@ void loop(){
                 lcd.setCursor(0,top);
                 lcd.print(F("?"));
                 delay(100);
+            } else {
+                ir_rec = IrReceiver.decodedIRData.decodedRawData;
             }
-            ir_rec = IrReceiver.decodedIRData.decodedRawData;
             lcd.setCursor(0,bot);
             lcd.print(ir_rec, HEX);
         }
         IrReceiver.resume();                            // Prepare for the next value
 
-        if (ir_rec == IRepeat) {
-            ir_rec = previousIR;
-        }
         switch (ir_rec) {
             /****** Head movements    ******/
             case Rem_1: posXY = min(180, posXY + speedXY); break;

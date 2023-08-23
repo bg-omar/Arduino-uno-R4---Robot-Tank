@@ -148,7 +148,10 @@
       <workItem from="1692301102995" duration="13624000" />
       <workItem from="1692738200817" duration="8753000" />
       <workItem from="1692762610851" duration="4152000" />
-      <workItem from="1692774280468" duration="2301000" />
+      <workItem from="1692774280468" duration="2336000" />
+      <workItem from="1692780858610" duration="4786000" />
+      <workItem from="1692806355730" duration="1804000" />
+      <workItem from="1692820854832" duration="651000" />
     </task>
     <task id="LOCAL-00001" summary="Going to uno r4 wifi">
       <created>1691526729834</created>
@@ -192,7 +195,14 @@
       <option name="project" value="LOCAL" />
       <updated>1692766998967</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="if defined rules">
+      <created>1692779789789</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1692779789789</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -227,6 +237,7 @@
     <MESSAGE value="cleaning up some stuff, added stormselectors" />
     <MESSAGE value="Mouth workin again" />
     <MESSAGE value="Code clean, temporary remove mouth display, added web-server" />
-    <option name="LAST_COMMIT_MESSAGE" value="Code clean, temporary remove mouth display, added web-server" />
+    <MESSAGE value="if defined rules" />
+    <option name="LAST_COMMIT_MESSAGE" value="if defined rules" />
   </component>
 </project>
