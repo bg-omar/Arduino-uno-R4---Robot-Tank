@@ -1,4 +1,11 @@
 /***************************************************************************************************************/
+// section define
+/***************************************************************************************************************/
+
+//#define USE_WIFI_SERVER
+//#define USE_MOUTH_DISPLAY
+
+/***************************************************************************************************************/
 // section include
 /***************************************************************************************************************/
 #include "index.h"
@@ -7,7 +14,6 @@
 #include <Arduino.h>
 #include <cmath>
 #include <Wire.h>
-#include <SD.h>
 
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
@@ -16,7 +22,11 @@
 
 #include <LiquidCrystal_I2C.h>
 #include <TimerEvent.h>
-//#include <U8g2lib.h>
+
+#ifdef USE_MOUTH_DISPLAY
+    #include <U8g2lib.h>
+#endif
+
 #include <WiFiS3.h>
 
 #define RAW_BUFFER_LENGTH  750
@@ -25,7 +35,6 @@
 
 #define MIN_PULSE_WIDTH       650
 #define MAX_PULSE_WIDTH       2350
-#define DEFAULT_PULSE_WIDTH   1500
 #define FREQUENCY             50
 
 
@@ -111,45 +120,45 @@ byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000,
 #define Rem_y   0xB54ADF00
 #define IRepeat 0xFFFFFFFF
 
-#define RX_PIN      0
-#define TX_PIN      1
-#define LED_PIN     2
-#define R_PWM      3   // define PWM control pin of right motor
+#define RX_PIN       0
+#define TX_PIN       1
+#define LED_PIN      2
+#define R_PWM        3   // define PWM control pin of right motor
 
-#define DotDataPIN  4  // Set data  pin to 4
-#define DotClockPIN 5  // Set clock pin to 5
-#define Trig_PIN    6  // ultrasonic trig Pin
-#define Echo_PIN    7  // ultrasonic echo Pin
+#define DotDataPIN   4  // Set data  pin to 4
+#define DotClockPIN  5  // Set clock pin to 5
+#define Trig_PIN     6  // ultrasonic trig Pin
+#define Echo_PIN     7  // ultrasonic echo Pin
 
 #define MIC_PIN     A3
-#define PIN_9       9
-#define PIN_10     10
-#define L_PWM     11  // define PWM control pin of left motor
+#define PIN_9        9
+#define PIN_10      10
+#define L_PWM       11  // define PWM control pin of left motor
 
-#define R_Direction    12  // define the direction control pin of right motor
-#define L_Direction    13  // define the direction control pin of left motor
+#define R_Direction 12  // define the direction control pin of right motor
+#define L_Direction 13  // define the direction control pin of left motor
 
 #define light_L_Pin A0
 #define light_R_Pin A1
 #define IR_Pin      A2
 
-#define PWM_0       0
-#define PWM_1       1
-#define PWM_2       2
-#define PWM_3       3
-#define PWM_4       4
-#define PWM_5       5
-#define PWM_6       6
-#define PWM_7       7
-#define PWM_8       8
-#define PWM_9       9
-#define PWM_10     10
-#define PWM_11     11
-#define PWM_12     12
-#define PWM_13     13
-#define PWM_14     14
-#define PWM_15     15
-#define PWM_16     16
+#define PWM_0        0
+#define PWM_1        1
+#define PWM_2        2
+#define PWM_3        3
+#define PWM_4        4
+#define PWM_5        5
+#define PWM_6        6
+#define PWM_7        7
+#define PWM_8        8
+#define PWM_9        9
+#define PWM_10      10
+#define PWM_11      11
+#define PWM_12      12
+#define PWM_13      13
+#define PWM_14      14
+#define PWM_15      15
+#define PWM_16      16
 
 /*************************************************** the Global Variables **************************************/
 // section Global Variables
@@ -884,8 +893,7 @@ void setup(){
     I2CScanner();
     delay(500);
 
-    /*
-
+    #ifdef USE_MOUTH_DISPLAY
         if (!u8g2.begin()) {
             lcd.clear();
             lcd.setCursor(0,top);
@@ -897,7 +905,13 @@ void setup(){
             lcd.print("Display found! :)");
             delay(1000);
         }
-    */
+    #else
+        lcd.clear();
+        lcd.setCursor(0,top);
+        lcd.print("Not using the");
+        lcd.setCursor(0,bot);
+        lcd.print(" 128x64 display");
+    #endif
 
     lcd.clear();
     // Try to initialize!
@@ -941,8 +955,16 @@ void setup(){
     pwm.setPWM(PWM_0, 0, pulseWidth(posXY));
     pwm.setPWM(PWM_1, 0, pulseWidth(posZ));
     delay(500);
+    #ifdef USE_WIFI_SERVER
+        setupWifi();
+    #else
+        lcd.clear();
+        lcd.setCursor(0,top);
+        lcd.print("Not using the");
+        lcd.setCursor(0,bot);
+        lcd.print(" WIFI server");
+    #endif
 
-    setupWifi();
 
     timerButton = Rem_OK;
     timerOne.set(timerOnePeriod, dotMatrixTimer);
@@ -957,8 +979,11 @@ void setup(){
 /***************************************************************************/
 
 void loop(){
-    webserver();
-    /*
+    #ifdef USE_WIFI_SERVER
+        webserver();
+    #endif
+
+    #ifdef USE_MOUTH_DISPLAY
         u8g2.firstPage();
         do {
             draw();
@@ -968,8 +993,7 @@ void loop(){
         draw_state++;
         if ( draw_state >= 14*8 )
             draw_state = 0;
-
-    */
+    #endif
 
     /***************************** IrReceiver **********************************/
     // section Loop IrReceiver
