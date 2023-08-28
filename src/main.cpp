@@ -4,6 +4,7 @@
 
 //#define USE_WIFI_SERVER
 #define USE_MOUTH_DISPLAY_ADAFRUIT
+#define USE_SMALL_DISPLAY
 //#define USE_MOUTH_DISPLAY
 //#define USE_JOYSTICK
 
@@ -30,6 +31,7 @@
     #include <SPI.h>
     #include <Adafruit_GFX.h>
     #include <Adafruit_SSD1306.h>
+    #include <Adafruit_SH110X.h>
     #define SCREEN_WIDTH 128 // OLED display width, in pixels
     #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 
@@ -163,7 +165,7 @@ static const unsigned char PROGMEM logo_bmp[] =
 
 #define DotDataPIN   4  // Set data  pin to 4
 #define DotClockPIN  5  // Set clock pin to 5
-#define Trig_PIN     6  // ultrasonic trig Pin
+#define Trig_PIN     6  // ultrasonic trig Pinz
 #define Echo_PIN     7  // ultrasonic echo Pin
 
 #define PIN_9        9
@@ -256,7 +258,11 @@ TimerEvent timerThree;
 /* Assign a unique ID to this sensor at the same time */
 Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(12345);
 #ifdef USE_MOUTH_DISPLAY_ADAFRUIT
-    Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+    #ifdef USE_SMALL_DISPLAY
+        Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+    #else
+        Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+    #endif
 #endif
 
 #ifdef USE_MOUTH_DISPLAY
