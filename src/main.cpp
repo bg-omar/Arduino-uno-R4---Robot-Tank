@@ -69,8 +69,8 @@ void carStop();
 void carBack();
 
 void I2CScanner();
-void calibrate_sensor();
-void detectMovement();
+void gyroCalibrate_sensor();
+void gyroDetectMovement();
 void gyroFunc();
 void compass();
 double checkdistance();
@@ -366,7 +366,7 @@ void gyroFunc(){
     lcd.print("   ");
 }
 
-void detectMovement() {
+void gyroDetectMovement() {
     gyroRead();
     if(( abs(ax) + abs(ay) + abs(az)) > THRESHOLD){
         timerTwoActive = true;
@@ -380,7 +380,7 @@ void detectMovement() {
     }
 }
 
-void calibrate_sensor() {
+void gyroCalibrate_sensor() {
     float totX = 0;
     float totY = 0;
     float totZ = 0;
@@ -411,6 +411,25 @@ void calibrate_sensor() {
     baseGx = totgX / 10;
     baseGy = totgY / 10;
     baseGz = totgZ / 10;
+}
+
+void gyroSetup() {
+    // Try to initialize!
+    if (!mpu.begin()) {
+        lcd.setCursor(0,bot);
+        lcd.println("MPU6050 not found");
+        delay(500);
+
+    } else {
+        lcd.setCursor(2,bot);
+        lcd.println("MPU6050 Found!    ");
+        delay(500);
+        mpu.setAccelerometerRange(MPU6050_RANGE_4_G);
+        mpu.setGyroRange(MPU6050_RANGE_500_DEG);
+        mpu.setFilterBandwidth(MPU6050_BAND_260_HZ); /// 5, 10, 21, 44, 94, 184, 260(off)
+        gyroCalibrate_sensor();
+        delay(500);
+    }
 }
 
 /************************************************ MouthDisplay *************************************************/
@@ -1022,6 +1041,19 @@ void compass(){
     }
 }
 
+void compassSetup() {
+    /* Initialise the sensor */
+    if(!mag.begin()) {
+        lcd.setCursor(0,top);
+        lcd.print("HMC5883 not found   ");
+        delay(500);
+
+    } else {
+        lcd.setCursor(0,top);
+        lcd.print("HMC5883 Found!     ");
+        delay(500);
+    }
+}
 
 /********************************************** control ultrasonic sensor***************************************/
 // section UltraSonic
@@ -1557,35 +1589,13 @@ void setup(){
     delay(500);
 
     lcd.clear();
-    // Try to initialize!
-    if (!mpu.begin()) {
-        lcd.setCursor(0,bot);
-        lcd.println("MPU6050 not found");
-        delay(500);
 
-    } else {
-        lcd.setCursor(2,bot);
-        lcd.println("MPU6050 Found!    ");
-        delay(500);
-        mpu.setAccelerometerRange(MPU6050_RANGE_4_G);
-        mpu.setGyroRange(MPU6050_RANGE_500_DEG);
-        mpu.setFilterBandwidth(MPU6050_BAND_260_HZ); /// 5, 10, 21, 44, 94, 184, 260(off)
-        calibrate_sensor();
-        delay(500);
-    }
+    gyroSetup();
 
     lcd.clear();
-    /* Initialise the sensor */
-    if(!mag.begin()) {
-        lcd.setCursor(0,top);
-        lcd.print("HMC5883 not found   ");
-        delay(500);
 
-    } else {
-        lcd.setCursor(0,top);
-        lcd.print("HMC5883 Found!     ");
-        delay(500);
-    }
+    compassSetup();
+
     lcd.clear();
 
 
@@ -1739,7 +1749,7 @@ void loop(){
         previousZ = posZ;
     }
 
-    detectMovement();
+    gyroDetectMovement();
     timerOne.update();
     timerTwo.update();
     timerThree.update();
