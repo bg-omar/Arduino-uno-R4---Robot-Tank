@@ -4,7 +4,7 @@
 
 //#define USE_WIFI_SERVER
 #define USE_MOUTH_DISPLAY_ADAFRUIT
-#define USE_SMALL_DISPLAY
+//#define USE_SMALL_DISPLAY
 //#define USE_MOUTH_DISPLAY
 //#define USE_JOYSTICK
 
@@ -138,25 +138,25 @@ static const unsigned char PROGMEM logo_bmp[] =
 #define STR_HELPER(x) #x
 #define STR(x) STR_HELPER(x)
 
-#define Rem_OK  0xBF407F00
-#define Rem_U   0xB946FF00
-#define Rem_D   0xEA15FF00
-#define Rem_L   0xBB44FF00
-#define Rem_R   0xBC43FF00
+#define Rem_OK  0xBF407F
+#define Rem_U   0xB946FF
+#define Rem_D   0xEA15FF
+#define Rem_L   0xBB44FF
+#define Rem_R   0xBC43FF
 
-#define Rem_1   0xE916FF00
-#define Rem_2   0xE619FE00
-#define Rem_3   0xF20DFE00
-#define Rem_4   0xF30CFF00
-#define Rem_5   0xE718FF00
-#define Rem_6   0xA15EFD00
-#define Rem_7   0xF708FF00
-#define Rem_8   0xE31CFF00
-#define Rem_9   0xA55AFF00
-#define Rem_0   0xAD52FF00
-#define Rem_x   0xBD42FF00
-#define Rem_y   0xB54ADF00
-#define IRepeat 0xFFFFFFFF
+#define Rem_1   0xE916FF
+#define Rem_2   0xE619FE
+#define Rem_3   0xF20DFE
+#define Rem_4   0xF30CFF
+#define Rem_5   0xE718FF
+#define Rem_6   0xA15EFD
+#define Rem_7   0xF708FF
+#define Rem_8   0xE31CFF
+#define Rem_9   0xA55AFF
+#define Rem_0   0xAD52FF
+#define Rem_x   0xBD42FF
+#define Rem_y   0xB54ADF
+#define IRepeat 0xFFFFFF
 
 #define RX_PIN       0
 #define TX_PIN       1
@@ -629,17 +629,18 @@ void calibrate_sensor() {
         display.println(F("PESTO?"));
         display.display();      // Show initial text
         delay(1000);
-
-        // Scroll in various directions, pausing in-between:
-        display.startscrollright(0x00, 0x0F);
-        display.stopscroll();
-        delay(100);
-        display.startscrollleft(0x00, 0x0F);
-        display.stopscroll();
-        delay(100);
-        display.startscrolldiagright(0x00, 0x07);
-        display.startscrolldiagleft(0x00, 0x07);
-        display.stopscroll();
+        #ifdef USE_SMALL_DISPLAY
+            // Scroll in various directions, pausing in-between:
+            display.startscrollright(0x00, 0x0F);
+            display.stopscroll();
+            delay(100);
+            display.startscrollleft(0x00, 0x0F);
+            display.stopscroll();
+            delay(100);
+            display.startscrolldiagright(0x00, 0x07);
+            display.startscrolldiagleft(0x00, 0x07);
+            display.stopscroll();
+        #endif
     }
 
     void testdrawbitmap() {

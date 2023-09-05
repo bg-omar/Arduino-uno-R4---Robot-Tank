@@ -19,9 +19,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a86e6fa4-da29-4af9-9e57-dbb78076f1ea" name="Changes" comment="Adafruit library for display">
+    <list default="true" id="a86e6fa4-da29-4af9-9e57-dbb78076f1ea" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -87,7 +86,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/mr/Arduino Wall-E/Arduino-Wall-E-R4-Wifi/src&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/workspace/projects&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
@@ -101,12 +100,7 @@
       <recent name="C:\Users\mr\Arduino Wall-E\Arduino-Wall-E-R4-Wifi" />
     </key>
   </component>
-  <component name="RunManager" selected="PlatformIO.PlatformIO Upload">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="CMake Application.Z_DUMMY_TARGET">
     <configuration name="Z_DUMMY_TARGET" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-Wall-E-R4-Wifi" TARGET_NAME="Z_DUMMY_TARGET" CONFIG_NAME="uno_r4_wifi" RUN_TARGET_PROJECT_NAME="Arduino-Wall-E-R4-Wifi" RUN_TARGET_NAME="Z_DUMMY_TARGET">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -161,7 +155,23 @@
       <workItem from="1692826471772" duration="222000" />
       <workItem from="1692899467963" duration="2000" />
       <workItem from="1692911062912" duration="3000" />
-      <workItem from="1692913711058" duration="1319000" />
+      <workItem from="1692913711058" duration="2001000" />
+      <workItem from="1692950593011" duration="1300000" />
+      <workItem from="1693209758443" duration="1214000" />
+      <workItem from="1693248693885" duration="6000" />
+      <workItem from="1693249716495" duration="347000" />
+      <workItem from="1693380745697" duration="1813000" />
+      <workItem from="1693502659683" duration="314000" />
+      <workItem from="1693556310453" duration="47000" />
+      <workItem from="1693569030491" duration="771000" />
+      <workItem from="1693572935084" duration="481000" />
+      <workItem from="1693578783052" duration="26000" />
+      <workItem from="1693579376306" duration="7000" />
+      <workItem from="1693594888997" duration="672000" />
+      <workItem from="1693812338417" duration="602000" />
+      <workItem from="1693813178070" duration="19000" />
+      <workItem from="1693874294031" duration="93000" />
+      <workItem from="1693889089161" duration="811000" />
     </task>
     <task id="LOCAL-00001" summary="Going to uno r4 wifi">
       <created>1691526729834</created>
@@ -233,7 +243,21 @@
       <option name="project" value="LOCAL" />
       <updated>1692826185249</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Adafruit library for display">
+      <created>1692915125953</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1692915125953</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Adafruit display small switch">
+      <created>1693250042942</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1693250042942</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -271,6 +295,7 @@
     <MESSAGE value="if defined rules" />
     <MESSAGE value="if defined rules for display" />
     <MESSAGE value="Adafruit library for display" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adafruit library for display" />
+    <MESSAGE value="Adafruit display small switch" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adafruit display small switch" />
   </component>
 </project>
