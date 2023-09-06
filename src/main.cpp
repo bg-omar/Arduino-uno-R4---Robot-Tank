@@ -5,7 +5,7 @@
 //#define USE_WIFI_SERVER
 #define USE_MOUTH_DISPLAY_ADAFRUIT
 //#define USE_SMALL_DISPLAY
-//#define USE_MOUTH_DISPLAY
+#define USE_MOUTH_DISPLAY
 //#define USE_JOYSTICK
 
 
@@ -15,6 +15,10 @@
 #include "index.h"
 #include "secrets.h"
 
+#include "Arduino_LED_Matrix.h"
+#include "animation.h"
+
+ArduinoLEDMatrix matrix;
 #include <Arduino.h>
 #include <cmath>
 #include <Wire.h>
@@ -23,9 +27,11 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_HMC5883_U.h>
 #include <Adafruit_PWMServoDriver.h>
+#include <Adafruit_BME280.h>
 
 #include <LiquidCrystal_I2C.h>
 #include <TimerEvent.h>
+#include <ArduinoBLE.h>
 
 #ifdef USE_MOUTH_DISPLAY_ADAFRUIT
     #include <SPI.h>
@@ -57,6 +63,7 @@
 #define MIN_PULSE_WIDTH       650
 #define MAX_PULSE_WIDTH       2350
 #define FREQUENCY             50
+#define SEALEVELPRESSURE_HPA (1013.25)
 
 
 /********************************************** Declare all the functions***************************************/
@@ -130,6 +137,8 @@ static const unsigned char PROGMEM logo_bmp[] =
           0b01111100, 0b11110000,
           0b01110000, 0b01110000,
           0b00000000, 0b00110000 };
+
+
 
 /********************************************** PIN Defines ****************************************************/
 // section pin define
@@ -270,11 +279,17 @@ U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 #endif
 
 
+BLEService carService("180A"); // create service: "Device Information"
+// 2A57 is "Digital Output" // create direction control characteristic and allow remote device to read and write
+BLEByteCharacteristic carControlCharacteristic("2A57", BLERead | BLEWrite);
+
 
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 LiquidCrystal_I2C lcd(0x27,16,2);
 WiFiServer server(80);
 Adafruit_MPU6050 mpu; // Set the gyroscope
+Adafruit_BME280 bme;
+
 
 /************************************************** the I2CScanner *********************************************/
 // section I2CScanner
@@ -330,6 +345,55 @@ void I2CScanner() {
         lcd.println("No I2C devices found");
     }
 }
+
+/************************************************** the gyroscope **********************************************/
+// section Bluetooth5 BLE
+/***************************************************************************************************************/
+
+void bluetooth() {
+    // listen for BLE peripherals to connect:
+    BLEDevice controller = BLE.central();
+
+    // if a central is connected to peripheral:
+    if (controller) {
+        lcd.println("Connected to controller: ");
+        // print the controller's MAC address:
+        lcd.println(controller.address());
+        digitalWrite(LED_BUILTIN, HIGH);  // turn on the LED to indicate the connection
+
+        // while the controller is still connected to peripheral:
+        while (controller.connected()) {
+
+            if (carControlCharacteristic.written()) {
+
+                switch (carControlCharacteristic.value()) {
+                    case 01:
+                        lcd.println("LEFT");
+                        break;
+                    case 02:
+                        lcd.println("RIGHT");
+                        break;
+                    case 03:
+                        lcd.println("UP");
+                        break;
+                    case 04:
+                        lcd.println("DOWN");
+                        break;
+                    default:  // 0 or invalid control
+                        lcd.println("STOP");
+                        break;
+                }
+            }
+        }
+
+        // when the central disconnects, print it out:
+        lcd.print(F("Disconnected from controller: "));
+        lcd.println(controller.address());
+        digitalWrite(LED_BUILTIN, LOW);         // when the central disconnects, turn off the LED
+    }
+}
+
+
 
 /************************************************** the gyroscope **********************************************/
 // section gyroRead
@@ -432,561 +496,6 @@ void gyroSetup() {
     }
 }
 
-/************************************************ MouthDisplay *************************************************/
-// section MouthDisplay
-/***************************************************************************************************************/
-
-#ifdef USE_MOUTH_DISPLAY_ADAFRUIT
-    void testdrawline() {
-        int16_t i;
-
-        display.clearDisplay(); // Clear display buffer
-
-        for(i=0; i<display.width(); i+=4) {
-            display.drawLine(0, 0, i, display.height()-1, SSD1306_WHITE);
-            display.display(); // Update screen with each newly-drawn line
-            delay(1);
-        }
-        for(i=0; i<display.height(); i+=4) {
-            display.drawLine(0, 0, display.width()-1, i, SSD1306_WHITE);
-            display.display();
-            delay(1);
-        }
-        delay(250);
-
-        display.clearDisplay();
-
-        for(i=0; i<display.width(); i+=4) {
-            display.drawLine(0, display.height()-1, i, 0, SSD1306_WHITE);
-            display.display();
-            delay(1);
-        }
-        for(i=display.height()-1; i>=0; i-=4) {
-            display.drawLine(0, display.height()-1, display.width()-1, i, SSD1306_WHITE);
-            display.display();
-            delay(1);
-        }
-        delay(250);
-
-        display.clearDisplay();
-
-        for(i=display.width()-1; i>=0; i-=4) {
-            display.drawLine(display.width()-1, display.height()-1, i, 0, SSD1306_WHITE);
-            display.display();
-            delay(1);
-        }
-        for(i=display.height()-1; i>=0; i-=4) {
-            display.drawLine(display.width()-1, display.height()-1, 0, i, SSD1306_WHITE);
-            display.display();
-            delay(1);
-        }
-        delay(250);
-
-        display.clearDisplay();
-
-        for(i=0; i<display.height(); i+=4) {
-            display.drawLine(display.width()-1, 0, 0, i, SSD1306_WHITE);
-            display.display();
-            delay(1);
-        }
-        for(i=0; i<display.width(); i+=4) {
-            display.drawLine(display.width()-1, 0, i, display.height()-1, SSD1306_WHITE);
-            display.display();
-            delay(1);
-        }
-
-        delay(200); // Pause for 2 seconds
-    }
-
-    void testdrawrect() {
-        display.clearDisplay();
-
-        for(int16_t i=0; i<display.height()/2; i+=2) {
-            display.drawRect(i, i, display.width()-2*i, display.height()-2*i, SSD1306_WHITE);
-            display.display(); // Update screen with each newly-drawn rectangle
-            delay(1);
-        }
-
-        delay(200);
-    }
-
-    void testfillrect() {
-        display.clearDisplay();
-
-        for(int16_t i=0; i<display.height()/2; i+=3) {
-            // The INVERSE color is used so rectangles alternate white/black
-            display.fillRect(i, i, display.width()-i*2, display.height()-i*2, SSD1306_INVERSE);
-            display.display(); // Update screen with each newly-drawn rectangle
-            delay(1);
-        }
-
-        delay(200);
-    }
-
-    void testdrawcircle() {
-        display.clearDisplay();
-
-        for(int16_t i=0; i<max(display.width(),display.height())/2; i+=2) {
-            display.drawCircle(display.width()/2, display.height()/2, i, SSD1306_WHITE);
-            display.display();
-            delay(1);
-        }
-
-        delay(200);
-    }
-
-    void testfillcircle() {
-        display.clearDisplay();
-
-        for(int16_t i=max(display.width(),display.height())/2; i>0; i-=3) {
-            // The INVERSE color is used so circles alternate white/black
-            display.fillCircle(display.width() / 2, display.height() / 2, i, SSD1306_INVERSE);
-            display.display(); // Update screen with each newly-drawn circle
-            delay(1);
-        }
-
-        delay(200);
-    }
-
-    void testdrawroundrect() {
-        display.clearDisplay();
-        display.drawRoundRect(0, 0, display.width()-2, display.height()-2,
-                              display.height()/8, SSD1306_WHITE);
-        display.display();
-        delay(200);
-    }
-
-    void testfillroundrect() {
-        display.clearDisplay();
-
-        for(int16_t i=0; i<display.height()/2-2; i+=2) {
-            // The INVERSE color is used so round-rects alternate white/black
-            display.fillRoundRect(i, i, display.width()-2*i, display.height()-2*i,
-                                  display.height()/4, SSD1306_INVERSE);
-            display.display();
-            delay(1);
-        }
-
-        delay(200);
-    }
-
-    void testdrawtriangle() {
-        display.clearDisplay();
-
-        for(int16_t i=0; i<max(display.width(),display.height())/2; i+=5) {
-            display.drawTriangle(
-                    display.width()/2  , display.height()/2-i,
-                    display.width()/2-i, display.height()/2+i,
-                    display.width()/2+i, display.height()/2+i, SSD1306_WHITE);
-            display.display();
-            delay(1);
-        }
-
-        delay(200);
-    }
-
-    void testfilltriangle() {
-        display.clearDisplay();
-
-        for(int16_t i=max(display.width(),display.height())/2; i>0; i-=5) {
-            // The INVERSE color is used so triangles alternate white/black
-            display.fillTriangle(
-                    display.width()/2  , display.height()/2-i,
-                    display.width()/2-i, display.height()/2+i,
-                    display.width()/2+i, display.height()/2+i, SSD1306_INVERSE);
-            display.display();
-            delay(1);
-        }
-
-        delay(200);
-    }
-
-    void testdrawchar() {
-        display.clearDisplay();
-
-        display.setTextSize(1);      // Normal 1:1 pixel scale
-        display.setTextColor(SSD1306_WHITE); // Draw white text
-        display.setCursor(0, 0);     // Start at top-left corner
-        display.cp437(true);         // Use full 256 char 'Code Page 437' font
-
-        // Not all the characters will fit on the display. This is normal.
-        // Library will draw what it can and the rest will be clipped.
-        for(int16_t i=0; i<256; i++) {
-            if(i == '\n') display.write(' ');
-            else          display.write(i);
-        }
-
-        display.display();
-        delay(1000);
-    }
-
-    void testdrawstyles() {
-        display.clearDisplay();
-
-        display.setTextSize(2);             // Normal 1:1 pixel scale
-        display.setTextColor(SSD1306_WHITE);        // Draw white text
-        display.setCursor(0,0);             // Start at top-left corner
-        display.println(F("Hellow, Pesto!"));
-
-        display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
-        display.println(1337);
-
-        display.setTextSize(2);             // Draw 2X-scale text
-        display.setTextColor(SSD1306_WHITE);
-        display.print(F("0x")); display.println(0xDEADBEEF, HEX);
-
-        display.display();
-        delay(2000);
-    }
-
-    void testscrolltext() {
-        display.clearDisplay();
-
-        display.setTextSize(2); // Draw 2X-scale text
-        display.setTextColor(SSD1306_WHITE);
-        display.setCursor(10, 0);
-        display.println(F("PESTO?"));
-        display.display();      // Show initial text
-        delay(1000);
-        #ifdef USE_SMALL_DISPLAY
-            // Scroll in various directions, pausing in-between:
-            display.startscrollright(0x00, 0x0F);
-            display.stopscroll();
-            delay(100);
-            display.startscrollleft(0x00, 0x0F);
-            display.stopscroll();
-            delay(100);
-            display.startscrolldiagright(0x00, 0x07);
-            display.startscrolldiagleft(0x00, 0x07);
-            display.stopscroll();
-        #endif
-    }
-
-    void testdrawbitmap() {
-        display.clearDisplay();
-
-        display.drawBitmap(
-                (display.width()  - LOGO_WIDTH ) / 2,
-                (display.height() - LOGO_HEIGHT) / 2,
-                logo_bmp, LOGO_WIDTH, LOGO_HEIGHT, 1);
-        display.display();
-        delay(100);
-    }
-
-    #define XPOS   0 // Indexes into the 'icons' array in function below
-    #define YPOS   1
-    #define DELTAY 2
-
-    void testanimate(const uint8_t *bitmap, uint8_t w, uint8_t h) {
-        int8_t f, icons[NUMFLAKES][3];
-
-        // Initialize 'snowflake' positions
-        for(f=0; f< NUMFLAKES; f++) {
-            icons[f][XPOS]   = random(1 - LOGO_WIDTH, display.width());
-            icons[f][YPOS]   = -LOGO_HEIGHT;
-            icons[f][DELTAY] = random(1, 6);
-        }
-
-        for(f=0; f< 25; f++) { // Loop 25...
-            display.clearDisplay(); // Clear the display buffer
-
-            // Draw each snowflake:
-            for(f=0; f< NUMFLAKES; f++) {
-                display.drawBitmap(icons[f][XPOS], icons[f][YPOS], bitmap, w, h, SSD1306_WHITE);
-            }
-
-            display.display(); // Show the display buffer on the screen
-            delay(40);        // Pause for 1/10 second
-
-            // Then update coordinates of each flake...
-            for(f=0; f< NUMFLAKES; f++) {
-                icons[f][YPOS] += icons[f][DELTAY];
-                // If snowflake is off the bottom of the screen...
-                if (icons[f][YPOS] >= display.height()) {
-                    // Reinitialize to a random position, just off the top
-                    icons[f][XPOS]   = random(1 - LOGO_WIDTH, display.width());
-                    icons[f][YPOS]   = -LOGO_HEIGHT;
-                    icons[f][DELTAY] = random(1, 6);
-                }
-            }
-        }
-    }
-
-#endif
-
-
-void displaySetup() {
-    #ifdef USE_MOUTH_DISPLAY_ADAFRUIT
-
-        if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
-
-        } else {
-
-            // Show initial display buffer contents on the screen --
-            // the library initializes this with an Adafruit splash screen.
-            display.display();
-            delay(500); // Pause for 2 seconds
-
-            testdrawline();      // Draw many lines
-
-            testdrawrect();      // Draw rectangles (outlines)
-
-            testfillrect();      // Draw rectangles (filled)
-
-            testdrawcircle();    // Draw circles (outlines)
-
-            testfillcircle();    // Draw circles (filled)
-
-            testdrawroundrect(); // Draw rounded rectangles (outlines)
-
-            testfillroundrect(); // Draw rounded rectangles (filled)
-
-            testdrawtriangle();  // Draw triangles (outlines)
-
-            testfilltriangle();  // Draw triangles (filled)
-
-            testdrawchar();      // Draw characters of the default font
-
-            testdrawstyles();    // Draw 'stylized' characters
-
-            testscrolltext();    // Draw scrolling text
-
-            testdrawbitmap();    // Draw a small bitmap image
-
-            // Invert and restore display, pausing in-between
-            display.invertDisplay(true);
-            delay(1000);
-            display.invertDisplay(false);
-            delay(1000);
-
-            //testanimate(logo_bmp, LOGO_WIDTH, LOGO_HEIGHT); // Animate bitmaps
-        }
-    #endif
-}
-
-#ifdef USE_MOUTH_DISPLAY
-    void u8g2_prepare(void) {
-        u8g2.setFont(u8g2_font_6x10_tf);
-        u8g2.setFontRefHeightExtendedText();
-        u8g2.setDrawColor(1);
-        u8g2.setFontPosTop();
-        u8g2.setFontDirection(0);
-    }
-
-    void u8g2_box_title(uint8_t a) {
-        u8g2.drawStr( 10+a*2, 5, "U8g2");
-        u8g2.drawStr( 10, 20, "GraphicsTest");
-
-        u8g2.drawFrame(0,0,u8g2.getDisplayWidth(),u8g2.getDisplayHeight() );
-    }
-
-    void u8g2_box_frame(uint8_t a) {
-        u8g2.drawStr( 0, 0, "drawBox");
-        u8g2.drawBox(5,10,20,10);
-        u8g2.drawBox(10+a,15,30,7);
-        u8g2.drawStr( 0, 30, "drawFrame");
-        u8g2.drawFrame(5,10+30,20,10);
-        u8g2.drawFrame(10+a,15+30,30,7);
-    }
-
-    void u8g2_disc_circle(uint8_t a) {
-        u8g2.drawStr( 0, 0, "drawDisc");
-        u8g2.drawDisc(10,18,9);
-        u8g2.drawDisc(24+a,16,7);
-        u8g2.drawStr( 0, 30, "drawCircle");
-        u8g2.drawCircle(10,18+30,9);
-        u8g2.drawCircle(24+a,16+30,7);
-    }
-
-    void u8g2_r_frame(uint8_t a) {
-        u8g2.drawStr( 0, 0, "drawRFrame/Box");
-        u8g2.drawRFrame(5, 10,40,30, a+1);
-        u8g2.drawRBox(50, 10,25,40, a+1);
-    }
-
-    void u8g2_string(uint8_t a) {
-        u8g2.setFontDirection(0);
-        u8g2.drawStr(30+a,31, " 0");
-        u8g2.setFontDirection(1);
-        u8g2.drawStr(30,31+a, " 90");
-        u8g2.setFontDirection(2);
-        u8g2.drawStr(30-a,31, " 180");
-        u8g2.setFontDirection(3);
-        u8g2.drawStr(30,31-a, " 270");
-    }
-
-    void u8g2_line(uint8_t a) {
-        u8g2.drawStr( 0, 0, "drawLine");
-        u8g2.drawLine(7+a, 10, 40, 55);
-        u8g2.drawLine(7+a*2, 10, 60, 55);
-        u8g2.drawLine(7+a*3, 10, 80, 55);
-        u8g2.drawLine(7+a*4, 10, 100, 55);
-    }
-
-    void u8g2_triangle(uint8_t a) {
-        uint16_t offset = a;
-        u8g2.drawStr( 0, 0, "drawTriangle");
-        u8g2.drawTriangle(14,7, 45,30, 10,40);
-        u8g2.drawTriangle(14+offset,7-offset, 45+offset,30-offset, 57+offset,10-offset);
-        u8g2.drawTriangle(57+offset*2,10, 45+offset*2,30, 86+offset*2,53);
-        u8g2.drawTriangle(10+offset,40+offset, 45+offset,30+offset, 86+offset,53+offset);
-    }
-
-    void u8g2_ascii_1() {
-        char s[2] = " ";
-        uint8_t x, y;
-        u8g2.drawStr( 0, 0, "ASCII page 1");
-        for( y = 0; y < 6; y++ ) {
-            for( x = 0; x < 16; x++ ) {
-                s[0] = y*16 + x + 32;
-                u8g2.drawStr(x*7, y*10+10, s);
-            }
-        }
-    }
-
-    void u8g2_ascii_2() {
-        char s[2] = " ";
-        uint8_t x, y;
-        u8g2.drawStr( 0, 0, "ASCII page 2");
-        for( y = 0; y < 6; y++ ) {
-            for( x = 0; x < 16; x++ ) {
-                s[0] = y*16 + x + 160;
-                u8g2.drawStr(x*7, y*10+10, s);
-            }
-        }
-    }
-
-    void u8g2_extra_page(uint8_t a)
-    {
-        u8g2.drawStr( 0, 0, "Unicode");
-        u8g2.setFont(u8g2_font_unifont_t_symbols);
-        u8g2.setFontPosTop();
-        u8g2.drawUTF8(0, 24, "☀ ☁");
-        switch(a) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-                u8g2.drawUTF8(a*3, 36, "☂");
-                break;
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-                u8g2.drawUTF8(a*3, 36, "☔");
-                break;
-        }
-    }
-
-    void u8g2_xor(uint8_t a) {
-        uint8_t i;
-        u8g2.drawStr( 0, 0, "XOR");
-        u8g2.setFontMode(1);
-        u8g2.setDrawColor(2);
-        for( i = 0; i < 5; i++)
-        {
-            u8g2.drawBox(10+i*16, 18 + (i&1)*4, 21,31);
-        }
-        u8g2.drawStr( 5+a, 19, "XOR XOR XOR XOR");
-        u8g2.setDrawColor(0);
-        u8g2.drawStr( 5+a, 29, "CLR CLR CLR CLR");
-        u8g2.setDrawColor(1);
-        u8g2.drawStr( 5+a, 39, "SET SET SET SET");
-        u8g2.setFontMode(0);
-
-    }
-
-    #define cross_width 24
-    #define cross_height 24
-    static const unsigned char cross_bits[] U8X8_PROGMEM  = {
-            0x00, 0x18, 0x00, 0x00, 0x24, 0x00, 0x00, 0x24, 0x00, 0x00, 0x42, 0x00,
-            0x00, 0x42, 0x00, 0x00, 0x42, 0x00, 0x00, 0x81, 0x00, 0x00, 0x81, 0x00,
-            0xC0, 0x00, 0x03, 0x38, 0x3C, 0x1C, 0x06, 0x42, 0x60, 0x01, 0x42, 0x80,
-            0x01, 0x42, 0x80, 0x06, 0x42, 0x60, 0x38, 0x3C, 0x1C, 0xC0, 0x00, 0x03,
-            0x00, 0x81, 0x00, 0x00, 0x81, 0x00, 0x00, 0x42, 0x00, 0x00, 0x42, 0x00,
-            0x00, 0x42, 0x00, 0x00, 0x24, 0x00, 0x00, 0x24, 0x00, 0x00, 0x18, 0x00, };
-
-    #define cross_fill_width 24
-    #define cross_fill_height 24
-    static const unsigned char cross_fill_bits[] U8X8_PROGMEM  = {
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18, 0x00, 0x18, 0x64, 0x00, 0x26,
-            0x84, 0x00, 0x21, 0x08, 0x81, 0x10, 0x08, 0x42, 0x10, 0x10, 0x3C, 0x08,
-            0x20, 0x00, 0x04, 0x40, 0x00, 0x02, 0x80, 0x00, 0x01, 0x80, 0x18, 0x01,
-            0x80, 0x18, 0x01, 0x80, 0x00, 0x01, 0x40, 0x00, 0x02, 0x20, 0x00, 0x04,
-            0x10, 0x3C, 0x08, 0x08, 0x42, 0x10, 0x08, 0x81, 0x10, 0x84, 0x00, 0x21,
-            0x64, 0x00, 0x26, 0x18, 0x00, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, };
-
-    #define cross_block_width 14
-    #define cross_block_height 14
-    static const unsigned char cross_block_bits[] U8X8_PROGMEM  = {
-            0xFF, 0x3F, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20,
-            0xC1, 0x20, 0xC1, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20,
-            0x01, 0x20, 0xFF, 0x3F, };
-
-    void u8g2_bitmap_overlay(uint8_t a) {
-        uint8_t frame_size = 28;
-
-        u8g2.drawStr(0, 0, "Bitmap overlay");
-
-        u8g2.drawStr(0, frame_size + 12, "Solid / transparent");
-        u8g2.setBitmapMode(false /* solid */);
-        u8g2.drawFrame(0, 10, frame_size, frame_size);
-        u8g2.drawXBMP(2, 12, cross_width, cross_height, cross_bits);
-        if(a & 4)
-            u8g2.drawXBMP(7, 17, cross_block_width, cross_block_height, cross_block_bits);
-
-        u8g2.setBitmapMode(true /* transparent*/);
-        u8g2.drawFrame(frame_size + 5, 10, frame_size, frame_size);
-        u8g2.drawXBMP(frame_size + 7, 12, cross_width, cross_height, cross_bits);
-        if(a & 4)
-            u8g2.drawXBMP(frame_size + 12, 17, cross_block_width, cross_block_height, cross_block_bits);
-    }
-
-    void u8g2_bitmap_modes(uint8_t transparent) {
-        const uint8_t frame_size = 24;
-
-        u8g2.drawBox(0, frame_size * 0.5, frame_size * 5, frame_size);
-        u8g2.drawStr(frame_size * 0.5, 50, "Black");
-        u8g2.drawStr(frame_size * 2, 50, "White");
-        u8g2.drawStr(frame_size * 3.5, 50, "XOR");
-
-        if(!transparent) {
-            u8g2.setBitmapMode(false /* solid */);
-            u8g2.drawStr(0, 0, "Solid bitmap");
-        } else {
-            u8g2.setBitmapMode(true /* transparent*/);
-            u8g2.drawStr(0, 0, "Transparent bitmap");
-        }
-        u8g2.setDrawColor(0);// Black
-        u8g2.drawXBMP(frame_size * 0.5, 24, cross_width, cross_height, cross_bits);
-        u8g2.setDrawColor(1); // White
-        u8g2.drawXBMP(frame_size * 2, 24, cross_width, cross_height, cross_bits);
-        u8g2.setDrawColor(2); // XOR
-        u8g2.drawXBMP(frame_size * 3.5, 24, cross_width, cross_height, cross_bits);
-    }
-
-    uint8_t draw_state = 0;
-
-    void draw(void) {
-        u8g2_prepare();
-        switch(draw_state >> 3) {
-            case 0: u8g2_box_title(draw_state&7); break;
-            case 1: u8g2_box_frame(draw_state&7); break;
-            case 2: u8g2_disc_circle(draw_state&7); break;
-            case 3: u8g2_r_frame(draw_state&7); break;
-            case 4: u8g2_string(draw_state&7); break;
-            case 5: u8g2_line(draw_state&7); break;
-            case 6: u8g2_triangle(draw_state&7); break;
-            case 7: u8g2_ascii_1(); break;
-            case 8: u8g2_ascii_2(); break;
-            case 9: u8g2_extra_page(draw_state&7); break;
-            case 10: u8g2_xor(draw_state&7); break;
-            case 11: u8g2_bitmap_modes(0); break;
-            case 12: u8g2_bitmap_modes(1); break;
-            case 13: u8g2_bitmap_overlay(draw_state&7); break;
-        }
-    }
-#endif
 /*************************************************** the Compass ***********************************************/
 // section Compass
 /***************************************************************************************************************/
@@ -1055,6 +564,44 @@ void compassSetup() {
     }
 }
 
+/********************************************** control ultrasonic sensor***************************************/
+// section BaroMeter
+/***************************************************************************************************************/
+void baroSetup() {
+    lcd.clear();
+    /* Initialise the sensor */
+    if (!bme.begin(0x76)) {
+        lcd.setCursor(0,top);
+        lcd.println("BME280,not found!");
+        delay(500);
+    } else {
+        lcd.setCursor(0,top);
+        lcd.print("BME280 Found!     ");
+        delay(500);
+    }
+}
+
+void baroMeter() {
+    lcd.clear();
+    lcd.setCursor(0,top);
+    lcd.print("Temp= ");
+    lcd.print(bme.readTemperature());
+    lcd.print("*C ");
+
+    lcd.print("P= ");
+    lcd.print(bme.readPressure() / 100.0F);
+    lcd.print("hPa");
+
+    lcd.setCursor(0,bot);
+    lcd.print("Alt= ");
+    lcd.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
+    lcd.println("m ");
+
+    lcd.print("H= ");
+    lcd.print(bme.readHumidity());
+    lcd.println("%");
+    delay(500);
+}
 /********************************************** control ultrasonic sensor***************************************/
 // section UltraSonic
 /***************************************************************************************************************/
@@ -1394,6 +941,565 @@ int lightSensor(){
     #endif
         return (calcValue < 0) ? 0 : calcValue;
 }
+
+
+/************************************************ MouthDisplay *************************************************/
+// section MouthDisplay
+/***************************************************************************************************************/
+
+#ifdef USE_MOUTH_DISPLAY_ADAFRUIT
+    void testdrawline() {
+        int16_t i;
+
+        display.clearDisplay(); // Clear display buffer
+
+        for(i=0; i<display.width(); i+=4) {
+            display.drawLine(0, 0, i, display.height()-1, SSD1306_WHITE);
+            display.display(); // Update screen with each newly-drawn line
+            delay(1);
+        }
+        for(i=0; i<display.height(); i+=4) {
+            display.drawLine(0, 0, display.width()-1, i, SSD1306_WHITE);
+            display.display();
+            delay(1);
+        }
+        delay(250);
+
+        display.clearDisplay();
+
+        for(i=0; i<display.width(); i+=4) {
+            display.drawLine(0, display.height()-1, i, 0, SSD1306_WHITE);
+            display.display();
+            delay(1);
+        }
+        for(i=display.height()-1; i>=0; i-=4) {
+            display.drawLine(0, display.height()-1, display.width()-1, i, SSD1306_WHITE);
+            display.display();
+            delay(1);
+        }
+        delay(250);
+
+        display.clearDisplay();
+
+        for(i=display.width()-1; i>=0; i-=4) {
+            display.drawLine(display.width()-1, display.height()-1, i, 0, SSD1306_WHITE);
+            display.display();
+            delay(1);
+        }
+        for(i=display.height()-1; i>=0; i-=4) {
+            display.drawLine(display.width()-1, display.height()-1, 0, i, SSD1306_WHITE);
+            display.display();
+            delay(1);
+        }
+        delay(250);
+
+        display.clearDisplay();
+
+        for(i=0; i<display.height(); i+=4) {
+            display.drawLine(display.width()-1, 0, 0, i, SSD1306_WHITE);
+            display.display();
+            delay(1);
+        }
+        for(i=0; i<display.width(); i+=4) {
+            display.drawLine(display.width()-1, 0, i, display.height()-1, SSD1306_WHITE);
+            display.display();
+            delay(1);
+        }
+
+        delay(200); // Pause for 2 seconds
+    }
+
+    void testdrawrect() {
+        display.clearDisplay();
+
+        for(int16_t i=0; i<display.height()/2; i+=2) {
+            display.drawRect(i, i, display.width()-2*i, display.height()-2*i, SSD1306_WHITE);
+            display.display(); // Update screen with each newly-drawn rectangle
+            delay(1);
+        }
+
+        delay(200);
+    }
+
+    void testfillrect() {
+        display.clearDisplay();
+
+        for(int16_t i=0; i<display.height()/2; i+=3) {
+            // The INVERSE color is used so rectangles alternate white/black
+            display.fillRect(i, i, display.width()-i*2, display.height()-i*2, SSD1306_INVERSE);
+            display.display(); // Update screen with each newly-drawn rectangle
+            delay(1);
+        }
+
+        delay(200);
+    }
+
+    void testdrawcircle() {
+        display.clearDisplay();
+
+        for(int16_t i=0; i<max(display.width(),display.height())/2; i+=2) {
+            display.drawCircle(display.width()/2, display.height()/2, i, SSD1306_WHITE);
+            display.display();
+            delay(1);
+        }
+
+        delay(200);
+    }
+
+    void testfillcircle() {
+        display.clearDisplay();
+
+        for(int16_t i=max(display.width(),display.height())/2; i>0; i-=3) {
+            // The INVERSE color is used so circles alternate white/black
+            display.fillCircle(display.width() / 2, display.height() / 2, i, SSD1306_INVERSE);
+            display.display(); // Update screen with each newly-drawn circle
+            delay(1);
+        }
+
+        delay(200);
+    }
+
+    void testdrawroundrect() {
+        display.clearDisplay();
+        display.drawRoundRect(0, 0, display.width()-2, display.height()-2,
+                              display.height()/8, SSD1306_WHITE);
+        display.display();
+        delay(200);
+    }
+
+    void testfillroundrect() {
+        display.clearDisplay();
+
+        for(int16_t i=0; i<display.height()/2-2; i+=2) {
+            // The INVERSE color is used so round-rects alternate white/black
+            display.fillRoundRect(i, i, display.width()-2*i, display.height()-2*i,
+                                  display.height()/4, SSD1306_INVERSE);
+            display.display();
+            delay(1);
+        }
+
+        delay(200);
+    }
+
+    void testdrawtriangle() {
+        display.clearDisplay();
+
+        for(int16_t i=0; i<max(display.width(),display.height())/2; i+=5) {
+            display.drawTriangle(
+                    display.width()/2  , display.height()/2-i,
+                    display.width()/2-i, display.height()/2+i,
+                    display.width()/2+i, display.height()/2+i, SSD1306_WHITE);
+            display.display();
+            delay(1);
+        }
+
+        delay(200);
+    }
+
+    void testfilltriangle() {
+        display.clearDisplay();
+
+        for(int16_t i=max(display.width(),display.height())/2; i>0; i-=5) {
+            // The INVERSE color is used so triangles alternate white/black
+            display.fillTriangle(
+                    display.width()/2  , display.height()/2-i,
+                    display.width()/2-i, display.height()/2+i,
+                    display.width()/2+i, display.height()/2+i, SSD1306_INVERSE);
+            display.display();
+            delay(1);
+        }
+
+        delay(200);
+    }
+
+    void testdrawchar() {
+        display.clearDisplay();
+
+        display.setTextSize(1);      // Normal 1:1 pixel scale
+        display.setTextColor(SSD1306_WHITE); // Draw white text
+        display.setCursor(0, 0);     // Start at top-left corner
+        display.cp437(true);         // Use full 256 char 'Code Page 437' font
+
+        // Not all the characters will fit on the display. This is normal.
+        // Library will draw what it can and the rest will be clipped.
+        for(int16_t i=0; i<256; i++) {
+            if(i == '\n') display.write(' ');
+            else          display.write(i);
+        }
+
+        display.display();
+        delay(1000);
+    }
+
+    void testdrawstyles() {
+        display.clearDisplay();
+
+        display.setTextSize(2);             // Normal 1:1 pixel scale
+        display.setTextColor(SSD1306_WHITE);        // Draw white text
+        display.setCursor(0,0);             // Start at top-left corner
+        display.println(F("Hellow, Pesto!"));
+
+        display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
+        display.println(1337);
+
+        display.setTextSize(2);             // Draw 2X-scale text
+        display.setTextColor(SSD1306_WHITE);
+        display.print(F("0x")); display.println(0xDEADBEEF, HEX);
+
+        display.display();
+        delay(2000);
+    }
+
+    void testscrolltext() {
+        display.clearDisplay();
+
+        display.setTextSize(2); // Draw 2X-scale text
+        display.setTextColor(SSD1306_WHITE);
+        display.setCursor(10, 0);
+        display.println(F("PESTO?"));
+        display.display();      // Show initial text
+        delay(1000);
+    #ifdef USE_SMALL_DISPLAY
+        // Scroll in various directions, pausing in-between:
+                display.startscrollright(0x00, 0x0F);
+                display.stopscroll();
+                delay(100);
+                display.startscrollleft(0x00, 0x0F);
+                display.stopscroll();
+                delay(100);
+                display.startscrolldiagright(0x00, 0x07);
+                display.startscrolldiagleft(0x00, 0x07);
+                display.stopscroll();
+    #endif
+    }
+
+    void testdrawbitmap() {
+        display.clearDisplay();
+
+        display.drawBitmap(
+                (display.width()  - LOGO_WIDTH ) / 2,
+                (display.height() - LOGO_HEIGHT) / 2,
+                logo_bmp, LOGO_WIDTH, LOGO_HEIGHT, 1);
+        display.display();
+        delay(100);
+    }
+
+    #define XPOS   0 // Indexes into the 'icons' array in function below
+    #define YPOS   1
+    #define DELTAY 2
+
+    void testanimate(const uint8_t *bitmap, uint8_t w, uint8_t h) {
+        int8_t f, icons[NUMFLAKES][3];
+
+        // Initialize 'snowflake' positions
+        for(f=0; f< NUMFLAKES; f++) {
+            icons[f][XPOS]   = random(1 - LOGO_WIDTH, display.width());
+            icons[f][YPOS]   = -LOGO_HEIGHT;
+            icons[f][DELTAY] = random(1, 6);
+        }
+
+        for(f=0; f< 25; f++) { // Loop 25...
+            display.clearDisplay(); // Clear the display buffer
+
+            // Draw each snowflake:
+            for(f=0; f< NUMFLAKES; f++) {
+                display.drawBitmap(icons[f][XPOS], icons[f][YPOS], bitmap, w, h, SSD1306_WHITE);
+            }
+
+            display.display(); // Show the display buffer on the screen
+            delay(40);        // Pause for 1/10 second
+
+            // Then update coordinates of each flake...
+            for(f=0; f< NUMFLAKES; f++) {
+                icons[f][YPOS] += icons[f][DELTAY];
+                // If snowflake is off the bottom of the screen...
+                if (icons[f][YPOS] >= display.height()) {
+                    // Reinitialize to a random position, just off the top
+                    icons[f][XPOS]   = random(1 - LOGO_WIDTH, display.width());
+                    icons[f][YPOS]   = -LOGO_HEIGHT;
+                    icons[f][DELTAY] = random(1, 6);
+                }
+            }
+        }
+    }
+
+#endif
+
+
+void displaySetup() {
+#ifdef USE_MOUTH_DISPLAY_ADAFRUIT
+
+    if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
+
+    } else {
+
+        // Show initial display buffer contents on the screen --
+        // the library initializes this with an Adafruit splash screen.
+        display.display();
+        delay(500); // Pause for 2 seconds
+
+        testdrawline();      // Draw many lines
+
+        testdrawrect();      // Draw rectangles (outlines)
+
+        testfillrect();      // Draw rectangles (filled)
+
+        testdrawcircle();    // Draw circles (outlines)
+
+        testfillcircle();    // Draw circles (filled)
+
+        testdrawroundrect(); // Draw rounded rectangles (outlines)
+
+        testfillroundrect(); // Draw rounded rectangles (filled)
+
+        testdrawtriangle();  // Draw triangles (outlines)
+
+        testfilltriangle();  // Draw triangles (filled)
+
+        testdrawchar();      // Draw characters of the default font
+
+        testdrawstyles();    // Draw 'stylized' characters
+
+        testscrolltext();    // Draw scrolling text
+
+        testdrawbitmap();    // Draw a small bitmap image
+
+        // Invert and restore display, pausing in-between
+        display.invertDisplay(true);
+        delay(1000);
+        display.invertDisplay(false);
+        delay(1000);
+
+        //testanimate(logo_bmp, LOGO_WIDTH, LOGO_HEIGHT); // Animate bitmaps
+    }
+#endif
+}
+
+#ifdef USE_MOUTH_DISPLAY
+    void u8g2_prepare() {
+        u8g2.setFont(u8g2_font_6x10_tf);
+        u8g2.setFontRefHeightExtendedText();
+        u8g2.setDrawColor(1);
+        u8g2.setFontPosTop();
+        u8g2.setFontDirection(0);
+    }
+
+    void u8g2_box_title(uint8_t a) {
+        u8g2.drawStr( 10+a*2, 5, "U8g2");
+        u8g2.drawStr( 10, 20, "GraphicsTest");
+
+        u8g2.drawFrame(0,0,u8g2.getDisplayWidth(),u8g2.getDisplayHeight() );
+    }
+
+    void u8g2_box_frame(uint8_t a) {
+        u8g2.drawStr( 0, 0, "drawBox");
+        u8g2.drawBox(5,10,20,10);
+        u8g2.drawBox(10+a,15,30,7);
+        u8g2.drawStr( 0, 30, "drawFrame");
+        u8g2.drawFrame(5,10+30,20,10);
+        u8g2.drawFrame(10+a,15+30,30,7);
+    }
+
+    void u8g2_disc_circle(uint8_t a) {
+        u8g2.drawStr( 0, 0, "drawDisc");
+        u8g2.drawDisc(10,18,9);
+        u8g2.drawDisc(24+a,16,7);
+        u8g2.drawStr( 0, 30, "drawCircle");
+        u8g2.drawCircle(10,18+30,9);
+        u8g2.drawCircle(24+a,16+30,7);
+    }
+
+    void u8g2_r_frame(uint8_t a) {
+        u8g2.drawStr( 0, 0, "drawRFrame/Box");
+        u8g2.drawRFrame(5, 10,40,30, a+1);
+        u8g2.drawRBox(50, 10,25,40, a+1);
+    }
+
+    void u8g2_string(uint8_t a) {
+        u8g2.setFontDirection(0);
+        u8g2.drawStr(30+a,31, " 0");
+        u8g2.setFontDirection(1);
+        u8g2.drawStr(30,31+a, " 90");
+        u8g2.setFontDirection(2);
+        u8g2.drawStr(30-a,31, " 180");
+        u8g2.setFontDirection(3);
+        u8g2.drawStr(30,31-a, " 270");
+    }
+
+    void u8g2_line(uint8_t a) {
+        u8g2.drawStr( 0, 0, "drawLine");
+        u8g2.drawLine(7+a, 10, 40, 55);
+        u8g2.drawLine(7+a*2, 10, 60, 55);
+        u8g2.drawLine(7+a*3, 10, 80, 55);
+        u8g2.drawLine(7+a*4, 10, 100, 55);
+    }
+
+    void u8g2_triangle(uint8_t a) {
+        uint16_t offset = a;
+        u8g2.drawStr( 0, 0, "drawTriangle");
+        u8g2.drawTriangle(14,7, 45,30, 10,40);
+        u8g2.drawTriangle(14+offset,7-offset, 45+offset,30-offset, 57+offset,10-offset);
+        u8g2.drawTriangle(57+offset*2,10, 45+offset*2,30, 86+offset*2,53);
+        u8g2.drawTriangle(10+offset,40+offset, 45+offset,30+offset, 86+offset,53+offset);
+    }
+
+    void u8g2_ascii_1() {
+        char s[2] = " ";
+        uint8_t x, y;
+        u8g2.drawStr( 0, 0, "ASCII page 1");
+        for( y = 0; y < 6; y++ ) {
+            for( x = 0; x < 16; x++ ) {
+                s[0] = y*16 + x + 32;
+                u8g2.drawStr(x*7, y*10+10, s);
+            }
+        }
+    }
+
+    void u8g2_ascii_2() {
+        char s[2] = " ";
+        uint8_t x, y;
+        u8g2.drawStr( 0, 0, "ASCII page 2");
+        for( y = 0; y < 6; y++ ) {
+            for( x = 0; x < 16; x++ ) {
+                s[0] = y*16 + x + 160;
+                u8g2.drawStr(x*7, y*10+10, s);
+            }
+        }
+    }
+
+    void u8g2_extra_page(uint8_t a)
+    {
+        u8g2.drawStr( 0, 0, "Unicode");
+        u8g2.setFont(u8g2_font_unifont_t_symbols);
+        u8g2.setFontPosTop();
+        u8g2.drawUTF8(0, 24, "☀ ☁");
+        switch(a) {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+                u8g2.drawUTF8(a*3, 36, "☂");
+                break;
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+                u8g2.drawUTF8(a*3, 36, "☔");
+                break;
+        }
+    }
+
+    void u8g2_xor(uint8_t a) {
+        uint8_t i;
+        u8g2.drawStr( 0, 0, "XOR");
+        u8g2.setFontMode(1);
+        u8g2.setDrawColor(2);
+        for( i = 0; i < 5; i++)
+        {
+            u8g2.drawBox(10+i*16, 18 + (i&1)*4, 21,31);
+        }
+        u8g2.drawStr( 5+a, 19, "XOR XOR XOR XOR");
+        u8g2.setDrawColor(0);
+        u8g2.drawStr( 5+a, 29, "CLR CLR CLR CLR");
+        u8g2.setDrawColor(1);
+        u8g2.drawStr( 5+a, 39, "SET SET SET SET");
+        u8g2.setFontMode(0);
+
+    }
+
+    #define cross_width 24
+    #define cross_height 24
+    static const unsigned char cross_bits[] U8X8_PROGMEM  = {
+            0x00, 0x18, 0x00, 0x00, 0x24, 0x00, 0x00, 0x24, 0x00, 0x00, 0x42, 0x00,
+            0x00, 0x42, 0x00, 0x00, 0x42, 0x00, 0x00, 0x81, 0x00, 0x00, 0x81, 0x00,
+            0xC0, 0x00, 0x03, 0x38, 0x3C, 0x1C, 0x06, 0x42, 0x60, 0x01, 0x42, 0x80,
+            0x01, 0x42, 0x80, 0x06, 0x42, 0x60, 0x38, 0x3C, 0x1C, 0xC0, 0x00, 0x03,
+            0x00, 0x81, 0x00, 0x00, 0x81, 0x00, 0x00, 0x42, 0x00, 0x00, 0x42, 0x00,
+            0x00, 0x42, 0x00, 0x00, 0x24, 0x00, 0x00, 0x24, 0x00, 0x00, 0x18, 0x00, };
+
+    #define cross_fill_width 24
+    #define cross_fill_height 24
+    static const unsigned char cross_fill_bits[] U8X8_PROGMEM  = {
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18, 0x00, 0x18, 0x64, 0x00, 0x26,
+            0x84, 0x00, 0x21, 0x08, 0x81, 0x10, 0x08, 0x42, 0x10, 0x10, 0x3C, 0x08,
+            0x20, 0x00, 0x04, 0x40, 0x00, 0x02, 0x80, 0x00, 0x01, 0x80, 0x18, 0x01,
+            0x80, 0x18, 0x01, 0x80, 0x00, 0x01, 0x40, 0x00, 0x02, 0x20, 0x00, 0x04,
+            0x10, 0x3C, 0x08, 0x08, 0x42, 0x10, 0x08, 0x81, 0x10, 0x84, 0x00, 0x21,
+            0x64, 0x00, 0x26, 0x18, 0x00, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, };
+
+    #define cross_block_width 14
+    #define cross_block_height 14
+    static const unsigned char cross_block_bits[] U8X8_PROGMEM  = {
+            0xFF, 0x3F, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20,
+            0xC1, 0x20, 0xC1, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20,
+            0x01, 0x20, 0xFF, 0x3F, };
+
+    void u8g2_bitmap_overlay(uint8_t a) {
+        uint8_t frame_size = 28;
+
+        u8g2.drawStr(0, 0, "Bitmap overlay");
+
+        u8g2.drawStr(0, frame_size + 12, "Solid / transparent");
+        u8g2.setBitmapMode(false /* solid */);
+        u8g2.drawFrame(0, 10, frame_size, frame_size);
+        u8g2.drawXBMP(2, 12, cross_width, cross_height, cross_bits);
+        if(a & 4)
+            u8g2.drawXBMP(7, 17, cross_block_width, cross_block_height, cross_block_bits);
+
+        u8g2.setBitmapMode(true /* transparent*/);
+        u8g2.drawFrame(frame_size + 5, 10, frame_size, frame_size);
+        u8g2.drawXBMP(frame_size + 7, 12, cross_width, cross_height, cross_bits);
+        if(a & 4)
+            u8g2.drawXBMP(frame_size + 12, 17, cross_block_width, cross_block_height, cross_block_bits);
+    }
+
+    void u8g2_bitmap_modes(uint8_t transparent) {
+        const uint8_t frame_size = 24;
+
+        u8g2.drawBox(0, frame_size * 0.5, frame_size * 5, frame_size);
+        u8g2.drawStr(frame_size * 0.5, 50, "Black");
+        u8g2.drawStr(frame_size * 2, 50, "White");
+        u8g2.drawStr(frame_size * 3.5, 50, "XOR");
+
+        if(!transparent) {
+            u8g2.setBitmapMode(false /* solid */);
+            u8g2.drawStr(0, 0, "Solid bitmap");
+        } else {
+            u8g2.setBitmapMode(true /* transparent*/);
+            u8g2.drawStr(0, 0, "Transparent bitmap");
+        }
+        u8g2.setDrawColor(0);// Black
+        u8g2.drawXBMP(frame_size * 0.5, 24, cross_width, cross_height, cross_bits);
+        u8g2.setDrawColor(1); // White
+        u8g2.drawXBMP(frame_size * 2, 24, cross_width, cross_height, cross_bits);
+        u8g2.setDrawColor(2); // XOR
+        u8g2.drawXBMP(frame_size * 3.5, 24, cross_width, cross_height, cross_bits);
+    }
+
+    uint8_t draw_state = 0;
+
+    void draw() {
+        u8g2_prepare();
+        switch(draw_state >> 3) {
+            case 0: u8g2_box_title(draw_state&7); break;
+            case 1: u8g2_box_frame(draw_state&7); break;
+            case 2: u8g2_disc_circle(draw_state&7); break;
+            case 3: u8g2_r_frame(draw_state&7); break;
+            case 4: u8g2_string(draw_state&7); break;
+            case 5: u8g2_line(draw_state&7); break;
+            case 6: u8g2_triangle(draw_state&7); break;
+            case 7: u8g2_ascii_1(); break;
+            case 8: u8g2_ascii_2(); break;
+            case 9: u8g2_extra_page(draw_state&7); break;
+            case 10: u8g2_xor(draw_state&7); break;
+            case 11: u8g2_bitmap_modes(0); break;
+            case 12: u8g2_bitmap_modes(1); break;
+            case 13: u8g2_bitmap_overlay(draw_state&7); break;
+        }
+    }
+#endif
+
+
 /***************************************************** Functions s**********************************************/
 // section Timer Functions
 /***************************************************************************************************************/
@@ -1555,11 +1661,34 @@ void webserver(){
 /***************************************************************************************************************/
 
 void setup(){
+    matrix.loadSequence(animation);
+    matrix.begin();
+    matrix.autoscroll(300);
+    matrix.play(true);
 
     Wire.begin();
     lcd.init();
     lcd.backlight();      // Make sure backlight is on
     lcd.createChar(0, Heart); // create a new characters
+    if (!BLE.begin()) {
+        lcd.println("starting Bluetooth® Low Energy module failed!");
+    }
+
+    BLE.setLocalName("Wall-Z");
+    BLE.setAdvertisedService(carService);
+
+    // add the characteristics to the service
+    carService.addCharacteristic(carControlCharacteristic);
+
+    // add the service
+    BLE.addService(carService);
+
+    carControlCharacteristic.writeValue(0);
+
+    // start advertising
+    BLE.advertise();
+
+    lcd.println("Bluetooth® device active, waiting for connections...");
 
     pinMode(Trig_PIN, OUTPUT);    /***** 6 ******/
     pinMode(Echo_PIN, INPUT);     /***** 7 ******/
@@ -1598,6 +1727,7 @@ void setup(){
 
     lcd.clear();
 
+    baroSetup();
 
     // Start the receiver and if not 3. parameter specified, take LED_BUILTIN pin from the internal boards definition as default feedback LED
     IrReceiver.begin(IR_Pin, ENABLE_LED_FEEDBACK);
@@ -1670,6 +1800,8 @@ void loop(){
         // delay between each page
         delay(150);
     #endif
+
+    bluetooth();
 
     /***************************** IrReceiver **********************************/
     // section Loop IrReceiver
@@ -1772,3 +1904,4 @@ void loop(){
         ledRGB(0, 0,lightSensor());
     }
 }
+
