@@ -3,8 +3,8 @@
 /***************************************************************************************************************/
 
 //#define USE_WIFI_SERVER
-#define USE_MOUTH_DISPLAY_ADAFRUIT
-//#define USE_SMALL_DISPLAY
+//#define USE_MOUTH_DISPLAY_ADAFRUIT
+#define USE_SMALL_DISPLAY
 #define USE_MOUTH_DISPLAY
 //#define USE_JOYSTICK
 
@@ -94,7 +94,7 @@ void pestoMatrix();
 void dotMatrixTimer();
 void sensorTimer();
 int pulseWidth(int);
-void ledRGB(int b_val, int g_val, int r_val);
+void ledRGB(int r_val, int g_val, int b_val);
 
 /********************************************** Make DotMatric Images*******************************************/
 // section DotMatrix Images
@@ -275,7 +275,7 @@ Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(12345);
 #endif
 
 #ifdef USE_MOUTH_DISPLAY
-U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+    U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 #endif
 
 
@@ -391,6 +391,41 @@ void bluetooth() {
         lcd.println(controller.address());
         digitalWrite(LED_BUILTIN, LOW);         // when the central disconnects, turn off the LED
     }
+}
+void bluetoothSetup() {
+    lcd.clear();
+    delay(20);
+    lcd.setCursor(0, top);
+    if (!BLE.begin()) {
+        lcd.println("Bluetooth® Low Energy!");
+        lcd.setCursor(0, bot);
+        lcd.println("Module failed!");
+    } else {
+        lcd.println("Bluetooth® Low Energy!");
+        lcd.setCursor(0, bot);
+        lcd.println("Wall-Z Started!");
+    }
+
+    BLE.setLocalName("Wall-Z");
+    BLE.setAdvertisedService(carService);
+
+    // add the characteristics to the service
+    carService.addCharacteristic(carControlCharacteristic);
+
+    // add the service
+    BLE.addService(carService);
+
+    carControlCharacteristic.writeValue(0);
+
+    // start advertising
+    BLE.advertise();
+    lcd.clear();
+    delay(20);
+    lcd.setCursor(0, top);
+    lcd.println("Bluetooth® active,");
+    delay(20);
+    lcd.setCursor(0, bot);
+    lcd.println("waiting for connections...");
 }
 
 
@@ -1670,25 +1705,7 @@ void setup(){
     lcd.init();
     lcd.backlight();      // Make sure backlight is on
     lcd.createChar(0, Heart); // create a new characters
-    if (!BLE.begin()) {
-        lcd.println("starting Bluetooth® Low Energy module failed!");
-    }
-
-    BLE.setLocalName("Wall-Z");
-    BLE.setAdvertisedService(carService);
-
-    // add the characteristics to the service
-    carService.addCharacteristic(carControlCharacteristic);
-
-    // add the service
-    BLE.addService(carService);
-
-    carControlCharacteristic.writeValue(0);
-
-    // start advertising
-    BLE.advertise();
-
-    lcd.println("Bluetooth® device active, waiting for connections...");
+    bluetoothSetup();
 
     pinMode(Trig_PIN, OUTPUT);    /***** 6 ******/
     pinMode(Echo_PIN, INPUT);     /***** 7 ******/
