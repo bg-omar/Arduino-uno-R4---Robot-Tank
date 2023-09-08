@@ -69,18 +69,18 @@ ArduinoLEDMatrix matrix;
 /********************************************** Declare all the functions***************************************/
 // section declaration
 /***************************************************************************************************************/
-void forward();
-void carLeft();
-void carRight();
-void carStop();
-void carBack();
+void Car_front();
+void Car_left();
+void Car_right();
+void Car_Stop();
+void Car_Back();
 
 void I2CScanner();
 void gyroCalibrate_sensor();
 void gyroDetectMovement();
 void gyroFunc();
 void compass();
-double checkdistance();
+double checkDistance();
 
 void dance();
 void avoid();
@@ -94,7 +94,7 @@ void pestoMatrix();
 void dotMatrixTimer();
 void sensorTimer();
 int pulseWidth(int);
-void ledRGB(int r_val, int g_val, int b_val);
+void RGBled(int r_val, int g_val, int b_val);
 
 /********************************************** Make DotMatric Images*******************************************/
 // section DotMatrix Images
@@ -170,7 +170,7 @@ static const unsigned char PROGMEM logo_bmp[] =
 #define RX_PIN       0
 #define TX_PIN       1
 #define LED_PIN      2
-#define R_PWM        3   // define PWM control pin of right motor
+#define MR_PWM       3   // define PWM control pin of right motor
 
 #define DotDataPIN   4  // Set data  pin to 4
 #define DotClockPIN  5  // Set clock pin to 5
@@ -179,10 +179,9 @@ static const unsigned char PROGMEM logo_bmp[] =
 
 #define PIN_9        9
 #define PIN_10      10
-#define L_PWM       11  // define PWM control pin of left motor
-
-#define R_Direction 12  // define the direction control pin of right motor
-#define L_Direction 13  // define the direction control pin of left motor
+#define ML_PWM      11  // define PWM control pin of left motor
+#define MR_Ctrl     12  // define the direction control pin of right motor
+#define ML_Ctrl     13  // define the direction control pin of left motor
 
 
 #define IR_Pin      A2
@@ -350,48 +349,6 @@ void I2CScanner() {
 // section Bluetooth5 BLE
 /***************************************************************************************************************/
 
-void bluetooth() {
-    // listen for BLE peripherals to connect:
-    BLEDevice controller = BLE.central();
-
-    // if a central is connected to peripheral:
-    if (controller) {
-        lcd.println("Connected to controller: ");
-        // print the controller's MAC address:
-        lcd.println(controller.address());
-        digitalWrite(LED_BUILTIN, HIGH);  // turn on the LED to indicate the connection
-
-        // while the controller is still connected to peripheral:
-        while (controller.connected()) {
-
-            if (carControlCharacteristic.written()) {
-
-                switch (carControlCharacteristic.value()) {
-                    case 01:
-                        lcd.println("LEFT");
-                        break;
-                    case 02:
-                        lcd.println("RIGHT");
-                        break;
-                    case 03:
-                        lcd.println("UP");
-                        break;
-                    case 04:
-                        lcd.println("DOWN");
-                        break;
-                    default:  // 0 or invalid control
-                        lcd.println("STOP");
-                        break;
-                }
-            }
-        }
-
-        // when the central disconnects, print it out:
-        lcd.print(F("Disconnected from controller: "));
-        lcd.println(controller.address());
-        digitalWrite(LED_BUILTIN, LOW);         // when the central disconnects, turn off the LED
-    }
-}
 void bluetoothSetup() {
     lcd.clear();
     delay(20);
@@ -428,7 +385,121 @@ void bluetoothSetup() {
     lcd.println("waiting for connections...");
 }
 
+void bluetoothListener() {
+    // listen for BLE peripherals to connect:
+    BLEDevice controller = BLE.central();
+    
+    lcd.clear();
+    lcd.setCursor(0, top);
+    // if a central is connected to peripheral:
+    if (controller) {
+        lcd.println("Connected to controller: ");
+        lcd.setCursor(0, bot);
+        // print the controller's MAC address:
+        lcd.println(controller.address());
 
+        for (int j = 1; j <= 10; j++) { ///  the data will be more accurate if sensor detect a few times.
+            RGBled(0, 0, 255);
+            delay(50);
+            RGBled(0, 0, 0);
+            delay(50);
+        }
+        
+        // while the controller is still connected to peripheral:
+        while (controller.connected()) {
+            if (carControlCharacteristic.written()) {
+                lcd.clear();
+                lcd.setCursor(0, top);
+                switch (carControlCharacteristic.value()) {
+                    case 01:
+                        lcd.println("LEFT");
+                        break;
+                    case 02:
+                        lcd.println("RIGHT");
+                        break;
+                    case 03:
+                        lcd.println("UP");
+                        break;
+                    case 04:
+                        lcd.println("DOWN");
+                        break;
+                    default:  // 0 or invalid control
+                        lcd.println("STOP");
+                        break;
+                }
+            }
+        }
+
+        // when the central disconnects, print it out:
+        lcd.print(F("Disconnected from controller: "));
+        lcd.println(controller.address());
+        digitalWrite(LED_BUILTIN, LOW);         // when the central disconnects, turn off the LED
+    }
+}
+
+void bluetoothSerial(){
+    int bluetooth_val;
+    if (Serial.available())
+    {
+        bluetooth_val = Serial.read();
+        Serial.println(bluetooth_val);
+    }
+    switch (bluetooth_val)
+    {
+        case 'F': //Forward instruction
+            Car_front();
+            matrix_display(front); //display forward pattern
+            break;
+        case 'B': //Back instruction
+            Car_Back();
+            matrix_display(back); // display back pattern
+            break;
+        case 'L': //left-turning instruction
+            Car_left();
+            matrix_display(left); //show left-turning pattern
+            break;
+        case 'R': //right-turning instruction
+            Car_right();
+            matrix_display(right); //show right-turning pattern
+            break;
+        case 'S': //stop instruction
+            Car_Stop();
+            matrix_display(STOP01); //display stop pattern
+            break;
+        case 'Y':
+            matrix_display(pesto); //show start pattern
+            dance();
+            break;
+        case 'U':
+            matrix_display(bleh); //show start pattern
+            avoid();
+            break;
+        case 'X':
+            matrix_display(bleh); //show start pattern
+            light_track();
+            break;
+        case 'C':
+            lcd.clear();
+            timerTwoActive = !timerTwoActive;
+            timerTreeActive = false;
+            timerButton = Rem_9;
+            delay(100);
+            break;
+        case 'A':
+            lcd.clear();
+            timerTwoActive = !timerTwoActive;
+            timerTreeActive = false;
+            timerButton = Rem_7;
+            delay(100);
+            break;
+        case 'a': posXY = min(180, posXY + speedXY); break;
+        case 'w': posZ = min(160, posZ + speedZ); break;
+        case 'd': posXY = max(0, posXY - speedXY); break;
+        case 'q': posXY = 90; posZ = 45; break;
+        case 's': posZ = max(0, posZ - speedZ); break;
+        case 'e': posXY = 90; posZ = 15; break;
+    }
+}
 
 /************************************************** the gyroscope **********************************************/
 // section gyroRead
@@ -641,7 +712,7 @@ void baroMeter() {
 // section UltraSonic
 /***************************************************************************************************************/
 
-double checkdistance() {
+double checkDistance() {
     digitalWrite(Trig_PIN, LOW);
     delayMicroseconds(2);
     digitalWrite(Trig_PIN, HIGH);
@@ -698,10 +769,10 @@ void avoid() {
     flag = 0; ///the design that enter obstacle avoidance function
     while (flag == 0) {
         random2 = random(1, 100);
-        distanceF= checkdistance();
+        distanceF= checkDistance();
         if (distanceF < 25) {
             analogWrite (LED_PIN, 255);
-            carStop(); /// robot stops
+            Car_Stop(); /// robot stops
                 pwm.setPWM(PWM_1, 0, pulseWidth(115));
             delay(10); ///delay in 200ms
                 pwm.setPWM(PWM_1, 0, pulseWidth(90));
@@ -709,44 +780,44 @@ void avoid() {
             analogWrite (LED_PIN, 0);
                 pwm.setPWM(PWM_0, 0, pulseWidth(160)); /// look left
             for (int j = 1; j <= 10; j = j + (1)) { ///  the data will be more accurate if sensor detect a few times.
-                distanceL = checkdistance();
+                distanceL = checkDistance();
             }
             delay(200);
                 pwm.setPWM(PWM_0, 0, pulseWidth(20)); /// look right
             for (int k = 1; k <= 10; k = k + (1)) {
-                distanceR = checkdistance();
+                distanceR = checkDistance();
             }
             if (distanceL < 50 || distanceR < 50) {
                 if (distanceL > distanceR) {
                         pwm.setPWM(PWM_0, 0, pulseWidth(90));
-                    carLeft();
+                    Car_left();
                     delay(500); ///turn left 500ms
-                    forward();
+                    Car_front();
                 }
                 else {
                         pwm.setPWM(PWM_0, 0, pulseWidth(90));
-                    carRight();
+                    Car_right();
                     delay(500);
-                    forward();
+                    Car_front();
                 }
             } else {  /// not (distanceL < 50 || distanceR < 50)
                 if ((long) (random2) % (long) (2) == 0) ///when the random number is even
                 {
                         pwm.setPWM(PWM_0, 0, pulseWidth(90));
-                    carLeft(); ///robot turns left
+                    Car_left(); ///robot turns left
                     delay(500);
-                    forward(); ///go forward
+                    Car_front(); ///go forward
                 }
                 else
                 {
                         pwm.setPWM(PWM_0, 0, pulseWidth(90));
-                    carRight(); ///robot turns right
+                    Car_right(); ///robot turns right
                     delay(500);
-                    forward(); ///go forward
+                    Car_front(); ///go forward
                 } } }
         else /// if (distanceF < 25) { If the front distance is greater than or equal, robot car will go forward
         {
-            forward();
+            Car_front();
         }
         if (IrReceiver.decode()) {
             ir_rec = IrReceiver.decodedIRData.decodedRawData;
@@ -768,16 +839,16 @@ void light_track() {
         lightSensorR = analogRead(light_R_Pin);
         lightSensorL = analogRead(light_L_Pin);
         if (lightSensorR > 650 && lightSensorL > 650) {
-            forward();
+            Car_front();
         }
         else if (lightSensorR > 650 && lightSensorL <= 650) {
-            carLeft();
+            Car_left();
         }
         else if (lightSensorR <= 650 && lightSensorL > 650) {
-            carRight();
+            Car_right();
         }
         else {
-            carStop();
+            Car_Stop();
         }
         if (IrReceiver.decode()) {
             ir_rec = IrReceiver.decodedIRData.decodedRawData;
@@ -862,37 +933,44 @@ void pestoMatrix() {
 // section motor function
 /***************************************************************************************************************/
 
-void forward(){
-    digitalWrite(R_Direction, HIGH);
-    analogWrite(R_PWM, 100);
-    digitalWrite(L_Direction, HIGH);
-    analogWrite(L_PWM, 100);
+void Car_front(){
+    digitalWrite(MR_Ctrl,HIGH);
+    analogWrite(MR_PWM,200);
+    digitalWrite(ML_Ctrl,HIGH);
+    analogWrite(ML_PWM,200);
 }
 
-void carLeft(){
-    digitalWrite(R_Direction, LOW);
-    analogWrite(R_PWM, 100);
-    digitalWrite(L_Direction, HIGH);
-    analogWrite(L_PWM, 100);
+void Car_left(){
+    digitalWrite(MR_Ctrl,LOW);
+    analogWrite(MR_PWM,255);
+    digitalWrite(ML_Ctrl,HIGH);
+    analogWrite(ML_PWM,255);
 }
-void carRight(){
-    digitalWrite(R_Direction, HIGH);
-    analogWrite(R_PWM, 100);
-    digitalWrite(L_Direction, LOW);
-    analogWrite(L_PWM, 100);
+void Car_right(){
+    digitalWrite(MR_Ctrl,HIGH);
+    analogWrite(MR_PWM,255);
+    digitalWrite(ML_Ctrl,LOW);
+    analogWrite(ML_PWM,255);
+}
+void Car_Stop(){
+    digitalWrite(MR_Ctrl,LOW);
+    analogWrite(MR_PWM,0);
+    digitalWrite(ML_Ctrl,LOW);
+    analogWrite(ML_PWM,0);
 }
 
-void carBack(){
-    digitalWrite(R_Direction, LOW);
-    analogWrite(R_PWM, 100);
-    digitalWrite(L_Direction, LOW);
-    analogWrite(L_PWM, 100);
+void Car_Back(){
+    digitalWrite(MR_Ctrl,LOW);
+    analogWrite(MR_PWM,200);
+    digitalWrite(ML_Ctrl,LOW);
+    analogWrite(ML_PWM,200);
 }
 
-void carStop(){
-    analogWrite(R_PWM, 0);
-    analogWrite(L_PWM, 0);
-}
+
+/********************************************** the function to run motor **************************************/
+// section Analog Joystick
+/***************************************************************************************************************/
+
 
 void joystick() {
     #ifdef USE_JOYSTICK
@@ -905,15 +983,15 @@ void joystick() {
 
     // Y-axis used for forward and backward control
     if (yAxis < 470) { // Set Motor A backward
-        digitalWrite(R_Direction, LOW);
-        digitalWrite(L_Direction, LOW);
+        digitalWrite(MR_Ctrl, LOW);
+        digitalWrite(ML_Ctrl, LOW);
         // Convert the declining Y-axis readings for going backward from 470 to 0 into 0 to 255 value for the PWM signal for increasing the motor speed
         R_velocity = map(yAxis, 470, 0, 0, 255);
         L_velocity = map(yAxis, 470, 0, 0, 255);
     }
     else if (yAxis > 550) { // Set Motor A forward
-        digitalWrite(R_Direction, HIGH);
-        digitalWrite(L_Direction, HIGH);
+        digitalWrite(MR_Ctrl, HIGH);
+        digitalWrite(ML_Ctrl, HIGH);
         // Convert the increasing Y-axis readings for going forward from 550 to 1023 into 0 to 255 value for the PWM signal for increasing the motor speed
         R_velocity = map(yAxis, 550, 1023, 0, 255);
         L_velocity = map(yAxis, 550, 1023, 0, 255);
@@ -960,9 +1038,13 @@ void joystick() {
     if (L_velocity < 70) {
         L_velocity = 0;
     }
-    analogWrite(R_PWM, R_velocity); // Send PWM signal to motor A
-    analogWrite(L_PWM, L_velocity); // Send PWM signal to motor B
+    analogWrite(MR_PWM, R_velocity); // Send PWM signal to motor A
+    analogWrite(ML_PWM, L_velocity); // Send PWM signal to motor B
 }
+
+/********************************************** Light Sensors **************************************/
+// section Light Sensors
+/***************************************************************************************************************/
 
 int lightSensor(){
     #ifdef USE_JOYSTICK
@@ -978,8 +1060,8 @@ int lightSensor(){
 }
 
 
-/************************************************ MouthDisplay *************************************************/
-// section MouthDisplay
+/************************************************ Display Adafruit  *************************************************/
+// section Display Adafruit
 /***************************************************************************************************************/
 
 #ifdef USE_MOUTH_DISPLAY_ADAFRUIT
@@ -1310,6 +1392,10 @@ void displaySetup() {
 #endif
 }
 
+/************************************************ Display u8g2  *************************************************/
+// section Display u8g2
+/***************************************************************************************************************/
+
 #ifdef USE_MOUTH_DISPLAY
     void u8g2_prepare() {
         u8g2.setFont(u8g2_font_6x10_tf);
@@ -1558,6 +1644,10 @@ void resetTimers(){
 }
 
 
+/***************************************************** Servo PWM Angle s**********************************************/
+// section Servo PWM Angle
+/***************************************************************************************************************/
+
 int pulseWidth(int angle){  //  pwm.setPWM(PWM_0, 0, pulseWidth(0));
     int pulse_wide, analog_value;
     pulse_wide   = map(angle, 0, 180, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH);
@@ -1565,11 +1655,29 @@ int pulseWidth(int angle){  //  pwm.setPWM(PWM_0, 0, pulseWidth(0));
     return analog_value;
 }
 
-void ledRGB(int r_val, int g_val, int b_val) {
+/***************************************************** Servo PWM Angle s**********************************************/
+// section RGBled
+/***************************************************************************************************************/
+
+void RGBled(int r_val, int g_val, int b_val) {
     pwm.setPWM(PWM_8, 0, (16*b_val<4080) ? 16*b_val : 4080);
     pwm.setPWM(PWM_9, 0, (16*g_val<4080) ? 16*g_val : 4080);
     pwm.setPWM(PWM_10, 0, (16*r_val<4080) ? 16*r_val : 4080);
 }
+
+void defaultLCD(){
+    lcd.setCursor(0,top);
+    lcd.write(0); /********** heart **********/
+    lcd.setCursor(2,top);   //Set cursor to character 2 on line 0
+    lcd.print("Hello Pesto!");
+    lcd.setCursor(0,bot);   //Set cursor to line 1
+    lcd.print(previousIR, HEX);
+}
+
+
+/********************************************** Main loop running the arduino **********************************/
+// section webserver
+/***************************************************************************************************************/
 
 void printWifiStatus() {
     lcd.clear();
@@ -1586,19 +1694,6 @@ void printWifiStatus() {
 }
 
 
-void defaultLCD(){
-    lcd.setCursor(0,top);
-    lcd.write(0); /********** heart **********/
-    lcd.setCursor(2,top);   //Set cursor to character 2 on line 0
-    lcd.print("Hello Pesto!");
-    lcd.setCursor(0,bot);   //Set cursor to line 1
-    lcd.print(previousIR, HEX);
-}
-
-
-/********************************************** Main loop running the arduino **********************************/
-// section webserver
-/***************************************************************************************************************/
 void setupWifi(){
     lcd.clear();
     lcd.setCursor(0,top);
@@ -1709,12 +1804,12 @@ void setup(){
 
     pinMode(Trig_PIN, OUTPUT);    /***** 6 ******/
     pinMode(Echo_PIN, INPUT);     /***** 7 ******/
-    pinMode(L_Direction, OUTPUT);     /***** 13 ******/
-    pinMode(L_PWM, OUTPUT);      /***** 11 ******/
-    pinMode(R_Direction, OUTPUT);     /***** 12 ******/
-    pinMode(R_PWM, OUTPUT);      /***** 3 ******/
-    digitalWrite(L_Direction, HIGH);
-    digitalWrite(R_Direction, HIGH);
+    pinMode(ML_Ctrl, OUTPUT);     /***** 13 ******/
+    pinMode(ML_PWM, OUTPUT);      /***** 11 ******/
+    pinMode(MR_Ctrl, OUTPUT);     /***** 12 ******/
+    pinMode(MR_PWM, OUTPUT);      /***** 3 ******/
+    digitalWrite(ML_Ctrl, HIGH);
+    digitalWrite(MR_Ctrl, HIGH);
 
 
     pinMode(LED_PIN, OUTPUT);     /***** 2 ******/
@@ -1763,10 +1858,10 @@ void setup(){
         displaySetup();
     #else
         lcd.clear();
-            lcd.setCursor(0,top);
-            lcd.print("Not using the");
-            lcd.setCursor(0,bot);
-            lcd.print(" 128x64 display");
+        lcd.setCursor(0,top);
+        lcd.print("Not using the");
+        lcd.setCursor(0,bot);
+        lcd.print(" 128x64 Adafruit");
     #endif
 
     #ifdef USE_WIFI_SERVER
@@ -1818,7 +1913,7 @@ void loop(){
         delay(150);
     #endif
 
-    bluetooth();
+    bluetoothListener();
 
     /***************************** IrReceiver **********************************/
     // section Loop IrReceiver
@@ -1875,15 +1970,15 @@ void loop(){
 
             /****** Engine - driving  ******/
             case Rem_OK:
-                carStop(); break;
+                Car_Stop(); break;
             case Rem_U:
-                forward(); break;
+                Car_front(); break;
             case Rem_D:
-                carBack(); break;
+                Car_Back(); break;
             case Rem_L:
-                carLeft(); break;
+                Car_left(); break;
             case Rem_R:
-                carRight(); break;
+                Car_right(); break;
             default:
                 break;
         }
@@ -1903,22 +1998,22 @@ void loop(){
     timerTwo.update();
     timerThree.update();
 
-    carStop();
-    distanceF = checkdistance();  /// assign the front distance detected by ultrasonic sensor to variable a
+    Car_Stop();
+    distanceF = checkDistance();  /// assign the front distance detected by ultrasonic sensor to variable a
     if (distanceF < 35) {
-        ledRGB( 230,0,0);
+        RGBled(230, 0, 0);
         pestoMatrix();
     } else {
         int micStatus = analogRead(MIC_PIN);
         int mic255 = map(micStatus, 0, 1023, 0, 255);
 
         if (mic255 > baseSound) {
-            ledRGB(mic255, 0, mic255);
+            RGBled(mic255, 0, mic255);
         } else {
-            ledRGB(0, mic255, 0);
+            RGBled(0, mic255, 0);
         }
         defaultLCD();
-        ledRGB(0, 0,lightSensor());
+        RGBled(0, 0, lightSensor());
     }
 }
 
