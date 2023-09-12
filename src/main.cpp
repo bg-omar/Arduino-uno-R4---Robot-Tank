@@ -346,7 +346,7 @@ void I2CScanner() {
 }
 
 /************************************************** the gyroscope **********************************************/
-// section Bluetooth5 BLE
+// section Bluetooth5 UNO BLE --> DC:54:75:C3:D9:ED   --> PS4 Controller: A4:AE:11:E1:8B:B3 (SONYWA) (Sony WA).
 /***************************************************************************************************************/
 
 void bluetoothSetup() {
@@ -1914,6 +1914,7 @@ void loop(){
     #endif
 
     bluetoothListener();
+    bluetoothSerial();
 
     /***************************** IrReceiver **********************************/
     // section Loop IrReceiver
