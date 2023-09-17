@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakePresetLoader">{
+  &quot;useNewFormat&quot;: true
+}</component>
+  <component name="CMakeReloadState">
+    <option name="reloaded" value="true" />
+  </component>
+  <component name="CMakeRunConfigurationManager">
+    <generated>
+      <config projectName="Arduino-Wall-E-R4-Wifi" targetName="Debug" />
+      <config projectName="Arduino-Wall-E-R4-Wifi" targetName="Production" />
+      <config projectName="Arduino-Wall-E-R4-Wifi" targetName="Z_DUMMY_TARGET" />
+      <config projectName="Arduino-Wall-E-R4-Wifi" targetName="PlatformIO" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="uno_r4_wifi" ENABLED="true" CONFIG_NAME="uno_r4_wifi" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a86e6fa4-da29-4af9-9e57-dbb78076f1ea" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:uno_r4_wifi" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitRewordedCommitMessages">
+    <option name="commitMessagesMapping">
+      <RewordedCommitMessageMapping>
+        <option name="originalMessage" value="Going to uno r4 wifi" />
+        <option name="rewordedMessage" value="Going to uno r4 wifi&#10;&#10;&#10;Going to uno r4 wifi" />
+      </RewordedCommitMessageMapping>
+    </option>
+    <option name="currentCommit" value="1" />
+    <option name="onto" value="a5de6681fff942b7641cd4c9901dac265f8c6aaf" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/../.platformio/packages/framework-arduinorenesas-uno/cores/arduino/api/Common.h" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/../.platformio/packages/framework-arduinorenesas-uno/cores/arduino/pulse.cpp" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/../.platformio/packages/framework-arduinorenesas-uno/cores/arduino/time.cpp" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/../.platformio/packages/framework-arduinorenesas-uno/libraries/WiFiS3/src/WiFi.cpp" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/../.platformio/packages/framework-arduinorenesas-uno/libraries/WiFiS3/src/WiFiTypes.h" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="OCResolveContextSettings">
+    <option name="configuration" value="0-uno_r4_wifi-Z_DUMMY_TARGET" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2022" />
+    <option name="minorVersion" value="2.5" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2TXR7jHAR0fEI5qrrioPMH21TIB" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;features/Bare-Minimum&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/workspace/projects&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\mr\Arduino Wall-E\Arduino-Wall-E-R4-Wifi\src" />
+      <recent name="C:\Users\mr\Arduino Wall-E\Arduino-Wall-E-R4-Wifi\.pio\libdeps\uno_r4_wifi" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\mr\Arduino Wall-E\Arduino-Wall-E-R4-Wifi" />
+    </key>
+  </component>
+  <component name="RunManager" selected="CMake Application.Z_DUMMY_TARGET">
+    <configuration name="Debug" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-Wall-E-R4-Wifi" TARGET_NAME="Debug" CONFIG_NAME="uno_r4_wifi">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Z_DUMMY_TARGET" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-Wall-E-R4-Wifi" TARGET_NAME="Z_DUMMY_TARGET" CONFIG_NAME="uno_r4_wifi" RUN_TARGET_PROJECT_NAME="Arduino-Wall-E-R4-Wifi" RUN_TARGET_NAME="Z_DUMMY_TARGET">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlatformIO Debug" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-Wall-Z" TARGET_NAME="Debug" CONFIG_NAME="uno_r4_wifi">
+      <method v="2" />
+    </configuration>
+    <configuration name="PlatformIO Upload" type="platformio" factoryName="PlatformIO Upload" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-Wall-E-R4-Wifi" TARGET_NAME="Production" CONFIG_NAME="uno_r4_wifi" RUN_TARGET_PROJECT_NAME="Arduino-Wall-E-R4-Wifi" RUN_TARGET_NAME="Production">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.Debug" />
+      <item itemvalue="CMake Application.Z_DUMMY_TARGET" />
+      <item itemvalue="PlatformIO.PlatformIO Debug" />
+      <item itemvalue="PlatformIO.PlatformIO" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a86e6fa4-da29-4af9-9e57-dbb78076f1ea" name="Changes" comment="" />
+      <created>1691187273399</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1691187273399</updated>
+      <workItem from="1691187274840" duration="4447000" />
+      <workItem from="1691213261483" duration="655000" />
+      <workItem from="1691436476929" duration="396000" />
+      <workItem from="1691526348283" duration="7591000" />
+      <workItem from="1691562403950" duration="14567000" />
+      <workItem from="1691640519522" duration="2378000" />
+      <workItem from="1691756047839" duration="681000" />
+      <workItem from="1691953799834" duration="5355000" />
+      <workItem from="1691992020516" duration="11103000" />
+      <workItem from="1692026778966" duration="7109000" />
+      <workItem from="1692080927904" duration="638000" />
+      <workItem from="1692115095013" duration="756000" />
+      <workItem from="1692115979852" duration="1532000" />
+      <workItem from="1692134045996" duration="2946000" />
+      <workItem from="1692163923654" duration="10555000" />
+      <workItem from="1692301102995" duration="13624000" />
+      <workItem from="1692738200817" duration="8753000" />
+      <workItem from="1692762610851" duration="4152000" />
+      <workItem from="1692774280468" duration="2336000" />
+      <workItem from="1692780858610" duration="4786000" />
+      <workItem from="1692806355730" duration="1804000" />
+      <workItem from="1692820854832" duration="4902000" />
+      <workItem from="1692826471772" duration="222000" />
+      <workItem from="1692899467963" duration="2000" />
+      <workItem from="1692911062912" duration="3000" />
+      <workItem from="1692913711058" duration="2001000" />
+      <workItem from="1692950593011" duration="1300000" />
+      <workItem from="1693209758443" duration="1214000" />
+      <workItem from="1693248693885" duration="6000" />
+      <workItem from="1693249716495" duration="347000" />
+      <workItem from="1693380745697" duration="1813000" />
+      <workItem from="1693502659683" duration="314000" />
+      <workItem from="1693556310453" duration="47000" />
+      <workItem from="1693569030491" duration="771000" />
+      <workItem from="1693572935084" duration="481000" />
+      <workItem from="1693578783052" duration="26000" />
+      <workItem from="1693579376306" duration="7000" />
+      <workItem from="1693594888997" duration="672000" />
+      <workItem from="1693812338417" duration="602000" />
+      <workItem from="1693813178070" duration="19000" />
+      <workItem from="1693874294031" duration="93000" />
+      <workItem from="1693889089161" duration="811000" />
+      <workItem from="1694590141596" duration="849000" />
+      <workItem from="1694637451323" duration="4000" />
+    </task>
+    <task id="LOCAL-00001" summary="Going to uno r4 wifi">
+      <created>1691526729834</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1691526729834</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Going to uno r4 wifi">
+      <created>1691616475890</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1691616475890</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Going to uno r4 wifi">
+      <created>1692081066054</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1692081066054</updated>
+    </task>
+    <task id="LOCAL-00004" summary="cleaning up some stuff, added stormselectors">
+      <created>1692180167734</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1692180167734</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Mouth workin again">
+      <created>1692316876546</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1692316876546</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Code clean, temporary remove mouth display, added web-server">
+      <created>1692766998967</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1692766998967</updated>
+    </task>
+    <task id="LOCAL-00007" summary="if defined rules">
+      <created>1692779789789</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1692779789789</updated>
+    </task>
+    <task id="LOCAL-00008" summary="if defined rules for display">
+      <created>1692821525896</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1692821525896</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Adafruit library for display">
+      <created>1692825947933</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1692825947933</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Adafruit library for display">
+      <created>1692826185249</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1692826185249</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Adafruit library for display">
+      <created>1692915125953</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1692915125953</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Adafruit display small switch">
+      <created>1693250042942</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1693250042942</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VCPKGProject">
+    <isAutomaticEditVcpkgJson value="false" />
+    <isAutomaticCheckingOnLaunch value="false" />
+    <isAutomaticFoundErrors value="true" />
+    <isAutomaticFoundErrors value="true" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="Going to uno r4 wifi" />
+    <MESSAGE value="cleaning up some stuff, added stormselectors" />
+    <MESSAGE value="Mouth workin again" />
+    <MESSAGE value="Code clean, temporary remove mouth display, added web-server" />
+    <MESSAGE value="if defined rules" />
+    <MESSAGE value="if defined rules for display" />
+    <MESSAGE value="Adafruit library for display" />
+    <MESSAGE value="Adafruit display small switch" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adafruit display small switch" />
+  </component>
+</project>

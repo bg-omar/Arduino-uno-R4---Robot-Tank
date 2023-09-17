@@ -1,6 +1,9 @@
 /*
-UNO BLE --> DC:54:75:C3:D9:ED   -->
-PS4 Controller: A4:AE:11:E1:8B:B3 (SONYWA) (Sony WA).
+UNO BLE -->     DC:54:75:C3:D9:ED   -
+PC USB Dongel   00:1F:E2:C8:82:BA
+ESP 1           66:CB:3E:E9:02:8A
+ESP small cam   3C:E9:0E:88:65:16
+PS4 Controller: A4:AE:11:E1:8B:B3 (SONYWA) GooglyEyes
 PS5 Controller: 88:03:4C:B5:00:66
 */
 
@@ -9,11 +12,12 @@ PS5 Controller: 88:03:4C:B5:00:66
 /***************************************************************************************************************/
 
 //#define USE_WIFI_SERVER
-//#define USE_MOUTH_DISPLAY_ADAFRUIT
+#define USE_MOUTH_DISPLAY_ADAFRUIT
+//#define USE_MOUTH_DISPLAY_U8G2
 #define USE_SMALL_DISPLAY
 #define USE_MOUTH_DISPLAY
 //#define USE_JOYSTICK
-
+#define ARDUINO_ARCH_RENESAS_UNO
 
 /***************************************************************************************************************/
 // section include
@@ -24,10 +28,14 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include "Arduino_LED_Matrix.h"
 #include "animation.h"
 
+#include <PS4BT.h>
+#include <usbhub.h>
+
 ArduinoLEDMatrix matrix;
 #include <Arduino.h>
 #include <cmath>
 #include <Wire.h>
+#include <SPI.h>
 
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
@@ -38,6 +46,7 @@ ArduinoLEDMatrix matrix;
 #include <LiquidCrystal_I2C.h>
 #include <TimerEvent.h>
 #include <ArduinoBLE.h>
+
 
 #ifdef USE_MOUTH_DISPLAY_ADAFRUIT
     #include <SPI.h>
@@ -279,7 +288,7 @@ Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(12345);
     #endif
 #endif
 
-#ifdef USE_MOUTH_DISPLAY
+#ifdef USE_MOUTH_DISPLAY_U8G2
     U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 #endif
 
@@ -295,7 +304,25 @@ WiFiServer server(80);
 Adafruit_MPU6050 mpu; // Set the gyroscope
 Adafruit_BME280 bme;
 
+// Satisfy the IDE, which needs to see the include statement in the ino too.
+#ifdef dobogusinclude
+#include <spi4teensy3.h>
+#endif
 
+USB Usb;
+//USBHub Hub1(&Usb); // Some dongles have a hub inside
+BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
+
+/* You can create the instance of the PS4BT class in two ways */
+// This will start an inquiry and then pair with the PS4 controller - you only have to do this once
+// You will need to hold down the PS and Share button at the same time, the PS4 controller will then start to blink rapidly indicating that it is in pairing mode
+//PS4BT PS4(&Btd, PAIR);
+
+// After that you can simply create the instance like so and then press the PS button on the device
+PS4BT PS4(&Btd);
+
+bool printAngle, printTouch;
+uint8_t oldL2Value, oldR2Value;
 /************************************************** the I2CScanner *********************************************/
 // section I2CScanner
 /***************************************************************************************************************/
@@ -507,6 +534,107 @@ void bluetoothSerial(){
     }
 }
 
+void ps4() {
+    if (PS4.getAnalogHat(LeftHatX) > 137 || PS4.getAnalogHat(LeftHatX) < 117 || PS4.getAnalogHat(LeftHatY) > 137 || PS4.getAnalogHat(LeftHatY) < 117 || PS4.getAnalogHat(RightHatX) > 137 || PS4.getAnalogHat(RightHatX) < 117 || PS4.getAnalogHat(RightHatY) > 137 || PS4.getAnalogHat(RightHatY) < 117) {
+        Serial.print(F("\r\nLeftHatX: "));
+        Serial.print(PS4.getAnalogHat(LeftHatX));
+        Serial.print(F("\tLeftHatY: "));
+        Serial.print(PS4.getAnalogHat(LeftHatY));
+        Serial.print(F("\tRightHatX: "));
+        Serial.print(PS4.getAnalogHat(RightHatX));
+        Serial.print(F("\tRightHatY: "));
+        Serial.print(PS4.getAnalogHat(RightHatY));
+    }
+
+    if (PS4.getAnalogButton(L2) || PS4.getAnalogButton(R2)) { // These are the only analog buttons on the PS4 controller
+        Serial.print(F("\r\nL2: "));
+        Serial.print(PS4.getAnalogButton(L2));
+        Serial.print(F("\tR2: "));
+        Serial.print(PS4.getAnalogButton(R2));
+    }
+    if (PS4.getAnalogButton(L2) != oldL2Value || PS4.getAnalogButton(R2) != oldR2Value) // Only write value if it's different
+        PS4.setRumbleOn(PS4.getAnalogButton(L2), PS4.getAnalogButton(R2));
+    oldL2Value = PS4.getAnalogButton(L2);
+    oldR2Value = PS4.getAnalogButton(R2);
+
+    if (PS4.getButtonClick(PS)) {
+        Serial.print(F("\r\nPS"));
+        PS4.disconnect();
+    }
+    else {
+        if (PS4.getButtonClick(TRIANGLE)) {
+            Serial.print(F("\r\nTriangle"));
+            PS4.setRumbleOn(RumbleLow);
+        }
+        if (PS4.getButtonClick(CIRCLE)) {
+            Serial.print(F("\r\nCircle"));
+            PS4.setRumbleOn(RumbleHigh);
+        }
+        if (PS4.getButtonClick(CROSS)) {
+            Serial.print(F("\r\nCross"));
+            PS4.setLedFlash(10, 10); // Set it to blink rapidly
+        }
+        if (PS4.getButtonClick(SQUARE)) {
+            Serial.print(F("\r\nSquare"));
+            PS4.setLedFlash(0, 0); // Turn off blinking
+        }
+
+        if (PS4.getButtonClick(UP)) {
+            Serial.print(F("\r\nUp"));
+            PS4.setLed(Red);
+        } if (PS4.getButtonClick(RIGHT)) {
+            Serial.print(F("\r\nRight"));
+            PS4.setLed(Blue);
+        } if (PS4.getButtonClick(DOWN)) {
+            Serial.print(F("\r\nDown"));
+            PS4.setLed(Yellow);
+        } if (PS4.getButtonClick(LEFT)) {
+            Serial.print(F("\r\nLeft"));
+            PS4.setLed(Green);
+        }
+
+        if (PS4.getButtonClick(L1))
+            Serial.print(F("\r\nL1"));
+        if (PS4.getButtonClick(L3))
+            Serial.print(F("\r\nL3"));
+        if (PS4.getButtonClick(R1))
+            Serial.print(F("\r\nR1"));
+        if (PS4.getButtonClick(R3))
+            Serial.print(F("\r\nR3"));
+
+        if (PS4.getButtonClick(SHARE))
+            Serial.print(F("\r\nShare"));
+        if (PS4.getButtonClick(OPTIONS)) {
+            Serial.print(F("\r\nOptions"));
+            printAngle = !printAngle;
+        }
+        if (PS4.getButtonClick(TOUCHPAD)) {
+            Serial.print(F("\r\nTouchpad"));
+            printTouch = !printTouch;
+        }
+
+        if (printAngle) { // Print angle calculated using the accelerometer only
+            Serial.print(F("\r\nPitch: "));
+            Serial.print(PS4.getAngle(Pitch));
+            Serial.print(F("\tRoll: "));
+            Serial.print(PS4.getAngle(Roll));
+        }
+
+        if (printTouch) { // Print the x, y coordinates of the touchpad
+            if (PS4.isTouching(0) || PS4.isTouching(1)) // Print newline and carriage return if any of the fingers are touching the touchpad
+                Serial.print(F("\r\n"));
+            for (uint8_t i = 0; i < 2; i++) { // The touchpad track two fingers
+                if (PS4.isTouching(i)) { // Print the position of the finger if it is touching the touchpad
+                    Serial.print(F("X")); Serial.print(i + 1); Serial.print(F(": "));
+                    Serial.print(PS4.getX(i));
+                    Serial.print(F("\tY")); Serial.print(i + 1); Serial.print(F(": "));
+                    Serial.print(PS4.getY(i));
+                    Serial.print(F("\t"));
+                }
+            }
+        }
+    }
+}
 /************************************************** the gyroscope **********************************************/
 // section gyroRead
 /***************************************************************************************************************/
@@ -1402,7 +1530,7 @@ void displaySetup() {
 // section Display u8g2
 /***************************************************************************************************************/
 
-#ifdef USE_MOUTH_DISPLAY
+#ifdef USE_MOUTH_DISPLAY_U8G2
     void u8g2_prepare() {
         u8g2.setFont(u8g2_font_6x10_tf);
         u8g2.setFontRefHeightExtendedText();
@@ -1806,6 +1934,15 @@ void setup(){
     lcd.init();
     lcd.backlight();      // Make sure backlight is on
     lcd.createChar(0, Heart); // create a new characters
+    Serial.begin(115200);
+    #if !defined(__MIPSEL__)
+        while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+    #endif
+    if (Usb.Init() == -1) {
+        lcd.print(F("\r\nOSC did not start"));
+        while (1); // Halt
+    }
+    lcd.print(F("\r\nPS4 Bluetooth Library Started"));
     bluetoothSetup();
 
     pinMode(Trig_PIN, OUTPUT);    /***** 6 ******/
@@ -1856,7 +1993,7 @@ void setup(){
     pwm.setPWM(PWM_0, 0, pulseWidth(posXY));
     pwm.setPWM(PWM_1, 0, pulseWidth(posZ));
     delay(500);
-    #ifdef USE_MOUTH_DISPLAY
+    #ifdef USE_MOUTH_DISPLAY_U8G2
         u8g2.begin();
     #endif
 
@@ -1903,7 +2040,7 @@ void loop(){
         joystick();
     #endif
 
-    #ifdef USE_MOUTH_DISPLAY
+    #ifdef USE_MOUTH_DISPLAY_U8G2
         // picture loop
         u8g2.firstPage();
         do {
@@ -1918,7 +2055,11 @@ void loop(){
         // delay between each page
         delay(150);
     #endif
+    Usb.Task();
 
+    if (PS4.connected()) {
+        ps4();
+    }
     bluetoothListener();
     bluetoothSerial();
 
