@@ -1934,15 +1934,8 @@ void setup(){
     lcd.init();
     lcd.backlight();      // Make sure backlight is on
     lcd.createChar(0, Heart); // create a new characters
-    Serial.begin(115200);
-    #if !defined(__MIPSEL__)
-        while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
-    #endif
-    if (Usb.Init() == -1) {
-        lcd.print(F("\r\nOSC did not start"));
-        while (1); // Halt
-    }
-    lcd.print(F("\r\nPS4 Bluetooth Library Started"));
+    lcd.clear();
+    lcd.setCursor(0,top);
     bluetoothSetup();
 
     pinMode(Trig_PIN, OUTPUT);    /***** 6 ******/
