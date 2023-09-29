@@ -1,0 +1,1 @@
+./arduino-fwuploader firmware get-version -b arduino:renesas_uno:unor4wifi -a COM3
