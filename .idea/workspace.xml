@@ -15,20 +15,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a7a6b36-a99e-4db6-8829-f78acb2fa3fc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/icon.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/boards/esp32_uno_r4.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src_esp32/main_esp.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unor4wifi-updater/arduino-fwupdater.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unor4wifi-updater/arduino-fwuploader.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unor4wifi-updater/bin/espflash.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unor4wifi-updater/bin/unor4wifi-reboot.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unor4wifi-updater/firmware/UNOR4-WIFI-S3-0.2.1-rc1.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unor4wifi-updater/firmware/UNOR4-WIFI-S3-0.3.0-rc1.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unor4wifi-updater/update.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_ra.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main_ra.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_ra.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +26,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="esp32" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="unoR4" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -106,7 +94,7 @@
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/mr/Arduino-R4_UNO_Wall-Z/src",
+    "last_opened_file_path": "C:/Users/mr/Arduino-ESP-32_CAM",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -115,11 +103,19 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\src" />
+    </key>
+  </component>
   <component name="RunManager">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
+      <method v="2" />
     </configuration>
     <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
       <method v="2" />
@@ -141,7 +137,8 @@
       <workItem from="1695664544270" duration="1188000" />
       <workItem from="1695931425176" duration="751000" />
       <workItem from="1695997412734" duration="2544000" />
-      <workItem from="1696021704783" duration="702000" />
+      <workItem from="1696021704783" duration="1313000" />
+      <workItem from="1696232463906" duration="17535000" />
     </task>
     <task id="LOCAL-00001" summary="ps4?">
       <option name="closed" value="true" />
@@ -175,7 +172,23 @@
       <option name="project" value="LOCAL" />
       <updated>1694953837367</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="ESP32 Seperate build">
+      <option name="closed" value="true" />
+      <created>1696022441212</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1696022441212</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Robo Lives">
+      <option name="closed" value="true" />
+      <created>1696274141652</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1696274141652</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -205,8 +218,11 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="ps4?" />
-    <option name="LAST_COMMIT_MESSAGE" value="ps4?" />
+    <MESSAGE value="ESP32 Seperate build" />
+    <MESSAGE value="Robo Lives" />
+    <option name="LAST_COMMIT_MESSAGE" value="Robo Lives" />
   </component>
 </project>

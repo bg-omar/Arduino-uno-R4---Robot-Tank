@@ -273,27 +273,27 @@ byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000,
 #define STR_HELPER(x) #x
 #define STR(x) STR_HELPER(x)
 
-#ifdef USE_IRREMOTE
-	#define Rem_OK  0xBF407F
-	#define Rem_U   0xB946FF
-	#define Rem_D   0xEA15FF
-	#define Rem_L   0xBB44FF
-	#define Rem_R   0xBC43FF
 
-	#define Rem_1   0xE916FF
-	#define Rem_2   0xE619FE
-	#define Rem_3   0xF20DFE
-	#define Rem_4   0xF30CFF
-	#define Rem_5   0xE718FF
-	#define Rem_6   0xA15EFD
-	#define Rem_7   0xF708FF
-	#define Rem_8   0xE31CFF
-	#define Rem_9   0xA55AFF
-	#define Rem_0   0xAD52FF
-	#define Rem_x   0xBD42FF
-	#define Rem_y   0xB54ADF
-	#define IRepeat 0xFFFFFF
-#endif
+#define Rem_OK  0xBF407F
+#define Rem_U   0xB946FF
+#define Rem_D   0xEA15FF
+#define Rem_L   0xBB44FF
+#define Rem_R   0xBC43FF
+
+#define Rem_1   0xE916FF
+#define Rem_2   0xE619FE
+#define Rem_3   0xF20DFE
+#define Rem_4   0xF30CFF
+#define Rem_5   0xE718FF
+#define Rem_6   0xA15EFD
+#define Rem_7   0xF708FF
+#define Rem_8   0xE31CFF
+#define Rem_9   0xA55AFF
+#define Rem_0   0xAD52FF
+#define Rem_x   0xBD42FF
+#define Rem_y   0xB54ADF
+#define IRepeat 0xFFFFFF
+
 
 #define RX_PIN       0
 #define TX_PIN       1
@@ -1426,10 +1426,10 @@ void setup(){
 /***************************************************************************/
 
 void loop(){
-    lcd.setCursor(0,top);
-    if (Serial1.available())        // read from Serial1 output to Serial
+
+    while (Serial1.available())        // read from Serial1 output to Serial
         Serial.write(Serial1.read());
-    if (Serial.available()) {       // read from Serial outut to Serial1
+    while (Serial.available()) {       // read from Serial outut to Serial1
         int inByte = Serial.read();
         //Serial.write(inByte);     // local echo if required
         Serial1.write(inByte);
@@ -1446,7 +1446,7 @@ void loop(){
 //    }
 
 
-     // Read messages from ESP32-CAM AI-Thinker
+/*     // Read messages from ESP32-CAM AI-Thinker
     if(Serial1.available()) {
         char ch = Serial1.read();
         if(ch >= '0' && ch <= '9') {// is this an ascii digit between 0 and 9?
@@ -1469,7 +1469,7 @@ void loop(){
             }
             fieldIndex = 0;  // ready to start over
         }
-    }
+    }*/
 
     #ifdef USE_TEXTFINDER
         // TEXT-finder
@@ -1482,13 +1482,14 @@ void loop(){
             Serial.println(values[fieldIndex]);
     #endif
 
+    lcd.setCursor(0,bot);
     // React on messages from ESP32-CAM AI-Thinker
-    while(Serial1.available()>0){
+    while(Serial1.available()){
         delay(5);
-        char c = Serial1.read();
+        char32_t c = Serial1.read();
         lcd.print(c);
 
-       /* switch (c) {
+        switch (c) {
             //**** Head movements    ****
             case 1: posXY = min(180, posXY + speedXY); lcd.print("R"); break;//if (PS4.Right()) send(1);
             case 2: posZ = min(160, posZ + speedZ); lcd.print("D"); break; //if (PS4.Down()) send(2);
@@ -1548,7 +1549,7 @@ void loop(){
 				}
 		#endif
         previousXY = posXY;
-        previousZ = posZ;*/
+        previousZ = posZ;
     }
     /***************************** IrReceiver **********************************/
     // section Loop IrReceiver
@@ -1665,7 +1666,7 @@ void loop(){
 			RGBled(0, mic255, 0);
 		#endif
 		}
-        defaultLCD();
+        //defaultLCD();
 		#ifdef USE_PWM
 			RGBled(0, 0, lightSensor());
 		#endif
