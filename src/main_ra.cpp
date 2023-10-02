@@ -16,11 +16,11 @@ PS5 Controller: 88:03:4C:B5:00:66
 #define USE_MOUTH_DISPLAY_ADAFRUIT
 //#define USE_MOUTH_DISPLAY_U8G2
 #define USE_SMALL_DISPLAY
-//#define USE_MOUTH_DISPLAY
+#define USE_MOUTH_DISPLAY
 
 #define USE_GYRO
 #define USE_COMPASS
-//#define USE_BAROMETER
+#define USE_BAROMETER
 
 #define USE_IRREMOTE
 #define USE_I2C_SCANNER
@@ -59,6 +59,7 @@ PS5 Controller: 88:03:4C:B5:00:66
 
 #include <U8g2lib.h>
 #include <TimerEvent.h>
+
 
 #ifdef USE_MATRIX
     #include "Arduino_LED_Matrix.h"
@@ -117,9 +118,6 @@ void Car_Back();
     void I2CScanner();
 #endif
 
-void gyroCalibrate_sensor();
-void gyroDetectMovement();
-void gyroFunc();
 void compass();
 int pulseWidth(int);
 double checkDistance();
@@ -146,6 +144,7 @@ double checkDistance();
     const int timerOnePeriod = 1000;
     const int timerTwoPeriod = 250;
     const int timerThreePeriod = 7000;
+    const int timerMouthPeriod = 5000;
 
     boolean timerTwoActive = false;
     boolean timerTreeActive = false;
@@ -153,6 +152,7 @@ double checkDistance();
     TimerEvent timerOne;
     TimerEvent timerTwo;
     TimerEvent timerThree;
+    TimerEvent timerMouth;
 #endif
 
 #ifdef USE_PWM
@@ -356,6 +356,7 @@ byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000,
 
 int previousXY, previousZ;
 int screen = 0;
+int displaySwitch = 1;
 
 long random2, randomXY, randomZ;
 double distanceF, distanceR, distanceL;
@@ -371,7 +372,7 @@ double calcValue;
 int posXY = 90;  // set horizontal servo position
 int speedXY = 20;
 
-int posZ = 25;   // set vertical servo position
+int posZ = 45;   // set vertical servo position
 int speedZ =  20;
 
 int flag; // flag variable, it is used to entry and exist function
@@ -502,19 +503,21 @@ int flag; // flag variable, it is used to entry and exist function
     }
 
     void gyroDetectMovement() {
-        gyroRead();
-        if(( abs(ax) + abs(ay) + abs(az)) > THRESHOLD){
-            timerTwoActive = true;
-            timerTreeActive = true;
-            timerButton = Rem_9;
-        }
-        if(( abs(gx) + abs(gy) + abs(gz)) > THRESHOLD){
-            timerTwoActive = true;
-            timerTreeActive = true;
-            timerButton = Rem_7;
-        }
-    }
+        #ifdef USE_TIMERS
+            gyroRead();
+            if(( abs(ax) + abs(ay) + abs(az)) > THRESHOLD){
+                timerTwoActive = true;
+                timerTreeActive = true;
+                timerButton = Rem_9;
+            }
+            if(( abs(gx) + abs(gy) + abs(gz)) > THRESHOLD){
+                timerTwoActive = true;
+                timerTreeActive = true;
+                timerButton = Rem_7;
+            }
 
+        #endif
+    }
     void gyroCalibrate_sensor() {
         float totX = 0;
         float totY = 0;
@@ -960,331 +963,259 @@ double lightSensor(){
 /***************************************************************************************************************/
 
 #ifdef USE_MOUTH_DISPLAY_ADAFRUIT
-void testdrawline() {
-    int16_t i;
+    void testdrawline() {
+        int16_t i;
 
-    display.clearDisplay(); // Clear display buffer
+        display.clearDisplay(); // Clear display buffer
 
-    for(i=0; i<display.width(); i+=4) {
-        display.drawLine(0, 0, i, display.height()-1, SSD1306_WHITE);
-        display.display(); // Update screen with each newly-drawn line
-        delay(1);
-    }
-    for(i=0; i<display.height(); i+=4) {
-        display.drawLine(0, 0, display.width()-1, i, SSD1306_WHITE);
-        display.display();
-        delay(1);
-    }
-    delay(250);
-
-    display.clearDisplay();
-
-    for(i=0; i<display.width(); i+=4) {
-        display.drawLine(0, display.height()-1, i, 0, SSD1306_WHITE);
-        display.display();
-        delay(1);
-    }
-    for(i=display.height()-1; i>=0; i-=4) {
-        display.drawLine(0, display.height()-1, display.width()-1, i, SSD1306_WHITE);
-        display.display();
-        delay(1);
-    }
-    delay(250);
-
-    display.clearDisplay();
-
-    for(i=display.width()-1; i>=0; i-=4) {
-        display.drawLine(display.width()-1, display.height()-1, i, 0, SSD1306_WHITE);
-        display.display();
-        delay(1);
-    }
-    for(i=display.height()-1; i>=0; i-=4) {
-        display.drawLine(display.width()-1, display.height()-1, 0, i, SSD1306_WHITE);
-        display.display();
-        delay(1);
-    }
-    delay(250);
-
-    display.clearDisplay();
-
-    for(i=0; i<display.height(); i+=4) {
-        display.drawLine(display.width()-1, 0, 0, i, SSD1306_WHITE);
-        display.display();
-        delay(1);
-    }
-    for(i=0; i<display.width(); i+=4) {
-        display.drawLine(display.width()-1, 0, i, display.height()-1, SSD1306_WHITE);
-        display.display();
-        delay(1);
-    }
-
-    delay(200); // Pause for 2 seconds
-}
-
-void testdrawrect() {
-    display.clearDisplay();
-
-    for(int16_t i=0; i<display.height()/2; i+=2) {
-        display.drawRect(i, i, display.width()-2*i, display.height()-2*i, SSD1306_WHITE);
-        display.display(); // Update screen with each newly-drawn rectangle
-        delay(1);
-    }
-
-    delay(200);
-}
-
-void testfillrect() {
-    display.clearDisplay();
-
-    for(int16_t i=0; i<display.height()/2; i+=3) {
-        // The INVERSE color is used so rectangles alternate white/black
-        display.fillRect(i, i, display.width()-i*2, display.height()-i*2, SSD1306_INVERSE);
-        display.display(); // Update screen with each newly-drawn rectangle
-        delay(1);
-    }
-
-    delay(200);
-}
-
-void testdrawcircle() {
-    display.clearDisplay();
-
-    for(int16_t i=0; i<max(display.width(),display.height())/2; i+=2) {
-        display.drawCircle(display.width()/2, display.height()/2, i, SSD1306_WHITE);
-        display.display();
-        delay(1);
-    }
-
-    delay(200);
-}
-
-void testfillcircle() {
-    display.clearDisplay();
-
-    for(int16_t i=max(display.width(),display.height())/2; i>0; i-=3) {
-        // The INVERSE color is used so circles alternate white/black
-        display.fillCircle(display.width() / 2, display.height() / 2, i, SSD1306_INVERSE);
-        display.display(); // Update screen with each newly-drawn circle
-        delay(1);
-    }
-
-    delay(200);
-}
-
-void testdrawroundrect() {
-    display.clearDisplay();
-    display.drawRoundRect(0, 0, display.width()-2, display.height()-2,
-                          display.height()/8, SSD1306_WHITE);
-    display.display();
-    delay(200);
-}
-
-void testfillroundrect() {
-    display.clearDisplay();
-
-    for(int16_t i=0; i<display.height()/2-2; i+=2) {
-        // The INVERSE color is used so round-rects alternate white/black
-        display.fillRoundRect(i, i, display.width()-2*i, display.height()-2*i,
-                              display.height()/4, SSD1306_INVERSE);
-        display.display();
-        delay(1);
-    }
-
-    delay(200);
-}
-
-void testdrawtriangle() {
-    display.clearDisplay();
-
-    for(int16_t i=0; i<max(display.width(),display.height())/2; i+=5) {
-        display.drawTriangle(
-                display.width()/2  , display.height()/2-i,
-                display.width()/2-i, display.height()/2+i,
-                display.width()/2+i, display.height()/2+i, SSD1306_WHITE);
-        display.display();
-        delay(1);
-    }
-
-    delay(200);
-}
-
-void testfilltriangle() {
-    display.clearDisplay();
-
-    for(int16_t i=max(display.width(),display.height())/2; i>0; i-=5) {
-        // The INVERSE color is used so triangles alternate white/black
-        display.fillTriangle(
-                display.width()/2  , display.height()/2-i,
-                display.width()/2-i, display.height()/2+i,
-                display.width()/2+i, display.height()/2+i, SSD1306_INVERSE);
-        display.display();
-        delay(1);
-    }
-
-    delay(200);
-}
-
-void testdrawchar() {
-    display.clearDisplay();
-
-    display.setTextSize(1);      // Normal 1:1 pixel scale
-    display.setTextColor(SSD1306_WHITE); // Draw white text
-    display.setCursor(0, 0);     // Start at top-left corner
-    display.cp437(true);         // Use full 256 char 'Code Page 437' font
-
-    // Not all the characters will fit on the display. This is normal.
-    // Library will draw what it can and the rest will be clipped.
-    for(int16_t i=0; i<256; i++) {
-        if(i == '\n') display.write(' ');
-        else          display.write(i);
-    }
-
-    display.display();
-    delay(1000);
-}
-
-void testdrawstyles() {
-    display.clearDisplay();
-
-    display.setTextSize(2);             // Normal 1:1 pixel scale
-    display.setTextColor(SSD1306_WHITE);        // Draw white text
-    display.setCursor(0,0);             // Start at top-left corner
-    display.println(F("Hellow, Pesto!"));
-
-    display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
-    display.println(1337);
-
-    display.setTextSize(2);             // Draw 2X-scale text
-    display.setTextColor(SSD1306_WHITE);
-    display.print(F("0x")); display.println(0xDEADBEEF, HEX);
-
-    display.display();
-    delay(2000);
-}
-
-void testscrolltext() {
-    display.clearDisplay();
-
-    display.setTextSize(2); // Draw 2X-scale text
-    display.setTextColor(SSD1306_WHITE);
-    display.setCursor(10, 0);
-    display.println(F("PESTO?"));
-    display.display();      // Show initial text
-    delay(1000);
-#ifdef USE_SMALL_DISPLAY
-    // Scroll in various directions, pausing in-between:
-    display.startscrollright(0x00, 0x0F);
-    display.stopscroll();
-    delay(100);
-    display.startscrollleft(0x00, 0x0F);
-    display.stopscroll();
-    delay(100);
-    display.startscrolldiagright(0x00, 0x07);
-    display.startscrolldiagleft(0x00, 0x07);
-    display.stopscroll();
-#endif
-}
-
-void testdrawbitmap() {
-    display.clearDisplay();
-
-    display.drawBitmap(
-            (display.width()  - LOGO_WIDTH ) / 2,
-            (display.height() - LOGO_HEIGHT) / 2,
-            logo_bmp, LOGO_WIDTH, LOGO_HEIGHT, 1);
-    display.display();
-    delay(100);
-}
-
-#define XPOS   0 // Indexes into the 'icons' array in function below
-#define YPOS   1
-#define DELTAY 2
-
-void testanimate(const uint8_t *bitmap, uint8_t w, uint8_t h) {
-    int8_t f, icons[NUMFLAKES][3];
-
-    // Initialize 'snowflake' positions
-    for(f=0; f< NUMFLAKES; f++) {
-        icons[f][XPOS]   = random(1 - LOGO_WIDTH, display.width());
-        icons[f][YPOS]   = -LOGO_HEIGHT;
-        icons[f][DELTAY] = random(1, 6);
-    }
-
-    for(f=0; f< 25; f++) { // Loop 25...
-        display.clearDisplay(); // Clear the display buffer
-
-        // Draw each snowflake:
-        for(f=0; f< NUMFLAKES; f++) {
-            display.drawBitmap(icons[f][XPOS], icons[f][YPOS], bitmap, w, h, SSD1306_WHITE);
+        for(i=0; i<display.width(); i+=4) {
+            display.drawLine(0, 0, i, display.height()-1, SSD1306_WHITE);
+            display.display(); // Update screen with each newly-drawn line
+            delay(1);
+        }
+        for(i=0; i<display.height(); i+=4) {
+            display.drawLine(0, 0, display.width()-1, i, SSD1306_WHITE);
+            display.display();
+            delay(1);
         }
 
-        display.display(); // Show the display buffer on the screen
-        delay(40);        // Pause for 1/10 second
 
-        // Then update coordinates of each flake...
-        for(f=0; f< NUMFLAKES; f++) {
-            icons[f][YPOS] += icons[f][DELTAY];
-            // If snowflake is off the bottom of the screen...
-            if (icons[f][YPOS] >= display.height()) {
-                // Reinitialize to a random position, just off the top
-                icons[f][XPOS]   = random(1 - LOGO_WIDTH, display.width());
-                icons[f][YPOS]   = -LOGO_HEIGHT;
-                icons[f][DELTAY] = random(1, 6);
-            }
+        display.clearDisplay();
+
+        for(i=0; i<display.width(); i+=4) {
+            display.drawLine(0, display.height()-1, i, 0, SSD1306_WHITE);
+            display.display();
+            delay(1);
+        }
+        for(i=display.height()-1; i>=0; i-=4) {
+            display.drawLine(0, display.height()-1, display.width()-1, i, SSD1306_WHITE);
+            display.display();
+            delay(1);
+        }
+
+
+        display.clearDisplay();
+
+        for(i=display.width()-1; i>=0; i-=4) {
+            display.drawLine(display.width()-1, display.height()-1, i, 0, SSD1306_WHITE);
+            display.display();
+            delay(1);
+        }
+        for(i=display.height()-1; i>=0; i-=4) {
+            display.drawLine(display.width()-1, display.height()-1, 0, i, SSD1306_WHITE);
+            display.display();
+            delay(1);
+        }
+
+
+        display.clearDisplay();
+
+        for(i=0; i<display.height(); i+=4) {
+            display.drawLine(display.width()-1, 0, 0, i, SSD1306_WHITE);
+            display.display();
+            delay(1);
+        }
+        for(i=0; i<display.width(); i+=4) {
+            display.drawLine(display.width()-1, 0, i, display.height()-1, SSD1306_WHITE);
+            display.display();
+            delay(1);
         }
     }
-}
+
+    void testdrawrect() {
+        display.clearDisplay();
+
+        for(int16_t i=0; i<display.height()/2; i+=2) {
+            display.drawRect(i, i, display.width()-2*i, display.height()-2*i, SSD1306_WHITE);
+            display.display(); // Update screen with each newly-drawn rectangle
+            delay(1);
+        }
+    }
+
+    void testfillrect() {
+        display.clearDisplay();
+
+        for(int16_t i=0; i<display.height()/2; i+=3) {
+            // The INVERSE color is used so rectangles alternate white/black
+            display.fillRect(i, i, display.width()-i*2, display.height()-i*2, SSD1306_INVERSE);
+            display.display(); // Update screen with each newly-drawn rectangle
+            delay(1);
+        }
+    }
+
+    void testdrawcircle() {
+        display.clearDisplay();
+
+        for(int16_t i=0; i<max(display.width(),display.height())/2; i+=2) {
+            display.drawCircle(display.width()/2, display.height()/2, i, SSD1306_WHITE);
+            display.display();
+            delay(1);
+        }
+    }
+
+    void testfillcircle() {
+        display.clearDisplay();
+
+        for(int16_t i=max(display.width(),display.height())/2; i>0; i-=3) {
+            // The INVERSE color is used so circles alternate white/black
+            display.fillCircle(display.width() / 2, display.height() / 2, i, SSD1306_INVERSE);
+            display.display(); // Update screen with each newly-drawn circle
+            delay(1);
+        }
+    }
+
+    void testdrawroundrect() {
+        display.clearDisplay();
+        display.drawRoundRect(0, 0, display.width()-2, display.height()-2,
+                              display.height()/8, SSD1306_WHITE);
+        display.display();
+        delay(200);
+    }
+
+    void testfillroundrect() {
+        display.clearDisplay();
+
+        for(int16_t i=0; i<display.height()/2-2; i+=2) {
+            // The INVERSE color is used so round-rects alternate white/black
+            display.fillRoundRect(i, i, display.width()-2*i, display.height()-2*i,
+                                  display.height()/4, SSD1306_INVERSE);
+            display.display();
+            delay(1);
+        }
+    }
+
+    void testdrawtriangle() {
+        display.clearDisplay();
+
+        for(int16_t i=0; i<max(display.width(),display.height())/2; i+=5) {
+            display.drawTriangle(
+                    display.width()/2  , display.height()/2-i,
+                    display.width()/2-i, display.height()/2+i,
+                    display.width()/2+i, display.height()/2+i, SSD1306_WHITE);
+            display.display();
+            delay(1);
+        }
+    }
+
+    void testfilltriangle() {
+        display.clearDisplay();
+
+        for(int16_t i=max(display.width(),display.height())/2; i>0; i-=5) {
+            // The INVERSE color is used so triangles alternate white/black
+            display.fillTriangle(
+                    display.width()/2  , display.height()/2-i,
+                    display.width()/2-i, display.height()/2+i,
+                    display.width()/2+i, display.height()/2+i, SSD1306_INVERSE);
+            display.display();
+            delay(1);
+        }
+    }
+
+    void testdrawchar() {
+        display.clearDisplay();
+
+        display.setTextSize(1);      // Normal 1:1 pixel scale
+        display.setTextColor(SSD1306_WHITE); // Draw white text
+        display.setCursor(0, 0);     // Start at top-left corner
+        display.cp437(true);         // Use full 256 char 'Code Page 437' font
+
+        // Not all the characters will fit on the display. This is normal.
+        // Library will draw what it can and the rest will be clipped.
+        for(int16_t i=0; i<256; i++) {
+            if(i == '\n') display.write(' ');
+            else          display.write(i);
+        }
+
+        display.display();
+    }
+
+    void testdrawstyles() {
+        display.clearDisplay();
+
+        display.setTextSize(2);             // Normal 1:1 pixel scale
+        display.setTextColor(SSD1306_WHITE);        // Draw white text
+        display.setCursor(0,0);             // Start at top-left corner
+        display.println(F("Hellow, Pesto!"));
+
+        display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
+        display.println(1337);
+
+        display.setTextSize(2);             // Draw 2X-scale text
+        display.setTextColor(SSD1306_WHITE);
+        display.print(F("0x")); display.println(0xDEADBEEF, HEX);
+
+        display.display();
+    }
+
+    void testscrolltext() {
+        display.clearDisplay();
+
+        display.setTextSize(2); // Draw 2X-scale text
+        display.setTextColor(SSD1306_WHITE);
+        display.setCursor(10, 0);
+        display.println(F("PESTO?"));
+        display.display();      // Show initial text
+        #ifdef USE_SMALL_DISPLAY
+            // Scroll in various directions, pausing in-between:
+            display.startscrollright(0x00, 0x0F);
+            display.stopscroll();
+            delay(100);
+            display.startscrollleft(0x00, 0x0F);
+            display.stopscroll();
+            delay(100);
+            display.startscrolldiagright(0x00, 0x07);
+            display.startscrolldiagleft(0x00, 0x07);
+            display.stopscroll();
+        #endif
+    }
+
+    void testdrawbitmap() {
+        display.clearDisplay();
+
+        display.drawBitmap(
+                (display.width()  - LOGO_WIDTH ) / 2,
+                (display.height() - LOGO_HEIGHT) / 2,
+                logo_bmp, LOGO_WIDTH, LOGO_HEIGHT, 1);
+        display.display();
+        delay(100);
+    }
+
+
 
 #endif
 
+
+void displayLoop(){
+    #ifdef USE_MOUTH_DISPLAY_ADAFRUIT
+        switch (displaySwitch) {
+            case 1:  testdrawline();       break;
+            case 2:  testdrawrect();       break;
+            case 3:  testfillrect();       break;
+            case 4:  testdrawcircle();     break;
+            case 5:  testfillcircle();     break;
+            case 6:  testdrawroundrect();  break;
+            case 7:  testfillroundrect();  break;
+            case 8:  testdrawtriangle();   break;
+            case 9:  testfilltriangle();   break;
+            case 10: testdrawchar();       break;
+            case 11: testdrawstyles();     break;
+            case 12: testscrolltext();     break;
+            case 13: testdrawbitmap();     break;
+            default: display.display();
+        }
+        displaySwitch == 13 ? displaySwitch = 1 : displaySwitch += 1;
+    #endif
+}
 
 void displaySetup() {
-#ifdef USE_MOUTH_DISPLAY_ADAFRUIT
+    #ifdef USE_MOUTH_DISPLAY_ADAFRUIT
 
-    if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
+        if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
 
-    } else {
-
-        // Show initial display buffer contents on the screen --
-        // the library initializes this with an Adafruit splash screen.
-        display.display();
-        delay(500); // Pause for 2 seconds
-
-        testdrawline();      // Draw many lines
-
-        testdrawrect();      // Draw rectangles (outlines)
-
-        testfillrect();      // Draw rectangles (filled)
-
-        testdrawcircle();    // Draw circles (outlines)
-
-        testfillcircle();    // Draw circles (filled)
-
-        testdrawroundrect(); // Draw rounded rectangles (outlines)
-
-        testfillroundrect(); // Draw rounded rectangles (filled)
-
-        testdrawtriangle();  // Draw triangles (outlines)
-
-        testfilltriangle();  // Draw triangles (filled)
-
-        testdrawchar();      // Draw characters of the default font
-
-        testdrawstyles();    // Draw 'stylized' characters
-
-        testscrolltext();    // Draw scrolling text
-
-        testdrawbitmap();    // Draw a small bitmap image
-
-        // Invert and restore display, pausing in-between
-        display.invertDisplay(true);
-        delay(1000);
-        display.invertDisplay(false);
-        delay(1000);
-
-        //testanimate(logo_bmp, LOGO_WIDTH, LOGO_HEIGHT); // Animate bitmaps
-    }
-#endif
+        } else {
+            displayLoop();
+        }
+    #endif
 }
 
 /************************************************ Display u8g2  *************************************************/
@@ -1292,227 +1223,7 @@ void displaySetup() {
 /***************************************************************************************************************/
 
 #ifdef USE_MOUTH_DISPLAY_U8G2
-void u8g2_prepare() {
-    u8g2.setFont(u8g2_font_6x10_tf);
-    u8g2.setFontRefHeightExtendedText();
-    u8g2.setDrawColor(1);
-    u8g2.setFontPosTop();
-    u8g2.setFontDirection(0);
-}
 
-void u8g2_box_title(uint8_t a) {
-    u8g2.drawStr( 10+a*2, 5, "U8g2");
-    u8g2.drawStr( 10, 20, "GraphicsTest");
-
-    u8g2.drawFrame(0,0,u8g2.getDisplayWidth(),u8g2.getDisplayHeight() );
-}
-
-void u8g2_box_frame(uint8_t a) {
-    u8g2.drawStr( 0, 0, "drawBox");
-    u8g2.drawBox(5,10,20,10);
-    u8g2.drawBox(10+a,15,30,7);
-    u8g2.drawStr( 0, 30, "drawFrame");
-    u8g2.drawFrame(5,10+30,20,10);
-    u8g2.drawFrame(10+a,15+30,30,7);
-}
-
-void u8g2_disc_circle(uint8_t a) {
-    u8g2.drawStr( 0, 0, "drawDisc");
-    u8g2.drawDisc(10,18,9);
-    u8g2.drawDisc(24+a,16,7);
-    u8g2.drawStr( 0, 30, "drawCircle");
-    u8g2.drawCircle(10,18+30,9);
-    u8g2.drawCircle(24+a,16+30,7);
-}
-
-void u8g2_r_frame(uint8_t a) {
-    u8g2.drawStr( 0, 0, "drawRFrame/Box");
-    u8g2.drawRFrame(5, 10,40,30, a+1);
-    u8g2.drawRBox(50, 10,25,40, a+1);
-}
-
-void u8g2_string(uint8_t a) {
-    u8g2.setFontDirection(0);
-    u8g2.drawStr(30+a,31, " 0");
-    u8g2.setFontDirection(1);
-    u8g2.drawStr(30,31+a, " 90");
-    u8g2.setFontDirection(2);
-    u8g2.drawStr(30-a,31, " 180");
-    u8g2.setFontDirection(3);
-    u8g2.drawStr(30,31-a, " 270");
-}
-
-void u8g2_line(uint8_t a) {
-    u8g2.drawStr( 0, 0, "drawLine");
-    u8g2.drawLine(7+a, 10, 40, 55);
-    u8g2.drawLine(7+a*2, 10, 60, 55);
-    u8g2.drawLine(7+a*3, 10, 80, 55);
-    u8g2.drawLine(7+a*4, 10, 100, 55);
-}
-
-void u8g2_triangle(uint8_t a) {
-    uint16_t offset = a;
-    u8g2.drawStr( 0, 0, "drawTriangle");
-    u8g2.drawTriangle(14,7, 45,30, 10,40);
-    u8g2.drawTriangle(14+offset,7-offset, 45+offset,30-offset, 57+offset,10-offset);
-    u8g2.drawTriangle(57+offset*2,10, 45+offset*2,30, 86+offset*2,53);
-    u8g2.drawTriangle(10+offset,40+offset, 45+offset,30+offset, 86+offset,53+offset);
-}
-
-void u8g2_ascii_1() {
-    char s[2] = " ";
-    uint8_t x, y;
-    u8g2.drawStr( 0, 0, "ASCII page 1");
-    for( y = 0; y < 6; y++ ) {
-        for( x = 0; x < 16; x++ ) {
-            s[0] = y*16 + x + 32;
-            u8g2.drawStr(x*7, y*10+10, s);
-        }
-    }
-}
-
-void u8g2_ascii_2() {
-    char s[2] = " ";
-    uint8_t x, y;
-    u8g2.drawStr( 0, 0, "ASCII page 2");
-    for( y = 0; y < 6; y++ ) {
-        for( x = 0; x < 16; x++ ) {
-            s[0] = y*16 + x + 160;
-            u8g2.drawStr(x*7, y*10+10, s);
-        }
-    }
-}
-
-void u8g2_extra_page(uint8_t a)
-{
-    u8g2.drawStr( 0, 0, "Unicode");
-    u8g2.setFont(u8g2_font_unifont_t_symbols);
-    u8g2.setFontPosTop();
-    u8g2.drawUTF8(0, 24, "☀ ☁");
-    switch(a) {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-            u8g2.drawUTF8(a*3, 36, "☂");
-            break;
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-            u8g2.drawUTF8(a*3, 36, "☔");
-            break;
-    }
-}
-
-void u8g2_xor(uint8_t a) {
-    uint8_t i;
-    u8g2.drawStr( 0, 0, "XOR");
-    u8g2.setFontMode(1);
-    u8g2.setDrawColor(2);
-    for( i = 0; i < 5; i++)
-    {
-        u8g2.drawBox(10+i*16, 18 + (i&1)*4, 21,31);
-    }
-    u8g2.drawStr( 5+a, 19, "XOR XOR XOR XOR");
-    u8g2.setDrawColor(0);
-    u8g2.drawStr( 5+a, 29, "CLR CLR CLR CLR");
-    u8g2.setDrawColor(1);
-    u8g2.drawStr( 5+a, 39, "SET SET SET SET");
-    u8g2.setFontMode(0);
-
-}
-
-#define cross_width 24
-#define cross_height 24
-static const unsigned char cross_bits[] U8X8_PROGMEM  = {
-        0x00, 0x18, 0x00, 0x00, 0x24, 0x00, 0x00, 0x24, 0x00, 0x00, 0x42, 0x00,
-        0x00, 0x42, 0x00, 0x00, 0x42, 0x00, 0x00, 0x81, 0x00, 0x00, 0x81, 0x00,
-        0xC0, 0x00, 0x03, 0x38, 0x3C, 0x1C, 0x06, 0x42, 0x60, 0x01, 0x42, 0x80,
-        0x01, 0x42, 0x80, 0x06, 0x42, 0x60, 0x38, 0x3C, 0x1C, 0xC0, 0x00, 0x03,
-        0x00, 0x81, 0x00, 0x00, 0x81, 0x00, 0x00, 0x42, 0x00, 0x00, 0x42, 0x00,
-        0x00, 0x42, 0x00, 0x00, 0x24, 0x00, 0x00, 0x24, 0x00, 0x00, 0x18, 0x00, };
-
-#define cross_fill_width 24
-#define cross_fill_height 24
-static const unsigned char cross_fill_bits[] U8X8_PROGMEM  = {
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18, 0x00, 0x18, 0x64, 0x00, 0x26,
-        0x84, 0x00, 0x21, 0x08, 0x81, 0x10, 0x08, 0x42, 0x10, 0x10, 0x3C, 0x08,
-        0x20, 0x00, 0x04, 0x40, 0x00, 0x02, 0x80, 0x00, 0x01, 0x80, 0x18, 0x01,
-        0x80, 0x18, 0x01, 0x80, 0x00, 0x01, 0x40, 0x00, 0x02, 0x20, 0x00, 0x04,
-        0x10, 0x3C, 0x08, 0x08, 0x42, 0x10, 0x08, 0x81, 0x10, 0x84, 0x00, 0x21,
-        0x64, 0x00, 0x26, 0x18, 0x00, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, };
-
-#define cross_block_width 14
-#define cross_block_height 14
-static const unsigned char cross_block_bits[] U8X8_PROGMEM  = {
-        0xFF, 0x3F, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20,
-        0xC1, 0x20, 0xC1, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20,
-        0x01, 0x20, 0xFF, 0x3F, };
-
-void u8g2_bitmap_overlay(uint8_t a) {
-    uint8_t frame_size = 28;
-
-    u8g2.drawStr(0, 0, "Bitmap overlay");
-
-    u8g2.drawStr(0, frame_size + 12, "Solid / transparent");
-    u8g2.setBitmapMode(false /* solid */);
-    u8g2.drawFrame(0, 10, frame_size, frame_size);
-    u8g2.drawXBMP(2, 12, cross_width, cross_height, cross_bits);
-    if(a & 4)
-        u8g2.drawXBMP(7, 17, cross_block_width, cross_block_height, cross_block_bits);
-
-    u8g2.setBitmapMode(true /* transparent*/);
-    u8g2.drawFrame(frame_size + 5, 10, frame_size, frame_size);
-    u8g2.drawXBMP(frame_size + 7, 12, cross_width, cross_height, cross_bits);
-    if(a & 4)
-        u8g2.drawXBMP(frame_size + 12, 17, cross_block_width, cross_block_height, cross_block_bits);
-}
-
-void u8g2_bitmap_modes(uint8_t transparent) {
-    const uint8_t frame_size = 24;
-
-    u8g2.drawBox(0, frame_size * 0.5, frame_size * 5, frame_size);
-    u8g2.drawStr(frame_size * 0.5, 50, "Black");
-    u8g2.drawStr(frame_size * 2, 50, "White");
-    u8g2.drawStr(frame_size * 3.5, 50, "XOR");
-
-    if(!transparent) {
-        u8g2.setBitmapMode(false /* solid */);
-        u8g2.drawStr(0, 0, "Solid bitmap");
-    } else {
-        u8g2.setBitmapMode(true /* transparent*/);
-        u8g2.drawStr(0, 0, "Transparent bitmap");
-    }
-    u8g2.setDrawColor(0);// Black
-    u8g2.drawXBMP(frame_size * 0.5, 24, cross_width, cross_height, cross_bits);
-    u8g2.setDrawColor(1); // White
-    u8g2.drawXBMP(frame_size * 2, 24, cross_width, cross_height, cross_bits);
-    u8g2.setDrawColor(2); // XOR
-    u8g2.drawXBMP(frame_size * 3.5, 24, cross_width, cross_height, cross_bits);
-}
-
-uint8_t draw_state = 0;
-
-void draw() {
-    u8g2_prepare();
-    switch(draw_state >> 3) {
-        case 0: u8g2_box_title(draw_state&7); break;
-        case 1: u8g2_box_frame(draw_state&7); break;
-        case 2: u8g2_disc_circle(draw_state&7); break;
-        case 3: u8g2_r_frame(draw_state&7); break;
-        case 4: u8g2_string(draw_state&7); break;
-        case 5: u8g2_line(draw_state&7); break;
-        case 6: u8g2_triangle(draw_state&7); break;
-        case 7: u8g2_ascii_1(); break;
-        case 8: u8g2_ascii_2(); break;
-        case 9: u8g2_extra_page(draw_state&7); break;
-        case 10: u8g2_xor(draw_state&7); break;
-        case 11: u8g2_bitmap_modes(0); break;
-        case 12: u8g2_bitmap_modes(1); break;
-        case 13: u8g2_bitmap_overlay(draw_state&7); break;
-    }
-}
 #endif
 
 
@@ -1548,6 +1259,12 @@ void draw() {
 		timerTreeActive = false;
 		lcd.clear();
 	}
+
+    void mouthTimer(){
+        #ifdef USE_MOUTH_DISPLAY_ADAFRUIT
+            displayLoop();
+        #endif
+    }
 #endif
 
 
@@ -1574,12 +1291,15 @@ int pulseWidth(int angle){  //  pwm.setPWM(PWM_0, 0, pulseWidth(0));
 #endif
 
 void defaultLCD(){
-    lcd.setCursor(0,top);
-    lcd.write(0); // ********* heart ********* //
-    lcd.setCursor(2,top);   //Set cursor to character 2 on line 0
-    lcd.print("Hello Pesto!");
-    lcd.setCursor(0,bot);   //Set cursor to line 1
-    lcd.print(previousIR, HEX);
+    #ifdef USE_IRREMOTE
+        lcd.setCursor(0,top);
+        lcd.write(0); // ********* heart ********* //
+        lcd.setCursor(2,top);   //Set cursor to character 2 on line 0
+        lcd.print("Hello Pesto!");
+        lcd.setCursor(0,bot);   //Set cursor to line 1
+
+        lcd.print(previousIR, HEX);
+    #endif
 }
 
 
@@ -1590,11 +1310,11 @@ void defaultLCD(){
 void setup(){
     Wire.begin();
     delay(1);
-    //Serial.begin(115200); // Initialize the hardware serial port for debugging
+    Serial.begin(115200); // Initialize the hardware serial port for debugging
     delay(1);
     Serial1.begin(115200);
     delay(1);
-    //SERIAL_AT.begin(115200);
+    SERIAL_AT.begin(115200);
     delay(1);
     //mySerial.begin(115200); // Initialize the software serial port
     delay(1);
@@ -1674,6 +1394,16 @@ void setup(){
         lcd.print("InfraRed remote");
 	#endif
 
+    #ifdef USE_MOUTH_DISPLAY_ADAFRUIT
+        displaySetup();
+    #else
+        lcd.clear();
+        lcd.setCursor(0,top);
+        lcd.print("Not using the");
+        lcd.setCursor(0,bot);
+        lcd.print(" 128x64 display");
+    #endif
+
 	#ifdef USE_PWM
 		pwm.begin();
 		pwm.setPWMFreq(FREQUENCY);  // Analog servos run at ~50 Hz updates
@@ -1686,6 +1416,7 @@ void setup(){
         timerOne.set(timerOnePeriod, dotMatrixTimer);
         timerTwo.set(timerTwoPeriod, sensorTimer);
         timerThree.set(timerThreePeriod, resetTimers);
+        timerMouth.set(timerMouthPeriod, mouthTimer);
     #endif
     lcd.clear();
 }
@@ -1696,40 +1427,49 @@ void setup(){
 
 void loop(){
     lcd.setCursor(0,top);
-     // Read messages from Arduino R4 ESP32
-/*    if (SERIAL_AT.available()) {
-        lcd.print("ESP32 says: ");
-        while (SERIAL_AT.available()) {
-            Serial.write(SERIAL_AT.read());
-            lcd.println(SERIAL_AT.read());
-        }
+    if (Serial1.available())        // read from Serial1 output to Serial
+        Serial.write(Serial1.read());
+    if (Serial.available()) {       // read from Serial outut to Serial1
+        int inByte = Serial.read();
+        //Serial.write(inByte);     // local echo if required
+        Serial1.write(inByte);
     }
-    delay(100);*/
 
-    // Read messages from ESP32-CAM AI-Thinker
-//    if(Serial1.available()) {
-//        char ch = Serial.read();
-//        if(ch >= '0' && ch <= '9') {// is this an ascii digit between 0 and 9?
-//            // yes, accumulate the value
-//            values[fieldIndex] = (values[fieldIndex] * 10) + (ch - '0');
-//        } else if (ch == ',') { // comma is our separator, so move on to the next field
-//            if(fieldIndex < NUMBER_OF_FIELDS-1)
-//                fieldIndex++;   // increment field index
-//        } else {
-//            // any character not a digit or comma ends the acquisition of fields
-//            // in this example it's the newline character sent by the Serial Monitor
-//            Serial.print( fieldIndex +1);
-//            Serial.println(" fields received:");
-//            lcd.setCursor(8,bot);
-//            for(int i=0; i <= fieldIndex; i++) {
-//                lcd.print(values[i]);
-//                Serial.print(values[i]);
-//                delay(50);
-//                values[i] = 0; // set the values to zero, ready for the next message
-//            }
-//            fieldIndex = 0;  // ready to start over
+
+     // Read messages from Arduino R4 ESP32
+//    if (SERIAL_AT.available()) {
+//        lcd.print("ESP32 says: ");
+//        while (SERIAL_AT.available()) {
+//            Serial.write(SERIAL_AT.read());
+//            lcd.println(SERIAL_AT.read());
 //        }
 //    }
+
+
+     // Read messages from ESP32-CAM AI-Thinker
+    if(Serial1.available()) {
+        char ch = Serial1.read();
+        if(ch >= '0' && ch <= '9') {// is this an ascii digit between 0 and 9?
+            // yes, accumulate the value
+            values[fieldIndex] = (values[fieldIndex] * 10) + (ch - '0');
+        } else if (ch == ',') { // comma is our separator, so move on to the next field
+            if(fieldIndex < NUMBER_OF_FIELDS-1)
+                fieldIndex++;   // increment field index
+        } else {
+            // any character not a digit or comma ends the acquisition of fields
+            // in this example it's the newline character sent by the Serial Monitor
+            Serial.print( fieldIndex +1);
+            Serial.println(" fields received:");
+            lcd.setCursor(8,bot);
+            for(int i=0; i <= fieldIndex; i++) {
+                lcd.print(values[i]);
+                Serial.print(values[i]);
+                delay(50);
+                values[i] = 0; // set the values to zero, ready for the next message
+            }
+            fieldIndex = 0;  // ready to start over
+        }
+    }
 
     #ifdef USE_TEXTFINDER
         // TEXT-finder
@@ -1743,12 +1483,12 @@ void loop(){
     #endif
 
     // React on messages from ESP32-CAM AI-Thinker
-    while(Serial1.available()){
+    while(Serial1.available()>0){
         delay(5);
         char c = Serial1.read();
         lcd.print(c);
 
-        switch (c) {
+       /* switch (c) {
             //**** Head movements    ****
             case 1: posXY = min(180, posXY + speedXY); lcd.print("R"); break;//if (PS4.Right()) send(1);
             case 2: posZ = min(160, posZ + speedZ); lcd.print("D"); break; //if (PS4.Down()) send(2);
@@ -1808,7 +1548,7 @@ void loop(){
 				}
 		#endif
         previousXY = posXY;
-        previousZ = posZ;
+        previousZ = posZ;*/
     }
     /***************************** IrReceiver **********************************/
     // section Loop IrReceiver
@@ -1898,6 +1638,7 @@ void loop(){
         timerOne.update();
         timerTwo.update();
         timerThree.update();
+        timerMouth.update();
     #endif
 
     Car_Stop();
