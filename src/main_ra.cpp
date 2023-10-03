@@ -376,6 +376,11 @@ int posZ = 45;   // set vertical servo position
 int speedZ =  20;
 
 int flag; // flag variable, it is used to entry and exist function
+String msg1 = "";
+char until_c = '\n';
+size_t char_limit = 4;
+
+const unsigned int MAX_MESSAGE_LENGTH = 12;
 
 /***************************************************** the Sensor Assigns **************************************/
 // section Sensor Assigns
@@ -1302,6 +1307,20 @@ void defaultLCD(){
     #endif
 }
 
+bool readStringUntil(String& input) {
+    while (Serial1.available()) {
+        char c = Serial1.read();
+        input += c;
+        if (c == until_c) {
+            return true;
+        }
+        if (input.length() >= char_limit) {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 
 /********************************************** Setup booting the arduino **************************************/
@@ -1316,9 +1335,7 @@ void setup(){
     delay(1);
     SERIAL_AT.begin(115200);
     delay(1);
-    //mySerial.begin(115200); // Initialize the software serial port
-    delay(1);
-
+    msg1.reserve(40);
 
     #ifdef USE_MATRIX
         matrix.loadSequence(animation);
@@ -1427,6 +1444,60 @@ void setup(){
 
 void loop(){
 
+//    while (readStringUntil(msg1)) {
+//        Serial.print(msg1);
+//    }
+
+
+
+//    while (Serial1.available()) {
+//        msg1 = ""; // clear after processing for next line
+//        for(int i = 1; i <=4; i++) {
+//            char c = Serial1.read();
+//            msg1 += c;
+//            delay(2);
+//        }
+//        Serial.println(msg1);
+//    }
+
+    //Check to see if anything is available in the serial receive buffer
+    while (Serial1.available() > 0)
+    {
+        //Create a place to hold the incoming message
+        static char message[MAX_MESSAGE_LENGTH];
+        static unsigned int message_pos = 0;
+
+        //Read the next available byte in the serial receive buffer
+        char inByte = Serial1.read();
+        if ( inByte != '\n' && (message_pos < MAX_MESSAGE_LENGTH - 1) )
+        {
+            //Add the incoming byte to our message
+            message[message_pos] = inByte;
+            message_pos++;
+        }
+        //Full message received...
+        else
+        {
+            //Add null character to string
+            message[message_pos] = '\0';
+
+            //Print the message (or do other things)
+            Serial.println(message);
+
+            //Or convert to integer and print
+            int number = atoi(message);
+            Serial.println(number);
+
+            //Reset for the next message
+            message_pos = 0;
+        }
+    }
+
+    Serial.println("exit whileloop\n");
+
+
+
+
 //    while (Serial1.available())        // read from Serial1 output to Serial
 //        Serial.write(Serial1.read());
 //    while (Serial.available()) {       // read from Serial outut to Serial1
@@ -1446,7 +1517,8 @@ void loop(){
 //    }
 
 
-/*     // Read messages from ESP32-CAM AI-Thinker
+     // Read messages from ESP32-CAM AI-Thinker
+/*
     if(Serial1.available()) {
         char ch = Serial1.read();
         if(ch >= '0' && ch <= '9') {// is this an ascii digit between 0 and 9?
@@ -1469,7 +1541,8 @@ void loop(){
             }
             fieldIndex = 0;  // ready to start over
         }
-    }*/
+    }
+*/
 
     #ifdef USE_TEXTFINDER
         // TEXT-finder
@@ -1484,8 +1557,8 @@ void loop(){
 
     lcd.setCursor(0,bot);
     // React on messages from ESP32-CAM AI-Thinker
-    while(Serial1.available()){
-        char32_t c = Serial1.read();
+/*    while(Serial1.available()) {
+        int c = Serial1.read();
         Serial.write(c);
 
         switch (c) {
@@ -1529,7 +1602,7 @@ void loop(){
             //    send(4127 + PS4.RStickY());
             //}
             default:
-                Serial.print(c);
+                break;
         }
 		#ifdef USE_PWM
 				if (posXY != previousXY) {
@@ -1541,7 +1614,7 @@ void loop(){
 		#endif
         previousXY = posXY;
         previousZ = posZ;
-    }
+    }*/
     /***************************** IrReceiver **********************************/
     // section Loop IrReceiver
     /***************************************************************************/
@@ -1662,6 +1735,7 @@ void loop(){
 			RGBled(0, 0, lightSensor());
 		#endif
 	}
+
 }
 
 
