@@ -13,22 +13,22 @@ PS5 Controller: 88:03:4C:B5:00:66
 
 //#define USE_JOYSTICK
 //#define USE_WIFI_SERVER
-#define USE_MOUTH_DISPLAY_ADAFRUIT
+//#define USE_MOUTH_DISPLAY_ADAFRUIT
 //#define USE_MOUTH_DISPLAY_U8G2
-#define USE_SMALL_DISPLAY
+//#define USE_SMALL_DISPLAY
 #define USE_MOUTH_DISPLAY
 
-#define USE_GYRO
-#define USE_COMPASS
-#define USE_BAROMETER
+//#define USE_GYRO
+//#define USE_COMPASS
+//#define USE_BAROMETER
 
-#define USE_IRREMOTE
+//#define USE_IRREMOTE
 #define USE_I2C_SCANNER
 #define USE_PWM
 #define USE_DOT
 
-#define USE_ROBOT
-#define USE_TIMERS
+//#define USE_ROBOT
+//#define USE_TIMERS
 //#define USE_TEXTFINDER
 
 //#define USE_MATRIX
@@ -1427,13 +1427,13 @@ void setup(){
 
 void loop(){
 
-    while (Serial1.available())        // read from Serial1 output to Serial
-        Serial.write(Serial1.read());
-    while (Serial.available()) {       // read from Serial outut to Serial1
-        int inByte = Serial.read();
-        //Serial.write(inByte);     // local echo if required
-        Serial1.write(inByte);
-    }
+//    while (Serial1.available())        // read from Serial1 output to Serial
+//        Serial.write(Serial1.read());
+//    while (Serial.available()) {       // read from Serial outut to Serial1
+//        char32_t inByte = Serial.read();
+//        //Serial.write(inByte);     // local echo if required
+//        Serial1.write(inByte);
+//    }
 
 
      // Read messages from Arduino R4 ESP32
@@ -1485,42 +1485,33 @@ void loop(){
     lcd.setCursor(0,bot);
     // React on messages from ESP32-CAM AI-Thinker
     while(Serial1.available()){
-        delay(5);
         char32_t c = Serial1.read();
-        lcd.print(c);
+        Serial.write(c);
 
         switch (c) {
             //**** Head movements    ****
-            case 1: posXY = min(180, posXY + speedXY); lcd.print("R"); break;//if (PS4.Right()) send(1);
-            case 2: posZ = min(160, posZ + speedZ); lcd.print("D"); break; //if (PS4.Down()) send(2);
-            case 3: posXY = max(0, posXY - speedXY); lcd.print("U"); break; //if (PS4.Up()) send(3);
-            case 4: posXY = 90; posZ = 45; lcd.print("L"); break; //if (PS4.Left()) send(4);
+            case 11: posZ = min(160, posZ + speedZ);  break;
+            case 12: posXY = max(0, posXY - speedXY);  break;
+            case 13: posZ = max(0, posZ - speedZ);    break;
+            case 14: posXY = min(180, posXY + speedXY); break;
 
-            //if (PS4.UpRight()) send(5);
-            //if (PS4.DownRight()) send(6);
-            //if (PS4.UpLeft()) send(7);
-            //if (PS4.DownLeft()) send(8);
+            case 31: Car_left();   break;
+            case 34: Car_front();  break;
+            case 32: Car_Back();   break;
+            case 33: Car_right();  break;
 
-            case 11: Car_left();  lcd.print("S"); break;//if (PS4.Square()) send(11);
-            case 12: Car_front(); lcd.print("X"); break;//if (PS4.Cross()) send(12);
-            case 13: Car_Back();  lcd.print("O"); break;//if (PS4.Circle()) send(13);
-            case 14: Car_right(); lcd.print("T");break;//if (PS4.Triangle()) send(14);
-            //if (PS4.L1()) send(21);
-            //if (PS4.R1()) send(22);
 
-            //if (PS4.L3()) send(24);
-            //if (PS4.R3()) send(25);
+            case 1061165916:
+            case 1061159545:
+            case 1061313752:
+            case 1061175213:
+                Car_Stop(); break;
 
-            case 26: Car_Stop(); break;//if (PS4.PSButton()) send(26);
-            //if (PS4.Touchpad()) send(27);
 
-            case 28: posZ = max(0, posZ - speedZ); break; //if (PS4.Share()) send(28);
-            case 29: posXY = 90; posZ = 15; break; //if (PS4.Options()) send(29);
+            case 28: posXY = 90; posZ = 45;  break;
+            case 29: posXY = 90; posZ = 15; break;
 
-            case 30: lcd.print("Charging"); break;//if (PS4.Charging()) send(30);
-            case 31: lcd.print("Headphones"); break;//if (PS4.Audio()) send(31);
-            case 32: lcd.print("Mic"); break;//if (PS4.Mic()) send(32);
-            case 100: lcd.print("Charging"); break;//if (PS4.Battery()) send(100+ PS4.Battery());
+
 
             //if (PS4.L2()) { send(5127 + PS4.L2Value());  }
             //if (PS4.R2()) { send(6127 + PS4.R2Value());  }
@@ -1538,7 +1529,7 @@ void loop(){
             //    send(4127 + PS4.RStickY());
             //}
             default:
-                break;
+                Serial.print(c);
         }
 		#ifdef USE_PWM
 				if (posXY != previousXY) {
