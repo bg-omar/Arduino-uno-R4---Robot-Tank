@@ -35,6 +35,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/../.platformio/packages/framework-arduinorenesas-uno/cores/arduino/api/HardwareSerial.h" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main_ra.cpp" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -100,6 +104,8 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.preferences.folding",
+    "structure.view.defaults.are.configured": "true",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -109,10 +115,13 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
+      <method v="2" />
     </configuration>
     <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
       <method v="2" />
@@ -138,7 +147,9 @@
       <workItem from="1695931425176" duration="751000" />
       <workItem from="1695997412734" duration="2544000" />
       <workItem from="1696021704783" duration="1313000" />
-      <workItem from="1696232463906" duration="17535000" />
+      <workItem from="1696232463906" duration="17557000" />
+      <workItem from="1696318370887" duration="5847000" />
+      <workItem from="1696329917396" duration="17991000" />
     </task>
     <task id="LOCAL-00001" summary="ps4?">
       <option name="closed" value="true" />
@@ -188,7 +199,39 @@
       <option name="project" value="LOCAL" />
       <updated>1696274141652</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Robo Lives with ps4">
+      <option name="closed" value="true" />
+      <created>1696285674534</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1696285674534</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Robo Lives better receivers">
+      <option name="closed" value="true" />
+      <created>1696324153911</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1696324153911</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Robo Lives better receivers">
+      <option name="closed" value="true" />
+      <created>1696324229204</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1696324229204</updated>
+    </task>
+    <task id="LOCAL-00010" summary="All differnt seriall in one">
+      <option name="closed" value="true" />
+      <created>1696349419963</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1696349419963</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -223,6 +266,9 @@
     <MESSAGE value="ps4?" />
     <MESSAGE value="ESP32 Seperate build" />
     <MESSAGE value="Robo Lives" />
-    <option name="LAST_COMMIT_MESSAGE" value="Robo Lives" />
+    <MESSAGE value="Robo Lives with ps4" />
+    <MESSAGE value="Robo Lives better receivers" />
+    <MESSAGE value="All differnt seriall in one" />
+    <option name="LAST_COMMIT_MESSAGE" value="All differnt seriall in one" />
   </component>
 </project>

@@ -11,28 +11,28 @@ PS5 Controller: 88:03:4C:B5:00:66
 // section define
 /***************************************************************************************************************/
 
-//#define USE_JOYSTICK
-//#define USE_WIFI_SERVER
-//#define USE_MOUTH_DISPLAY_ADAFRUIT
-//#define USE_MOUTH_DISPLAY_U8G2
-//#define USE_SMALL_DISPLAY
-#define USE_MOUTH_DISPLAY
+#define USE_JOYSTICK 0
+#define USE_MOUTH_DISPLAY_ADAFRUIT 1
+#define USE_MOUTH_DISPLAY_U8G2 0
+#define USE_SMALL_DISPLAY 1
+#define USE_MOUTH_DISPLAY 1
 
-//#define USE_GYRO
-//#define USE_COMPASS
-//#define USE_BAROMETER
+#define USE_GYRO 1
+#define USE_COMPASS 1
+#define USE_BAROMETER 1
 
-//#define USE_IRREMOTE
-#define USE_I2C_SCANNER
-#define USE_PWM
-#define USE_DOT
+#define USE_IRREMOTE 1
+#define USE_I2C_SCANNER 1
+#define USE_PWM 1
+#define USE_DOT 1
 
-//#define USE_ROBOT
-//#define USE_TIMERS
-//#define USE_TEXTFINDER
+#define USE_ROBOT 1
+#define USE_TIMERS 1
+#define USE_TEXTFINDER 0
 
-//#define USE_MATRIX
-#define USE_LCD
+#define USE_MATRIX 0
+#define READ_ESP32 0
+#define USE_LCD 1
 #define ARDUINO_ARCH_RENESAS_UNO
 
 /***************************************************************************************************************/
@@ -61,12 +61,12 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include <TimerEvent.h>
 
 
-#ifdef USE_MATRIX
+#if USE_MATRIX
     #include "Arduino_LED_Matrix.h"
     ArduinoLEDMatrix matrix;
 #endif
 
-#ifdef USE_MOUTH_DISPLAY_ADAFRUIT
+#if USE_MOUTH_DISPLAY_ADAFRUIT
     #include <Adafruit_GFX.h>
     #include <Adafruit_SSD1306.h>
     #include <Adafruit_SH110X.h>
@@ -82,7 +82,7 @@ PS5 Controller: 88:03:4C:B5:00:66
     #define LOGO_WIDTH    16
 #endif
 
-#ifdef USE_IRREMOTE
+#if USE_IRREMOTE
     #define RAW_BUFFER_LENGTH  750
     #define DECODE_NEC
     #include <IRremote.hpp>
@@ -95,15 +95,10 @@ PS5 Controller: 88:03:4C:B5:00:66
 #define SEALEVELPRESSURE_HPA (1013.25)
 
 
-#ifdef USE_TEXTFINDER
+#if USE_TEXTFINDER
     #include <TextFinder.h>
     TextFinder finder(Serial1);
 #endif
-
-const int NUMBER_OF_FIELDS = 1; // how many comma seperated fields we expect
-int values[NUMBER_OF_FIELDS];   // array holding values for all the fields
-int fieldIndex = 0;            // the current field being received
-
 
 /********************************************** Declare all the functions***************************************/
 // section declaration
@@ -114,7 +109,7 @@ void Car_right();
 void Car_Stop();
 void Car_Back();
 
-#ifdef USE_I2C_SCANNER
+#if USE_I2C_SCANNER
     void I2CScanner();
 #endif
 
@@ -124,13 +119,13 @@ double checkDistance();
 
 
 
-#ifdef USE_ROBOT
+#if USE_ROBOT
 	void dance();
 	void avoid();
 	void light_track();
 #endif
 
-#ifdef USE_DOT
+#if USE_DOT
     void IIC_start();
     void IIC_send(unsigned char send_data);
     void IIC_end();
@@ -138,7 +133,7 @@ double checkDistance();
     void pestoMatrix();
 #endif
 
-#ifdef USE_TIMERS
+#if USE_TIMERS
 	void dotMatrixTimer();
 	void sensorTimer();
     const int timerOnePeriod = 1000;
@@ -155,11 +150,11 @@ double checkDistance();
     TimerEvent timerMouth;
 #endif
 
-#ifdef USE_PWM
+#if USE_PWM
 	void RGBled(int r_val, int g_val, int b_val);
 #endif
 
-#ifdef USE_GYRO
+#if USE_GYRO
     void gyroCalibrate_sensor();
     void gyroDetectMovement();
     void gyroFunc();
@@ -167,7 +162,7 @@ double checkDistance();
     Adafruit_MPU6050 mpu; // Set the gyroscope
 #endif
 
-#ifdef USE_COMPASS
+#if USE_COMPASS
     void compass();
     Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(12345);
 #endif
@@ -175,7 +170,7 @@ double checkDistance();
 /********************************************** Make DotMatric Images*******************************************/
 // section DotMatrix Images
 /***************************************************************************************************************/
-#ifdef USE_DOT
+#if USE_DOT
 	// Array, used to store the data of the pattern
 	unsigned char STOP01[] = {0x2E,0x2A,0x3A,0x00,0x02,0x3E,0x02,0x00,0x3E,0x22,0x3E,0x00,0x3E,0x0A,0x0E,0x00};
 	unsigned char hou[] =    {0x00,0x7f,0x08,0x08,0x7f,0x00,0x3c,0x42,0x42,0x3c,0x00,0x3e,0x40,0x40,0x3e,0x00};
@@ -199,7 +194,7 @@ double checkDistance();
 
 byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000, 0b00000};
 
-#ifdef USE_MOUTH_DISPLAY_ADAFRUIT
+#if USE_MOUTH_DISPLAY_ADAFRUIT
 	static const unsigned char PROGMEM logo_bmp[] =
 		{0b00000000, 0b11000000,
 		 0b00000001, 0b11000000,
@@ -219,7 +214,7 @@ byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000,
 		 0b00000000, 0b00110000 };
 #endif
 
-#ifdef USE_MATRIX
+#if USE_MATRIX
     const uint32_t animation[][4] = {
             {
                     0x0,
@@ -315,7 +310,7 @@ byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000,
 #define IR_Pin      A2
 #define MIC_PIN     A3
 
-#ifdef USE_JOYSTICK
+#if USE_JOYSTICK
     #define Joystick_X  A0
     #define Joystick_Y  A1
 #else
@@ -324,7 +319,7 @@ byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000,
 #endif
 
 
-#ifdef USE_PWM
+#if USE_PWM
 	#define PWM_0        0
 	#define PWM_1        1
 	#define PWM_2        2
@@ -376,43 +371,40 @@ int posZ = 45;   // set vertical servo position
 int speedZ =  20;
 
 int flag; // flag variable, it is used to entry and exist function
-String msg1 = "";
-char until_c = '\n';
-size_t char_limit = 4;
 
-const unsigned int MAX_MESSAGE_LENGTH = 12;
+const unsigned int MAX_MESSAGE_LENGTH = 30;
 
 /***************************************************** the Sensor Assigns **************************************/
 // section Sensor Assigns
 /***************************************************************************************************************/
 
-#ifdef  USE_LCD
+#if  USE_LCD
     LiquidCrystal_I2C lcd(0x27,16,2);
 #endif
 
-#ifdef USE_MOUTH_DISPLAY_ADAFRUIT
-    #ifdef USE_SMALL_DISPLAY
+#if USE_MOUTH_DISPLAY_ADAFRUIT
+    #if USE_SMALL_DISPLAY
         Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
     #else
         Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
     #endif
 #endif
 
-#ifdef USE_MOUTH_DISPLAY_U8G2
+#if USE_MOUTH_DISPLAY_U8G2
     U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 #endif
 
 
-#ifdef USE_PWM
+#if USE_PWM
     uint8_t servonum = 0;
 	Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 #endif
 
-#ifdef USE_BAROMETER
+#if USE_BAROMETER
 	Adafruit_BME280 bme;
 #endif
 
-#ifdef USE_SOFTWARESERIAL
+#if USE_SOFTWARESERIAL
     #include <SoftwareSerial.h>
     SoftwareSerial mySerial(PIN_9, PIN_10); // RX, TX pins for SoftwareSerial
 #endif
@@ -420,7 +412,7 @@ const unsigned int MAX_MESSAGE_LENGTH = 12;
 /************************************************** the I2CScanner *********************************************/
 // section I2CScanner
 /***************************************************************************************************************/
-#ifdef USE_I2C_SCANNER
+#if USE_I2C_SCANNER
 	void I2CScanner() {
 		byte error, address;
 		int nDevices;
@@ -475,7 +467,7 @@ const unsigned int MAX_MESSAGE_LENGTH = 12;
 /************************************************** the gyroscope **********************************************/
 // section gyroRead
 /***************************************************************************************************************/
-#ifdef USE_GYRO
+#if USE_GYRO
     void gyroRead(){
         sensors_event_t a, gyro, temp;
         mpu.getEvent(&a, &gyro, &temp);
@@ -508,7 +500,7 @@ const unsigned int MAX_MESSAGE_LENGTH = 12;
     }
 
     void gyroDetectMovement() {
-        #ifdef USE_TIMERS
+        #if USE_TIMERS
             gyroRead();
             if(( abs(ax) + abs(ay) + abs(az)) > THRESHOLD){
                 timerTwoActive = true;
@@ -578,7 +570,7 @@ const unsigned int MAX_MESSAGE_LENGTH = 12;
 /*************************************************** the Compass ***********************************************/
 // section Compass
 /***************************************************************************************************************/
-#ifdef USE_COMPASS
+#if USE_COMPASS
     double readCompass(){
         lcd.setCursor(0, top);   //Set cursor to character 2 on line 0
         lcd.print("Compass ");
@@ -646,7 +638,7 @@ const unsigned int MAX_MESSAGE_LENGTH = 12;
 /********************************************** control ultrasonic sensor***************************************/
 // section BaroMeter
 /***************************************************************************************************************/
-#ifdef USE_BAROMETER
+#if USE_BAROMETER
     void baroSetup() {
         lcd.clear();
         /* Initialise the sensor */
@@ -701,7 +693,7 @@ double checkDistance() {
 /********************************************** arbitrary sequence *********************************************/
 // section Dance
 /***************************************************************************************************************/
-#ifdef USE_ROBOT
+#if USE_ROBOT
 	void dance() {
 		randomXY = random(1, 180);
 		randomZ = random(1, 160);
@@ -725,7 +717,7 @@ double checkDistance() {
 		delay(500);
 		pwm.setPWM(PWM_1, 0, pulseWidth(randomZ));
 		delay(500);
-		#ifdef USE_IRREMOTE
+		#if USE_IRREMOTE
 			if (IrReceiver.decode()) {
 				ir_rec = IrReceiver.decodedIRData.decodedRawData;
 				IrReceiver.resume();
@@ -739,7 +731,7 @@ double checkDistance() {
 /********************************************** Obstacle Avoidance Function*************************************/
 // section Avoid
 /***************************************************************************************************************/
-#ifdef USE_ROBOT
+#if USE_ROBOT
 	void avoid() {
 		flag = 0; ///the design that enter obstacle avoidance function
 		while (flag == 0) {
@@ -794,7 +786,7 @@ double checkDistance() {
 			{
 				Car_front();
 			}
-		#ifdef USE_IRREMOTE
+		#if USE_IRREMOTE
 				if (IrReceiver.decode()) {
 					ir_rec = IrReceiver.decodedIRData.decodedRawData;
 					IrReceiver.resume();
@@ -809,7 +801,7 @@ double checkDistance() {
 /*************************************************** Light Follow **********************************************/
 // section Follow Light
 /***************************************************************************************************************/
-#ifdef USE_ROBOT
+#if USE_ROBOT
 	void light_track() {
 		flag = 0;
 		while (flag == 0) {
@@ -827,7 +819,7 @@ double checkDistance() {
 			else {
 				Car_Stop();
 			}
-		#ifdef USE_IRREMOTE
+		#if USE_IRREMOTE
 				if (IrReceiver.decode()) {
 					ir_rec = IrReceiver.decodedIRData.decodedRawData;
 					IrReceiver.resume();
@@ -842,7 +834,7 @@ double checkDistance() {
 /********************************************** the function for dot matrix display ****************************/
 // section Pesto Matrix
 /***************************************************************************************************************/
-#ifdef USE_DOT
+#if USE_DOT
     void matrix_display(unsigned char matrix_value[]) {
         IIC_start();  // use the function of the data transmission start condition
         IIC_send(0xc0);  //select address
@@ -950,7 +942,7 @@ void Car_Back(){
 /***************************************************************************************************************/
 
 double lightSensor(){
-#ifdef USE_JOYSTICK
+#if USE_JOYSTICK
     calcValue = 0;
 #else
     lightSensorL = analogRead(light_R_Pin);
@@ -967,7 +959,7 @@ double lightSensor(){
 // section Display Adafruit
 /***************************************************************************************************************/
 
-#ifdef USE_MOUTH_DISPLAY_ADAFRUIT
+#if USE_MOUTH_DISPLAY_ADAFRUIT
     void testdrawline() {
         int16_t i;
 
@@ -1160,7 +1152,7 @@ double lightSensor(){
         display.setCursor(10, 0);
         display.println(F("PESTO?"));
         display.display();      // Show initial text
-        #ifdef USE_SMALL_DISPLAY
+        #if USE_SMALL_DISPLAY
             // Scroll in various directions, pausing in-between:
             display.startscrollright(0x00, 0x0F);
             display.stopscroll();
@@ -1191,7 +1183,7 @@ double lightSensor(){
 
 
 void displayLoop(){
-    #ifdef USE_MOUTH_DISPLAY_ADAFRUIT
+    #if USE_MOUTH_DISPLAY_ADAFRUIT
         switch (displaySwitch) {
             case 1:  testdrawline();       break;
             case 2:  testdrawrect();       break;
@@ -1213,7 +1205,7 @@ void displayLoop(){
 }
 
 void displaySetup() {
-    #ifdef USE_MOUTH_DISPLAY_ADAFRUIT
+    #if USE_MOUTH_DISPLAY_ADAFRUIT
 
         if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
 
@@ -1227,7 +1219,7 @@ void displaySetup() {
 // section Display u8g2
 /***************************************************************************************************************/
 
-#ifdef USE_MOUTH_DISPLAY_U8G2
+#if USE_MOUTH_DISPLAY_U8G2
 
 #endif
 
@@ -1238,21 +1230,21 @@ void displaySetup() {
 // section Timer Functions
 /***************************************************************************************************************/
 
-#ifdef USE_TIMERS
+#if USE_TIMERS
 	void dotMatrixTimer(){
-		#ifdef USE_DOT
+		#if USE_DOT
 			pestoMatrix();
 		#endif
 	}
 
 	void sensorTimer(){
-		#ifdef USE_COMPASS
+		#if USE_COMPASS
 			if (timerTwoActive && timerButton == Rem_7){
 				compass();
 			}
 		#endif
 
-		#ifdef USE_GYRO
+		#if USE_GYRO
 			if (timerTwoActive && timerButton == Rem_9){
 				gyroFunc();
 			}
@@ -1266,7 +1258,7 @@ void displaySetup() {
 	}
 
     void mouthTimer(){
-        #ifdef USE_MOUTH_DISPLAY_ADAFRUIT
+        #if USE_MOUTH_DISPLAY_ADAFRUIT
             displayLoop();
         #endif
     }
@@ -1287,7 +1279,7 @@ int pulseWidth(int angle){  //  pwm.setPWM(PWM_0, 0, pulseWidth(0));
 /***************************************************** Servo PWM Angle s**********************************************/
 // section RGBled
 /***************************************************************************************************************/
-#ifdef USE_PWM
+#if USE_PWM
 	void RGBled(int r_val, int g_val, int b_val) {
 		pwm.setPWM(PWM_8, 0, (16*b_val<4080) ? 16*b_val : 4080);
 		pwm.setPWM(PWM_9, 0, (16*g_val<4080) ? 16*g_val : 4080);
@@ -1296,32 +1288,15 @@ int pulseWidth(int angle){  //  pwm.setPWM(PWM_0, 0, pulseWidth(0));
 #endif
 
 void defaultLCD(){
-    #ifdef USE_IRREMOTE
-        lcd.setCursor(0,top);
-        lcd.write(0); // ********* heart ********* //
-        lcd.setCursor(2,top);   //Set cursor to character 2 on line 0
-        lcd.print("Hello Pesto!");
-        lcd.setCursor(0,bot);   //Set cursor to line 1
-
+    lcd.setCursor(0,top);
+    lcd.write(0); // ********* heart ********* //
+    lcd.setCursor(2,top);   //Set cursor to character 2 on line 0
+    lcd.print("Hello Pesto!");
+    lcd.setCursor(0,bot);   //Set cursor to line 1
+    #if USE_IRREMOTE
         lcd.print(previousIR, HEX);
     #endif
 }
-
-bool readStringUntil(String& input) {
-    while (Serial1.available()) {
-        char c = Serial1.read();
-        input += c;
-        if (c == until_c) {
-            return true;
-        }
-        if (input.length() >= char_limit) {
-            return true;
-        }
-    }
-    return false;
-}
-
-
 
 /********************************************** Setup booting the arduino **************************************/
 // section Setup
@@ -1335,9 +1310,8 @@ void setup(){
     delay(1);
     SERIAL_AT.begin(115200);
     delay(1);
-    msg1.reserve(40);
 
-    #ifdef USE_MATRIX
+    #if USE_MATRIX
         matrix.loadSequence(animation);
         matrix.begin();
         //matrix.autoscroll(300);
@@ -1376,33 +1350,33 @@ void setup(){
 
     baseSound = map(analogRead(MIC_PIN), 0, 1023, 0, 255); /***** A3 ******/
 
-	#ifdef USE_DOT
+	#if USE_DOT
 		matrix_display(clear);
 		pestoMatrix();
 	#endif
 
-	#ifdef USE_I2C_SCANNER
+	#if USE_I2C_SCANNER
 		I2CScanner();
 		delay(500);
 	#endif
 
-    #ifdef USE_GYRO
+    #if USE_GYRO
         lcd.clear();
         lcd.setCursor(0,top);
         gyroSetup();
     #endif
 
-    #ifdef USE_COMPASS
+    #if USE_COMPASS
         lcd.clear();
         compassSetup();
     #endif
 
-    #ifdef USE_BAROMETER
+    #if USE_BAROMETER
         lcd.clear();
         baroSetup();
     #endif
 
-    #ifdef USE_IRREMOTE
+    #if USE_IRREMOTE
         // Start the receiver and if not 3. parameter specified, take LED_BUILTIN pin from the internal boards definition as default feedback LED
         IrReceiver.begin(IR_Pin, ENABLE_LED_FEEDBACK);
         timerButton = Rem_OK;
@@ -1411,7 +1385,7 @@ void setup(){
         lcd.print("InfraRed remote");
 	#endif
 
-    #ifdef USE_MOUTH_DISPLAY_ADAFRUIT
+    #if USE_MOUTH_DISPLAY_ADAFRUIT
         displaySetup();
     #else
         lcd.clear();
@@ -1421,7 +1395,7 @@ void setup(){
         lcd.print(" 128x64 display");
     #endif
 
-	#ifdef USE_PWM
+	#if USE_PWM
 		pwm.begin();
 		pwm.setPWMFreq(FREQUENCY);  // Analog servos run at ~50 Hz updates
 		pwm.setPWM(PWM_0, 0, pulseWidth(posXY));
@@ -1429,13 +1403,14 @@ void setup(){
 		delay(500);
 	#endif
 
-    #ifdef USE_TIMERS
+    #if USE_TIMERS
         timerOne.set(timerOnePeriod, dotMatrixTimer);
         timerTwo.set(timerTwoPeriod, sensorTimer);
         timerThree.set(timerThreePeriod, resetTimers);
         timerMouth.set(timerMouthPeriod, mouthTimer);
     #endif
     lcd.clear();
+    defaultLCD();
 }
 
 /*********************************** Loop **********************************/
@@ -1443,182 +1418,105 @@ void setup(){
 /***************************************************************************/
 
 void loop(){
+    #if READ_ESP32
+        // Read messages from Arduino R4 ESP32
+        if (SERIAL_AT.available()) {
+            lcd.print("ESP32 says: ");
+            while (SERIAL_AT.available()) {
+                Serial.write(SERIAL_AT.read());
+                lcd.println(SERIAL_AT.read());
+            }
+        }
+    #endif
 
-//    while (readStringUntil(msg1)) {
-//        Serial.print(msg1);
-//    }
-
-
-
-//    while (Serial1.available()) {
-//        msg1 = ""; // clear after processing for next line
-//        for(int i = 1; i <=4; i++) {
-//            char c = Serial1.read();
-//            msg1 += c;
-//            delay(2);
-//        }
-//        Serial.println(msg1);
-//    }
-
-    //Check to see if anything is available in the serial receive buffer
-    while (Serial1.available() > 0)
-    {
-        //Create a place to hold the incoming message
-        static char message[MAX_MESSAGE_LENGTH];
+    while (Serial1.available() > 0) {
+        static char message[MAX_MESSAGE_LENGTH]; // Create char for serial1 message
         static unsigned int message_pos = 0;
 
-        //Read the next available byte in the serial receive buffer
         char inByte = Serial1.read();
-        if ( inByte != '\n' && (message_pos < MAX_MESSAGE_LENGTH - 1) )
-        {
-            //Add the incoming byte to our message
+        if (inByte != '\n' && (message_pos < MAX_MESSAGE_LENGTH - 1)) { // Add the incoming byte to our message
             message[message_pos] = inByte;
             message_pos++;
-        }
-        //Full message received...
-        else
-        {
-            //Add null character to string
-            message[message_pos] = '\0';
-
-            //Print the message (or do other things)
+        } else { // Full message received...
+            message[message_pos] = '\0'; // Add null character to string to end string
+            // Use the message
             Serial.println(message);
 
             //Or convert to integer and print
-            int number = atoi(message);
-            Serial.println(number);
+            int PS4input = atoi(message);
+            Serial.println(PS4input);
+            switch (PS4input) {
+                //**** Head movements    ****
+                case 1100: posZ = min(160, posZ + speedZ);  break;
+                case 1200: posXY = max(0, posXY - speedXY);  break;
+                case 1300: posZ = max(0, posZ - speedZ);    break;
+                case 1400: posXY = min(180, posXY + speedXY); break;
 
-            //Reset for the next message
-            message_pos = 0;
-        }
-    }
-
-    Serial.println("exit whileloop\n");
-
-
-
-
-//    while (Serial1.available())        // read from Serial1 output to Serial
-//        Serial.write(Serial1.read());
-//    while (Serial.available()) {       // read from Serial outut to Serial1
-//        char32_t inByte = Serial.read();
-//        //Serial.write(inByte);     // local echo if required
-//        Serial1.write(inByte);
-//    }
+                case 3100: Car_left();   break;
+                case 3400: Car_front();  break;
+                case 3200: Car_Back();   break;
+                case 3300: Car_right();  break;
 
 
-     // Read messages from Arduino R4 ESP32
-//    if (SERIAL_AT.available()) {
-//        lcd.print("ESP32 says: ");
-//        while (SERIAL_AT.available()) {
-//            Serial.write(SERIAL_AT.read());
-//            lcd.println(SERIAL_AT.read());
-//        }
-//    }
+                case 3101:
+                case 3401:
+                case 3201:
+                case 3301:
+                    Car_Stop(); break;
 
 
-     // Read messages from ESP32-CAM AI-Thinker
-/*
-    if(Serial1.available()) {
-        char ch = Serial1.read();
-        if(ch >= '0' && ch <= '9') {// is this an ascii digit between 0 and 9?
-            // yes, accumulate the value
-            values[fieldIndex] = (values[fieldIndex] * 10) + (ch - '0');
-        } else if (ch == ',') { // comma is our separator, so move on to the next field
-            if(fieldIndex < NUMBER_OF_FIELDS-1)
-                fieldIndex++;   // increment field index
-        } else {
-            // any character not a digit or comma ends the acquisition of fields
-            // in this example it's the newline character sent by the Serial Monitor
-            Serial.print( fieldIndex +1);
-            Serial.println(" fields received:");
-            lcd.setCursor(8,bot);
-            for(int i=0; i <= fieldIndex; i++) {
-                lcd.print(values[i]);
-                Serial.print(values[i]);
-                delay(50);
-                values[i] = 0; // set the values to zero, ready for the next message
+                case 2800: posXY = 90; posZ = 45;  break;
+                case 2900: posXY = 90; posZ = 15; break;
+
+                /*
+                    Up             1100  UpRight        1500
+                    Right          1200  DownRight      1600
+                    Down           1300  DownLeft       1700
+                    Left           1400  UpLeft         1800
+                    Square         3100  L1             2100
+                    Cross          3200  L3             2300
+                    Circle         3300  L2             4000 + L2Value
+                    Triangle       3400  R2             5000 + R2Value
+                    Options        2900  R1             2200
+                    Share          2800  R3             2400
+                    PSButton       2500  Touchpad       2700
+                    Charging       3500  Mic            3700
+                    Audio          3600  Battery        3900 + Battery
+                    LStickX        6 000 - 6 254
+                    LStickY        7 000 - 7 254
+                    RStickX        8 000 - 8 254
+                    RStickY        9 000 - 9 254
+                */
+                default:
+                    break;
             }
-            fieldIndex = 0;  // ready to start over
+#if USE_PWM
+            if (posXY != previousXY) {
+                pwm.setPWM(PWM_0, 0, pulseWidth(posXY));
+            }
+            if (posZ != previousZ) {
+                pwm.setPWM(PWM_1, 0, pulseWidth(posZ));
+            }
+#endif
+            previousXY = posXY;
+            previousZ = posZ;
+
+            message_pos = 0; //Reset next message
         }
     }
-*/
-
-    #ifdef USE_TEXTFINDER
-        // TEXT-finder
-        int fieldIndex = 0;            // the current field being received
-        finder.find("H");
-        while(fieldIndex < NUMBER_OF_FIELDS)
-            values[fieldIndex++] = finder.getValue();
-        Serial.println("All fields received:");
-        for(fieldIndex=0; fieldIndex < NUMBER_OF_FIELDS; fieldIndex++)
-            Serial.println(values[fieldIndex]);
-    #endif
 
     lcd.setCursor(0,bot);
     // React on messages from ESP32-CAM AI-Thinker
-/*    while(Serial1.available()) {
+    while(Serial1.available()) {
         int c = Serial1.read();
         Serial.write(c);
 
-        switch (c) {
-            //**** Head movements    ****
-            case 11: posZ = min(160, posZ + speedZ);  break;
-            case 12: posXY = max(0, posXY - speedXY);  break;
-            case 13: posZ = max(0, posZ - speedZ);    break;
-            case 14: posXY = min(180, posXY + speedXY); break;
 
-            case 31: Car_left();   break;
-            case 34: Car_front();  break;
-            case 32: Car_Back();   break;
-            case 33: Car_right();  break;
-
-
-            case 1061165916:
-            case 1061159545:
-            case 1061313752:
-            case 1061175213:
-                Car_Stop(); break;
-
-
-            case 28: posXY = 90; posZ = 45;  break;
-            case 29: posXY = 90; posZ = 15; break;
-
-
-
-            //if (PS4.L2()) { send(5127 + PS4.L2Value());  }
-            //if (PS4.R2()) { send(6127 + PS4.R2Value());  }
-
-            //if (PS4.LStickX() <= -15 || PS4.LStickX() >= 15 ) {
-            //    send(1127 + PS4.LStickX());
-            //}
-            //if (PS4.LStickY() <= -15 || PS4.LStickY() >= 15 ) {
-            //    send(2127 + PS4.LStickY());
-            //}
-            //if (PS4.RStickX() <= -15 || PS4.RStickX() >= 15 ) {
-            //    send(3127 + PS4.RStickX());
-            //}
-            //if (PS4.RStickY() <= -15 || PS4.RStickY() >= 15 ) {
-            //    send(4127 + PS4.RStickY());
-            //}
-            default:
-                break;
-        }
-		#ifdef USE_PWM
-				if (posXY != previousXY) {
-					pwm.setPWM(PWM_0, 0, pulseWidth(posXY));
-				}
-				if (posZ != previousZ) {
-					pwm.setPWM(PWM_1, 0, pulseWidth(posZ));
-				}
-		#endif
-        previousXY = posXY;
-        previousZ = posZ;
-    }*/
+    }
     /***************************** IrReceiver **********************************/
     // section Loop IrReceiver
     /***************************************************************************/
-    #ifdef USE_IRREMOTE
+    #if USE_IRREMOTE
         if (IrReceiver.decode()) {  // Grab an IR code   At 115200 baud, printing takes 200 ms for NEC protocol and 70 ms for NEC repeat
             if (IrReceiver.decodedIRData.flags & IRDATA_FLAGS_WAS_OVERFLOW) {         // Check if the buffer overflowed
                 lcd.clear();
@@ -1695,24 +1593,13 @@ void loop(){
         }
 	#endif
 
-	#ifdef USE_GYRO
-		gyroDetectMovement();
-    #endif
-
-    #ifdef USE_TIMERS
-        timerOne.update();
-        timerTwo.update();
-        timerThree.update();
-        timerMouth.update();
-    #endif
-
     Car_Stop();
     distanceF = checkDistance();  /// assign the front distance detected by ultrasonic sensor to variable a
     if (distanceF < 35) {
-        #ifdef USE_PWM
+        #if USE_PWM
             RGBled(230, 0, 0);
         #endif
-        #ifdef USE_DOT
+        #if USE_DOT
             pestoMatrix();
         #endif
         double deltime = distanceF*3;
@@ -1722,20 +1609,29 @@ void loop(){
         int mic255 = map(micStatus, 0, 1023, 0, 255);
 
         if (mic255 > baseSound) {
-	#ifdef USE_PWM
+	#if USE_PWM
 				RGBled(mic255, 0, mic255);
 	#endif
 		} else {
-		#ifdef USE_PWM
+		#if USE_PWM
 			RGBled(0, mic255, 0);
 		#endif
 		}
         //defaultLCD();
-		#ifdef USE_PWM
+		#if USE_PWM
 			RGBled(0, 0, lightSensor());
 		#endif
 	}
+#if USE_GYRO
+    gyroDetectMovement();
+#endif
 
+#if USE_TIMERS
+    timerOne.update();
+    timerTwo.update();
+    timerThree.update();
+    timerMouth.update();
+#endif
 }
 
 
