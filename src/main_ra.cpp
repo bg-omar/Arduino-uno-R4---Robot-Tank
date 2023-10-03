@@ -21,7 +21,7 @@ PS5 Controller: 88:03:4C:B5:00:66
 #define USE_COMPASS 1
 #define USE_BAROMETER 1
 
-#define USE_IRREMOTE 1
+#define USE_IRREMOTE 0
 #define USE_I2C_SCANNER 1
 #define USE_PWM 1
 #define USE_DOT 1
@@ -58,8 +58,11 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include <Adafruit_BME280.h>
 
 #include <U8g2lib.h>
-#include <TimerEvent.h>
 
+#if USE_TIMERS
+    uint64_t timerButton;
+    #include <TimerEvent.h>
+#endif
 
 #if USE_MATRIX
     #include "Arduino_LED_Matrix.h"
@@ -83,10 +86,11 @@ PS5 Controller: 88:03:4C:B5:00:66
 #endif
 
 #if USE_IRREMOTE
+    #define IR_SEND_PIN        9
     #define RAW_BUFFER_LENGTH  750
     #define DECODE_NEC
     #include <IRremote.hpp>
-    uint64_t ir_rec, previousIR, timerButton; // set remote vars
+    uint64_t ir_rec, previousIR; // set remote vars
 #endif
 
 #define MIN_PULSE_WIDTH       650
@@ -289,6 +293,30 @@ byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000,
 #define Rem_y   0xB54ADF
 #define IRepeat 0xFFFFFF
 
+#define DPAD_U  1100
+#define DPAD_R  1200
+#define DPAD_D  1300
+#define DPAD_L  1400
+#define SQUARE  3100
+#define xCROSS  3200
+#define CIRCLE  3300
+#define TRIANG  3400
+#define OPTION  2900
+#define xSHARE  2800
+#define PSHOME  2500
+#define CHARGE  3500
+#define XAUDIO  3600
+#define URIGHT  1500
+#define DRIGHT  1600
+#define D_LEFT  1700
+#define UPLEFT  1800
+#define L1      2100
+#define L3      2300
+#define R1      2200
+#define R3      2400
+#define TOUCHPD 2700
+#define MIC     3700
+
 
 #define RX_PIN       0
 #define TX_PIN       1
@@ -365,10 +393,10 @@ int lightSensorL, lightSensorR, outputValueR, outputValueL;  // inverse input
 double calcValue;
 
 int posXY = 90;  // set horizontal servo position
-int speedXY = 20;
+int speedXY = 1;
 
 int posZ = 45;   // set vertical servo position
-int speedZ =  20;
+int speedZ =  1;
 
 int flag; // flag variable, it is used to entry and exist function
 
@@ -402,11 +430,6 @@ const unsigned int MAX_MESSAGE_LENGTH = 30;
 
 #if USE_BAROMETER
 	Adafruit_BME280 bme;
-#endif
-
-#if USE_SOFTWARESERIAL
-    #include <SoftwareSerial.h>
-    SoftwareSerial mySerial(PIN_9, PIN_10); // RX, TX pins for SoftwareSerial
 #endif
 
 /************************************************** the I2CScanner *********************************************/
@@ -505,12 +528,12 @@ const unsigned int MAX_MESSAGE_LENGTH = 30;
             if(( abs(ax) + abs(ay) + abs(az)) > THRESHOLD){
                 timerTwoActive = true;
                 timerTreeActive = true;
-                timerButton = Rem_9;
+                timerButton = R1;
             }
             if(( abs(gx) + abs(gy) + abs(gz)) > THRESHOLD){
                 timerTwoActive = true;
                 timerTreeActive = true;
-                timerButton = Rem_7;
+                timerButton = L1;
             }
 
         #endif
@@ -690,6 +713,33 @@ double checkDistance() {
     return checkDistance;
 }
 
+
+void exitLoop() {
+    while (Serial1.available() > 0) {
+        static char message[MAX_MESSAGE_LENGTH]; // Create char for serial1 message
+        static unsigned int message_pos = 0;
+        char inByte = Serial1.read();
+        if (inByte != '\n' && (message_pos < MAX_MESSAGE_LENGTH - 1)) { // Add the incoming byte to our message
+            message[message_pos] = inByte;
+            message_pos++;
+        } else { // Full message received...
+            message[message_pos] = '\0'; // Add null character to string to end string
+            int PS4input = atoi(message);
+            if (PS4input == PSHOME)flag = 1;
+        }
+    }
+
+    #if USE_IRREMOTE
+        if (IrReceiver.decode()) {
+            ir_rec = IrReceiver.decodedIRData.decodedRawData;
+            IrReceiver.resume();
+            if (ir_rec == Rem_OK) {
+                flag = 1;
+            }
+        }
+    #endif
+}
+
 /********************************************** arbitrary sequence *********************************************/
 // section Dance
 /***************************************************************************************************************/
@@ -717,15 +767,7 @@ double checkDistance() {
 		delay(500);
 		pwm.setPWM(PWM_1, 0, pulseWidth(randomZ));
 		delay(500);
-		#if USE_IRREMOTE
-			if (IrReceiver.decode()) {
-				ir_rec = IrReceiver.decodedIRData.decodedRawData;
-				IrReceiver.resume();
-				if (ir_rec == Rem_OK) {
-					flag = 1;
-				}
-			}
-		#endif
+        exitLoop();
 	}
 #endif
 /********************************************** Obstacle Avoidance Function*************************************/
@@ -735,67 +777,58 @@ double checkDistance() {
 	void avoid() {
 		flag = 0; ///the design that enter obstacle avoidance function
 		while (flag == 0) {
-			random2 = random(1, 100);
-			distanceF= checkDistance();
-			if (distanceF < 25) {
-				analogWrite (LED_PIN, 255);
-				Car_Stop(); /// robot stops
-				pwm.setPWM(PWM_1, 0, pulseWidth(115));
-				delay(10); ///delay in 200ms
-				pwm.setPWM(PWM_1, 0, pulseWidth(90));
-				delay(10); ///delay in 200ms
-				analogWrite (LED_PIN, 0);
-				pwm.setPWM(PWM_0, 0, pulseWidth(160)); /// look left
-				for (int j = 1; j <= 10; j = j + (1)) { ///  the data will be more accurate if sensor detect a few times.
-					distanceL = checkDistance();
-				}
-				delay(200);
-				pwm.setPWM(PWM_0, 0, pulseWidth(20)); /// look right
-				for (int k = 1; k <= 10; k = k + (1)) {
-					distanceR = checkDistance();
-				}
-				if (distanceL < 50 || distanceR < 50) {
-					if (distanceL > distanceR) {
-						pwm.setPWM(PWM_0, 0, pulseWidth(90));
-						Car_left();
-						delay(500); ///turn left 500ms
-						Car_front();
-					}
-					else {
-						pwm.setPWM(PWM_0, 0, pulseWidth(90));
-						Car_right();
-						delay(500);
-						Car_front();
-					}
-				} else {  /// not (distanceL < 50 || distanceR < 50)
-					if ((long) (random2) % (long) (2) == 0) ///when the random number is even
-					{
-						pwm.setPWM(PWM_0, 0, pulseWidth(90));
-						Car_left(); ///robot turns left
-						delay(500);
-						Car_front(); ///go forward
-					}
-					else
-					{
-						pwm.setPWM(PWM_0, 0, pulseWidth(90));
-						Car_right(); ///robot turns right
-						delay(500);
-						Car_front(); ///go forward
-					} } }
-			else /// if (distanceF < 25) { If the front distance is greater than or equal, robot car will go forward
-			{
-				Car_front();
-			}
-		#if USE_IRREMOTE
-				if (IrReceiver.decode()) {
-					ir_rec = IrReceiver.decodedIRData.decodedRawData;
-					IrReceiver.resume();
-					if (ir_rec == Rem_OK) {
-						flag = 1;
-					}
-				}
-		#endif
-		}
+            random2 = random(1, 100);
+            distanceF = checkDistance();
+            if (distanceF < 25) {
+                analogWrite(LED_PIN, 255);
+                Car_Stop(); /// robot stops
+                pwm.setPWM(PWM_1, 0, pulseWidth(115));
+                delay(10); ///delay in 200ms
+                pwm.setPWM(PWM_1, 0, pulseWidth(90));
+                delay(10); ///delay in 200ms
+                analogWrite(LED_PIN, 0);
+                pwm.setPWM(PWM_0, 0, pulseWidth(160)); /// look left
+                for (int j = 1;
+                     j <= 10; j = j + (1)) { ///  the data will be more accurate if sensor detect a few times.
+                    distanceL = checkDistance();
+                }
+                delay(200);
+                pwm.setPWM(PWM_0, 0, pulseWidth(20)); /// look right
+                for (int k = 1; k <= 10; k = k + (1)) {
+                    distanceR = checkDistance();
+                }
+                if (distanceL < 50 || distanceR < 50) {
+                    if (distanceL > distanceR) {
+                        pwm.setPWM(PWM_0, 0, pulseWidth(90));
+                        Car_left();
+                        delay(500); ///turn left 500ms
+                        Car_front();
+                    } else {
+                        pwm.setPWM(PWM_0, 0, pulseWidth(90));
+                        Car_right();
+                        delay(500);
+                        Car_front();
+                    }
+                } else {  /// not (distanceL < 50 || distanceR < 50)
+                    if ((long) (random2) % (long) (2) == 0) ///when the random number is even
+                    {
+                        pwm.setPWM(PWM_0, 0, pulseWidth(90));
+                        Car_left(); ///robot turns left
+                        delay(500);
+                        Car_front(); ///go forward
+                    } else {
+                        pwm.setPWM(PWM_0, 0, pulseWidth(90));
+                        Car_right(); ///robot turns right
+                        delay(500);
+                        Car_front(); ///go forward
+                    }
+                }
+            } else /// if (distanceF < 25) { If the front distance is greater than or equal, robot car will go forward
+            {
+                Car_front();
+            }
+            exitLoop();
+        }
 	}
 #endif
 /*************************************************** Light Follow **********************************************/
@@ -819,15 +852,7 @@ double checkDistance() {
 			else {
 				Car_Stop();
 			}
-		#if USE_IRREMOTE
-				if (IrReceiver.decode()) {
-					ir_rec = IrReceiver.decodedIRData.decodedRawData;
-					IrReceiver.resume();
-					if (ir_rec == Rem_OK) {
-						flag = 1;
-					}
-				}
-		#endif
+            exitLoop();
 		}
 	}
 #endif
@@ -1239,13 +1264,13 @@ void displaySetup() {
 
 	void sensorTimer(){
 		#if USE_COMPASS
-			if (timerTwoActive && timerButton == Rem_7){
+			if (timerTwoActive && timerButton == L1){
 				compass();
 			}
 		#endif
 
 		#if USE_GYRO
-			if (timerTwoActive && timerButton == Rem_9){
+			if (timerTwoActive && timerButton == R1){
 				gyroFunc();
 			}
 		#endif
@@ -1338,7 +1363,7 @@ void setup(){
     pinMode(MR_Ctrl, OUTPUT);     /***** 12 ******/
     pinMode(MR_PWM, OUTPUT);      /***** 3 ******/
     digitalWrite(ML_Ctrl, HIGH);
-    digitalWrite(MR_Ctrl, HIGH);
+    digitalWrite(MR_Ctrl, LOW);
 
     pinMode(LED_PIN, OUTPUT);     /***** 2 ******/
     pinMode(MIC_PIN, INPUT);
@@ -1379,7 +1404,7 @@ void setup(){
     #if USE_IRREMOTE
         // Start the receiver and if not 3. parameter specified, take LED_BUILTIN pin from the internal boards definition as default feedback LED
         IrReceiver.begin(IR_Pin, ENABLE_LED_FEEDBACK);
-        timerButton = Rem_OK;
+        timerButton = PSHOME;
         lcd.clear();
         lcd.setCursor(0,top);
         lcd.print("InfraRed remote");
@@ -1447,15 +1472,15 @@ void loop(){
             Serial.println(PS4input);
             switch (PS4input) {
                 //**** Head movements    ****
-                case 1100: posZ = min(160, posZ + speedZ);  break;
-                case 1200: posXY = max(0, posXY - speedXY);  break;
-                case 1300: posZ = max(0, posZ - speedZ);    break;
-                case 1400: posXY = min(180, posXY + speedXY); break;
+                case DPAD_U: posZ = min(160, posZ + speedZ);  break;
+                case DPAD_R: posXY = max(0, posXY - speedXY);  break;
+                case DPAD_D: posZ = max(0, posZ - speedZ);    break;
+                case DPAD_L: posXY = min(180, posXY + speedXY); break;
 
-                case 3100: Car_left();   break;
-                case 3400: Car_front();  break;
-                case 3200: Car_Back();   break;
-                case 3300: Car_right();  break;
+                case SQUARE: Car_left();   break;
+                case TRIANG: Car_front();  break;
+                case xCROSS: Car_Back();   break;
+                case CIRCLE: Car_right();  break;
 
 
                 case 3101:
@@ -1465,39 +1490,53 @@ void loop(){
                     Car_Stop(); break;
 
 
-                case 2800: posXY = 90; posZ = 45;  break;
-                case 2900: posXY = 90; posZ = 15; break;
-
+                case xSHARE: posXY = 90; posZ = 45;  break;
+                case OPTION: posXY = 90; posZ = 15; break;
+                case L1:
+                    lcd.clear();
+                    timerTwoActive = !timerTwoActive;
+                    timerTreeActive = false;
+                    timerButton = L1;
+                    delay(100);
+                    break;
+                case TOUCHPD: dance(); break;
+                case R1:
+                    lcd.clear();
+                    timerTwoActive = !timerTwoActive;
+                    timerTreeActive = false;
+                    timerButton = R1;
+                    delay(100);
+                    break;
+                case L3: avoid(); break;
+                case R3: light_track(); break;
                 /*
-                    Up             1100  UpRight        1500
-                    Right          1200  DownRight      1600
-                    Down           1300  DownLeft       1700
-                    Left           1400  UpLeft         1800
-                    Square         3100  L1             2100
-                    Cross          3200  L3             2300
-                    Circle         3300  L2             4000 + L2Value
-                    Triangle       3400  R2             5000 + R2Value
-                    Options        2900  R1             2200
-                    Share          2800  R3             2400
-                    PSButton       2500  Touchpad       2700
-                    Charging       3500  Mic            3700
-                    Audio          3600  Battery        3900 + Battery
-                    LStickX        6 000 - 6 254
-                    LStickY        7 000 - 7 254
-                    RStickX        8 000 - 8 254
-                    RStickY        9 000 - 9 254
+
+
+                CHARGE  3500
+                XAUDIO  3600
+
+                MIC     3700
+                PS4_Battery        3900 + Battery
+                PS4_L2             4000 + L2Value
+                PS4_R2             5000 + R2Value
+                LStickX        6 000 - 6 254
+                LStickY        7 000 - 7 254
+                RStickX        8 000 - 8 254
+                RStickY        9 000 - 9 254
+
+
                 */
                 default:
                     break;
             }
-#if USE_PWM
-            if (posXY != previousXY) {
-                pwm.setPWM(PWM_0, 0, pulseWidth(posXY));
-            }
-            if (posZ != previousZ) {
-                pwm.setPWM(PWM_1, 0, pulseWidth(posZ));
-            }
-#endif
+            #if USE_PWM
+                if (posXY != previousXY) {
+                    pwm.setPWM(PWM_0, 0, pulseWidth(posXY));
+                }
+                if (posZ != previousZ) {
+                    pwm.setPWM(PWM_1, 0, pulseWidth(posZ));
+                }
+            #endif
             previousXY = posXY;
             previousZ = posZ;
 
@@ -1593,7 +1632,7 @@ void loop(){
         }
 	#endif
 
-    Car_Stop();
+    //Car_Stop();
     distanceF = checkDistance();  /// assign the front distance detected by ultrasonic sensor to variable a
     if (distanceF < 35) {
         #if USE_PWM
