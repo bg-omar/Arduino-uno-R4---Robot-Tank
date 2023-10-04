@@ -20,7 +20,7 @@ PS5 Controller: 88:03:4C:B5:00:66
 
 #include <arduino.h>
 #include <FS.h>
-#include "secrets.h"
+#include <secrets.h>
 #include <PS4Controller.h>
 #include "esp_bt_main.h"
 #include "esp_bt_device.h"

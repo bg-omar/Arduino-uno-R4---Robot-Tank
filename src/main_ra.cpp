@@ -393,10 +393,8 @@ int lightSensorL, lightSensorR, outputValueR, outputValueL;  // inverse input
 double calcValue;
 
 int posXY = 90;  // set horizontal servo position
-int speedXY = 1;
-
 int posZ = 45;   // set vertical servo position
-int speedZ =  1;
+
 
 int flag; // flag variable, it is used to entry and exist function
 
@@ -716,7 +714,7 @@ double checkDistance() {
 
 
 void exitLoop() {
-    while (Serial1.available() > 0) {
+    if (Serial1.available()) {
         static char message[MAX_MESSAGE_LENGTH]; // Create char for serial1 message
         static unsigned int message_pos = 0;
         char inByte = Serial1.read();
@@ -724,7 +722,7 @@ void exitLoop() {
             message[message_pos] = inByte;
             message_pos++;
         } else { // Full message received...
-            message[message_pos] = '\0'; // Add null character to string to end string
+            //message[message_pos] = '\0'; // Add null character to string to end string
             int PS4input = atoi(message);
             if (PS4input == PSHOME)flag = 1;
         }
@@ -976,67 +974,73 @@ void joystick(int PS4input) {
     else if (PS4input >= 8000 && PS4input <= 8255){ RStickX = PS4input - 8000; }
     else if (PS4input >= 9000 && PS4input <= 9255){ RStickY = PS4input - 9000; }
 
-    // Y-axis used for forward and backward control
-    if (LStickY < 128) { // Set Motor A backward
+    if (L2_TRIG > 1) {
         digitalWrite(R_ROT, LOW);
         digitalWrite(L_ROT, LOW);
-        // Convert the declining Y-axis readings for going backward from 470 to 0 into 0 to 255 value for the PWM signal for increasing the motor speed
+        analogWrite(R_PWM, L2_TRIG); // Send PWM signal to motor A
+        analogWrite(L_PWM, L2_TRIG); // Send PWM signal to motor B
+    }
+    if (R2_TRIG > 1) {
+        digitalWrite(R_ROT, HIGH);
+        digitalWrite(L_ROT, HIGH);
+        analogWrite(R_PWM, R2_TRIG); // Send PWM signal to motor A
+        analogWrite(L_PWM, R2_TRIG); // Send PWM signal to motor B
+    }
+    //---------------------------------------------- RIGHT THUMBSTICK
+    if (RStickY < 128) {
+        int yMapped = map(LStickY, 128, 0, 45, 0);
+        pwm.setPWM(PWM_1, 0, pulseWidth(yMapped));
+    }
+    else if (RStickY > 128) {
+        int yMapped = map(LStickY, 128, 255, 45, 70);
+        pwm.setPWM(PWM_1, 0, pulseWidth(yMapped));
+    }
+    if (RStickX < 128) {
+        int xMapped = map(LStickX, 128, 0, 90, 160);
+        pwm.setPWM(PWM_0, 0, pulseWidth(xMapped));
+    } else  if (RStickX > 128) {
+        int xMapped = map(LStickX, 128, 255, 90, 20);
+        pwm.setPWM(PWM_0, 0, pulseWidth(xMapped));
+    }
+
+    //----------------------------------------------- LEFT THUMBSTICK
+    if (LStickY < 128) {
+        digitalWrite(R_ROT, LOW);
+        digitalWrite(L_ROT, LOW);
         int yMapped = map(LStickY, 128, 0, 0, 255);
         L_velocity = L_velocity + yMapped;
         R_velocity = R_velocity + yMapped;
     }
-    else if (LStickY > 128) { // Set Motor A forward
+    else if (LStickY > 128) {
         digitalWrite(R_ROT, HIGH);
         digitalWrite(L_ROT, HIGH);
-        // Convert the increasing Y-axis readings for going forward from 550 to 1023 into 0 to 255 value for the PWM signal for increasing the motor speed
         int yMapped = map(LStickY, 128, 0, 0, 255);
         L_velocity = L_velocity - yMapped;
         R_velocity = R_velocity - yMapped;
-    }
-        // If joystick stays in middle the motors are not moving
-    else {
+    } else { // If joystick stays in middle the motors are not moving
         R_velocity = 0;
         L_velocity = 0;
     }
 
-    // X-axis used for left and right control
-    if (LStickX < 128) {
-        // Convert the declining X-axis readings from 470 to 0 into increasing 0 to 255 value
+    if (LStickX < 128) {  // X-axis used for left and right control
         int xMapped = map(LStickX, 128, 0, 0, 255);
-        // Move to left - decrease left motor speed, increase right motor speed
         L_velocity = L_velocity - xMapped;
         R_velocity = R_velocity + xMapped;
-        // Confine the range from 0 to 255
-        if (L_velocity < 0) {
-            L_velocity = 0;
-        }
-        if (R_velocity > 255) {
-            R_velocity = 255;
-        }
+        if (L_velocity < 0) {  L_velocity = 0;  }
+        if (R_velocity > 255) { R_velocity = 255; }
     }
     if (LStickX > 128) {
-        // Convert the increasing X-axis readings from 550 to 1023 into 0 to 255 value
         int xMapped = map(LStickX, 128, 255, 0, 255);
-        // Move right - decrease right motor speed, increase left motor speed
         L_velocity = L_velocity + xMapped;
         R_velocity = R_velocity - xMapped;
-        // Confine the range from 0 to 255
-        if (L_velocity > 255) {
-            L_velocity = 255;
-        }
-        if (R_velocity < 0) {
-            R_velocity = 0;
-        }
+        if (L_velocity > 255) { L_velocity = 255; }
+        if (R_velocity < 0) { R_velocity = 0;  }
     }
-    // Prevent buzzing at low speeds (Adjust according to your motors. My motors couldn't start moving if PWM value was below value of 70)
-    if (R_velocity < 100) {
-        R_velocity = 0;
-    }
-    if (L_velocity < 100) {
-        L_velocity = 0;
-    }
+    if (R_velocity < 100) { R_velocity = 0; }
+    if (L_velocity < 100) { L_velocity = 0; }
     analogWrite(R_PWM, R_velocity); // Send PWM signal to motor A
     analogWrite(L_PWM, L_velocity); // Send PWM signal to motor B
+
 }
 
 
@@ -1569,10 +1573,10 @@ void loop(){
             else{
                 switch (PS4input) {
                     //**** Head movements    ****
-                    case DPAD_U: posZ = min(160, posZ + speedZ);  break;
-                    case DPAD_R: posXY = max(0, posXY - speedXY);  break;
-                    case DPAD_D: posZ = max(0, posZ - speedZ);    break;
-                    case DPAD_L: posXY = min(180, posXY + speedXY); break;
+                    case DPAD_U: pwm.setPWM(PWM_1, 0, pulseWidth(posZ+1));  break;
+                    case DPAD_R: pwm.setPWM(PWM_0, 0, pulseWidth(posXY-1));  break;
+                    case DPAD_D: pwm.setPWM(PWM_1, 0, pulseWidth(posZ-1));    break;
+                    case DPAD_L: pwm.setPWM(PWM_0, 0, pulseWidth(posXY+1)); break;
 
                     case SQUARE: Car_left();   break;
                     case TRIANG: Car_front();  break;
@@ -1626,16 +1630,6 @@ void loop(){
                     default:
                         break;
                 }
-                #if USE_PWM
-                    if (posXY != previousXY) {
-                        pwm.setPWM(PWM_0, 0, pulseWidth(posXY));
-                    }
-                    if (posZ != previousZ) {
-                        pwm.setPWM(PWM_1, 0, pulseWidth(posZ));
-                    }
-                #endif
-                previousXY = posXY;
-                previousZ = posZ;
             }
             message_pos = 0; //Reset next message
         }
