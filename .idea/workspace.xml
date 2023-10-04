@@ -15,7 +15,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a7a6b36-a99e-4db6-8829-f78acb2fa3fc" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src_esp32_cam/WifiCam.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src_esp32_cam/handlers.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src_esp32_cam/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main_ra.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_ra.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,7 +30,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="unoR4" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="esp32cam" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -98,7 +102,7 @@
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/mr/Arduino-ESP-32_CAM",
+    "last_opened_file_path": "C:/Users/mr/Arduino-R4_UNO_Wall-Z/.pio/libdeps",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -111,13 +115,19 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\.pio\libdeps" />
+      <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\.pio\build" />
+      <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\src_esp32_cam" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\src" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\.pio\build\esp32cam\src_esp32_cam" />
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
@@ -149,7 +159,8 @@
       <workItem from="1696021704783" duration="1313000" />
       <workItem from="1696232463906" duration="17557000" />
       <workItem from="1696318370887" duration="5847000" />
-      <workItem from="1696329917396" duration="17991000" />
+      <workItem from="1696329917396" duration="22329000" />
+      <workItem from="1696403651104" duration="6501000" />
     </task>
     <task id="LOCAL-00001" summary="ps4?">
       <option name="closed" value="true" />
@@ -231,7 +242,23 @@
       <option name="project" value="LOCAL" />
       <updated>1696349419963</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="ifdef  to if">
+      <option name="closed" value="true" />
+      <created>1696354357929</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1696354357929</updated>
+    </task>
+    <task id="LOCAL-00012" summary="SICK ps4 working">
+      <option name="closed" value="true" />
+      <created>1696358920085</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1696358920085</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -269,6 +296,8 @@
     <MESSAGE value="Robo Lives with ps4" />
     <MESSAGE value="Robo Lives better receivers" />
     <MESSAGE value="All differnt seriall in one" />
-    <option name="LAST_COMMIT_MESSAGE" value="All differnt seriall in one" />
+    <MESSAGE value="ifdef  to if" />
+    <MESSAGE value="SICK ps4 working" />
+    <option name="LAST_COMMIT_MESSAGE" value="SICK ps4 working" />
   </component>
 </project>

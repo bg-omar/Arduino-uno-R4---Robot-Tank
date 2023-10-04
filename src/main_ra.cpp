@@ -143,7 +143,7 @@ double checkDistance();
     const int timerOnePeriod = 1000;
     const int timerTwoPeriod = 250;
     const int timerThreePeriod = 7000;
-    const int timerMouthPeriod = 5000;
+    const int timerMouthPeriod = 1250;
 
     boolean timerTwoActive = false;
     boolean timerTreeActive = false;
@@ -321,7 +321,7 @@ byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000,
 #define RX_PIN       0
 #define TX_PIN       1
 #define LED_PIN      2
-#define MR_PWM       3   // define PWM control pin of right motor
+#define L_PWM       3   // define PWM control pin of right motor
 
 #define DotDataPIN   4  // Set data  pin to 4
 #define DotClockPIN  5  // Set clock pin to 5
@@ -330,9 +330,9 @@ byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000,
 
 #define PIN_9        9
 #define PIN_10      10
-#define ML_PWM      11  // define PWM control pin of left motor
-#define MR_Ctrl     12  // define the direction control pin of right motor
-#define ML_Ctrl     13  // define the direction control pin of left motor
+#define R_PWM      11  // define PWM control pin of left motor
+#define L_ROT     12  // define the direction control pin of right motor
+#define R_ROT     13  // define the direction control pin of left motor
 
 
 #define IR_Pin      A2
@@ -402,6 +402,7 @@ int flag; // flag variable, it is used to entry and exist function
 
 const unsigned int MAX_MESSAGE_LENGTH = 30;
 
+int LStickX, LStickY, RStickX, RStickY, L2_TRIG, R2_TRIG;
 /***************************************************** the Sensor Assigns **************************************/
 // section Sensor Assigns
 /***************************************************************************************************************/
@@ -930,37 +931,115 @@ void exitLoop() {
 /***************************************************************************************************************/
 
 void Car_front(){
-    digitalWrite(MR_Ctrl,HIGH);
-    analogWrite(MR_PWM,200);
-    digitalWrite(ML_Ctrl,HIGH);
-    analogWrite(ML_PWM,200);
+    digitalWrite(L_ROT,HIGH);
+    analogWrite(L_PWM,200);
+    digitalWrite(R_ROT,HIGH);
+    analogWrite(R_PWM,200);
+    delay(10);
 }
 
 void Car_left(){
-    digitalWrite(MR_Ctrl,LOW);
-    analogWrite(MR_PWM,255);
-    digitalWrite(ML_Ctrl,HIGH);
-    analogWrite(ML_PWM,255);
+    digitalWrite(L_ROT,LOW);
+    analogWrite(L_PWM,255);
+    digitalWrite(R_ROT,HIGH);
+    analogWrite(R_PWM,255);
+    delay(10);
 }
 void Car_right(){
-    digitalWrite(MR_Ctrl,HIGH);
-    analogWrite(MR_PWM,255);
-    digitalWrite(ML_Ctrl,LOW);
-    analogWrite(ML_PWM,255);
+    digitalWrite(L_ROT,HIGH);
+    analogWrite(L_PWM,255);
+    digitalWrite(R_ROT,LOW);
+    analogWrite(R_PWM,255);
+    delay(10);
 }
 void Car_Stop(){
-    digitalWrite(MR_Ctrl,LOW);
-    analogWrite(MR_PWM,0);
-    digitalWrite(ML_Ctrl,LOW);
-    analogWrite(ML_PWM,0);
+    digitalWrite(L_ROT,LOW);
+    analogWrite(L_PWM,0);
+    digitalWrite(R_ROT,LOW);
+    analogWrite(R_PWM,0);
+    delay(10);
 }
 
 void Car_Back(){
-    digitalWrite(MR_Ctrl,LOW);
-    analogWrite(MR_PWM,200);
-    digitalWrite(ML_Ctrl,LOW);
-    analogWrite(ML_PWM,200);
+    digitalWrite(L_ROT,LOW);
+    analogWrite(L_PWM,200);
+    digitalWrite(R_ROT,LOW);
+    analogWrite(R_PWM,200);
+    delay(10);
 }
+
+void joystick(int PS4input) {
+    if      (PS4input >= 4000 && PS4input <= 4255){ L2_TRIG = PS4input - 4000; }
+    else if (PS4input >= 5000 && PS4input <= 5255){ R2_TRIG = PS4input - 5000; }
+    else if (PS4input >= 6000 && PS4input <= 6255){ LStickX = PS4input - 6000; }
+    else if (PS4input >= 7000 && PS4input <= 7255){ LStickY = PS4input - 7000; }
+    else if (PS4input >= 8000 && PS4input <= 8255){ RStickX = PS4input - 8000; }
+    else if (PS4input >= 9000 && PS4input <= 9255){ RStickY = PS4input - 9000; }
+
+    // Y-axis used for forward and backward control
+    if (LStickY < 128) { // Set Motor A backward
+        digitalWrite(R_ROT, LOW);
+        digitalWrite(L_ROT, LOW);
+        // Convert the declining Y-axis readings for going backward from 470 to 0 into 0 to 255 value for the PWM signal for increasing the motor speed
+        int yMapped = map(LStickY, 128, 0, 0, 255);
+        L_velocity = L_velocity + yMapped;
+        R_velocity = R_velocity + yMapped;
+    }
+    else if (LStickY > 128) { // Set Motor A forward
+        digitalWrite(R_ROT, HIGH);
+        digitalWrite(L_ROT, HIGH);
+        // Convert the increasing Y-axis readings for going forward from 550 to 1023 into 0 to 255 value for the PWM signal for increasing the motor speed
+        int yMapped = map(LStickY, 128, 0, 0, 255);
+        L_velocity = L_velocity - yMapped;
+        R_velocity = R_velocity - yMapped;
+    }
+        // If joystick stays in middle the motors are not moving
+    else {
+        R_velocity = 0;
+        L_velocity = 0;
+    }
+
+    // X-axis used for left and right control
+    if (LStickX < 128) {
+        // Convert the declining X-axis readings from 470 to 0 into increasing 0 to 255 value
+        int xMapped = map(LStickX, 128, 0, 0, 255);
+        // Move to left - decrease left motor speed, increase right motor speed
+        L_velocity = L_velocity - xMapped;
+        R_velocity = R_velocity + xMapped;
+        // Confine the range from 0 to 255
+        if (L_velocity < 0) {
+            L_velocity = 0;
+        }
+        if (R_velocity > 255) {
+            R_velocity = 255;
+        }
+    }
+    if (LStickX > 128) {
+        // Convert the increasing X-axis readings from 550 to 1023 into 0 to 255 value
+        int xMapped = map(LStickX, 128, 255, 0, 255);
+        // Move right - decrease right motor speed, increase left motor speed
+        L_velocity = L_velocity + xMapped;
+        R_velocity = R_velocity - xMapped;
+        // Confine the range from 0 to 255
+        if (L_velocity > 255) {
+            L_velocity = 255;
+        }
+        if (R_velocity < 0) {
+            R_velocity = 0;
+        }
+    }
+    // Prevent buzzing at low speeds (Adjust according to your motors. My motors couldn't start moving if PWM value was below value of 70)
+    if (R_velocity < 100) {
+        R_velocity = 0;
+    }
+    if (L_velocity < 100) {
+        L_velocity = 0;
+    }
+    analogWrite(R_PWM, R_velocity); // Send PWM signal to motor A
+    analogWrite(L_PWM, L_velocity); // Send PWM signal to motor B
+}
+
+
 
 /********************************************** Light Sensors **************************************/
 // section Light Sensors
@@ -985,68 +1064,9 @@ double lightSensor(){
 /***************************************************************************************************************/
 
 #if USE_MOUTH_DISPLAY_ADAFRUIT
-    void testdrawline() {
-        int16_t i;
-
-        display.clearDisplay(); // Clear display buffer
-
-        for(i=0; i<display.width(); i+=4) {
-            display.drawLine(0, 0, i, display.height()-1, SSD1306_WHITE);
-            display.display(); // Update screen with each newly-drawn line
-            delay(1);
-        }
-        for(i=0; i<display.height(); i+=4) {
-            display.drawLine(0, 0, display.width()-1, i, SSD1306_WHITE);
-            display.display();
-            delay(1);
-        }
-
-
-        display.clearDisplay();
-
-        for(i=0; i<display.width(); i+=4) {
-            display.drawLine(0, display.height()-1, i, 0, SSD1306_WHITE);
-            display.display();
-            delay(1);
-        }
-        for(i=display.height()-1; i>=0; i-=4) {
-            display.drawLine(0, display.height()-1, display.width()-1, i, SSD1306_WHITE);
-            display.display();
-            delay(1);
-        }
-
-
-        display.clearDisplay();
-
-        for(i=display.width()-1; i>=0; i-=4) {
-            display.drawLine(display.width()-1, display.height()-1, i, 0, SSD1306_WHITE);
-            display.display();
-            delay(1);
-        }
-        for(i=display.height()-1; i>=0; i-=4) {
-            display.drawLine(display.width()-1, display.height()-1, 0, i, SSD1306_WHITE);
-            display.display();
-            delay(1);
-        }
-
-
-        display.clearDisplay();
-
-        for(i=0; i<display.height(); i+=4) {
-            display.drawLine(display.width()-1, 0, 0, i, SSD1306_WHITE);
-            display.display();
-            delay(1);
-        }
-        for(i=0; i<display.width(); i+=4) {
-            display.drawLine(display.width()-1, 0, i, display.height()-1, SSD1306_WHITE);
-            display.display();
-            delay(1);
-        }
-    }
 
     void testdrawrect() {
         display.clearDisplay();
-
         for(int16_t i=0; i<display.height()/2; i+=2) {
             display.drawRect(i, i, display.width()-2*i, display.height()-2*i, SSD1306_WHITE);
             display.display(); // Update screen with each newly-drawn rectangle
@@ -1056,7 +1076,6 @@ double lightSensor(){
 
     void testfillrect() {
         display.clearDisplay();
-
         for(int16_t i=0; i<display.height()/2; i+=3) {
             // The INVERSE color is used so rectangles alternate white/black
             display.fillRect(i, i, display.width()-i*2, display.height()-i*2, SSD1306_INVERSE);
@@ -1067,7 +1086,6 @@ double lightSensor(){
 
     void testdrawcircle() {
         display.clearDisplay();
-
         for(int16_t i=0; i<max(display.width(),display.height())/2; i+=2) {
             display.drawCircle(display.width()/2, display.height()/2, i, SSD1306_WHITE);
             display.display();
@@ -1077,7 +1095,6 @@ double lightSensor(){
 
     void testfillcircle() {
         display.clearDisplay();
-
         for(int16_t i=max(display.width(),display.height())/2; i>0; i-=3) {
             // The INVERSE color is used so circles alternate white/black
             display.fillCircle(display.width() / 2, display.height() / 2, i, SSD1306_INVERSE);
@@ -1096,7 +1113,6 @@ double lightSensor(){
 
     void testfillroundrect() {
         display.clearDisplay();
-
         for(int16_t i=0; i<display.height()/2-2; i+=2) {
             // The INVERSE color is used so round-rects alternate white/black
             display.fillRoundRect(i, i, display.width()-2*i, display.height()-2*i,
@@ -1108,7 +1124,6 @@ double lightSensor(){
 
     void testdrawtriangle() {
         display.clearDisplay();
-
         for(int16_t i=0; i<max(display.width(),display.height())/2; i+=5) {
             display.drawTriangle(
                     display.width()/2  , display.height()/2-i,
@@ -1121,7 +1136,6 @@ double lightSensor(){
 
     void testfilltriangle() {
         display.clearDisplay();
-
         for(int16_t i=max(display.width(),display.height())/2; i>0; i-=5) {
             // The INVERSE color is used so triangles alternate white/black
             display.fillTriangle(
@@ -1210,22 +1224,21 @@ double lightSensor(){
 void displayLoop(){
     #if USE_MOUTH_DISPLAY_ADAFRUIT
         switch (displaySwitch) {
-            case 1:  testdrawline();       break;
-            case 2:  testdrawrect();       break;
-            case 3:  testfillrect();       break;
-            case 4:  testdrawcircle();     break;
-            case 5:  testfillcircle();     break;
-            case 6:  testdrawroundrect();  break;
-            case 7:  testfillroundrect();  break;
-            case 8:  testdrawtriangle();   break;
-            case 9:  testfilltriangle();   break;
-            case 10: testdrawchar();       break;
-            case 11: testdrawstyles();     break;
-            case 12: testscrolltext();     break;
-            case 13: testdrawbitmap();     break;
+            case 1:  testdrawrect();       break;
+            case 2:  testfillrect();       break;
+            case 3:  testdrawcircle();     break;
+            case 4:  testfillcircle();     break;
+            case 5:  testdrawroundrect();  break;
+            case 6:  testfillroundrect();  break;
+            case 7:  testdrawtriangle();   break;
+            case 8:  testfilltriangle();   break;
+            case 9:  testdrawchar();       break;
+            case 10: testdrawstyles();     break;
+            case 11: testscrolltext();     break;
+            case 12: testdrawbitmap();     break;
             default: display.display();
         }
-        displaySwitch == 13 ? displaySwitch = 1 : displaySwitch += 1;
+        displaySwitch == 12 ? displaySwitch = 1 : displaySwitch += 1;
     #endif
 }
 
@@ -1239,6 +1252,89 @@ void displaySetup() {
         }
     #endif
 }
+
+/***************************** IrReceiver **********************************/
+// section Loop IrReceiver
+/***************************************************************************/
+
+#if USE_IRREMOTE
+void irRemote() {
+        if (IrReceiver.decode()) {  // Grab an IR code   At 115200 baud, printing takes 200 ms for NEC protocol and 70 ms for NEC repeat
+            if (IrReceiver.decodedIRData.flags & IRDATA_FLAGS_WAS_OVERFLOW) {         // Check if the buffer overflowed
+                lcd.clear();
+                lcd.setCursor(0,top);
+                lcd.print(F("Try to increase the \"RAW_BUFFER_LENGTH\" value of " STR(RAW_BUFFER_LENGTH) " in " __FILE__));
+                delay(100);
+            } else {
+                lcd.clear();
+                if (IrReceiver.decodedIRData.protocol == UNKNOWN) {
+                    ir_rec = previousIR;
+                    lcd.setCursor(0,top);
+                    lcd.print(F("?"));
+                    delay(100);
+                } else {
+                    ir_rec = IrReceiver.decodedIRData.decodedRawData;
+                }
+                lcd.setCursor(0,bot);
+                lcd.print(ir_rec, HEX);
+            }
+            IrReceiver.resume();                            // Prepare for the next value
+
+            switch (ir_rec) {
+                /****** Head movements    ******/
+                case Rem_1: posXY = min(180, posXY + speedXY); break;
+                case Rem_2: posZ = min(160, posZ + speedZ); break;
+                case Rem_3: posXY = max(0, posXY - speedXY); break;
+                case Rem_4: posXY = 90; posZ = 45; break;
+                case Rem_5: posZ = max(0, posZ - speedZ); break;
+                case Rem_6: posXY = 90; posZ = 15; break;
+
+                    /****** Options & Sensors ******/
+                case Rem_7:
+                    lcd.clear();
+                    timerTwoActive = !timerTwoActive;
+                    timerTreeActive = false;
+                    timerButton = Rem_7;
+                    delay(100);
+                    break;
+                case Rem_8: dance(); break;
+                case Rem_9:
+                    lcd.clear();
+                    timerTwoActive = !timerTwoActive;
+                    timerTreeActive = false;
+                    timerButton = Rem_9;
+                    delay(100);
+                    break;
+                case Rem_x: avoid(); break;
+                case Rem_y: light_track(); break;
+
+                    /****** Engine - driving  ******/
+                case Rem_OK:
+                    Car_Stop(); break;
+                case Rem_U:
+                    Car_front(); break;
+                case Rem_D:
+                    Car_Back(); break;
+                case Rem_L:
+                    Car_left(); break;
+                case Rem_R:
+                    Car_right(); break;
+                default:
+                    break;
+            }
+            if (posXY != previousXY) {
+                pwm.setPWM(PWM_0, 0, pulseWidth(posXY));
+            }
+            if (posZ != previousZ) {
+                pwm.setPWM(PWM_1, 0, pulseWidth(posZ));
+            }
+            previousIR = ir_rec;
+            previousXY = posXY;
+            previousZ = posZ;
+            Serial1.write(" sending PESTO!!!");
+        }
+    }
+#endif
 
 /************************************************ Display u8g2  *************************************************/
 // section Display u8g2
@@ -1358,12 +1454,12 @@ void setup(){
     pinMode(Trig_PIN, OUTPUT);    /***** 6 ******/
     pinMode(Echo_PIN, INPUT);     /***** 7 ******/
 
-    pinMode(ML_Ctrl, OUTPUT);     /***** 13 ******/
-    pinMode(ML_PWM, OUTPUT);      /***** 11 ******/
-    pinMode(MR_Ctrl, OUTPUT);     /***** 12 ******/
-    pinMode(MR_PWM, OUTPUT);      /***** 3 ******/
-    digitalWrite(ML_Ctrl, HIGH);
-    digitalWrite(MR_Ctrl, LOW);
+    pinMode(R_ROT, OUTPUT);     /***** 13 ******/
+    pinMode(R_PWM, OUTPUT);      /***** 11 ******/
+    pinMode(L_ROT, OUTPUT);     /***** 12 ******/
+    pinMode(L_PWM, OUTPUT);      /***** 3 ******/
+    digitalWrite(R_ROT, HIGH);
+    digitalWrite(L_ROT, LOW);
 
     pinMode(LED_PIN, OUTPUT);     /***** 2 ******/
     pinMode(MIC_PIN, INPUT);
@@ -1469,77 +1565,78 @@ void loop(){
 
             //Or convert to integer and print
             int PS4input = atoi(message);
-            Serial.println(PS4input);
-            switch (PS4input) {
-                //**** Head movements    ****
-                case DPAD_U: posZ = min(160, posZ + speedZ);  break;
-                case DPAD_R: posXY = max(0, posXY - speedXY);  break;
-                case DPAD_D: posZ = max(0, posZ - speedZ);    break;
-                case DPAD_L: posXY = min(180, posXY + speedXY); break;
+            if (PS4input > 4000){joystick(PS4input);}
+            else{
+                switch (PS4input) {
+                    //**** Head movements    ****
+                    case DPAD_U: posZ = min(160, posZ + speedZ);  break;
+                    case DPAD_R: posXY = max(0, posXY - speedXY);  break;
+                    case DPAD_D: posZ = max(0, posZ - speedZ);    break;
+                    case DPAD_L: posXY = min(180, posXY + speedXY); break;
 
-                case SQUARE: Car_left();   break;
-                case TRIANG: Car_front();  break;
-                case xCROSS: Car_Back();   break;
-                case CIRCLE: Car_right();  break;
-
-
-                case 3101:
-                case 3401:
-                case 3201:
-                case 3301:
-                    Car_Stop(); break;
+                    case SQUARE: Car_left();   break;
+                    case TRIANG: Car_front();  break;
+                    case xCROSS: Car_Back();   break;
+                    case CIRCLE: Car_right();  break;
 
 
-                case xSHARE: posXY = 90; posZ = 45;  break;
-                case OPTION: posXY = 90; posZ = 15; break;
-                case L1:
-                    lcd.clear();
-                    timerTwoActive = !timerTwoActive;
-                    timerTreeActive = false;
-                    timerButton = L1;
-                    delay(100);
-                    break;
-                case TOUCHPD: dance(); break;
-                case R1:
-                    lcd.clear();
-                    timerTwoActive = !timerTwoActive;
-                    timerTreeActive = false;
-                    timerButton = R1;
-                    delay(100);
-                    break;
-                case L3: avoid(); break;
-                case R3: light_track(); break;
-                /*
+                    case 3101:
+                    case 3401:
+                    case 3201:
+                    case 3301:
+                        Car_Stop(); break;
 
 
-                CHARGE  3500
-                XAUDIO  3600
+                    case xSHARE: posXY = 90; posZ = 45;  break;
+                    case OPTION: posXY = 90; posZ = 15; break;
+                    case L1:
+                        lcd.clear();
+                        timerTwoActive = !timerTwoActive;
+                        timerTreeActive = false;
+                        timerButton = L1;
+                        delay(100);
+                        break;
+                    case TOUCHPD: dance(); break;
+                    case R1:
+                        lcd.clear();
+                        timerTwoActive = !timerTwoActive;
+                        timerTreeActive = false;
+                        timerButton = R1;
+                        delay(100);
+                        break;
+                    case L3: avoid(); break;
+                    case R3: light_track(); break;
+                    /*
 
-                MIC     3700
-                PS4_Battery        3900 + Battery
-                PS4_L2             4000 + L2Value
-                PS4_R2             5000 + R2Value
-                LStickX        6 000 - 6 254
-                LStickY        7 000 - 7 254
-                RStickX        8 000 - 8 254
-                RStickY        9 000 - 9 254
+
+                    CHARGE  3500
+                    XAUDIO  3600
+
+                    MIC     3700
+                    PS4_Battery        3900 + Battery
+                    PS4_L2             4000 + L2Value
+                    PS4_R2             5000 + R2Value
+                    LStickX        6 000 - 6 254
+                    LStickY        7 000 - 7 254
+                    RStickX        8 000 - 8 254
+                    RStickY        9 000 - 9 254
 
 
-                */
-                default:
-                    break;
+                    */
+                    default:
+                        break;
+                }
+                #if USE_PWM
+                    if (posXY != previousXY) {
+                        pwm.setPWM(PWM_0, 0, pulseWidth(posXY));
+                    }
+                    if (posZ != previousZ) {
+                        pwm.setPWM(PWM_1, 0, pulseWidth(posZ));
+                    }
+                #endif
+                previousXY = posXY;
+                previousZ = posZ;
             }
-            #if USE_PWM
-                if (posXY != previousXY) {
-                    pwm.setPWM(PWM_0, 0, pulseWidth(posXY));
-                }
-                if (posZ != previousZ) {
-                    pwm.setPWM(PWM_1, 0, pulseWidth(posZ));
-                }
-            #endif
-            previousXY = posXY;
-            previousZ = posZ;
-
             message_pos = 0; //Reset next message
         }
     }
@@ -1552,84 +1649,9 @@ void loop(){
 
 
     }
-    /***************************** IrReceiver **********************************/
-    // section Loop IrReceiver
-    /***************************************************************************/
+
     #if USE_IRREMOTE
-        if (IrReceiver.decode()) {  // Grab an IR code   At 115200 baud, printing takes 200 ms for NEC protocol and 70 ms for NEC repeat
-            if (IrReceiver.decodedIRData.flags & IRDATA_FLAGS_WAS_OVERFLOW) {         // Check if the buffer overflowed
-                lcd.clear();
-                lcd.setCursor(0,top);
-                lcd.print(F("Try to increase the \"RAW_BUFFER_LENGTH\" value of " STR(RAW_BUFFER_LENGTH) " in " __FILE__));
-                delay(100);
-            } else {
-                lcd.clear();
-                if (IrReceiver.decodedIRData.protocol == UNKNOWN) {
-                    ir_rec = previousIR;
-                    lcd.setCursor(0,top);
-                    lcd.print(F("?"));
-                    delay(100);
-                } else {
-                    ir_rec = IrReceiver.decodedIRData.decodedRawData;
-                }
-                lcd.setCursor(0,bot);
-                lcd.print(ir_rec, HEX);
-            }
-            IrReceiver.resume();                            // Prepare for the next value
-
-            switch (ir_rec) {
-                /****** Head movements    ******/
-                case Rem_1: posXY = min(180, posXY + speedXY); break;
-                case Rem_2: posZ = min(160, posZ + speedZ); break;
-                case Rem_3: posXY = max(0, posXY - speedXY); break;
-                case Rem_4: posXY = 90; posZ = 45; break;
-                case Rem_5: posZ = max(0, posZ - speedZ); break;
-                case Rem_6: posXY = 90; posZ = 15; break;
-
-                    /****** Options & Sensors ******/
-                case Rem_7:
-                    lcd.clear();
-                    timerTwoActive = !timerTwoActive;
-                    timerTreeActive = false;
-                    timerButton = Rem_7;
-                    delay(100);
-                    break;
-                case Rem_8: dance(); break;
-                case Rem_9:
-                    lcd.clear();
-                    timerTwoActive = !timerTwoActive;
-                    timerTreeActive = false;
-                    timerButton = Rem_9;
-                    delay(100);
-                    break;
-                case Rem_x: avoid(); break;
-                case Rem_y: light_track(); break;
-
-                    /****** Engine - driving  ******/
-                case Rem_OK:
-                    Car_Stop(); break;
-                case Rem_U:
-                    Car_front(); break;
-                case Rem_D:
-                    Car_Back(); break;
-                case Rem_L:
-                    Car_left(); break;
-                case Rem_R:
-                    Car_right(); break;
-                default:
-                    break;
-            }
-            if (posXY != previousXY) {
-                pwm.setPWM(PWM_0, 0, pulseWidth(posXY));
-            }
-            if (posZ != previousZ) {
-                pwm.setPWM(PWM_1, 0, pulseWidth(posZ));
-            }
-            previousIR = ir_rec;
-            previousXY = posXY;
-            previousZ = posZ;
-            Serial1.write(" sending PESTO!!!");
-        }
+        irRemote();
 	#endif
 
     //Car_Stop();
