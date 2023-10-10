@@ -15,7 +15,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a7a6b36-a99e-4db6-8829-f78acb2fa3fc" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src_esp32_ps4/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main_ra.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_ra.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src_esp32_cam/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src_esp32_cam/main.cpp" afterDir="false" />
     </list>
@@ -35,6 +37,20 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "bg-omar"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="70b2fd67-e2e7-47d3-81b2-8d16146ce31c" />
+        <option name="url" value="https://github.com/bg-omar/arduino.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/../.platformio/packages/framework-arduinorenesas-uno/cores/arduino/api/HardwareSerial.h" root0="SKIP_INSPECTION" />
@@ -99,7 +115,7 @@
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/mr/Arduino-R4_UNO_Wall-Z/.pio/libdeps&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mr/Arduino-R4_UNO_Wall-Z&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -112,6 +128,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\.pio\libdeps" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\.pio\build" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\src_esp32_cam" />
@@ -159,7 +176,11 @@
       <workItem from="1696318370887" duration="5847000" />
       <workItem from="1696329917396" duration="22329000" />
       <workItem from="1696403651104" duration="8328000" />
-      <workItem from="1696427930144" duration="4535000" />
+      <workItem from="1696427930144" duration="5289000" />
+      <workItem from="1696529064708" duration="787000" />
+      <workItem from="1696534617818" duration="1581000" />
+      <workItem from="1696875669856" duration="5368000" />
+      <workItem from="1696888665045" duration="13198000" />
     </task>
     <task id="LOCAL-00001" summary="ps4?">
       <option name="closed" value="true" />
@@ -265,7 +286,15 @@
       <option name="project" value="LOCAL" />
       <updated>1696419493023</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Added better joystick code">
+      <option name="closed" value="true" />
+      <created>1696454690634</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1696454690634</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -306,6 +335,7 @@
     <MESSAGE value="ifdef  to if" />
     <MESSAGE value="SICK ps4 working" />
     <MESSAGE value="Added Cam to project too" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Cam to project too" />
+    <MESSAGE value="Added better joystick code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added better joystick code" />
   </component>
 </project>

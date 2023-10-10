@@ -12,14 +12,14 @@ PS5 Controller: 88:03:4C:B5:00:66
 /***************************************************************************************************************/
 
 #define USE_JOYSTICK 0
-#define USE_MOUTH_DISPLAY_ADAFRUIT 1
-#define USE_MOUTH_DISPLAY_U8G2 0
-#define USE_SMALL_DISPLAY 1
-#define USE_MOUTH_DISPLAY 1
+#define USE_ADAFRUIT 0
+#define USE_U8G2 1
+#define SMALL 0
+#define DISPLAY_DEMO 1
 
 #define USE_GYRO 1
 #define USE_COMPASS 1
-#define USE_BAROMETER 1
+#define USE_BAROMETER 0
 
 #define USE_IRREMOTE 0
 #define USE_I2C_SCANNER 1
@@ -69,12 +69,18 @@ PS5 Controller: 88:03:4C:B5:00:66
     ArduinoLEDMatrix matrix;
 #endif
 
-#if USE_MOUTH_DISPLAY_ADAFRUIT
+#if USE_ADAFRUIT
     #include <Adafruit_GFX.h>
-    #include <Adafruit_SSD1306.h>
+    #if SMALL
+        #include <Adafruit_SSD1306.h>
+    #endif
     #include <Adafruit_SH110X.h>
     #define SCREEN_WIDTH 128 // OLED display width, in pixels
     #define SCREEN_HEIGHT 64 // OLED display height, in pixels
+
+    #define PIXEL_BLACK 0   ///< Draw 'off' pixels
+    #define PIXEL_WHITE 1   ///< Draw 'on' pixels
+    #define PIXEL_INVERSE 2 ///< Invert pixels
 
     #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
     #define SCREEN_ADDRESS 0x3C
@@ -198,7 +204,7 @@ double checkDistance();
 
 byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000, 0b00000};
 
-#if USE_MOUTH_DISPLAY_ADAFRUIT
+#if USE_ADAFRUIT
 	static const unsigned char PROGMEM logo_bmp[] =
 		{0b00000000, 0b11000000,
 		 0b00000001, 0b11000000,
@@ -401,24 +407,30 @@ int flag; // flag variable, it is used to entry and exist function
 const unsigned int MAX_MESSAGE_LENGTH = 30;
 
 int LStickX, LStickY, RStickX, RStickY, L2_TRIG, R2_TRIG;
+int16_t lastY = 0;
+
 /***************************************************** the Sensor Assigns **************************************/
 // section Sensor Assigns
 /***************************************************************************************************************/
 
-#if  USE_LCD
+#if USE_LCD
     LiquidCrystal_I2C lcd(0x27,16,2);
 #endif
 
-#if USE_MOUTH_DISPLAY_ADAFRUIT
-    #if USE_SMALL_DISPLAY
+#if USE_ADAFRUIT
+    #if SMALL
         Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
     #else
         Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
     #endif
 #endif
 
-#if USE_MOUTH_DISPLAY_U8G2
-    U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+#if USE_U8G2
+    #if SMALL
+        U8G2_SSD1306_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+    #else
+        U8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+    #endif
 #endif
 
 
@@ -438,51 +450,55 @@ int LStickX, LStickY, RStickX, RStickY, L2_TRIG, R2_TRIG;
 	void I2CScanner() {
 		byte error, address;
 		int nDevices;
-		lcd.clear();
-		lcd.setCursor(0, top);
-		lcd.print("I2C Scanning...");
+
+		display.println("I2C Scanning...");
+        #if USE_ADAFRUIT
+            display.display();
+        #endif
 		nDevices = 0;
-		lcd.setCursor(0,bot);
+		
 		delay(200);
-		lcd.clear();
-		lcd.setCursor(0, top);
 		for(address = 1; address < 127; address++ ) {
 			Wire.beginTransmission(address);
 			error = Wire.endTransmission();
 
 			if (error == 0) {
-				lcd.print(" 0x");
+				display.print(" 0x");
 				if (address<16) {
-					lcd.print("0");
+					display.print("0");
 				}
-				lcd.print(address,HEX);
+				display.println(address,HEX);
+                #if USE_ADAFRUIT
+                    display.display();
+                #endif
 				nDevices++;
 				delay(200);
 			}
 			else if (error==4) {
-				lcd.clear();
-				lcd.setCursor(0, top);
-				lcd.print("Unknow error at address 0x");
+				display.print("Unknow error at address 0x");
 				if (address<16) {
-					lcd.setCursor(0,bot);
-					lcd.print("0");
+					
+					display.print("0");
 				}
-				lcd.setCursor(0,bot);
-				lcd.print(address,HEX);
-			}
+				display.println(address,HEX);
+                #if USE_ADAFRUIT
+                    display.display();
+                #endif
+            }
 		}
 		delay(20);
-		lcd.clear();
+		display.print(nDevices);
 		delay(20);
-		lcd.setCursor(0, top);
-		lcd.print(nDevices);
-		delay(20);
-		lcd.print(" devices");
+		display.println(" devices");
+        #if USE_ADAFRUIT
+            display.display();
+        #endif
 		delay(100);
 		if (nDevices == 0) {
-			lcd.clear();
-			lcd.setCursor(0, top);
-			lcd.print("No I2C devices found");
+			display.println("No I2C devices found");
+            #if USE_ADAFRUIT
+                display.display();
+            #endif
 		}
 	}
 #endif
@@ -505,20 +521,19 @@ int LStickX, LStickY, RStickX, RStickY, L2_TRIG, R2_TRIG;
 
     void gyroFunc(){
         gyroRead();
-        lcd.setCursor(0, top); // Sets the location at which subsequent text written to the LCD will be displayed
-        (ax > 0) ? lcd.print("+"), lcd.print(ax) : lcd.print(ax);
-        lcd.print(" ");
-        (ay > 0) ? lcd.print("+"), lcd.print(ay) : lcd.print(ay);
-        lcd.print(" ");
-        (az > 0) ? lcd.print("+"), lcd.print(az) : lcd.print(az);
-        lcd.print("   ");
-        lcd.setCursor(0,bot);
-        (gx > 0) ? lcd.print("+"), lcd.print(gx) : lcd.print(gx);
-        lcd.print(" ");
-        (gy > 0) ? lcd.print("+"), lcd.print(gy) : lcd.print(gy);
-        lcd.print(" ");
-        (gz > 0) ? lcd.print("+"), lcd.print(gz) : lcd.print(gz);
-        lcd.print("   ");
+        (ax > 0) ? display.print("+"), display.print(ax) : display.print(ax);
+        display.print(" ");
+        (ay > 0) ? display.print("+"), display.print(ay) : display.print(ay);
+        display.print(" ");
+        (az > 0) ? display.print("+"), display.print(az) : display.print(az);
+        display.print("   ");
+        
+        (gx > 0) ? display.print("+"), display.print(gx) : display.print(gx);
+        display.print(" ");
+        (gy > 0) ? display.print("+"), display.print(gy) : display.print(gy);
+        display.print(" ");
+        (gz > 0) ? display.print("+"), display.print(gz) : display.print(gz);
+        display.print("   ");
     }
 
     void gyroDetectMovement() {
@@ -573,13 +588,12 @@ int LStickX, LStickY, RStickX, RStickY, L2_TRIG, R2_TRIG;
     void gyroSetup() {
         // Try to initialize!
         if (!mpu.begin()) {
-            lcd.setCursor(0,bot);
-            lcd.print("MPU6050 not found");
+            
+            display.print("MPU6050 not found");
             delay(500);
 
         } else {
-            lcd.setCursor(2,bot);
-            lcd.print("MPU6050 Found!    ");
+            display.print("MPU6050 Found!    ");
             delay(500);
             mpu.setAccelerometerRange(MPU6050_RANGE_4_G);
             mpu.setGyroRange(MPU6050_RANGE_500_DEG);
@@ -594,8 +608,7 @@ int LStickX, LStickY, RStickX, RStickY, L2_TRIG, R2_TRIG;
 /***************************************************************************************************************/
 #if USE_COMPASS
     double readCompass(){
-        lcd.setCursor(0, top);   //Set cursor to character 2 on line 0
-        lcd.print("Compass ");
+        display.print("Compass ");
         sensors_event_t event; /// Get a new sensor event */
         mag.getEvent(&event);
 
@@ -615,44 +628,39 @@ int LStickX, LStickY, RStickX, RStickY, L2_TRIG, R2_TRIG;
 
     void compass(){
         double headingDegrees = readCompass();
-        lcd.print(headingDegrees);
+        display.print(headingDegrees);
         if (headingDegrees >= 0 && headingDegrees < 45){
             matrix_display(north);
-            lcd.setCursor(4,bot);
-            lcd.print("North       ");
+            display.print("North       ");
         }
         if (headingDegrees >= 45 && headingDegrees < 135){
             matrix_display(east);
-            lcd.setCursor(4,bot);
-            lcd.print("East        ");
+            display.print("East        ");
         }
         if (headingDegrees >= 135 && headingDegrees < 225){
             matrix_display(south);
-            lcd.setCursor(4,bot);
-            lcd.print("South       ");
+            display.print("South       ");
         }
         if (headingDegrees >= 225 && headingDegrees < 315){
             matrix_display(west);
-            lcd.setCursor(4,bot);
-            lcd.print("West        ");
+            display.print("West        ");
         }
         if (headingDegrees >= 315 && headingDegrees < 360){
             matrix_display(north);
-            lcd.setCursor(4,bot);
-            lcd.print("North       ");
+            display.print("North       ");
         }
     }
 
     void compassSetup() {
         /* Initialise the sensor */
         if(!mag.begin()) {
-            lcd.setCursor(0,top);
-            lcd.print("HMC5883 not found   ");
+            
+            display.print("HMC5883 not found   ");
             delay(500);
 
         } else {
-            lcd.setCursor(0,top);
-            lcd.print("HMC5883 Found!     ");
+            
+            display.print("HMC5883 Found!     ");
             delay(500);
         }
     }
@@ -662,38 +670,38 @@ int LStickX, LStickY, RStickX, RStickY, L2_TRIG, R2_TRIG;
 /***************************************************************************************************************/
 #if USE_BAROMETER
     void baroSetup() {
-        lcd.clear();
+        display.clearDisplay();
         /* Initialise the sensor */
         if (!bme.begin(0x76)) {
-            lcd.setCursor(0,top);
-            lcd.print("BME280,not found!");
+            
+            display.print("BME280,not found!");
             delay(500);
         } else {
-            lcd.setCursor(0,top);
-            lcd.print("BME280 Found!     ");
+            
+            display.print("BME280 Found!     ");
             delay(500);
         }
     }
 
     void baroMeter() {
-        lcd.clear();
-        lcd.setCursor(0,top);
-        lcd.print("Temp= ");
-        lcd.print(bme.readTemperature());
-        lcd.print("*C ");
+        display.clearDisplay();
+        
+        display.print("Temp= ");
+        display.print(bme.readTemperature());
+        display.print("*C ");
 
-        lcd.print("P= ");
-        lcd.print(bme.readPressure() / 100.0F);
-        lcd.print("hPa");
+        display.print("P= ");
+        display.print(bme.readPressure() / 100.0F);
+        display.print("hPa");
 
-        lcd.setCursor(0,bot);
-        lcd.print("Alt= ");
-        lcd.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
-        lcd.print("m ");
+        
+        display.print("Alt= ");
+        display.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
+        display.print("m ");
 
-        lcd.print("H= ");
-        lcd.print(bme.readHumidity());
-        lcd.print("%");
+        display.print("H= ");
+        display.print(bme.readHumidity());
+        display.print("%");
         delay(500);
     }
 #endif
@@ -1067,13 +1075,15 @@ double lightSensor(){
 // section Display Adafruit
 /***************************************************************************************************************/
 
-#if USE_MOUTH_DISPLAY_ADAFRUIT
+#if USE_ADAFRUIT
 
     void testdrawrect() {
         display.clearDisplay();
         for(int16_t i=0; i<display.height()/2; i+=2) {
-            display.drawRect(i, i, display.width()-2*i, display.height()-2*i, SSD1306_WHITE);
-            display.display(); // Update screen with each newly-drawn rectangle
+            display.drawRect(i, i, display.width()-2*i, display.height()-2*i, PIXEL_WHITE);
+            #if USE_ADAFRUIT
+    display.display();
+#endif // Update screen with each newly-drawn rectangle
             delay(1);
         }
     }
@@ -1082,8 +1092,10 @@ double lightSensor(){
         display.clearDisplay();
         for(int16_t i=0; i<display.height()/2; i+=3) {
             // The INVERSE color is used so rectangles alternate white/black
-            display.fillRect(i, i, display.width()-i*2, display.height()-i*2, SSD1306_INVERSE);
-            display.display(); // Update screen with each newly-drawn rectangle
+            display.fillRect(i, i, display.width()-i*2, display.height()-i*2, PIXEL_INVERSE);
+            #if USE_ADAFRUIT
+    display.display();
+#endif // Update screen with each newly-drawn rectangle
             delay(1);
         }
     }
@@ -1091,8 +1103,10 @@ double lightSensor(){
     void testdrawcircle() {
         display.clearDisplay();
         for(int16_t i=0; i<max(display.width(),display.height())/2; i+=2) {
-            display.drawCircle(display.width()/2, display.height()/2, i, SSD1306_WHITE);
-            display.display();
+            display.drawCircle(display.width()/2, display.height()/2, i, PIXEL_WHITE);
+            #if USE_ADAFRUIT
+    display.display();
+#endif
             delay(1);
         }
     }
@@ -1101,8 +1115,10 @@ double lightSensor(){
         display.clearDisplay();
         for(int16_t i=max(display.width(),display.height())/2; i>0; i-=3) {
             // The INVERSE color is used so circles alternate white/black
-            display.fillCircle(display.width() / 2, display.height() / 2, i, SSD1306_INVERSE);
-            display.display(); // Update screen with each newly-drawn circle
+            display.fillCircle(display.width() / 2, display.height() / 2, i, PIXEL_INVERSE);
+            #if USE_ADAFRUIT
+    display.display();
+#endif // Update screen with each newly-drawn circle
             delay(1);
         }
     }
@@ -1110,8 +1126,10 @@ double lightSensor(){
     void testdrawroundrect() {
         display.clearDisplay();
         display.drawRoundRect(0, 0, display.width()-2, display.height()-2,
-                              display.height()/8, SSD1306_WHITE);
-        display.display();
+                              display.height()/8, PIXEL_WHITE);
+        #if USE_ADAFRUIT
+    display.display();
+#endif
         delay(200);
     }
 
@@ -1120,8 +1138,10 @@ double lightSensor(){
         for(int16_t i=0; i<display.height()/2-2; i+=2) {
             // The INVERSE color is used so round-rects alternate white/black
             display.fillRoundRect(i, i, display.width()-2*i, display.height()-2*i,
-                                  display.height()/4, SSD1306_INVERSE);
-            display.display();
+                                  display.height()/4, PIXEL_INVERSE);
+            #if USE_ADAFRUIT
+    display.display();
+#endif
             delay(1);
         }
     }
@@ -1132,8 +1152,10 @@ double lightSensor(){
             display.drawTriangle(
                     display.width()/2  , display.height()/2-i,
                     display.width()/2-i, display.height()/2+i,
-                    display.width()/2+i, display.height()/2+i, SSD1306_WHITE);
-            display.display();
+                    display.width()/2+i, display.height()/2+i, PIXEL_WHITE);
+            #if USE_ADAFRUIT
+    display.display();
+#endif
             delay(1);
         }
     }
@@ -1145,8 +1167,10 @@ double lightSensor(){
             display.fillTriangle(
                     display.width()/2  , display.height()/2-i,
                     display.width()/2-i, display.height()/2+i,
-                    display.width()/2+i, display.height()/2+i, SSD1306_INVERSE);
-            display.display();
+                    display.width()/2+i, display.height()/2+i, PIXEL_INVERSE);
+            #if USE_ADAFRUIT
+    display.display();
+#endif
             delay(1);
         }
     }
@@ -1155,7 +1179,7 @@ double lightSensor(){
         display.clearDisplay();
 
         display.setTextSize(1);      // Normal 1:1 pixel scale
-        display.setTextColor(SSD1306_WHITE); // Draw white text
+        display.setTextColor(PIXEL_WHITE); // Draw white text
         display.setCursor(0, 0);     // Start at top-left corner
         display.cp437(true);         // Use full 256 char 'Code Page 437' font
 
@@ -1166,36 +1190,43 @@ double lightSensor(){
             else          display.write(i);
         }
 
-        display.display();
+        #if USE_ADAFRUIT
+    display.display();
+#endif
+        delay(1);
     }
 
     void testdrawstyles() {
         display.clearDisplay();
 
         display.setTextSize(2);             // Normal 1:1 pixel scale
-        display.setTextColor(SSD1306_WHITE);        // Draw white text
+        display.setTextColor(PIXEL_WHITE);        // Draw white text
         display.setCursor(0,0);             // Start at top-left corner
         display.println(F("Hellow, Pesto!"));
 
-        display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
+        display.setTextColor(PIXEL_BLACK, PIXEL_WHITE); // Draw 'inverse' text
         display.println(1337);
 
         display.setTextSize(2);             // Draw 2X-scale text
-        display.setTextColor(SSD1306_WHITE);
+        display.setTextColor(PIXEL_WHITE);
         display.print(F("0x")); display.println(0xDEADBEEF, HEX);
 
-        display.display();
+        #if USE_ADAFRUIT
+    display.display();
+#endif
     }
 
     void testscrolltext() {
         display.clearDisplay();
 
         display.setTextSize(2); // Draw 2X-scale text
-        display.setTextColor(SSD1306_WHITE);
+        display.setTextColor(PIXEL_WHITE);
         display.setCursor(10, 0);
         display.println(F("PESTO?"));
-        display.display();      // Show initial text
-        #if USE_SMALL_DISPLAY
+        #if USE_ADAFRUIT
+    display.display();
+#endif      // Show initial text
+        #if SMALL
             // Scroll in various directions, pausing in-between:
             display.startscrollright(0x00, 0x0F);
             display.stopscroll();
@@ -1216,7 +1247,9 @@ double lightSensor(){
                 (display.width()  - LOGO_WIDTH ) / 2,
                 (display.height() - LOGO_HEIGHT) / 2,
                 logo_bmp, LOGO_WIDTH, LOGO_HEIGHT, 1);
-        display.display();
+        #if USE_ADAFRUIT
+    display.display();
+#endif
         delay(100);
     }
 
@@ -1226,7 +1259,7 @@ double lightSensor(){
 
 
 void displayLoop(){
-    #if USE_MOUTH_DISPLAY_ADAFRUIT
+    #if USE_ADAFRUIT
         switch (displaySwitch) {
             case 1:  testdrawrect();       break;
             case 2:  testfillrect();       break;
@@ -1240,20 +1273,9 @@ void displayLoop(){
             case 10: testdrawstyles();     break;
             case 11: testscrolltext();     break;
             case 12: testdrawbitmap();     break;
-            default: display.display();
+            default:  display.display();
         }
         displaySwitch == 12 ? displaySwitch = 1 : displaySwitch += 1;
-    #endif
-}
-
-void displaySetup() {
-    #if USE_MOUTH_DISPLAY_ADAFRUIT
-
-        if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
-
-        } else {
-            displayLoop();
-        }
     #endif
 }
 
@@ -1265,22 +1287,22 @@ void displaySetup() {
 void irRemote() {
         if (IrReceiver.decode()) {  // Grab an IR code   At 115200 baud, printing takes 200 ms for NEC protocol and 70 ms for NEC repeat
             if (IrReceiver.decodedIRData.flags & IRDATA_FLAGS_WAS_OVERFLOW) {         // Check if the buffer overflowed
-                lcd.clear();
-                lcd.setCursor(0,top);
-                lcd.print(F("Try to increase the \"RAW_BUFFER_LENGTH\" value of " STR(RAW_BUFFER_LENGTH) " in " __FILE__));
+                display.clearDisplay();
+                
+                display.print(F("Try to increase the \"RAW_BUFFER_LENGTH\" value of " STR(RAW_BUFFER_LENGTH) " in " __FILE__));
                 delay(100);
             } else {
-                lcd.clear();
+                display.clearDisplay();
                 if (IrReceiver.decodedIRData.protocol == UNKNOWN) {
                     ir_rec = previousIR;
-                    lcd.setCursor(0,top);
-                    lcd.print(F("?"));
+                    
+                    display.print(F("?"));
                     delay(100);
                 } else {
                     ir_rec = IrReceiver.decodedIRData.decodedRawData;
                 }
-                lcd.setCursor(0,bot);
-                lcd.print(ir_rec, HEX);
+                
+                display.print(ir_rec, HEX);
             }
             IrReceiver.resume();                            // Prepare for the next value
 
@@ -1295,7 +1317,7 @@ void irRemote() {
 
                     /****** Options & Sensors ******/
                 case Rem_7:
-                    lcd.clear();
+                    display.clearDisplay();
                     timerTwoActive = !timerTwoActive;
                     timerTreeActive = false;
                     timerButton = Rem_7;
@@ -1303,7 +1325,7 @@ void irRemote() {
                     break;
                 case Rem_8: dance(); break;
                 case Rem_9:
-                    lcd.clear();
+                    display.clearDisplay();
                     timerTwoActive = !timerTwoActive;
                     timerTreeActive = false;
                     timerButton = Rem_9;
@@ -1344,7 +1366,229 @@ void irRemote() {
 // section Display u8g2
 /***************************************************************************************************************/
 
-#if USE_MOUTH_DISPLAY_U8G2
+#if USE_U8G2
+
+void u8g2_prepare() {
+    display.setFont(u8g2_font_6x10_tf);
+    display.setFontRefHeightExtendedText();
+    display.setDrawColor(1);
+    display.setFontPosTop();
+    display.setFontDirection(0);
+}
+
+void u8g2_box_title(uint8_t a) {
+    display.drawStr( 10+a*2, 5, "U8g2");
+    display.drawStr( 10, 20, "GraphicsTest");
+
+    display.drawFrame(0,0,display.getDisplayWidth(),display.getDisplayHeight() );
+}
+
+void u8g2_box_frame(uint8_t a) {
+    display.drawStr( 0, 0, "drawBox");
+    display.drawBox(5,10,20,10);
+    display.drawBox(10+a,15,30,7);
+    display.drawStr( 0, 30, "drawFrame");
+    display.drawFrame(5,10+30,20,10);
+    display.drawFrame(10+a,15+30,30,7);
+}
+
+void u8g2_disc_circle(uint8_t a) {
+    display.drawStr( 0, 0, "drawDisc");
+    display.drawDisc(10,18,9);
+    display.drawDisc(24+a,16,7);
+    display.drawStr( 0, 30, "drawCircle");
+    display.drawCircle(10,18+30,9);
+    display.drawCircle(24+a,16+30,7);
+}
+
+void u8g2_r_frame(uint8_t a) {
+    display.drawStr( 0, 0, "drawRFrame/Box");
+    display.drawRFrame(5, 10,40,30, a+1);
+    display.drawRBox(50, 10,25,40, a+1);
+}
+void u8g2_string(uint8_t a) {
+    display.setFontDirection(0);
+    display.drawStr(30+a,31, " 0");
+    display.setFontDirection(1);
+    display.drawStr(30,31+a, " 90");
+    display.setFontDirection(2);
+    display.drawStr(30-a,31, " 180");
+    display.setFontDirection(3);
+    display.drawStr(30,31-a, " 270");
+}
+
+void u8g2_line(uint8_t a) {
+    display.drawStr( 0, 0, "drawLine");
+    display.drawLine(7+a, 10, 40, 55);
+    display.drawLine(7+a*2, 10, 60, 55);
+    display.drawLine(7+a*3, 10, 80, 55);
+    display.drawLine(7+a*4, 10, 100, 55);
+}
+
+void u8g2_triangle(uint8_t a) {
+    uint16_t offset = a;
+    display.drawStr( 0, 0, "drawTriangle");
+    display.drawTriangle(14,7, 45,30, 10,40);
+    display.drawTriangle(14+offset,7-offset, 45+offset,30-offset, 57+offset,10-offset);
+    display.drawTriangle(57+offset*2,10, 45+offset*2,30, 86+offset*2,53);
+    display.drawTriangle(10+offset,40+offset, 45+offset,30+offset, 86+offset,53+offset);
+}
+
+void u8g2_ascii_1() {
+    char s[2] = " ";
+    uint8_t x, y;
+    display.drawStr( 0, 0, "ASCII page 1");
+    for( y = 0; y < 6; y++ ) {
+        for( x = 0; x < 16; x++ ) {
+            s[0] = y*16 + x + 32;
+            display.drawStr(x*7, y*10+10, s);
+        }
+    }
+}
+
+void u8g2_ascii_2() {
+    char s[2] = " ";
+    uint8_t x, y;
+    display.drawStr( 0, 0, "ASCII page 2");
+    for( y = 0; y < 6; y++ ) {
+        for( x = 0; x < 16; x++ ) {
+            s[0] = y*16 + x + 160;
+            display.drawStr(x*7, y*10+10, s);
+        }
+    }
+}
+
+void u8g2_extra_page(uint8_t a)
+{
+    display.drawStr( 0, 0, "Unicode");
+    display.setFont(u8g2_font_unifont_t_symbols);
+    display.setFontPosTop();
+    display.drawUTF8(0, 24, "☀ ☁");
+    switch(a) {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+            display.drawUTF8(a*3, 36, "☂");
+            break;
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+            display.drawUTF8(a*3, 36, "☔");
+            break;
+    }
+}
+
+void u8g2_xor(uint8_t a) {
+    uint8_t i;
+    display.drawStr( 0, 0, "XOR");
+    display.setFontMode(1);
+    display.setDrawColor(2);
+    for( i = 0; i < 5; i++)
+    {
+        display.drawBox(10+i*16, 18 + (i&1)*4, 21,31);
+    }
+    display.drawStr( 5+a, 19, "XOR XOR XOR XOR");
+    display.setDrawColor(0);
+    display.drawStr( 5+a, 29, "CLR CLR CLR CLR");
+    display.setDrawColor(1);
+    display.drawStr( 5+a, 39, "SET SET SET SET");
+    display.setFontMode(0);
+
+}
+
+#define cross_width 24
+#define cross_height 24
+static const unsigned char cross_bits[] U8X8_PROGMEM  = {
+        0x00, 0x18, 0x00, 0x00, 0x24, 0x00, 0x00, 0x24, 0x00, 0x00, 0x42, 0x00,
+        0x00, 0x42, 0x00, 0x00, 0x42, 0x00, 0x00, 0x81, 0x00, 0x00, 0x81, 0x00,
+        0xC0, 0x00, 0x03, 0x38, 0x3C, 0x1C, 0x06, 0x42, 0x60, 0x01, 0x42, 0x80,
+        0x01, 0x42, 0x80, 0x06, 0x42, 0x60, 0x38, 0x3C, 0x1C, 0xC0, 0x00, 0x03,
+        0x00, 0x81, 0x00, 0x00, 0x81, 0x00, 0x00, 0x42, 0x00, 0x00, 0x42, 0x00,
+        0x00, 0x42, 0x00, 0x00, 0x24, 0x00, 0x00, 0x24, 0x00, 0x00, 0x18, 0x00, };
+
+#define cross_fill_width 24
+#define cross_fill_height 24
+static const unsigned char cross_fill_bits[] U8X8_PROGMEM  = {
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18, 0x00, 0x18, 0x64, 0x00, 0x26,
+        0x84, 0x00, 0x21, 0x08, 0x81, 0x10, 0x08, 0x42, 0x10, 0x10, 0x3C, 0x08,
+        0x20, 0x00, 0x04, 0x40, 0x00, 0x02, 0x80, 0x00, 0x01, 0x80, 0x18, 0x01,
+        0x80, 0x18, 0x01, 0x80, 0x00, 0x01, 0x40, 0x00, 0x02, 0x20, 0x00, 0x04,
+        0x10, 0x3C, 0x08, 0x08, 0x42, 0x10, 0x08, 0x81, 0x10, 0x84, 0x00, 0x21,
+        0x64, 0x00, 0x26, 0x18, 0x00, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, };
+
+#define cross_block_width 14
+#define cross_block_height 14
+static const unsigned char cross_block_bits[] U8X8_PROGMEM  = {
+        0xFF, 0x3F, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20,
+        0xC1, 0x20, 0xC1, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20,
+        0x01, 0x20, 0xFF, 0x3F, };
+
+void u8g2_bitmap_overlay(uint8_t a) {
+    uint8_t frame_size = 28;
+
+    display.drawStr(0, 0, "Bitmap overlay");
+
+    display.drawStr(0, frame_size + 12, "Solid / transparent");
+    display.setBitmapMode(false);
+    display.drawFrame(0, 10, frame_size, frame_size);
+    display.drawXBMP(2, 12, cross_width, cross_height, cross_bits);
+    if(a & 4)
+        display.drawXBMP(7, 17, cross_block_width, cross_block_height, cross_block_bits);
+
+    display.setBitmapMode(true);
+    display.drawFrame(frame_size + 5, 10, frame_size, frame_size);
+    display.drawXBMP(frame_size + 7, 12, cross_width, cross_height, cross_bits);
+    if(a & 4)
+        display.drawXBMP(frame_size + 12, 17, cross_block_width, cross_block_height, cross_block_bits);
+}
+
+void u8g2_bitmap_modes(uint8_t transparent) {
+    const uint8_t frame_size = 24;
+
+    display.drawBox(0, frame_size * 0.5, frame_size * 5, frame_size);
+    display.drawStr(frame_size * 0.5, 50, "Black");
+    display.drawStr(frame_size * 2, 50, "White");
+    display.drawStr(frame_size * 3.5, 50, "XOR");
+
+    if(!transparent) {
+        display.setBitmapMode(false );
+        display.drawStr(0, 0, "Solid bitmap");
+    } else {
+        display.setBitmapMode(true );
+        display.drawStr(0, 0, "Transparent bitmap");
+    }
+    display.setDrawColor(0);// Black
+    display.drawXBMP(frame_size * 0.5, 24, cross_width, cross_height, cross_bits);
+    display.setDrawColor(1); // White
+    display.drawXBMP(frame_size * 2, 24, cross_width, cross_height, cross_bits);
+    display.setDrawColor(2); // XOR
+    display.drawXBMP(frame_size * 3.5, 24, cross_width, cross_height, cross_bits);
+}
+
+
+uint8_t draw_state = 0;
+
+void draw() {
+    u8g2_prepare();
+    switch(draw_state >> 3) {
+        case 0: u8g2_box_title(draw_state&7); break;
+        case 1: u8g2_box_frame(draw_state&7); break;
+        case 2: u8g2_disc_circle(draw_state&7); break;
+        case 3: u8g2_r_frame(draw_state&7); break;
+        case 4: u8g2_string(draw_state&7); break;
+        case 5: u8g2_line(draw_state&7); break;
+        case 6: u8g2_triangle(draw_state&7); break;
+        case 7: u8g2_ascii_1(); break;
+        case 8: u8g2_ascii_2(); break;
+        case 9: u8g2_extra_page(draw_state&7); break;
+        case 10: u8g2_xor(draw_state&7); break;
+        case 11: u8g2_bitmap_modes(0); break;
+        case 12: u8g2_bitmap_modes(1); break;
+        case 13: u8g2_bitmap_overlay(draw_state&7); break;
+    }
+}
 
 #endif
 
@@ -1379,11 +1623,13 @@ void irRemote() {
 	void resetTimers(){
 		timerTwoActive = false;
 		timerTreeActive = false;
-		lcd.clear();
+		#if USE_ADAFRUIT
+            display.clearDisplay();
+        #endif
 	}
 
     void mouthTimer(){
-        #if USE_MOUTH_DISPLAY_ADAFRUIT
+        #if USE_ADAFRUIT
             displayLoop();
         #endif
     }
@@ -1413,27 +1659,68 @@ int pulseWidth(int angle){  //  pwm.setPWM(PWM_0, 0, pulseWidth(0));
 #endif
 
 void defaultLCD(){
-    lcd.setCursor(0,top);
-    lcd.write(0); // ********* heart ********* //
-    lcd.setCursor(2,top);   //Set cursor to character 2 on line 0
-    lcd.print("Hello Pesto!");
-    lcd.setCursor(0,bot);   //Set cursor to line 1
+    display.print("Hello Pesto!");
+       //Set cursor to line 1
     #if USE_IRREMOTE
-        lcd.print(previousIR, HEX);
+        display.print(previousIR, HEX);
     #endif
 }
+
+void printLog(const char *text, int size = 1, int16_t x = 0, int16_t y = lastY){
+#if USE_ADAFRUIT
+    display.setTextWrap(false);
+    display.setCursor(x,y);             // Start at top-left corner
+    display.setTextSize(size);             // Normal 1:1 pixel scale
+    display.setTextColor(PIXEL_WHITE);        // Draw white text
+    display.println(text);
+    lastY = y + 8;
+    #if USE_ADAFRUIT
+    display.display();
+#endif
+#else
+    display.drawStr(x, y, (const char *) text);
+    display.drawFrame(0,0,display.getDisplayWidth(),display.getDisplayHeight() );
+    lastY = y + 8;
+#endif
+
+
+}
+
+
+
 
 /********************************************** Setup booting the arduino **************************************/
 // section Setup
 /***************************************************************************************************************/
 void setup(){
     Wire.begin();
+
+    #if USE_ADAFRUIT
+        #if SMALL
+            if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
+                    }
+        #else
+            display.begin(SCREEN_ADDRESS, true); // Address 0x3C default
+            #if USE_ADAFRUIT
+                display.display();
+            #endif
+            display.clearDisplay();
+        #endif
+    #else
+        display.begin();
+        u8g2_prepare();
+        display.firstPage();
+    #endif
+
     delay(1);
     Serial.begin(115200); // Initialize the hardware serial port for debugging
+    printLog("Serial started");
     delay(1);
     Serial1.begin(115200);
+    printLog("Serial1 started");
     delay(1);
     SERIAL_AT.begin(115200);
+    printLog("Serial_AT started");
     delay(1);
 
     #if USE_MATRIX
@@ -1442,19 +1729,7 @@ void setup(){
         //matrix.autoscroll(300);
         matrix.play(true);
     #endif
-
-    lcd.init();
-    delay(10);
-    lcd.backlight();      // Make sure backlight is on
-    delay(10);
-    lcd.createChar(0, Heart); // create a new characters
-    delay(10);
-    lcd.clear();
-    delay(10);
-    lcd.setCursor(0,top);
-    delay(10);
-
-
+        
     pinMode(Trig_PIN, OUTPUT);    /***** 6 ******/
     pinMode(Echo_PIN, INPUT);     /***** 7 ******/
 
@@ -1486,18 +1761,24 @@ void setup(){
 	#endif
 
     #if USE_GYRO
-        lcd.clear();
-        lcd.setCursor(0,top);
+        #if USE_ADAFRUIT
+            display.clearDisplay();
+        #endif
+        
         gyroSetup();
     #endif
 
     #if USE_COMPASS
-        lcd.clear();
+        #if USE_ADAFRUIT
+            display.clearDisplay();
+        #endif
         compassSetup();
     #endif
 
     #if USE_BAROMETER
-        lcd.clear();
+        #if USE_ADAFRUIT
+        display.clearDisplay();
+    #endif
         baroSetup();
     #endif
 
@@ -1505,20 +1786,12 @@ void setup(){
         // Start the receiver and if not 3. parameter specified, take LED_BUILTIN pin from the internal boards definition as default feedback LED
         IrReceiver.begin(IR_Pin, ENABLE_LED_FEEDBACK);
         timerButton = PSHOME;
-        lcd.clear();
-        lcd.setCursor(0,top);
-        lcd.print("InfraRed remote");
+        #if USE_ADAFRUIT
+            display.clearDisplay();
+        #endif
+        
+        display.print("InfraRed remote");
 	#endif
-
-    #if USE_MOUTH_DISPLAY_ADAFRUIT
-        displaySetup();
-    #else
-        lcd.clear();
-        lcd.setCursor(0,top);
-        lcd.print("Not using the");
-        lcd.setCursor(0,bot);
-        lcd.print(" 128x64 display");
-    #endif
 
 	#if USE_PWM
 		pwm.begin();
@@ -1532,24 +1805,41 @@ void setup(){
         timerOne.set(timerOnePeriod, dotMatrixTimer);
         timerTwo.set(timerTwoPeriod, sensorTimer);
         timerThree.set(timerThreePeriod, resetTimers);
-        timerMouth.set(timerMouthPeriod, mouthTimer);
+        #if DISPLAY_DEMO
+            timerMouth.set(timerMouthPeriod, mouthTimer);
+        #endif
     #endif
-    lcd.clear();
-    defaultLCD();
+    #if USE_ADAFRUIT
+        display.clearDisplay();
+    #endif
 }
 
 /*********************************** Loop **********************************/
 // section Loop
 /***************************************************************************/
+unsigned long t = 0;
 
 void loop(){
+    #if USE_U8G2
+        #if DISPLAY_DEMO
+            display.firstPage();
+            do {
+                draw();
+            } while( display.nextPage() );
+
+            // increase the state
+            draw_state++;
+            if ( draw_state >= 14*8 )
+                draw_state = 0;
+        #endif
+    #endif
     #if READ_ESP32
         // Read messages from Arduino R4 ESP32
         if (SERIAL_AT.available()) {
-            lcd.print("ESP32 says: ");
+            display.print("ESP32 says: ");
             while (SERIAL_AT.available()) {
                 Serial.write(SERIAL_AT.read());
-                lcd.println(SERIAL_AT.read());
+                display.println(SERIAL_AT.read());
             }
         }
     #endif
@@ -1566,6 +1856,7 @@ void loop(){
             message[message_pos] = '\0'; // Add null character to string to end string
             // Use the message
             Serial.println(message);
+            display.println(message);
 
             //Or convert to integer and print
             int PS4input = atoi(message);
@@ -1594,7 +1885,9 @@ void loop(){
                     case xSHARE: posXY = 90; posZ = 45;  break;
                     case OPTION: posXY = 90; posZ = 15; break;
                     case L1:
-                        lcd.clear();
+                        #if USE_ADAFRUIT
+                            display.clearDisplay();
+                        #endif
                         timerTwoActive = !timerTwoActive;
                         timerTreeActive = false;
                         timerButton = L1;
@@ -1602,7 +1895,9 @@ void loop(){
                         break;
                     case TOUCHPD: dance(); break;
                     case R1:
-                        lcd.clear();
+                        #if USE_ADAFRUIT
+                            display.clearDisplay();
+                        #endif
                         timerTwoActive = !timerTwoActive;
                         timerTreeActive = false;
                         timerButton = R1;
@@ -1618,12 +1913,7 @@ void loop(){
 
                     MIC     3700
                     PS4_Battery        3900 + Battery
-                    PS4_L2             4000 + L2Value
-                    PS4_R2             5000 + R2Value
-                    LStickX        6 000 - 6 254
-                    LStickY        7 000 - 7 254
-                    RStickX        8 000 - 8 254
-                    RStickY        9 000 - 9 254
+
 
 
                     */
@@ -1635,7 +1925,7 @@ void loop(){
         }
     }
 
-    lcd.setCursor(0,bot);
+    
     // React on messages from ESP32-CAM AI-Thinker
     while(Serial1.available()) {
         int c = Serial1.read();
@@ -1685,7 +1975,9 @@ void loop(){
     timerOne.update();
     timerTwo.update();
     timerThree.update();
-    timerMouth.update();
+    #if DISPLAY_DEMO
+        timerMouth.update();
+    #endif
 #endif
 }
 
