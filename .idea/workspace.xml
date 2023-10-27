@@ -15,11 +15,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a7a6b36-a99e-4db6-8829-f78acb2fa3fc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src_esp32_ps4/main.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/keypad_4x4/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/keypad_4x4/.idea/14_Membrane_Switch_Module.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/keypad_4x4/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/keypad_4x4/Key.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/keypad_4x4/Key.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/keypad_4x4/Keypad.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/keypad_4x4/Keypad.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/keypad_4x4/Membrane_Switch_Module.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/follow_light.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/follow_light.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main_ra.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pesto_matrix.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pesto_matrix.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main_ra.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_ra.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_esp32_cam/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src_esp32_cam/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src_esp32_ps4/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src_esp32_ps4/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,12 +50,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "bg-omar"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;bg-omar&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -115,24 +127,24 @@
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/mr/Arduino-R4_UNO_Wall-Z&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mr/Arduino-R4_UNO_Wall-Z/.pio/libdeps/esp32_ps4&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.folding&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\.pio\libdeps\esp32_ps4" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\.pio\libdeps" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\.pio\build" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\src_esp32_cam" />
-      <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\include" />
@@ -144,6 +156,9 @@
       <method v="2">
         <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
+      <method v="2" />
     </configuration>
     <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
       <method v="2" />
@@ -180,7 +195,17 @@
       <workItem from="1696529064708" duration="787000" />
       <workItem from="1696534617818" duration="1581000" />
       <workItem from="1696875669856" duration="5368000" />
-      <workItem from="1696888665045" duration="13198000" />
+      <workItem from="1696888665045" duration="13443000" />
+      <workItem from="1697028210562" duration="1234000" />
+      <workItem from="1697132880785" duration="692000" />
+      <workItem from="1697179078346" duration="789000" />
+      <workItem from="1697198880654" duration="1534000" />
+      <workItem from="1697837866433" duration="1103000" />
+      <workItem from="1697839112434" duration="710000" />
+      <workItem from="1698169121555" duration="3562000" />
+      <workItem from="1698191626448" duration="377000" />
+      <workItem from="1698242702541" duration="3041000" />
+      <workItem from="1698413746281" duration="3990000" />
     </task>
     <task id="LOCAL-00001" summary="ps4?">
       <option name="closed" value="true" />
@@ -294,7 +319,15 @@
       <option name="project" value="LOCAL" />
       <updated>1696454690634</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="U8G2 &amp; Adafruit display.print">
+      <option name="closed" value="true" />
+      <created>1696902309877</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1696902309877</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -336,6 +369,7 @@
     <MESSAGE value="SICK ps4 working" />
     <MESSAGE value="Added Cam to project too" />
     <MESSAGE value="Added better joystick code" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added better joystick code" />
+    <MESSAGE value="U8G2 &amp; Adafruit display.print" />
+    <option name="LAST_COMMIT_MESSAGE" value="U8G2 &amp; Adafruit display.print" />
   </component>
 </project>

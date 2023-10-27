@@ -25,7 +25,7 @@ PS5 Controller: 88:03:4C:B5:00:66
 // section Variables & Defines
 /***************************************************************************************************************/
 
-#define EVENTS 1
+#define EVENTS 0
 #define BUTTONS 0
 #define JOYSTICKS 0
 #define SENSORS 0
@@ -205,18 +205,12 @@ void loop() {
         if (PS4.L2()) { Serial.println(4000 + PS4.L2Value());  }
         if (PS4.R2()) { Serial.println(5000 + PS4.R2Value());  }
 
-        if (PS4.LStickX() <= -15 || PS4.LStickX() >= 15 ) {
-            Serial.println(6127 + PS4.LStickX());  // 6 000 - 6 254
-        }
-        if (PS4.LStickY() <= -15 || PS4.LStickY() >= 15 ) {
-            Serial.println(7127 + PS4.LStickY());  // 7 000 - 7 254
-        }
-        if (PS4.RStickX() <= -15 || PS4.RStickX() >= 15 ) {
-            Serial.println(8127 + PS4.RStickX());  // 8 000 - 8 254
-        }
-        if (PS4.RStickY() <= -15 || PS4.RStickY() >= 15 ) {
-            Serial.println(9127 + PS4.RStickY());  // 9 000 - 9 254
-        }
-        delay(3);
+        if (PS4.LStickX() <= -15 || PS4.LStickX() >= 15 ) { Serial.println(6127 + PS4.LStickX()); } // 6 000 - 6 254
+        if (PS4.LStickY() <= -15 || PS4.LStickY() >= 15 ) { Serial.println(7127 + PS4.LStickY()); } // 7 000 - 7 254
+
+        if (PS4.RStickX() <= -15 || PS4.RStickX() >= 15 ) { Serial.println(8127 + PS4.RStickX()); } // 8 000 - 8 254
+        if (PS4.RStickY() <= -15 || PS4.RStickY() >= 15 ) { Serial.println(9127 + PS4.RStickY()); } // 9 000 - 9 254
+
+        delay(15);
     }
 }
