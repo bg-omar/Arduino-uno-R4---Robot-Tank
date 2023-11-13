@@ -52,15 +52,12 @@
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_HMC5883_U.h>
-#include <Adafruit_PWMServoDriver.h>
+
 #include <Adafruit_BME280.h>
 
 #include <U8g2lib.h>
 
-#if USE_TIMERS
-uint64_t timerButton;
-#include <TimerEvent.h>
-#endif
+
 
 #if USE_MATRIX
 #include "Arduino_LED_Matrix.h"
@@ -97,9 +94,7 @@ uint64_t timerButton;
     uint64_t ir_rec, previousIR; // set remote vars
 #endif
 
-#define MIN_PULSE_WIDTH       650
-#define MAX_PULSE_WIDTH       2350
-#define FREQUENCY             50
+
 #define SEALEVELPRESSURE_HPA (1013.25)
 
 
@@ -164,33 +159,18 @@ uint64_t timerButton;
 #endif
 
 
-#if USE_PWM
-#define PWM_0        0
-#define PWM_1        1
-#define PWM_2        2
-#define PWM_3        3
-#define PWM_4        4
-#define PWM_5        5
-#define PWM_6        6
-#define PWM_7        7
-#define PWM_8        8
-#define PWM_9        9
-#define PWM_10      10
-#define PWM_11      11
-#define PWM_12      12
-#define PWM_13      13
-#define PWM_14      14
-#define PWM_15      15
-#define PWM_16      16
-#endif
-
-
 
 #define THRESHOLD 5
 #define top  0 // lcd screen top line
 #define bot  1 // lcd screen bottom line
 
-
+#if USE_U8G2
+    #if SMALL
+         U8G2_SSD1306_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+    #else
+        U8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+    #endif
+#endif
 
 
 #endif //CONFIG_H

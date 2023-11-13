@@ -4,7 +4,7 @@
 
 #include <Arduino.h>
 #include "follow_light.h"
-#include "motor.h"
+
 
 /*************************************************** Light Follow **********************************************/
 // section Follow Light
@@ -12,7 +12,6 @@
 
 
 void Folloe_light::light_track() {
-    flag = 0;
     while (flag == 0) {
         lightSensorR = analogRead(light_R_Pin);
         lightSensorL = analogRead(light_L_Pin);
@@ -28,6 +27,6 @@ void Folloe_light::light_track() {
         else {
             Motor::Car_Stop();
         }
-        exitLoop();
+        PS4::exitLoop();
     }
 }

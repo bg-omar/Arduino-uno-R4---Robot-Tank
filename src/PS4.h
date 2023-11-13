@@ -2,9 +2,15 @@
 // Created by mr on 11/13/2023.
 //
 
-#ifndef ARDUINO_R4_UNO_WALL_Z_PS4_H
-#define ARDUINO_R4_UNO_WALL_Z_PS4_H
+#ifndef PS4_H
+#define PS4_H
 
+#include <U8g2lib.h>
+#include <cstdint>
+#include "Arduino.h"
+#include "motor.h"
+#include "pwm_board.h"
+#include "timers.h"
 
 #define DPAD_U  1100
 #define DPAD_R  1200
@@ -31,6 +37,7 @@
 #define MIC     3700
 
 const unsigned int MAX_MESSAGE_LENGTH = 30;
+static unsigned int message_pos = 0;
 
 int LStickX, LStickY, RStickX, RStickY, L2_TRIG, R2_TRIG;
 int flag = 0;
@@ -38,11 +45,19 @@ int flag = 0;
 int R_velocity = 0;
 int L_velocity = 0;
 
+int posXY = 90;  // set horizontal servo position
+int posZ = 45;   // set vertical servo position
+
+int16_t lastY = 0;
+
+
 class PS4 {
+public:
     static void exitLoop();
     static void joystick(int PS4input);
-
+    static void controller();
+    static int getInput();
 };
 
 
-#endif //ARDUINO_R4_UNO_WALL_Z_PS4_H
+#endif //PS4_H

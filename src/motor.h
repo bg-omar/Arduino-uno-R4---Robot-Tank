@@ -2,8 +2,8 @@
 // Created by mr on 11/13/2023.
 //
 
-#ifndef ARDUINO_R4_UNO_WALL_Z_MOTOR_H
-#define ARDUINO_R4_UNO_WALL_Z_MOTOR_H
+#ifndef MOTOR_H
+#define MOTOR_H
 
 #define L_PWM       3   // define PWM control pin of right motor
 #define R_PWM      11  // define PWM control pin of left motor
@@ -18,6 +18,6 @@ public:
     static void Car_right() ;
     static void Car_Stop() ;
     static void Car_Back();
-}
+};
 
-#endif //ARDUINO_R4_UNO_WALL_Z_MOTOR_H
+#endif //MOTOR_H

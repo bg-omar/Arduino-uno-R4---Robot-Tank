@@ -7,13 +7,6 @@
 
 #include "config.h"
 #include <stdint.h>
-    #if USE_U8G2
-        #if SMALL
-            U8G2_SSD1306_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
-        #else
-            U8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
-        #endif
-    #endif
 
     /************************************************ Display u8g2  *************************************************/
     // section Display u8g2

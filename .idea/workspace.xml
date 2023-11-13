@@ -15,27 +15,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a7a6b36-a99e-4db6-8829-f78acb2fa3fc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/PS4.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PS4.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/config.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/follow_light.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/follow_light.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main_ra.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/motor.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/motor.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pesto_matrix.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pesto_matrix.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/u8g2_display.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/u8g2_display.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pwm_board.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pwm_board.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/timers.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/timers.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/animation.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/animation.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PS4.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/PS4.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PS4.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/PS4.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/follow_light.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/follow_light.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/follow_light.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/follow_light.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main_ra.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_ra.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_r4/animation.h" beforeDir="false" afterPath="$PROJECT_DIR$/src_r4/animation.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_r4/follow_light.h" beforeDir="false" afterPath="$PROJECT_DIR$/src_r4/follow_light.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_r4/main_ra.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src_r4/main_ra.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_r4/main_ra.h" beforeDir="false" afterPath="$PROJECT_DIR$/src_r4/main_ra.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_r4/pesto_matrix.h" beforeDir="false" afterPath="$PROJECT_DIR$/src_r4/pesto_matrix.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main_ra.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_ra.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/motor.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/motor.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/u8g2_display.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/u8g2_display.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src_r4/animation.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src_r4/follow_light.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src_r4/follow_light.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src_r4/index.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src_r4/main_ra.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src_r4/main_ra.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src_r4/pesto_matrix.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src_r4/pesto_matrix.h" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,29 +138,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/mr/Arduino-R4_UNO_Wall-Z/src",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settings.ide.settings.notifications",
-    "structure.view.defaults.are.configured": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mr/Arduino-R4_UNO_Wall-Z/src&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.notifications&quot;,
+    &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\src" />
@@ -174,9 +175,9 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
     <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
@@ -234,7 +235,8 @@
       <workItem from="1699820032401" duration="754000" />
       <workItem from="1699877054516" duration="2180000" />
       <workItem from="1699879674292" duration="3801000" />
-      <workItem from="1699887828097" duration="7897000" />
+      <workItem from="1699887828097" duration="7936000" />
+      <workItem from="1699903282628" duration="4154000" />
     </task>
     <task id="LOCAL-00001" summary="ps4?">
       <option name="closed" value="true" />
@@ -372,7 +374,15 @@
       <option name="project" value="LOCAL" />
       <updated>1698418879937</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="functions 2 classes, broken">
+      <option name="closed" value="true" />
+      <created>1699899820521</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1699899820521</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -417,6 +427,7 @@
     <MESSAGE value="U8G2 &amp; Adafruit display.print" />
     <MESSAGE value="Broken cpp hpp" />
     <MESSAGE value="fix pluss extra cpp hpp idea" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix pluss extra cpp hpp idea" />
+    <MESSAGE value="functions 2 classes, broken" />
+    <option name="LAST_COMMIT_MESSAGE" value="functions 2 classes, broken" />
   </component>
 </project>

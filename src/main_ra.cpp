@@ -21,6 +21,9 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include "motor.h"
 
 #include "main_ra.h"
+#include "PS4.h"
+#include "pwm_board.h"
+#include "timers.h"
 
 /************************************************** the I2CScanner *********************************************/
 // section I2CScanner
@@ -634,68 +637,9 @@ void irRemote() {
 
 
 
-/***************************************************** Functions s**********************************************/
-// section Timer Functions
-/***************************************************************************************************************/
-
-#if USE_TIMERS
-	void dotMatrixTimer(){
-		#if USE_DOT
-            Pesto::pestoMatrix();
-		#endif
-	}
-
-	void sensorTimer(){
-		#if USE_COMPASS
-			if (timerTwoActive && timerButton == L1){
-				compass();
-			}
-		#endif
-
-		#if USE_GYRO
-			if (timerTwoActive && timerButton == R1){
-				gyroFunc();
-			}
-		#endif
-	}
-
-	void resetTimers(){
-		timerTwoActive = false;
-		timerTreeActive = false;
-		#if USE_ADAFRUIT
-            display.clearDisplay();
-        #endif
-	}
-
-    void mouthTimer(){
-        #if USE_ADAFRUIT
-            displayLoop();
-        #endif
-    }
-#endif
 
 
-/***************************************************** Servo PWM Angle s**********************************************/
-// section Servo PWM Angle
-/***************************************************************************************************************/
 
-int pulseWidth(int angle){  //  pwm.setPWM(PWM_0, 0, pulseWidth(0));
-    int pulse_wide, analog_value;
-    pulse_wide   = map(angle, 0, 180, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH);
-    analog_value = int(float(pulse_wide) / 1000000 * FREQUENCY * 4096);
-    return analog_value;
-}
-
-/***************************************************** Servo PWM Angle s**********************************************/
-// section RGBled
-/***************************************************************************************************************/
-#if USE_PWM
-	void RGBled(int r_val, int g_val, int b_val) {
-		pwm.setPWM(PWM_8, 0, (16*b_val<4080) ? 16*b_val : 4080);
-		pwm.setPWM(PWM_9, 0, (16*g_val<4080) ? 16*g_val : 4080);
-		pwm.setPWM(PWM_10, 0, (16*r_val<4080) ? 16*r_val : 4080);
-	}
-#endif
 
 void defaultLCD(){
     display.print("Hello Pesto!");
@@ -835,17 +779,17 @@ void setup(){
 	#if USE_PWM
 		pwm.begin();
 		pwm.setPWMFreq(FREQUENCY);  // Analog servos run at ~50 Hz updates
-		pwm.setPWM(PWM_0, 0, pulseWidth(posXY));
-		pwm.setPWM(PWM_1, 0, pulseWidth(posZ));
+		pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(posXY));
+		pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(posZ));
 		delay(500);
 	#endif
 
     #if USE_TIMERS
-        timerOne.set(timerOnePeriod, dotMatrixTimer);
-        timerTwo.set(timerTwoPeriod, sensorTimer);
-        timerThree.set(timerThreePeriod, resetTimers);
+        timerOne.set(timerOnePeriod, timers::dotMatrixTimer);
+        timerTwo.set(timerTwoPeriod, timers::sensorTimer);
+        timerThree.set(timerThreePeriod, timers::resetTimers);
         #if DISPLAY_DEMO
-            timerMouth.set(timerMouthPeriod, mouthTimer);
+            timerMouth.set(timerMouthPeriod, timers::mouthTimer);
         #endif
     #endif
     #if USE_ADAFRUIT
@@ -879,89 +823,7 @@ void loop(){
     #endif
 
     while (Serial1.available() > 0) {
-        static char message[MAX_MESSAGE_LENGTH]; // Create char for serial1 message
-        static unsigned int message_pos = 0;
-
-        char inByte = Serial1.read();
-        if (inByte != '\n' && (message_pos < MAX_MESSAGE_LENGTH - 1)) { // Add the incoming byte to our message
-            message[message_pos] = inByte;
-            message_pos++;
-        } else { // Full message received...
-            message[message_pos] = '\0'; // Add null character to string to end string
-            // Use the message
-            Serial.println(message);
-            display.println(message);
-
-            //Or convert to integer and print
-            int PS4input = atoi(message);
-            if (PS4input > 4000){PS4::joystick(PS4input);}
-            else{
-                switch (PS4input) {
-                    //**** Head movements    ****
-                    case DPAD_U: pwm.setPWM(PWM_1, 0, pulseWidth(posZ+=1));  break;
-                    case DPAD_R: pwm.setPWM(PWM_0, 0, pulseWidth(posXY-=1));  break;
-                    case DPAD_D: pwm.setPWM(PWM_1, 0, pulseWidth(posZ-=1));    break;
-                    case DPAD_L: pwm.setPWM(PWM_0, 0, pulseWidth(posXY+=1)); break;
-
-                    case SQUARE: Motor::Car_left();   break;
-                    case TRIANG: Motor::Car_front();  break;
-                    case xCROSS: Motor::Car_Back();   break;
-                    case CIRCLE: Motor::Car_right();  break;
-
-
-                    case 3101:
-                    case 3401:
-                    case 3201:
-                    case 3301:
-                        Motor::Car_Stop(); break;
-
-
-                    case xSHARE: posXY = 90; posZ = 45;  break;
-                    case OPTION: posXY = 90; posZ = 15; break;
-                    case L1:
-                        #if USE_ADAFRUIT
-                            display.clearDisplay();
-                        #endif
-                        timerTwoActive = !timerTwoActive;
-                        timerTreeActive = false;
-                        timerButton = L1;
-                        delay(100);
-                        break;
-                    case TOUCHPD:
-                        #if USE_ROBOT
-                            dance(); break;
-                        #endif
-                    case R1:
-                        #if USE_ADAFRUIT
-                            display.clearDisplay();
-                        #endif
-                        timerTwoActive = !timerTwoActive;
-                        timerTreeActive = false;
-                        timerButton = R1;
-                        delay(100);
-                        break;
-                    case L3:
-                        #if USE_ROBOT
-                            avoid(); break;
-                        #endif
-
-                    case R3:
-                        #if USE_ROBOT
-                            light_track(); break;
-                        #endif
-                    /*
-                    CHARGE  3500
-                    XAUDIO  3600
-                    MIC     3700
-                    PS4_Battery        3900 + Battery
-
-                    */
-                    default:
-                        break;
-                }
-            }
-            message_pos = 0; //Reset next message
-        }
+        PS4::controller();
     }
 
     
@@ -979,7 +841,7 @@ void loop(){
     distanceF = checkDistance();  /// assign the front distance detected by ultrasonic sensor to variable a
     if (distanceF < 35) {
         #if USE_PWM
-            RGBled(230, 0, 0);
+        pwm_board::RGBled(230, 0, 0);
         #endif
         #if USE_DOT
             Pesto::pestoMatrix();
@@ -992,16 +854,16 @@ void loop(){
 
         if (mic255 > baseSound) {
 	#if USE_PWM
-				RGBled(mic255, 0, mic255);
+            pwm_board::RGBled(mic255, 0, mic255);
 	#endif
 		} else {
 		#if USE_PWM
-			RGBled(0, mic255, 0);
+            pwm_board::RGBled(0, mic255, 0);
 		#endif
 		}
         //defaultLCD();
 		#if USE_PWM
-			RGBled(0, 0, lightSensor());
+        pwm_board::RGBled(0, 0, lightSensor());
 		#endif
 	}
 #if USE_GYRO
