@@ -2,8 +2,8 @@
 // Created by mr on 10/27/2023.
 //
 
-#ifndef ARDUINO_R4_UNO_WALL_Z_MAIN_RA_H
-    #define ARDUINO_R4_UNO_WALL_Z_MAIN_RA_H
+#ifndef MAIN_RA_H
+    #define MAIN_RA_H
 
 
     /***************************************************************************************************************/
@@ -421,4 +421,4 @@
     Adafruit_BME280 bme;
     #endif
 
-#endif //ARDUINO_R4_UNO_WALL_Z_MAIN_RA_H
+#endif //MAIN_RA_H

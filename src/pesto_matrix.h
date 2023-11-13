@@ -5,19 +5,30 @@
 #ifndef PESTO_MATRIX_H
 #define PESTO_MATRIX_H
 
-#include "main_ra.h"
+#define DotDataPIN   4  // Set data  pin to 4
+#define DotClockPIN  5  // Set clock pin to 5
+int screen = 0;
+    /********************************************** the function for dot matrix display ****************************/
+    // section Pesto Matrix
+    /***************************************************************************************************************/
+    class Pesto {
 
-void IIC_start();
-void IIC_send(unsigned char send_data);
-void IIC_end();
-void matrix_display(unsigned char matrix_value[]);
-void pestoMatrix();
+    public:
+        static void IIC_start();
 
-/********************************************** Make DotMatric Images*******************************************/
-// section DotMatrix Images
-/***************************************************************************************************************/
+        static void IIC_send(unsigned char send_data);
 
-// Array, used to store the data of the pattern
+        static void IIC_end();
+
+        static void matrix_display(unsigned char matrix_value[]);
+
+        static void pestoMatrix();
+    };
+    /********************************************** Make DotMatric Images*******************************************/
+    // section DotMatrix Images
+    /***************************************************************************************************************/
+
+    // Array, used to store the data of the pattern
 	unsigned char STOP01[] = {0x2E,0x2A,0x3A,0x00,0x02,0x3E,0x02,0x00,0x3E,0x22,0x3E,0x00,0x3E,0x0A,0x0E,0x00};
 	unsigned char hou[] =    {0x00,0x7f,0x08,0x08,0x7f,0x00,0x3c,0x42,0x42,0x3c,0x00,0x3e,0x40,0x40,0x3e,0x00};
 	unsigned char op[] =     {0x00,0x00,0x3c,0x42,0x42,0x3c,0x00,0x7e,0x12,0x12,0x0c,0x00,0x00,0x5e,0x00,0x00};
@@ -37,5 +48,6 @@ void pestoMatrix();
 
 	unsigned char clear[] =  {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 
+    byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000, 0b00000};
 
 #endif //PESTO_MATRIX_H

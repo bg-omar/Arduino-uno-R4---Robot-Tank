@@ -462,18 +462,18 @@ void joystick(int PS4input) {
     }
     //---------------------------------------------- RIGHT THUMBSTICK
     if (RStickY < 128) {
-        int yMapped = map(LStickY, 128, 0, 45, 0);
+        int yMapped = map(RStickY, 128, 0, 45, 0);
         pwm.setPWM(PWM_1, 0, pulseWidth(yMapped));
     }
     else if (RStickY > 128) {
-        int yMapped = map(LStickY, 128, 255, 45, 70);
+        int yMapped = map(RStickY, 128, 255, 45, 70);
         pwm.setPWM(PWM_1, 0, pulseWidth(yMapped));
     }
     if (RStickX < 128) {
-        int xMapped = map(LStickX, 128, 0, 90, 160);
+        int xMapped = map(RStickX, 128, 0, 90, 160);
         pwm.setPWM(PWM_0, 0, pulseWidth(xMapped));
     } else  if (RStickX > 128) {
-        int xMapped = map(LStickX, 128, 255, 90, 20);
+        int xMapped = map(RStickX, 128, 255, 90, 20);
         pwm.setPWM(PWM_0, 0, pulseWidth(xMapped));
     }
 
@@ -1273,16 +1273,20 @@ void loop(){
                         timerButton = R1;
                         delay(100);
                         break;
-                    case L3: avoid(); break;
-                    case R3: light_track(); break;
-                        /*
+                    case L3:
+                        #if USE_ROBOT
+                            avoid(); break;
+                        #endif
 
-
-                        CHARGE  3500
-                        XAUDIO  3600
-
-                        MIC     3700
-                        PS4_Battery        3900 + Battery
+                    case R3:
+                        #if USE_ROBOT
+                            light_track(); break;
+                        #endif
+                    /*
+                    CHARGE  3500
+                    XAUDIO  3600
+                    MIC     3700
+                    PS4_Battery        3900 + Battery
 
 
 
