@@ -29,12 +29,12 @@
 #define MIN_PULSE_WIDTH       650
 #define MAX_PULSE_WIDTH       2350
 
-uint8_t servonum = 0;
-Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
+
 
 class pwm_board {
 public:
-
+    uint8_t servonum = 0;
+    static Adafruit_PWMServoDriver pwm;
     static int pulseWidth(int angle);
     static void RGBled(int r_val, int g_val, int b_val);
 

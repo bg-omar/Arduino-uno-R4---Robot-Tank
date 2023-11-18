@@ -2,9 +2,15 @@
 // Created by mr on 11/13/2023.
 //
 
-#include "u8g2_display.h"
+#include "displayU8G2.h"
 
-void U8G2_display::u8g2_prepare() {
+#if SMALL
+U8G2_SSD1306_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+#else
+U8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+#endif
+uint8_t displayU8G2::draw_state = 0;
+void displayU8G2::u8g2_prepare() {
     display.setFont(u8g2_font_6x10_tf);
     display.setFontRefHeightExtendedText();
     display.setDrawColor(1);
@@ -12,14 +18,14 @@ void U8G2_display::u8g2_prepare() {
     display.setFontDirection(0);
 }
 
-void U8G2_display::u8g2_box_title(uint8_t a) {
+void displayU8G2::u8g2_box_title(uint8_t a) {
     display.drawStr( 10+a*2, 5, "U8g2");
     display.drawStr( 10, 20, "GraphicsTest");
 
     display.drawFrame(0,0,display.getDisplayWidth(),display.getDisplayHeight() );
 }
 
-void U8G2_display::u8g2_box_frame(uint8_t a) {
+void displayU8G2::u8g2_box_frame(uint8_t a) {
     display.drawStr( 0, 0, "drawBox");
     display.drawBox(5,10,20,10);
     display.drawBox(10+a,15,30,7);
@@ -28,7 +34,7 @@ void U8G2_display::u8g2_box_frame(uint8_t a) {
     display.drawFrame(10+a,15+30,30,7);
 }
 
-void U8G2_display::u8g2_disc_circle(uint8_t a) {
+void displayU8G2::u8g2_disc_circle(uint8_t a) {
     display.drawStr( 0, 0, "drawDisc");
     display.drawDisc(10,18,9);
     display.drawDisc(24+a,16,7);
@@ -37,12 +43,12 @@ void U8G2_display::u8g2_disc_circle(uint8_t a) {
     display.drawCircle(24+a,16+30,7);
 }
 
-void U8G2_display::u8g2_r_frame(uint8_t a) {
+void displayU8G2::u8g2_r_frame(uint8_t a) {
     display.drawStr( 0, 0, "drawRFrame/Box");
     display.drawRFrame(5, 10,40,30, a+1);
     display.drawRBox(50, 10,25,40, a+1);
 }
-void U8G2_display::u8g2_string(uint8_t a) {
+void displayU8G2::u8g2_string(uint8_t a) {
     display.setFontDirection(0);
     display.drawStr(30+a,31, " 0");
     display.setFontDirection(1);
@@ -53,7 +59,7 @@ void U8G2_display::u8g2_string(uint8_t a) {
     display.drawStr(30,31-a, " 270");
 }
 
-void U8G2_display::u8g2_line(uint8_t a) {
+void displayU8G2::u8g2_line(uint8_t a) {
     display.drawStr( 0, 0, "drawLine");
     display.drawLine(7+a, 10, 40, 55);
     display.drawLine(7+a*2, 10, 60, 55);
@@ -61,7 +67,7 @@ void U8G2_display::u8g2_line(uint8_t a) {
     display.drawLine(7+a*4, 10, 100, 55);
 }
 
-void U8G2_display::u8g2_triangle(uint8_t a) {
+void displayU8G2::u8g2_triangle(uint8_t a) {
     uint16_t offset = a;
     display.drawStr( 0, 0, "drawTriangle");
     display.drawTriangle(14,7, 45,30, 10,40);
@@ -70,7 +76,7 @@ void U8G2_display::u8g2_triangle(uint8_t a) {
     display.drawTriangle(10+offset,40+offset, 45+offset,30+offset, 86+offset,53+offset);
 }
 
-void U8G2_display::u8g2_ascii_1() {
+void displayU8G2::u8g2_ascii_1() {
     char s[2] = " ";
     uint8_t x, y;
     display.drawStr( 0, 0, "ASCII page 1");
@@ -82,7 +88,7 @@ void U8G2_display::u8g2_ascii_1() {
     }
 }
 
-void U8G2_display::u8g2_ascii_2() {
+void displayU8G2::u8g2_ascii_2() {
     char s[2] = " ";
     uint8_t x, y;
     display.drawStr( 0, 0, "ASCII page 2");
@@ -94,7 +100,7 @@ void U8G2_display::u8g2_ascii_2() {
     }
 }
 
-void U8G2_display::u8g2_extra_page(uint8_t a)
+void displayU8G2::u8g2_extra_page(uint8_t a)
 {
     display.drawStr( 0, 0, "Unicode");
     display.setFont(u8g2_font_unifont_t_symbols);
@@ -116,7 +122,7 @@ void U8G2_display::u8g2_extra_page(uint8_t a)
     }
 }
 
-void U8G2_display::u8g2_xor(uint8_t a) {
+void displayU8G2::u8g2_xor(uint8_t a) {
     uint8_t i;
     display.drawStr( 0, 0, "XOR");
     display.setFontMode(1);
@@ -136,7 +142,7 @@ void U8G2_display::u8g2_xor(uint8_t a) {
 
 
 
-void U8G2_display::u8g2_bitmap_overlay(uint8_t a) {
+void displayU8G2::u8g2_bitmap_overlay(uint8_t a) {
     uint8_t frame_size = 28;
 
     display.drawStr(0, 0, "Bitmap overlay");
@@ -155,7 +161,7 @@ void U8G2_display::u8g2_bitmap_overlay(uint8_t a) {
         display.drawXBMP(frame_size + 12, 17, cross_block_width, cross_block_height, cross_block_bits);
 }
 
-void U8G2_display::u8g2_bitmap_modes(uint8_t transparent) {
+void displayU8G2::u8g2_bitmap_modes(uint8_t transparent) {
     const uint8_t frame_size = 24;
 
     display.drawBox(0, frame_size * 0.5, frame_size * 5, frame_size);
@@ -179,23 +185,23 @@ void U8G2_display::u8g2_bitmap_modes(uint8_t transparent) {
 }
 
 
-void U8G2_display::draw() {
-    U8G2_display::u8g2_prepare();
+void displayU8G2::draw() {
+    displayU8G2::u8g2_prepare();
     switch(draw_state >> 3) {
-        case 0: U8G2_display::u8g2_box_title(draw_state&7); break;
-        case 1: U8G2_display::u8g2_box_frame(draw_state&7); break;
-        case 2: U8G2_display::u8g2_disc_circle(draw_state&7); break;
-        case 3: U8G2_display::u8g2_r_frame(draw_state&7); break;
-        case 4: U8G2_display::u8g2_string(draw_state&7); break;
-        case 5: U8G2_display::u8g2_line(draw_state&7); break;
-        case 6: U8G2_display::u8g2_triangle(draw_state&7); break;
-        case 7: U8G2_display::u8g2_ascii_1(); break;
-        case 8: U8G2_display::u8g2_ascii_2(); break;
-        case 9: U8G2_display::u8g2_extra_page(draw_state&7); break;
-        case 10: U8G2_display::u8g2_xor(draw_state&7); break;
-        case 11: U8G2_display::u8g2_bitmap_modes(0); break;
-        case 12: U8G2_display::u8g2_bitmap_modes(1); break;
-        case 13: U8G2_display::u8g2_bitmap_overlay(draw_state&7); break;
+        case 0: displayU8G2::u8g2_box_title(draw_state & 7); break;
+        case 1: displayU8G2::u8g2_box_frame(draw_state & 7); break;
+        case 2: displayU8G2::u8g2_disc_circle(draw_state & 7); break;
+        case 3: displayU8G2::u8g2_r_frame(draw_state & 7); break;
+        case 4: displayU8G2::u8g2_string(draw_state & 7); break;
+        case 5: displayU8G2::u8g2_line(draw_state & 7); break;
+        case 6: displayU8G2::u8g2_triangle(draw_state & 7); break;
+        case 7: displayU8G2::u8g2_ascii_1(); break;
+        case 8: displayU8G2::u8g2_ascii_2(); break;
+        case 9: displayU8G2::u8g2_extra_page(draw_state & 7); break;
+        case 10: displayU8G2::u8g2_xor(draw_state & 7); break;
+        case 11: displayU8G2::u8g2_bitmap_modes(0); break;
+        case 12: displayU8G2::u8g2_bitmap_modes(1); break;
+        case 13: displayU8G2::u8g2_bitmap_overlay(draw_state & 7); break;
     }
     // increase the state
     draw_state++;

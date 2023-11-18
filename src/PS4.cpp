@@ -4,20 +4,24 @@
 
 #include "PS4.h"
 
+int PS4::flag = 0;
+int PS4::posXY = 90;  // set horizontal servo position
+int PS4::posZ = 45;   // set vertical servo position
+unsigned int PS4::message_pos = 0;
 
-
-void PS4::exitLoop() {
+int PS4::exitLoop() {
     if (Serial1.available()) {
         static char message[MAX_MESSAGE_LENGTH]; // Create char for serial1 message
-        static unsigned int message_pos = 0;
         char inByte = Serial1.read();
-        if (inByte != '\n' && (message_pos < MAX_MESSAGE_LENGTH - 1)) { // Add the incoming byte to our message
-            message[message_pos] = inByte;
-            message_pos++;
+        if (inByte != '\n' && (PS4::message_pos < MAX_MESSAGE_LENGTH - 1)) { // Add the incoming byte to our message
+            message[PS4::message_pos] = inByte;
+            PS4::message_pos++;
         } else { // Full message received...
-            //message[message_pos] = '\0'; // Add null character to string to end string
+            //message[PS4::message_pos] = '\0'; // Add null character to string to end string
             int PS4input = atoi(message);
-            if (PS4input == PSHOME)flag = 1;
+            if (PS4input == PSHOME){
+                return 1;
+            }
         }
     }
     #if USE_IRREMOTE
@@ -29,10 +33,12 @@ void PS4::exitLoop() {
                 }
             }
     #endif
+    return 0;
 }
 
 
 void PS4::joystick(int PS4input) {
+    int LStickX, LStickY, RStickX, RStickY, L2_TRIG, R2_TRIG, R_velocity, L_velocity = 0;
     if (PS4input >= 4000 && PS4input <= 4255) { L2_TRIG = PS4input - 4000; }
     else if (PS4input >= 5000 && PS4input <= 5255) { R2_TRIG = PS4input - 5000; }
     else if (PS4input >= 6000 && PS4input <= 6255) { LStickX = PS4input - 6000; }
@@ -55,17 +61,17 @@ void PS4::joystick(int PS4input) {
     //---------------------------------------------- RIGHT THUMBSTICK
     if (RStickY < 128) {
         int yMapped = map(RStickY, 128, 0, 45, 0);
-        pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(yMapped));
+        pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(yMapped));
     } else if (RStickY > 128) {
         int yMapped = map(RStickY, 128, 255, 45, 70);
-        pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(yMapped));
+        pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(yMapped));
     }
     if (RStickX < 128) {
         int xMapped = map(RStickX, 128, 0, 90, 160);
-        pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(xMapped));
+        pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(xMapped));
     } else if (RStickX > 128) {
         int xMapped = map(RStickX, 128, 255, 90, 20);
-        pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(xMapped));
+        pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(xMapped));
     }
 
     //----------------------------------------------- LEFT THUMBSTICK
@@ -109,34 +115,32 @@ void PS4::joystick(int PS4input) {
 
 int PS4::getInput () {
     static char message[MAX_MESSAGE_LENGTH]; // Create char for serial1 message
-
-
     char inByte = Serial1.read();
-    if (inByte != '\n' && (message_pos < MAX_MESSAGE_LENGTH - 1)) { // Add the incoming byte to our message
-        message[message_pos] = inByte;
-        message_pos++;
+    if (inByte != '\n' && (PS4::message_pos < MAX_MESSAGE_LENGTH - 1)) { // Add the incoming byte to our message
+        message[PS4::message_pos] = inByte;
+        PS4::message_pos++;
     } else { // Full message received...
-        message[message_pos] = '\0'; // Add null character to string to end string
+        message[PS4::message_pos] = '\0'; // Add null character to string to end string
         // Use the message
         Serial.println(message);
         U8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
-        display.println(message);
+        displayU8G2::display.println(message);
 
         //Or convert to integer and print
        return atoi(message);
     }
 };
-
+uint64_t timers::timerButton = L1 || R1;
 void PS4::controller() {
         int PS4input = PS4::getInput();
         if (PS4input > 4000) { PS4::joystick(PS4input); }
         else {
             switch (PS4input) {
                 //**** Head movements    ****
-                case DPAD_U:pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(posZ += 1));break;
-                case DPAD_R:pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(posXY -= 1));break;
-                case DPAD_D:pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(posZ -= 1));break;
-                case DPAD_L:pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(posXY += 1));break;
+                case DPAD_U:pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(posZ += 1));break;
+                case DPAD_R:pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(posXY -= 1));break;
+                case DPAD_D:pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(posZ -= 1));break;
+                case DPAD_L:pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(posXY += 1));break;
 
                 case SQUARE:Motor::Car_left();break;
                 case TRIANG:Motor::Car_front();break;
@@ -158,9 +162,9 @@ void PS4::controller() {
                     #if USE_ADAFRUIT
                                         display.clearDisplay();
                     #endif
-                    timerTwoActive = !timerTwoActive;
-                    timerTreeActive = false;
-                    timerButton = L1;
+                    timers::timerTwoActive = !timers::timerTwoActive;
+                    timers::timerTreeActive = false;
+                    timers::timerButton = L1;
                     delay(100);
                     break;
                 case TOUCHPD:
@@ -171,9 +175,9 @@ void PS4::controller() {
                     #if USE_ADAFRUIT
                                         display.clearDisplay();
                     #endif
-                    timerTwoActive = !timerTwoActive;
-                    timerTreeActive = false;
-                    timerButton = R1;
+                    timers::timerTwoActive = !timers::timerTwoActive;
+                    timers::timerTreeActive = false;
+                    timers::timerButton = R1;
                     delay(100);
                     break;
                 case L3:
@@ -196,7 +200,7 @@ void PS4::controller() {
                     break;
             }
         }
-        message_pos = 0; //Reset next message
+        PS4::message_pos = 0; //Reset next message
  }
 
 

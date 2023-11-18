@@ -10,6 +10,7 @@
 // section Servo PWM Angle
 /***************************************************************************************************************/
 
+Adafruit_PWMServoDriver pwm_board::pwm = Adafruit_PWMServoDriver();
 
 int pwm_board::pulseWidth(int angle){  //  pwm.setPWM(PWM_0, 0, pulseWidth(0));
     int pulse_wide, analog_value;

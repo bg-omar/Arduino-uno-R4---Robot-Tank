@@ -15,7 +15,7 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include "index.h"
 #include "secrets.h"
 
-#include "u8g2_display.h"
+#include "displayU8G2.h"
 #include "pesto_matrix.h"
 #include "follow_light.h"
 #include "motor.h"
@@ -24,6 +24,12 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include "PS4.h"
 #include "pwm_board.h"
 #include "timers.h"
+#include "compass.h"
+#include "gyroscope.h"
+#include "IRremote.h.h"
+
+
+U8G2_SH1106_128X64_NONAME_1_HW_I2C displayU8G2::display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 
 /************************************************** the I2CScanner *********************************************/
 // section I2CScanner
@@ -33,7 +39,7 @@ PS5 Controller: 88:03:4C:B5:00:66
 		byte error, address;
 		int nDevices;
 
-		display.println("I2C Scanning...");
+        displayU8G2::display.println("I2C Scanning...");
         #if USE_ADAFRUIT
             display.display();
         #endif
@@ -45,11 +51,11 @@ PS5 Controller: 88:03:4C:B5:00:66
 			error = Wire.endTransmission();
 
 			if (error == 0) {
-				display.print(" 0x");
+				displayU8G2::display.print(" 0x");
 				if (address<16) {
-					display.print("0");
+					displayU8G2::display.print("0");
 				}
-				display.println(address,HEX);
+				displayU8G2::display.println(address, HEX);
                 #if USE_ADAFRUIT
                     display.display();
                 #endif
@@ -57,27 +63,27 @@ PS5 Controller: 88:03:4C:B5:00:66
 				delay(200);
 			}
 			else if (error==4) {
-				display.print("Unknow error at address 0x");
+				displayU8G2::display.print("Unknow error at address 0x");
 				if (address<16) {
 					
-					display.print("0");
+					displayU8G2::display.print("0");
 				}
-				display.println(address,HEX);
+				displayU8G2::display.println(address, HEX);
                 #if USE_ADAFRUIT
                     display.display();
                 #endif
             }
 		}
 		delay(20);
-		display.print(nDevices);
+		displayU8G2::display.print(nDevices);
 		delay(20);
-		display.println(" devices");
+		displayU8G2::display.println(" devices");
         #if USE_ADAFRUIT
             display.display();
         #endif
 		delay(100);
 		if (nDevices == 0) {
-			display.println("No I2C devices found");
+			displayU8G2::display.println("No I2C devices found");
             #if USE_ADAFRUIT
                 display.display();
             #endif
@@ -88,164 +94,13 @@ PS5 Controller: 88:03:4C:B5:00:66
 // section gyroRead
 /***************************************************************************************************************/
 #if USE_GYRO
-    void gyroRead(){
-        sensors_event_t a, gyro, temp;
-        mpu.getEvent(&a, &gyro, &temp);
 
-        temperature = temp.temperature;
-        ax = a.acceleration.x - baseAx;
-        ay = a.acceleration.y - baseAy;
-        az = a.acceleration.z - baseAz;
-        gx = gyro.gyro.x - baseGx;
-        gy = gyro.gyro.y - baseGy;
-        gz = gyro.gyro.z - baseGz;
-    }
-
-    void gyroFunc(){
-        gyroRead();
-        (ax > 0) ? display.print("+"), display.print(ax) : display.print(ax);
-        display.print(" ");
-        (ay > 0) ? display.print("+"), display.print(ay) : display.print(ay);
-        display.print(" ");
-        (az > 0) ? display.print("+"), display.print(az) : display.print(az);
-        display.print("   ");
-        
-        (gx > 0) ? display.print("+"), display.print(gx) : display.print(gx);
-        display.print(" ");
-        (gy > 0) ? display.print("+"), display.print(gy) : display.print(gy);
-        display.print(" ");
-        (gz > 0) ? display.print("+"), display.print(gz) : display.print(gz);
-        display.print("   ");
-    }
-
-    void gyroDetectMovement() {
-        #if USE_TIMERS
-            gyroRead();
-            if(( abs(ax) + abs(ay) + abs(az)) > THRESHOLD){
-                timerTwoActive = true;
-                timerTreeActive = true;
-                timerButton = R1;
-            }
-            if(( abs(gx) + abs(gy) + abs(gz)) > THRESHOLD){
-                timerTwoActive = true;
-                timerTreeActive = true;
-                timerButton = L1;
-            }
-
-        #endif
-    }
-    void gyroCalibrate_sensor() {
-        float totX = 0;
-        float totY = 0;
-        float totZ = 0;
-        float totgX = 0;
-        float totgY = 0;
-        float totgZ = 0;
-        sensors_event_t a, gyro, temp;
-        delay(10);
-        for (size_t i = 0; i < 10; i++) {
-            mpu.getEvent(&a, &gyro, &temp);
-            delay(10);
-            totX += a.acceleration.x;
-            delay(10);
-            totY += a.acceleration.y;
-            delay(10);
-            totZ += a.acceleration.z;
-            delay(10);
-            totgX += gyro.gyro.x;
-            delay(10);
-            totgY += gyro.gyro.y;
-            delay(10);
-            totgZ += gyro.gyro.z;
-            delay(10);
-        }
-        baseAx = totX / 10;
-        baseAy = totY / 10;
-        baseAz = totZ / 10;
-        baseGx = totgX / 10;
-        baseGy = totgY / 10;
-        baseGz = totgZ / 10;
-    }
-
-    void gyroSetup() {
-        // Try to initialize!
-        if (!mpu.begin()) {
-            
-            display.print("MPU6050 not found");
-            delay(500);
-
-        } else {
-            display.print("MPU6050 Found!    ");
-            delay(500);
-            mpu.setAccelerometerRange(MPU6050_RANGE_4_G);
-            mpu.setGyroRange(MPU6050_RANGE_500_DEG);
-            mpu.setFilterBandwidth(MPU6050_BAND_260_HZ); /// 5, 10, 21, 44, 94, 184, 260(off)
-            gyroCalibrate_sensor();
-            delay(500);
-        }
-    }
 #endif
 /*************************************************** the Compass ***********************************************/
 // section Compass
 /***************************************************************************************************************/
 #if USE_COMPASS
-    double readCompass(){
-        display.print("Compass ");
-        sensors_event_t event; /// Get a new sensor event */
-        mag.getEvent(&event);
 
-        double heading = atan2(event.magnetic.y, event.magnetic.x);
-        double declinationAngle = 0.035;
-        heading += declinationAngle;
-
-        if(heading < 0) {
-            heading += 2 * PI;
-        }
-        if(heading > 2*PI) {
-            heading -= 2 * PI;
-        }
-        double headingDegrees = (heading * 180/M_PI) - 90;
-        return (headingDegrees < 0) ? 360 + headingDegrees : headingDegrees;
-    }
-
-    void compass(){
-        double headingDegrees = readCompass();
-        display.print(headingDegrees);
-        if (headingDegrees >= 0 && headingDegrees < 45){
-            matrix_display(north);
-            display.print("North       ");
-        }
-        if (headingDegrees >= 45 && headingDegrees < 135){
-            matrix_display(east);
-            display.print("East        ");
-        }
-        if (headingDegrees >= 135 && headingDegrees < 225){
-            matrix_display(south);
-            display.print("South       ");
-        }
-        if (headingDegrees >= 225 && headingDegrees < 315){
-            matrix_display(west);
-            display.print("West        ");
-        }
-        if (headingDegrees >= 315 && headingDegrees < 360){
-            matrix_display(north);
-            display.print("North       ");
-        }
-    }
-
-    void compassSetup() {
-        /* Initialise the sensor */
-        if(!mag.begin()) {
-            
-            display.print("HMC5883 not found   ");
-            delay(500);
-
-        } else {
-            
-            display.print("HMC5883 Found!     ");
-            delay(500);
-        }
-    }
 #endif
 /********************************************** control ultrasonic sensor***************************************/
 // section BaroMeter
@@ -256,11 +111,11 @@ PS5 Controller: 88:03:4C:B5:00:66
         /* Initialise the sensor */
         if (!bme.begin(0x76)) {
             
-            display.print("BME280,not found!");
+            displayU8G2::display.print("BME280,not found!");
             delay(500);
         } else {
             
-            display.print("BME280 Found!     ");
+            displayU8G2::display.print("BME280 Found!     ");
             delay(500);
         }
     }
@@ -268,22 +123,22 @@ PS5 Controller: 88:03:4C:B5:00:66
     void baroMeter() {
         display.clearDisplay();
         
-        display.print("Temp= ");
-        display.print(bme.readTemperature());
-        display.print("*C ");
+        displayU8G2::display.print("Temp= ");
+        displayU8G2::display.print(bme.readTemperature());
+        displayU8G2::display.print("*C ");
 
-        display.print("P= ");
-        display.print(bme.readPressure() / 100.0F);
-        display.print("hPa");
+        displayU8G2::display.print("P= ");
+        displayU8G2::display.print(bme.readPressure() / 100.0F);
+        displayU8G2::display.print("hPa");
 
         
-        display.print("Alt= ");
-        display.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
-        display.print("m ");
+        displayU8G2::display.print("Alt= ");
+        displayU8G2::display.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
+        displayU8G2::display.print("m ");
 
-        display.print("H= ");
-        display.print(bme.readHumidity());
-        display.print("%");
+        displayU8G2::display.print("H= ");
+        displayU8G2::display.print(bme.readHumidity());
+        displayU8G2::display.print("%");
         delay(500);
     }
 #endif
@@ -309,29 +164,30 @@ double checkDistance() {
 /***************************************************************************************************************/
 #if USE_ROBOT
 	void dance() {
+        int flag = 0;
 		randomXY = random(1, 180);
 		randomZ = random(1, 160);
-		pwm.setPWM(PWM_0, 0, pulseWidth(randomXY));
+		pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(randomXY));
 		delay(500);
-		pwm.setPWM(PWM_1, 0, pulseWidth(randomZ));
+		pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(randomZ));
 		delay(500);
 
 		// One pixel, row by row
 		randomXY = random(1, 180);
 		randomZ = random(1, 160);
-		pwm.setPWM(PWM_0, 0, pulseWidth(randomXY));
+		pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(randomXY));
 		delay(500);
-		pwm.setPWM(PWM_1, 0, pulseWidth(randomZ));
+		pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(randomZ));
 		delay(500);
 
 
 		randomXY = random(1, 180);
 		randomZ = random(1, 160);
-		pwm.setPWM(PWM_0, 0, pulseWidth(randomXY));
+		pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(randomXY));
 		delay(500);
-		pwm.setPWM(PWM_1, 0, pulseWidth(randomZ));
+		pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(randomZ));
 		delay(500);
-        exitLoop();
+        flag = PS4::exitLoop();
 	}
 #endif
 /********************************************** Obstacle Avoidance Function*************************************/
@@ -339,107 +195,62 @@ double checkDistance() {
 /***************************************************************************************************************/
 #if USE_ROBOT
 	void avoid() {
-		flag = 0; ///the design that enter obstacle avoidance function
+        int flag = 0; ///the design that enter obstacle avoidance function
 		while (flag == 0) {
             random2 = random(1, 100);
             distanceF = checkDistance();
             if (distanceF < 25) {
                 analogWrite(LED_PIN, 255);
-                Car_Stop(); /// robot stops
-                pwm.setPWM(PWM_1, 0, pulseWidth(115));
+                Motor::Car_Stop(); /// robot stops
+                pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(115));
                 delay(10); ///delay in 200ms
-                pwm.setPWM(PWM_1, 0, pulseWidth(90));
+                pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(90));
                 delay(10); ///delay in 200ms
                 analogWrite(LED_PIN, 0);
-                pwm.setPWM(PWM_0, 0, pulseWidth(160)); /// look left
+                pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(160)); /// look left
                 for (int j = 1;
                      j <= 10; j = j + (1)) { ///  the data will be more accurate if sensor detect a few times.
                     distanceL = checkDistance();
                 }
                 delay(200);
-                pwm.setPWM(PWM_0, 0, pulseWidth(20)); /// look right
+                pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(20)); /// look right
                 for (int k = 1; k <= 10; k = k + (1)) {
                     distanceR = checkDistance();
                 }
                 if (distanceL < 50 || distanceR < 50) {
                     if (distanceL > distanceR) {
-                        pwm.setPWM(PWM_0, 0, pulseWidth(90));
-                        Car_left();
+                        pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(90));
+                        Motor::Car_left();
                         delay(500); ///turn left 500ms
-                        Car_front();
+                        Motor::Car_front();
                     } else {
-                        pwm.setPWM(PWM_0, 0, pulseWidth(90));
-                        Car_right();
+                        pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(90));
+                        Motor::Car_right();
                         delay(500);
-                        Car_front();
+                        Motor::Car_front();
                     }
                 } else {  /// not (distanceL < 50 || distanceR < 50)
                     if ((long) (random2) % (long) (2) == 0) ///when the random number is even
                     {
-                        pwm.setPWM(PWM_0, 0, pulseWidth(90));
-                        Car_left(); ///robot turns left
+                        pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(90));
+                        Motor::Car_left(); ///robot turns left
                         delay(500);
-                        Car_front(); ///go forward
+                        Motor::Car_front(); ///go forward
                     } else {
-                        pwm.setPWM(PWM_0, 0, pulseWidth(90));
-                        Car_right(); ///robot turns right
+                        pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(90));
+                        Motor::Car_right(); ///robot turns right
                         delay(500);
-                        Car_front(); ///go forward
+                        Motor::Car_front(); ///go forward
                     }
                 }
             } else /// if (distanceF < 25) { If the front distance is greater than or equal, robot car will go forward
             {
-                Car_front();
+                Motor::Car_front();
             }
-            exitLoop();
+            flag = PS4::exitLoop();
         }
 	}
 #endif
-/*************************************************** Light Follow **********************************************/
-// section Follow Light
-/***************************************************************************************************************/
-#if USE_ROBOT
-	void light_track() {
-		flag = 0;
-		while (flag == 0) {
-			lightSensorR = analogRead(light_R_Pin);
-			lightSensorL = analogRead(light_L_Pin);
-			if (lightSensorR > 650 && lightSensorL > 650) {
-				Car_front();
-			}
-			else if (lightSensorR > 650 && lightSensorL <= 650) {
-				Car_left();
-			}
-			else if (lightSensorR <= 650 && lightSensorL > 650) {
-				Car_right();
-			}
-			else {
-				Car_Stop();
-			}
-            exitLoop();
-		}
-	}
-#endif
-
-
-
-/********************************************** Light Sensors **************************************/
-// section Light Sensors
-/***************************************************************************************************************/
-
-double lightSensor(){
-    #if USE_JOYSTICK
-        calcValue = 0;
-    #else
-        lightSensorL = analogRead(light_R_Pin);
-        lightSensorR = analogRead(light_L_Pin);
-        outputValueR = map(lightSensorL, 0, 1023, 0, 255);
-        outputValueL = map(lightSensorR, 0, 1023, 0, 255);
-        calcValue = 255 - (outputValueR + outputValueL)*.5;
-    #endif
-        return (calcValue < 0) ? 0 : calcValue;
-}
-
 
 /************************************************ Display Adafruit  *************************************************/
 // section Display Adafruit
@@ -496,14 +307,14 @@ double lightSensor(){
         display.setTextSize(2);             // Normal 1:1 pixel scale
         display.setTextColor(PIXEL_WHITE);        // Draw white text
         display.setCursor(0,0);             // Start at top-left corner
-        display.println(F("Hellow, Pesto!"));
+        displayU8G2::display.println(F("Hellow, Pesto!"));
 
         display.setTextColor(PIXEL_BLACK, PIXEL_WHITE); // Draw 'inverse' text
-        display.println(1337);
+        displayU8G2::display.println(1337);
 
         display.setTextSize(2);             // Draw 2X-scale text
         display.setTextColor(PIXEL_WHITE);
-        display.print(F("0x")); display.println(0xDEADBEEF, HEX);
+        displayU8G2::display.print(F("0x")); displayU8G2::display.println(0xDEADBEEF, HEX);
 
         #if USE_ADAFRUIT
     display.display();
@@ -516,7 +327,7 @@ double lightSensor(){
         display.setTextSize(2); // Draw 2X-scale text
         display.setTextColor(PIXEL_WHITE);
         display.setCursor(10, 0);
-        display.println(F("PESTO?"));
+        displayU8G2::display.println(F("PESTO?"));
         #if USE_ADAFRUIT
     display.display();
 #endif      // Show initial text
@@ -556,83 +367,7 @@ void displayLoop(){
 /***************************************************************************/
 
 #if USE_IRREMOTE
-void irRemote() {
-        if (IrReceiver.decode()) {  // Grab an IR code   At 115200 baud, printing takes 200 ms for NEC protocol and 70 ms for NEC repeat
-            if (IrReceiver.decodedIRData.flags & IRDATA_FLAGS_WAS_OVERFLOW) {         // Check if the buffer overflowed
-                display.clearDisplay();
-                
-                display.print(F("Try to increase the \"RAW_BUFFER_LENGTH\" value of " STR(RAW_BUFFER_LENGTH) " in " __FILE__));
-                delay(100);
-            } else {
-                display.clearDisplay();
-                if (IrReceiver.decodedIRData.protocol == UNKNOWN) {
-                    ir_rec = previousIR;
-                    
-                    display.print(F("?"));
-                    delay(100);
-                } else {
-                    ir_rec = IrReceiver.decodedIRData.decodedRawData;
-                }
-                
-                display.print(ir_rec, HEX);
-            }
-            IrReceiver.resume();                            // Prepare for the next value
 
-            switch (ir_rec) {
-                /****** Head movements    ******/
-                case Rem_1:  pwm.setPWM(PWM_1, 0, pulseWidth(posZ+1));  break;
-                case Rem_2:  pwm.setPWM(PWM_0, 0, pulseWidth(posXY-1));  break;
-                case Rem_3:  pwm.setPWM(PWM_1, 0, pulseWidth(posZ-1));    break;
-                case Rem_4:  posXY = 90; posZ = 45;  break;
-
-                case Rem_5:  pwm.setPWM(PWM_0, 0, pulseWidth(posXY+1)); break;
-                case Rem_6:                     posXY = 90; posZ = 15; break;
-
-                    /****** Options & Sensors ******/
-                case Rem_7:
-                    display.clearDisplay();
-                    timerTwoActive = !timerTwoActive;
-                    timerTreeActive = false;
-                    timerButton = Rem_7;
-                    delay(100);
-                    break;
-                case Rem_8: dance(); break;
-                case Rem_9:
-                    display.clearDisplay();
-                    timerTwoActive = !timerTwoActive;
-                    timerTreeActive = false;
-                    timerButton = Rem_9;
-                    delay(100);
-                    break;
-                case Rem_x: avoid(); break;
-                case Rem_y: light_track(); break;
-
-                    /****** Engine - driving  ******/
-                case Rem_OK:
-                    Car_Stop(); break;
-                case Rem_U:
-                    Car_front(); break;
-                case Rem_D:
-                    Car_Back(); break;
-                case Rem_L:
-                    Car_left(); break;
-                case Rem_R:
-                    Car_right(); break;
-                default:
-                    break;
-            }
-            if (posXY != previousXY) {
-                pwm.setPWM(PWM_0, 0, pulseWidth(posXY));
-            }
-            if (posZ != previousZ) {
-                pwm.setPWM(PWM_1, 0, pulseWidth(posZ));
-            }
-            previousIR = ir_rec;
-            previousXY = posXY;
-            previousZ = posZ;
-            Serial1.write(" sending PESTO!!!");
-        }
-    }
 #endif
 
 
@@ -642,12 +377,15 @@ void irRemote() {
 
 
 void defaultLCD(){
-    display.print("Hello Pesto!");
+    displayU8G2::display.print("Hello Pesto!");
        //Set cursor to line 1
     #if USE_IRREMOTE
-        display.print(previousIR, HEX);
+        //displayU8G2::display.print(previousIR, HEX);
     #endif
 }
+
+int16_t lastY;
+
 
 void printLog(const char *text, int size = 1, int16_t x = 0, int16_t y = lastY){
 #if USE_ADAFRUIT
@@ -655,12 +393,13 @@ void printLog(const char *text, int size = 1, int16_t x = 0, int16_t y = lastY){
     display.setCursor(x,y);             // Start at top-left corner
     display.setTextSize(size);             // Normal 1:1 pixel scale
     display.setTextColor(PIXEL_WHITE);        // Draw white text
-    display.println(text);
+    displayU8G2::display.println(text);
     lastY = y + 8;
     #if USE_ADAFRUIT
     display.display();
 #endif
 #else
+    U8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
     display.drawStr(x, y, (const char *) text);
     display.drawFrame(0,0,display.getDisplayWidth(),display.getDisplayHeight() );
     lastY = y + 8;
@@ -670,6 +409,12 @@ void printLog(const char *text, int size = 1, int16_t x = 0, int16_t y = lastY){
 }
 
 
+unsigned char front[] =  {0x00,0x00,0x00,0x00,0x00,0x24,0x12,0x09,0x12,0x24,0x00,0x00,0x00,0x00,0x00,0x00};
+unsigned char back[] =   {0x00,0x00,0x00,0x00,0x00,0x24,0x48,0x90,0x48,0x24,0x00,0x00,0x00,0x00,0x00,0x00};
+unsigned char left[] =   {0x00,0x00,0x00,0x00,0x00,0x00,0x44,0x28,0x10,0x44,0x28,0x10,0x44,0x28,0x10,0x00};
+unsigned char right[] =  {0x00,0x10,0x28,0x44,0x10,0x28,0x44,0x10,0x28,0x44,0x00,0x00,0x00,0x00,0x00,0x00};
+
+unsigned char clear[] =  {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 
 
 /********************************************** Setup booting the arduino **************************************/
@@ -690,9 +435,9 @@ void setup(){
             display.clearDisplay();
         #endif
     #else
-        display.begin();
+        U8G2_display::display.begin();
         U8G2_display::u8g2_prepare();
-        display.firstPage();
+        U8G2_display::display.firstPage();
     #endif
 
     delay(1);
@@ -748,14 +493,14 @@ void setup(){
             display.clearDisplay();
         #endif
         
-        gyroSetup();
+        gyroscope::gyroSetup();
     #endif
 
     #if USE_COMPASS
         #if USE_ADAFRUIT
             display.clearDisplay();
         #endif
-        compassSetup();
+        compass::compassSetup();
     #endif
 
     #if USE_BAROMETER
@@ -767,30 +512,25 @@ void setup(){
 
     #if USE_IRREMOTE
         // Start the receiver and if not 3. parameter specified, take LED_BUILTIN pin from the internal boards definition as default feedback LED
-        IrReceiver.begin(IR_Pin, ENABLE_LED_FEEDBACK);
-        timerButton = PSHOME;
+        IRremote::IrReceiver.begin(IR_Pin, ENABLE_LED_FEEDBACK);
+        timers::timerButton = PSHOME;
         #if USE_ADAFRUIT
             display.clearDisplay();
         #endif
         
-        display.print("InfraRed remote");
+        displayU8G2::display.print("InfraRed remote");
 	#endif
 
 	#if USE_PWM
-		pwm.begin();
-		pwm.setPWMFreq(FREQUENCY);  // Analog servos run at ~50 Hz updates
-		pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(posXY));
-		pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(posZ));
+        pwm_board::pwm.begin();
+		pwm_board::pwm.setPWMFreq(FREQUENCY);  // Analog servos run at ~50 Hz updates
+		pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(90));
+		pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(45));
 		delay(500);
 	#endif
 
     #if USE_TIMERS
-        timerOne.set(timerOnePeriod, timers::dotMatrixTimer);
-        timerTwo.set(timerTwoPeriod, timers::sensorTimer);
-        timerThree.set(timerThreePeriod, timers::resetTimers);
-        #if DISPLAY_DEMO
-            timerMouth.set(timerMouthPeriod, timers::mouthTimer);
-        #endif
+        timers::initTimers();
     #endif
     #if USE_ADAFRUIT
         display.clearDisplay();
@@ -805,19 +545,19 @@ unsigned long t = 0;
 void loop(){
     #if USE_U8G2
         #if DISPLAY_DEMO
-            display.firstPage();
+            U8G2_display::display.firstPage();
             do {
                 U8G2_display::draw();
-            } while( display.nextPage() );
+            } while( U8G2_display::display.nextPage() );
         #endif
     #endif
     #if READ_ESP32
         // Read messages from Arduino R4 ESP32
         if (SERIAL_AT.available()) {
-            display.print("ESP32 says: ");
+            displayU8G2::display.print("ESP32 says: ");
             while (SERIAL_AT.available()) {
                 Serial.write(SERIAL_AT.read());
-                display.println(SERIAL_AT.read());
+                displayU8G2::display.println(SERIAL_AT.read());
             }
         }
     #endif
@@ -837,7 +577,7 @@ void loop(){
         irRemote();
 	#endif
 
-    //Car_Stop();
+    //Motor::Car_Stop();
     distanceF = checkDistance();  /// assign the front distance detected by ultrasonic sensor to variable a
     if (distanceF < 35) {
         #if USE_PWM
@@ -863,20 +603,15 @@ void loop(){
 		}
         //defaultLCD();
 		#if USE_PWM
-        pwm_board::RGBled(0, 0, lightSensor());
+        pwm_board::RGBled(0, 0, Follow_light::lightSensor());
 		#endif
 	}
 #if USE_GYRO
-    gyroDetectMovement();
+    gyroscope::gyroDetectMovement();
 #endif
 
 #if USE_TIMERS
-    timerOne.update();
-    timerTwo.update();
-    timerThree.update();
-    #if DISPLAY_DEMO
-        timerMouth.update();
-    #endif
+    timers::update();
 #endif
 }
 

@@ -15,10 +15,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a7a6b36-a99e-4db6-8829-f78acb2fa3fc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/pwm_board.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pwm_board.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/timers.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/timers.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/IRremote.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/IRremote.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/compass.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/compass.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/displayU8G2.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/gyroscope.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/gyroscope.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/PS4.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/PS4.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/PS4.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/PS4.h" afterDir="false" />
@@ -27,16 +30,14 @@
       <change beforePath="$PROJECT_DIR$/src/follow_light.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/follow_light.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main_ra.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_ra.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main_ra.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_ra.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/motor.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/motor.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/u8g2_display.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/u8g2_display.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_r4/animation.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_r4/follow_light.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_r4/follow_light.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_r4/index.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_r4/main_ra.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_r4/main_ra.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_r4/pesto_matrix.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_r4/pesto_matrix.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pesto_matrix.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/pesto_matrix.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pesto_matrix.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/pesto_matrix.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pwm_board.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/pwm_board.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pwm_board.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/pwm_board.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/timers.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/timers.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/timers.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/timers.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/u8g2_display.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayU8G2.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/u8g2_display.h" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,7 +157,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.notifications&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.github.bgomar.consolelogger.settings.ConsoleLoggerSettingsConfigurable&quot;,
     &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -175,9 +176,9 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
@@ -236,7 +237,15 @@
       <workItem from="1699877054516" duration="2180000" />
       <workItem from="1699879674292" duration="3801000" />
       <workItem from="1699887828097" duration="7936000" />
-      <workItem from="1699903282628" duration="4154000" />
+      <workItem from="1699903282628" duration="4512000" />
+      <workItem from="1699972948647" duration="2788000" />
+      <workItem from="1700000946333" duration="901000" />
+      <workItem from="1700060909718" duration="1815000" />
+      <workItem from="1700125733432" duration="2404000" />
+      <workItem from="1700163143298" duration="1673000" />
+      <workItem from="1700165739879" duration="8051000" />
+      <workItem from="1700174729208" duration="453000" />
+      <workItem from="1700207762971" duration="5637000" />
     </task>
     <task id="LOCAL-00001" summary="ps4?">
       <option name="closed" value="true" />
@@ -382,7 +391,23 @@
       <option name="project" value="LOCAL" />
       <updated>1699899820521</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="functions 2 classes, almost not broken">
+      <option name="closed" value="true" />
+      <created>1699907870103</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1699907870103</updated>
+    </task>
+    <task id="LOCAL-00020" summary="functions 2 classes, almost not broken">
+      <option name="closed" value="true" />
+      <created>1699908133409</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1699908133409</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -428,6 +453,18 @@
     <MESSAGE value="Broken cpp hpp" />
     <MESSAGE value="fix pluss extra cpp hpp idea" />
     <MESSAGE value="functions 2 classes, broken" />
-    <option name="LAST_COMMIT_MESSAGE" value="functions 2 classes, broken" />
+    <MESSAGE value="functions 2 classes, almost not broken" />
+    <option name="LAST_COMMIT_MESSAGE" value="functions 2 classes, almost not broken" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/follow_light.cpp</url>
+          <line>23</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -16,8 +16,6 @@ void loop();
     void I2CScanner();
 #endif
 
-void compass();
-
 double checkDistance();
 
 
@@ -25,23 +23,18 @@ double checkDistance();
 #if USE_ROBOT
 void dance();
 void avoid();
-void light_track();
 #endif
 
 
 
 
 #if USE_GYRO
-void gyroCalibrate_sensor();
-void gyroDetectMovement();
-void gyroFunc();
-float ax, ay, az, gx, gy, gz, baseAx, baseAy, baseAz, baseGx, baseGy, baseGz, temperature;
-Adafruit_MPU6050 mpu; // Set the gyroscope
+
+
 #endif
 
 #if USE_COMPASS
-void compass();
-Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(12345);
+
 #endif
 
 
@@ -152,11 +145,9 @@ long random2, randomXY, randomZ;
 double distanceF, distanceR, distanceL;
 
 
-
 long baseSound;
 int r,g,b;
-int  outputValueR, outputValueL;  // inverse input
-double calcValue;
+
 
 
 

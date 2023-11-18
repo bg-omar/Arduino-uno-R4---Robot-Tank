@@ -9,28 +9,28 @@
 // section define
 /***************************************************************************************************************/
 
-#define USE_JOYSTICK 0
-#define USE_ADAFRUIT 0
-#define USE_U8G2 1
-#define SMALL 0
+#define USE_JOYSTICK 1
+#define USE_ADAFRUIT 1
+#define USE_U8G2 0
+#define SMALL 1
 #define DISPLAY_DEMO 1
 
-#define USE_GYRO 0
-#define USE_COMPASS 0
-#define USE_BAROMETER 0
+#define USE_GYRO 1
+#define USE_COMPASS 1
+#define USE_BAROMETER 1
 
-#define USE_IRREMOTE 0
+#define USE_IRREMOTE 1
 #define USE_I2C_SCANNER 1
 #define USE_PWM 1
 #define USE_DOT 1
 
-#define USE_ROBOT 0
+#define USE_ROBOT 1
 #define USE_TIMERS 1
-#define USE_TEXTFINDER 0
+#define USE_TEXTFINDER 1
 
-#define USE_MATRIX 0
-#define READ_ESP32 0
-#define USE_LCD 0
+#define USE_MATRIX 1
+#define READ_ESP32 1
+#define USE_LCD 1
 #define ARDUINO_ARCH_RENESAS_UNO
 
 
@@ -49,10 +49,7 @@
 #include <cstdint>
 #include <cmath>
 
-#include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
-#include <Adafruit_HMC5883_U.h>
-
 #include <Adafruit_BME280.h>
 
 #include <U8g2lib.h>
@@ -86,13 +83,7 @@
     #define LOGO_WIDTH    16
 #endif
 
-#if USE_IRREMOTE
-#define IR_SEND_PIN        9
-    #define RAW_BUFFER_LENGTH  750
-    #define DECODE_NEC
-    #include <IRremote.hpp>
-    uint64_t ir_rec, previousIR; // set remote vars
-#endif
+
 
 
 #define SEALEVELPRESSURE_HPA (1013.25)
@@ -114,26 +105,6 @@
 
 
 #define Rem_OK  0xBF407F
-#define Rem_U   0xB946FF
-#define Rem_D   0xEA15FF
-#define Rem_L   0xBB44FF
-#define Rem_R   0xBC43FF
-
-#define Rem_1   0xE916FF
-#define Rem_2   0xE619FE
-#define Rem_3   0xF20DFE
-#define Rem_4   0xF30CFF
-#define Rem_5   0xE718FF
-#define Rem_6   0xA15EFD
-#define Rem_7   0xF708FF
-#define Rem_8   0xE31CFF
-#define Rem_9   0xA55AFF
-#define Rem_0   0xAD52FF
-#define Rem_x   0xBD42FF
-#define Rem_y   0xB54ADF
-#define IRepeat 0xFFFFFF
-
-
 
 
 #define RX_PIN       0
@@ -164,13 +135,7 @@
 #define top  0 // lcd screen top line
 #define bot  1 // lcd screen bottom line
 
-#if USE_U8G2
-    #if SMALL
-         U8G2_SSD1306_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
-    #else
-        U8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
-    #endif
-#endif
+
 
 
 #endif //CONFIG_H

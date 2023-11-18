@@ -11,49 +11,45 @@
 #include "motor.h"
 #include "pwm_board.h"
 #include "timers.h"
-
-#define DPAD_U  1100
-#define DPAD_R  1200
-#define DPAD_D  1300
-#define DPAD_L  1400
-#define SQUARE  3100
-#define xCROSS  3200
-#define CIRCLE  3300
-#define TRIANG  3400
-#define OPTION  2900
-#define xSHARE  2800
-#define PSHOME  2500
-#define CHARGE  3500
-#define XAUDIO  3600
-#define URIGHT  1500
-#define DRIGHT  1600
-#define D_LEFT  1700
-#define UPLEFT  1800
-#define L1      2100
-#define L3      2300
-#define R1      2200
-#define R3      2400
-#define TOUCHPD 2700
-#define MIC     3700
-
-const unsigned int MAX_MESSAGE_LENGTH = 30;
-static unsigned int message_pos = 0;
-
-int LStickX, LStickY, RStickX, RStickY, L2_TRIG, R2_TRIG;
-int flag = 0;
-
-int R_velocity = 0;
-int L_velocity = 0;
-
-int posXY = 90;  // set horizontal servo position
-int posZ = 45;   // set vertical servo position
-
-int16_t lastY = 0;
+#include "displayU8G2.h"
 
 
 class PS4 {
+private:
+    static const unsigned int MAX_MESSAGE_LENGTH = 30;
+    static unsigned int message_pos;
+    static int flag;
+
+    static int posXY;  // set horizontal servo position
+    static int posZ;   // set vertical servo position
+
+    int16_t lastY = 0;
+
 public:
-    static void exitLoop();
+    #define DPAD_U  1100
+    #define DPAD_R  1200
+    #define DPAD_D  1300
+    #define DPAD_L  1400
+    #define SQUARE  3100
+    #define xCROSS  3200
+    #define CIRCLE  3300
+    #define TRIANG  3400
+    #define OPTION  2900
+    #define xSHARE  2800
+    #define PSHOME  2500
+    #define CHARGE  3500
+    #define XAUDIO  3600
+    #define URIGHT  1500
+    #define DRIGHT  1600
+    #define D_LEFT  1700
+    #define UPLEFT  1800
+    #define L1      2100
+    #define L3      2300
+    #define R1      2200
+    #define R3      2400
+    #define TOUCHPD 2700
+    #define MIC     3700
+    static int exitLoop();
     static void joystick(int PS4input);
     static void controller();
     static int getInput();
