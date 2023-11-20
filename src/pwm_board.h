@@ -34,6 +34,7 @@
 class pwm_board {
 public:
     uint8_t servonum = 0;
+    static void setupPWM();
     static Adafruit_PWMServoDriver pwm;
     static int pulseWidth(int angle);
     static void RGBled(int r_val, int g_val, int b_val);

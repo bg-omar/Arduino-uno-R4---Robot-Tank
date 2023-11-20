@@ -2,12 +2,27 @@
 // Created by mr on 11/17/2023.
 //
 
-#include "gyroscope.h"
 #include "displayU8G2.h"
 #include "timers.h"
-#include "PS4.h"
+#include "gyroscope.h"
+
 
 Adafruit_MPU6050 mpu; // Set the gyroscope
+
+float   gyroscope::ax,
+        gyroscope::ay,
+        gyroscope::az,
+        gyroscope::gx,
+        gyroscope::gy,
+        gyroscope::gz,
+        gyroscope::baseAx,
+        gyroscope::baseAy,
+        gyroscope::baseAz,
+        gyroscope::baseGx,
+        gyroscope::baseGy,
+        gyroscope::baseGz,
+        gyroscope::temperature = 0;
+
 void gyroscope::gyroRead(){
     sensors_event_t a, gyro, temp;
     mpu.getEvent(&a, &gyro, &temp);

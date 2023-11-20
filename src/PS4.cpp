@@ -4,10 +4,23 @@
 
 #include "PS4.h"
 
+#include "Arduino.h"
+#include <U8g2lib.h>
+#include "motor.h"
+#include "pwm_board.h"
+#include "timers.h"
+#include "displayU8G2.h"
+#include "IRreceiver.h"
+#include "dancing.h"
+#include "avoid_objects.h"
+#include "follow_light.h"
+
 int PS4::flag = 0;
 int PS4::posXY = 90;  // set horizontal servo position
 int PS4::posZ = 45;   // set vertical servo position
 unsigned int PS4::message_pos = 0;
+int timers::timerButton;
+
 
 int PS4::exitLoop() {
     if (Serial1.available()) {
@@ -26,7 +39,7 @@ int PS4::exitLoop() {
     }
     #if USE_IRREMOTE
         if (IrReceiver.decode()) {
-                ir_rec = IrReceiver.decodedIRData.decodedRawData;
+                IRRawDataType ir_rec = IrReceiver.decodedIRData.decodedRawData;
                 IrReceiver.resume();
                 if (ir_rec == Rem_OK) {
                     flag = 1;
@@ -130,7 +143,7 @@ int PS4::getInput () {
        return atoi(message);
     }
 };
-uint64_t timers::timerButton = L1 || R1;
+
 void PS4::controller() {
         int PS4input = PS4::getInput();
         if (PS4input > 4000) { PS4::joystick(PS4input); }
@@ -160,7 +173,7 @@ void PS4::controller() {
                 case OPTION:posXY = 90;posZ = 15;break;
                 case L1:
                     #if USE_ADAFRUIT
-                                        display.clearDisplay();
+                        displayU8G2::display.clearDisplay();
                     #endif
                     timers::timerTwoActive = !timers::timerTwoActive;
                     timers::timerTreeActive = false;
@@ -169,11 +182,11 @@ void PS4::controller() {
                     break;
                 case TOUCHPD:
                     #if USE_ROBOT
-                                        dance(); break;
+                        dancing::dance(); break;
                     #endif
                 case R1:
                     #if USE_ADAFRUIT
-                                        display.clearDisplay();
+                        displayU8G2::display.clearDisplay();
                     #endif
                     timers::timerTwoActive = !timers::timerTwoActive;
                     timers::timerTreeActive = false;
@@ -182,12 +195,12 @@ void PS4::controller() {
                     break;
                 case L3:
                     #if USE_ROBOT
-                                        avoid(); break;
+                        avoid_objects::avoid(); break;
                     #endif
 
                 case R3:
                     #if USE_ROBOT
-                                        light_track(); break;
+                        Follow_light::light_track(); break;
                     #endif
                     /*
                     CHARGE  3500

@@ -2,7 +2,7 @@
 // Created by mr on 11/13/2023.
 //
 
-#include "Arduino.h"
+#include <Arduino.h>
 #include "pwm_board.h"
 
 
@@ -11,6 +11,14 @@
 /***************************************************************************************************************/
 
 Adafruit_PWMServoDriver pwm_board::pwm = Adafruit_PWMServoDriver();
+
+void pwm_board::setupPWM(){
+    pwm_board::pwm.begin();
+    pwm_board::pwm.setPWMFreq(FREQUENCY);  // Analog servos run at ~50 Hz updates
+    pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(90));
+    pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(45));
+}
+
 
 int pwm_board::pulseWidth(int angle){  //  pwm.setPWM(PWM_0, 0, pulseWidth(0));
     int pulse_wide, analog_value;

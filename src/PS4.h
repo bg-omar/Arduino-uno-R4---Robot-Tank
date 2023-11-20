@@ -5,13 +5,8 @@
 #ifndef PS4_H
 #define PS4_H
 
-#include <U8g2lib.h>
 #include <cstdint>
-#include "Arduino.h"
-#include "motor.h"
-#include "pwm_board.h"
-#include "timers.h"
-#include "displayU8G2.h"
+
 
 
 class PS4 {
@@ -26,29 +21,29 @@ private:
     int16_t lastY = 0;
 
 public:
-    #define DPAD_U  1100
-    #define DPAD_R  1200
-    #define DPAD_D  1300
-    #define DPAD_L  1400
-    #define SQUARE  3100
-    #define xCROSS  3200
-    #define CIRCLE  3300
-    #define TRIANG  3400
-    #define OPTION  2900
-    #define xSHARE  2800
-    #define PSHOME  2500
-    #define CHARGE  3500
-    #define XAUDIO  3600
-    #define URIGHT  1500
-    #define DRIGHT  1600
-    #define D_LEFT  1700
-    #define UPLEFT  1800
-    #define L1      2100
-    #define L3      2300
-    #define R1      2200
-    #define R3      2400
-    #define TOUCHPD 2700
-    #define MIC     3700
+    #define DPAD_U   1100
+    #define DPAD_R   1200
+    #define DPAD_D   1300
+    #define DPAD_L   1400
+    #define SQUARE   3100
+    #define xCROSS   3200
+    #define CIRCLE   3300
+    #define TRIANG   3400
+    #define OPTION   2900
+    #define xSHARE   2800
+    #define PSHOME   2500
+    #define L1       2100
+    #define L3       2300
+    #define R1       2200
+    #define R3       2400
+    #define TOUCHPD  2700
+    #define MIC      3700
+    #define CHARGING 3500
+    #define XAUDIO   3600
+    #define URIGHT   1500
+    #define DRIGHT   1600
+    #define D_LEFT   1700
+    #define UPLEFT   1800
     static int exitLoop();
     static void joystick(int PS4input);
     static void controller();

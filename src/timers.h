@@ -5,12 +5,8 @@
 #ifndef TIMERS_H
 #define TIMERS_H
 
-
 #include "Arduino.h"
-#include <TimerEvent.h>
-
-
-
+#include "TimerEvent.h"
 
 class timers {
 private:
@@ -19,11 +15,15 @@ private:
     static const int timerThreePeriod = 7000;
     static const int timerMouthPeriod = 1250;
     unsigned long last_event = 0;
+    static TimerEvent timerOne;
+    static TimerEvent timerTwo;
+    static TimerEvent timerThree;
+    static TimerEvent timerMouth;
 
 public:
     static bool timerTwoActive;
     static bool timerTreeActive;
-    static uint64_t timerButton;
+    static int timerButton;
     static void dotMatrixTimer();
     static void sensorTimer();
     static void resetTimers();
@@ -31,8 +31,6 @@ public:
     static void initTimers();
 
     static void update();
-
-
 };
 
 

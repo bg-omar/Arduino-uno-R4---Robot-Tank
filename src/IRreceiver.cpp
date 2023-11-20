@@ -2,11 +2,32 @@
 // Created by mr on 11/17/2023.
 //
 
-#include "IRremote.h"
+#include "IRreceiver.h"
 
-uint64_t ir_rec, previousIR = 0;
-int16_t lastY = 0;
-void IRremote::irRemote() {
+#include <IRremote.hpp>
+
+#include "PS4.h"
+#include "follow_light.h"
+#include "motor.h"
+#include "pwm_board.h"
+#include "timers.h"
+#include "dancing.h"
+#include "avoid_objects.h"
+#include "displayU8G2.h"
+
+void IRreceiver::setupIrRemote() {
+#if USE_IRREMOTE
+// Start the receiver and if not 3. parameter specified, take LED_BUILTIN pin from the internal boards definition as default feedback LED
+    IrReceiver.begin(IR_Pin, ENABLE_LED_FEEDBACK);
+    timers::timerButton = PSHOME;
+#if USE_ADAFRUIT
+    displayU8G2::display.clearDisplay();
+#endif
+
+    displayU8G2::display.print("InfraRed remote");
+#endif
+}
+void IRreceiver::irRemote() {
     if (IrReceiver.decode()) {  // Grab an IR code   At 115200 baud, printing takes 200 ms for NEC protocol and 70 ms for NEC repeat
         if (IrReceiver.decodedIRData.flags & IRDATA_FLAGS_WAS_OVERFLOW) {         // Check if the buffer overflowed
             displayU8G2::display.clearDisplay();
@@ -46,7 +67,7 @@ void IRremote::irRemote() {
                 timers::timerButton = Rem_7;
                 delay(100);
                 break;
-            case Rem_8: dance(); break;
+            case Rem_8: dancing::dance(); break;
             case Rem_9:
                 displayU8G2::display.clearDisplay();
                 timers::timerTwoActive = !timers::timerTwoActive;
@@ -54,7 +75,7 @@ void IRremote::irRemote() {
                 timers::timerButton = Rem_9;
                 delay(100);
                 break;
-            case Rem_x: avoid(); break;
+            case Rem_x: avoid_objects::avoid(); break;
             case Rem_y: Follow_light::light_track(); break;
 
                 /****** Engine - driving  ******/

@@ -2,24 +2,15 @@
 // Created by mr on 11/17/2023.
 //
 
-#ifndef ARDUINO_R4_UNO_WALL_Z_IRREMOTE_H
-#define ARDUINO_R4_UNO_WALL_Z_IRREMOTE_H
+#ifndef ARDUINO_R4_UNO_WALL_Z_IRRECEIVER_H
+#define ARDUINO_R4_UNO_WALL_Z_IRRECEIVER_H
 
 #define IR_SEND_PIN        9
 #define RAW_BUFFER_LENGTH  750
 #define DECODE_NEC
-#include <IRremote.hpp>
 #include <cstdint>
 
-#include "follow_light.h"
-#include "motor.h"
-#include "PS4.h"
-#include "pwm_board.h"
-#include "timers.h"
-#include "compass.h"
-
-
-class IRremote {
+class IRreceiver {
 private:
     #define Rem_OK  0xBF407F
     #define Rem_U   0xB946FF
@@ -46,12 +37,14 @@ private:
 
     static int posXY;  // set horizontal servo position
     static int posZ;   // set vertical servo position
-    static int16_t lastY;
+
 public:
+    static int previousXY, previousZ;
     static uint64_t ir_rec, previousIR; // set remote vars
 
     static void irRemote();
+    static void setupIrRemote();
 };
 
 
-#endif //ARDUINO_R4_UNO_WALL_Z_IRREMOTE_H
+#endif //ARDUINO_R4_UNO_WALL_Z_IRRECEIVER_H

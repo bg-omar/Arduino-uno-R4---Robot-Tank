@@ -6,6 +6,7 @@
 #define DISPLAYU8G2_H
 
 #include "config.h"
+#include <U8g2lib.h>
 #include <cstdint>
 
     /************************************************ Display u8g2  *************************************************/
@@ -65,4 +66,13 @@
 
         static U8G2_SH1106_128X64_NONAME_1_HW_I2C display;
     };
+#ifndef USE_ADAFRUIT
+#if SMALL
+U8G2_SSD1306_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+#else
+U8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+#endif
+uint8_t displayU8G2::draw_state = 0;
+#endif
+
 #endif //DISPLAYU8G2_H

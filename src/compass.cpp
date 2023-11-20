@@ -3,10 +3,11 @@
 //
 
 #include "compass.h"
+
 #include "pesto_matrix.h"
 #include "displayU8G2.h"
 
-Adafruit_HMC5883_Unified compass::mag = Adafruit_HMC5883_Unified(12345);
+Adafruit_HMC5883_Unified compass::mag;
 double compass::readCompass(){
     displayU8G2::display.print("Compass ");
     sensors_event_t event; /// Get a new sensor event */

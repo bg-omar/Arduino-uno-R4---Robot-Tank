@@ -7,6 +7,8 @@
 
 #include <Adafruit_HMC5883_U.h>
 
+
+
 class compass {
 private:
     static Adafruit_HMC5883_Unified mag;
@@ -15,6 +17,7 @@ public:
     static void showCompass();
     static void compassSetup() ;
 };
+
 
 
 #endif //ARDUINO_R4_UNO_WALL_Z_COMPASS_H

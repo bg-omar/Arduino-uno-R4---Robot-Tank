@@ -4,6 +4,12 @@
     <sourceRoots>
       <file path="$PROJECT_DIR$/src" />
     </sourceRoots>
+    <excludeRoots>
+      <file path="$PROJECT_DIR$/.pio" />
+      <file path="$PROJECT_DIR$/src_esp32" />
+      <file path="$PROJECT_DIR$/src_esp32_cam" />
+      <file path="$PROJECT_DIR$/src_esp32_ps4" />
+    </excludeRoots>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="PlatformIOSettings">

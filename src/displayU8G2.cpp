@@ -4,12 +4,6 @@
 
 #include "displayU8G2.h"
 
-#if SMALL
-U8G2_SSD1306_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
-#else
-U8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
-#endif
-uint8_t displayU8G2::draw_state = 0;
 void displayU8G2::u8g2_prepare() {
     display.setFont(u8g2_font_6x10_tf);
     display.setFontRefHeightExtendedText();

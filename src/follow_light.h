@@ -20,8 +20,4 @@ public:
 
 };
 
-
-
-
-
 #endif //FOLLOW_LIGHT_H

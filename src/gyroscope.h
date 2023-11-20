@@ -6,13 +6,15 @@
 #define ARDUINO_R4_UNO_WALL_Z_GYROSCOPE_H
 
 #include <Adafruit_MPU6050.h>
+
+#define THRESHOLD 5
+
 class gyroscope {
 private:
 
     sensors_event_t a, gyro, temp;
 public:
     static float ax, ay, az, gx, gy, gz, baseAx, baseAy, baseAz, baseGx, baseGy, baseGz, temperature;
-
     static void gyroRead();
     static void gyroFunc();
     static void gyroDetectMovement();

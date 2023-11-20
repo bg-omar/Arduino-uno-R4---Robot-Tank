@@ -4,29 +4,28 @@
 
 #include "timers.h"
 
-
 bool timers::timerTwoActive = false;
 bool timers::timerTreeActive = false;
-static TimerEvent timerOne;
-static TimerEvent timerTwo;
-static TimerEvent timerThree;
-static TimerEvent timerMouth;
+TimerEvent timers::timerOne;
+TimerEvent timers::timerTwo;
+TimerEvent timers::timerThree;
+
 /***************************************************** Functions s**********************************************/
 // section Timer Functions
 /***************************************************************************************************************/
 void timers::initTimers() {
-    timerOne.set(timers::timerOnePeriod, timers::dotMatrixTimer);
-    timerTwo.set(timers::timerTwoPeriod, timers::sensorTimer);
-    timerThree.set(timers::timerThreePeriod, timers::resetTimers);
+    timers::timerOne.set(timers::timerOnePeriod, timers::dotMatrixTimer);
+    timers::timerTwo.set(timers::timerTwoPeriod, timers::sensorTimer);
+    timers::timerThree.set(timers::timerThreePeriod, timers::resetTimers);
 #if DISPLAY_DEMO
     timers::timerMouth.set(timers::timerMouthPeriod, timers::mouthTimer);
 #endif
 }
 
 void timers::update(){
-    timerOne.update();
-    timerTwo.update();
-    timerThree.update();
+    timers::timerOne.update();
+    timers::timerTwo.update();
+    timers::timerThree.update();
 #if DISPLAY_DEMO
     timers::timerMouth.update();
 #endif
@@ -52,8 +51,8 @@ void timers::sensorTimer(){
 }
 
 void timers::resetTimers(){
-    timerTwoActive = false;
-    timerTreeActive = false;
+    timers::timerTwoActive = false;
+    timers::timerTreeActive = false;
     #if USE_ADAFRUIT
         display.clearDisplay();
     #endif
