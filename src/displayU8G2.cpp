@@ -4,6 +4,8 @@
 
 #include "displayU8G2.h"
 
+uint8_t displayU8G2::draw_state = 0;
+
 void displayU8G2::u8g2_prepare() {
     display.setFont(u8g2_font_6x10_tf);
     display.setFontRefHeightExtendedText();

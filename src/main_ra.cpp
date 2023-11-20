@@ -64,8 +64,8 @@ void printLog(const char *text, int size = 1, int16_t x = 0, int16_t y = lastY){
         #endif
     #else
         U8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
-        displayAdafruit::display.drawStr(x, y, (const char *) text);
-        displayAdafruit::display.drawFrame(0,0,display.getDisplayWidth(),display.getDisplayHeight() );
+        displayU8G2::display.drawStr(x, y, (const char *) text);
+        displayU8G2::display.drawFrame(0,0,display.getDisplayWidth(),display.getDisplayHeight() );
         lastY = y + 8;
     #endif
 }
@@ -85,9 +85,9 @@ void setup(){
     #if USE_ADAFRUIT
         displayAdafruit::setupAdafruit();
     #else
-        U8G2_display::display.begin();
-        U8G2_display::u8g2_prepare();
-        U8G2_display::display.firstPage();
+        displayU8G2::display.begin();
+        displayU8G2::u8g2_prepare();
+        displayU8G2::display.firstPage();
     #endif
 
     delay(1);
@@ -228,14 +228,8 @@ void loop(){
         timers::update();
     #endif
 
-    #if USE_U8G2
-        #if DISPLAY_DEMO
-                U8G2_display::display.firstPage();
-                do {
-                    U8G2_display::draw();
-                } while( U8G2_display::display.nextPage() );
-            #endif
-    #endif
+
+
     #if READ_ESP32
         // Read messages from Arduino R4 ESP32
             if (SERIAL_AT.available()) {

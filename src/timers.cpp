@@ -3,12 +3,20 @@
 //
 
 #include "timers.h"
+#include "config.h"
+#include "pesto_matrix.h"
+#include "compass.h"
+#include "gyroscope.h"
+#include "PS4.h"
+#include "displayU8G2.h"
+#include "displayAdafruit.h"
 
 bool timers::timerTwoActive = false;
 bool timers::timerTreeActive = false;
 TimerEvent timers::timerOne;
 TimerEvent timers::timerTwo;
 TimerEvent timers::timerThree;
+TimerEvent timers::timerMouth;
 
 /***************************************************** Functions s**********************************************/
 // section Timer Functions
@@ -17,35 +25,30 @@ void timers::initTimers() {
     timers::timerOne.set(timers::timerOnePeriod, timers::dotMatrixTimer);
     timers::timerTwo.set(timers::timerTwoPeriod, timers::sensorTimer);
     timers::timerThree.set(timers::timerThreePeriod, timers::resetTimers);
-#if DISPLAY_DEMO
     timers::timerMouth.set(timers::timerMouthPeriod, timers::mouthTimer);
-#endif
 }
 
 void timers::update(){
     timers::timerOne.update();
     timers::timerTwo.update();
     timers::timerThree.update();
-#if DISPLAY_DEMO
     timers::timerMouth.update();
-#endif
+
 }
 void timers::dotMatrixTimer(){
-    #if USE_DOT
         Pesto::pestoMatrix();
-    #endif
 }
 
 void timers::sensorTimer(){
     #if USE_COMPASS
         if (timerTwoActive && timerButton == L1){
-            compass();
+            compass::showCompass();
         }
     #endif
 
     #if USE_GYRO
         if (timerTwoActive && timerButton == R1){
-            gyroFunc();
+            gyroscope::gyroFunc();
         }
     #endif
 }
@@ -54,12 +57,21 @@ void timers::resetTimers(){
     timers::timerTwoActive = false;
     timers::timerTreeActive = false;
     #if USE_ADAFRUIT
-        display.clearDisplay();
+        displayAdafruit::display.clearDisplay();
     #endif
 }
 
 void timers::mouthTimer(){
     #if USE_ADAFRUIT
-        displayLoop();
+         displayAdafruit::displayLoop();
+    #elif USE_U8G2
+        #if DISPLAY_DEMO
+            displayU8G2::display.firstPage();
+            do {
+                displayU8G2::draw();
+            } while( displayU8G2::display.nextPage() );
+        #else
+            displayU8G2::draw();
+        #endif;
     #endif
 }
