@@ -14,10 +14,14 @@
     ArduinoLEDMatrix matrix;
 #endif
 
+class main {
+
+public:
+    static void log(const char *text);
+};
 
 #if USE_LCD
 LiquidCrystal_I2C lcd(0x27,16,2);
 #endif
-
 
 #endif //MAIN_RA_H

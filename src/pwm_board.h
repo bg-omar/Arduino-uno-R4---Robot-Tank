@@ -38,6 +38,16 @@ public:
     static Adafruit_PWMServoDriver pwm;
     static int pulseWidth(int angle);
     static void RGBled(int r_val, int g_val, int b_val);
+    static void RainbowColor();
+
+    static void leftLedStrip(int r_val, int g_val, int b_val);
+
+    static void rightLedStrip(int r_val, int g_val, int b_val);
+
+private:
+    static int r;
+    static int g;
+    static int b;
 
 };
 

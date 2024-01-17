@@ -24,10 +24,10 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include <Adafruit_Sensor.h>
 
 #include "index.h"
+#include "PS4.h"
 #include "secrets.h"
 #include "main_ra.h"
 #include "barometer.h"
-#include "PS4.h"
 #include "animation.h"
 #include "pwm_board.h"
 #include "timers.h"
@@ -43,36 +43,28 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include "avoid_objects.h"
 #include "I2Cscanner.h"
 
-
+#if USE_U8G2
 U8G2_SH1106_128X64_NONAME_1_HW_I2C displayU8G2::display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+#endif
 
 long baseSound;
 int r,g,b;
 
-int16_t lastY;
 
-void printLog(const char *text, int size = 1, int16_t x = 0, int16_t y = lastY){
-    #if USE_ADAFRUIT
-        displayAdafruit::display.setTextWrap(false);
-        displayAdafruit::display.setCursor(x,y);             // Start at top-left corner
-        displayAdafruit::display.setTextSize(size);             // Normal 1:1 pixel scale
-        displayAdafruit::display.setTextColor(PIXEL_WHITE);        // Draw white text
-        displayU8G2::display.println(text);
-        lastY = y + 8;
-        #if USE_ADAFRUIT
-            displayAdafruit::display.display();
-        #endif
-    #else
-        U8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
-        displayU8G2::display.drawStr(x, y, (const char *) text);
-        displayU8G2::display.drawFrame(0,0,display.getDisplayWidth(),display.getDisplayHeight() );
-        lastY = y + 8;
+static int flag = 0;
+
+static int posXY = 90;  // set horizontal servo position
+static int posZ = 45;   // set vertical servo position
+int timers::timerButton;
+
+
+
+void main::log(const char *text) {
+    #if USE_U8G2
+        displayU8G2::U8G2logger((const char *) text);
     #endif
+    Serial.println((const char *) text);
 }
-
-
-
-
 
 /********************************************** Setup booting the arduino **************************************/
 // section Setup
@@ -84,59 +76,65 @@ void setup(){
 
     #if USE_ADAFRUIT
         displayAdafruit::setupAdafruit();
-    #else
-        displayU8G2::display.begin();
-        displayU8G2::u8g2_prepare();
-        displayU8G2::display.firstPage();
     #endif
+    #if USE_U8G2
+        displayU8G2::U8G2setup();
+    #endif
+
+#if USE_I2C_SCANNER
+    I2Cscanner::scan();
+    delay(500);
+#endif
 
     delay(1);
     Serial.begin(115200); // Initialize the hardware serial port for debugging
-    printLog("Serial started");
+    main::log("Serial started");
     delay(1);
     Serial1.begin(115200);
-    printLog("Serial1 started");
+    main::log("Serial1 started");
     delay(1);
     SERIAL_AT.begin(115200);
-    printLog("Serial_AT started");
+    main::log("Serial_AT started");
     delay(1);
-
-    #if USE_MATRIX
-        matrix.loadSequence(animation);
-        matrix.begin();
-        //matrix.autoscroll(300);
-        matrix.play(true);
-    #endif
-        
-    pinMode(Trig_PIN, OUTPUT);    /***** 6 ******/
-    pinMode(Echo_PIN, INPUT);     /***** 7 ******/
 
     pinMode(R_ROT, OUTPUT);     /***** 13 ******/
     pinMode(R_PWM, OUTPUT);      /***** 11 ******/
     pinMode(L_ROT, OUTPUT);     /***** 12 ******/
     pinMode(L_PWM, OUTPUT);      /***** 3 ******/
     digitalWrite(R_ROT, HIGH);
-    digitalWrite(L_ROT, LOW);
+    digitalWrite(L_ROT, HIGH);
+    main::log("Motor initialized");
 
     pinMode(LED_PIN, OUTPUT);     /***** 2 ******/
-    pinMode(MIC_PIN, INPUT);
 
-    pinMode(DotClockPIN,OUTPUT);/***** 5 ******/
-    pinMode(DotDataPIN,OUTPUT); /***** 4 ******/
-	digitalWrite(DotClockPIN,LOW);
-	digitalWrite(DotDataPIN,LOW);
+    #if USE_MATRIX
+        matrix.loadSequence(animation);
+            matrix.begin();
+            //matrix.autoscroll(300);
+            matrix.play(true);
+    #endif
 
-    baseSound = map(analogRead(MIC_PIN), 0, 1023, 0, 255); /***** A3 ******/
+    #if USE_DISTANCE
+        pinMode(Trig_PIN, OUTPUT);    /***** 6 ******/
+        pinMode(Echo_PIN, INPUT);     /***** 7 ******/
+    main::log("Using Sonar");
+    #endif
 
-	#if USE_DOT
+    #if USE_DOT
+        pinMode(DotClockPIN,OUTPUT);/***** 5 ******/
+        pinMode(DotDataPIN,OUTPUT); /***** 4 ******/
+        digitalWrite(DotClockPIN,LOW);
+        digitalWrite(DotDataPIN,LOW);
         Pesto::matrix_display(clear);
         Pesto::pestoMatrix();
-	#endif
+    main::log("Using Dot Matrix");
+    #endif
 
-	#if USE_I2C_SCANNER
-		I2Cscanner::scan();
-		delay(500);
-	#endif
+    #if USE_MIC
+        pinMode(MIC_PIN, INPUT);
+        baseSound = map(analogRead(MIC_PIN), 0, 1023, 0, 255); /***** A3 ******/
+        printLog("Using Mic");
+    #endif
 
     #if USE_GYRO
         #if USE_ADAFRUIT
@@ -159,8 +157,12 @@ void setup(){
         #endif
         barometer::baroSetup();
     #endif
-        IRreceiver::setupIrRemote();
-	#if USE_PWM
+
+    #if USE_IRREMOTE
+            IRreceiver::setupIrRemote();
+    #endif
+
+	#if USE_PWM_BOARD
         pwm_board::setupPWM();
 		delay(500);
 	#endif
@@ -176,50 +178,55 @@ void setup(){
 /*********************************** Loop **********************************/
 // section Loop
 /***************************************************************************/
-unsigned long t = 0;
 
 void loop(){
-    while (Serial1.available() > 0) {
-        PS4::controller();
-    }
-
-    // React on messages from ESP32-CAM AI-Thinker
-    while(Serial1.available()) {
-        int c = Serial1.read();
-        Serial.write(c);
-    }
+    PS4::controller();
 
     #if USE_IRREMOTE
         IRreceiver::irRemote();
 	#endif
 
-    avoid_objects::distanceF = avoid_objects::checkDistance();  /// assign the front distance detected by ultrasonic sensor to variable a
-    if (avoid_objects::distanceF < 35) {
-        #if USE_PWM
-        pwm_board::RGBled(230, 0, 0);
-        #endif
-        #if USE_DOT
-            Pesto::pestoMatrix();
-        #endif
-        double deltime = avoid_objects::distanceF*3;
-        delay(deltime);
-    } else {
-        int micStatus = analogRead(MIC_PIN);
-        int mic255 = map(micStatus, 0, 1023, 0, 255);
+    #if USE_DISTANCE
+        avoid_objects::distanceF = avoid_objects::checkDistance();  /// assign the front distance detected by ultrasonic sensor to variable a
+        if (avoid_objects::distanceF < 35) {
+            #if USE_PWM_BOARD
+                pwm_board::RGBled(230, 0, 0);
+                pwm_board::leftLedStrip(255, 0, 0);
+                pwm_board::rightLedStrip(255, 0, 0);
+            #endif
+            main::log("      Pesto  ");
+            main::log("              Pesto");
+            #if USE_DOT
+                Pesto::pestoMatrix();
+            #endif
+            double deltime = avoid_objects::distanceF*3;
+            delay(deltime);
+        } else {
+    #endif
+            #if USE_MIC
+                    int micStatus = analogRead(MIC_PIN);
+                    int mic255 = map(micStatus, 0, 1023, 0, 255);
 
-        if (mic255 > baseSound) {
-            #if USE_PWM
-                    pwm_board::RGBled(mic255, 0, mic255);
+                    if (mic255 > baseSound) {
+                        #if USE_PWM
+                                pwm_board::RGBled(mic255, 0, mic255);
+                        #endif
+                    } else {
+                        #if USE_PWM
+                            pwm_board::RGBled(0, mic255, 0);
+                        #endif
+                    }
             #endif
-		} else {
-            #if USE_PWM
-                pwm_board::RGBled(0, mic255, 0);
+
+            #if USE_PWM_BOARD
+                pwm_board::RGBled(0, 0, Follow_light::lightSensor());
+                pwm_board::leftLedStrip(0, 255, 0);
+                pwm_board::rightLedStrip(0, 255, 0);
             #endif
-		}
-		#if USE_PWM
-            pwm_board::RGBled(0, 0, Follow_light::lightSensor());
-		#endif
-	}
+    #if USE_DISTANCE
+        }
+    #endif
+
     #if USE_GYRO
         gyroscope::gyroDetectMovement();
     #endif
@@ -227,8 +234,6 @@ void loop(){
     #if USE_TIMERS
         timers::update();
     #endif
-
-
 
     #if READ_ESP32
         // Read messages from Arduino R4 ESP32
@@ -241,5 +246,6 @@ void loop(){
             }
     #endif
 }
+
 
 

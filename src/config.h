@@ -9,24 +9,24 @@
 // section define
 /***************************************************************************************************************/
 
-#define USE_JOYSTICK 0
-#define USE_ADAFRUIT 1
-#define USE_U8G2 0
+#define USE_ADAFRUIT 0
+#define USE_U8G2 1
 #define SMALL 0
 #define DISPLAY_DEMO 0
 
-#define USE_GYRO 1
-#define USE_COMPASS 1
-#define USE_BAROMETER 1
+#define USE_GYRO 0
+#define USE_COMPASS 0
+#define USE_BAROMETER 0
 
 #define USE_IRREMOTE 0
 #define USE_I2C_SCANNER 1
-#define USE_PWM 1
+#define USE_PWM_BOARD 1
 #define USE_DOT 1
+#define USE_MIC 0
 
-#define USE_ROBOT 1
+#define USE_ROBOT 0
 #define USE_TIMERS 1
-#define USE_TEXTFINDER 0
+#define USE_DISTANCE 1
 
 #define USE_MATRIX 0
 #define READ_ESP32 0
@@ -55,18 +55,33 @@
 #define IR_Pin      A2
 #define MIC_PIN     A3
 
-#if USE_JOYSTICK
-    #define Joystick_X  A0
-    #define Joystick_Y  A1
-#endif
-
-
-
 
 #define top  0 // lcd screen top line
 #define bot  1 // lcd screen bottom line
 
-
+#define DPAD_U   1100
+#define DPAD_R   1200
+#define DPAD_D   1300
+#define DPAD_L   1400
+#define SQUARE   3100
+#define xCROSS   3200
+#define CIRCLE   3300
+#define TRIANG   3400
+#define OPTION   2900
+#define xSHARE   2800
+#define PSHOME   2500
+#define L1       2100
+#define L3       2300
+#define R1       2200
+#define R3       2400
+#define TOUCHPD  2700
+#define MIC      3700
+#define CHARGING 3500
+#define XAUDIO   3600
+#define URIGHT   1500
+#define DRIGHT   1600
+#define D_LEFT   1700
+#define UPLEFT   1800
 
 
 #endif //CONFIG_H

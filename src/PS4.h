@@ -12,7 +12,6 @@
 class PS4 {
 private:
     static const unsigned int MAX_MESSAGE_LENGTH = 30;
-    static unsigned int message_pos;
     static int flag;
 
     static int posXY;  // set horizontal servo position
@@ -47,7 +46,14 @@ public:
     static int exitLoop();
     static void joystick(int PS4input);
     static void controller();
-    static int getInput();
+
+    static int R_velocity;
+    static int L_velocity;
+
+    static void joysticks(int PS4input);
+
+    static int R_velocityR;
+    static int L_velocityL;
 };
 
 

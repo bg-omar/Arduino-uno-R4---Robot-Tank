@@ -17,6 +17,8 @@ public:
 
     static double distanceF;
     static double distanceR, distanceL;
+
+    static int exitLoop();
 };
 
 

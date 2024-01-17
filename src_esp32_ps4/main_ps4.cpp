@@ -26,7 +26,7 @@ PS5 Controller: 88:03:4C:B5:00:66
 /***************************************************************************************************************/
 
 #define EVENTS 0
-#define BUTTONS 0
+#define BUTTONS 1
 #define JOYSTICKS 0
 #define SENSORS 0
 
@@ -38,6 +38,26 @@ int lastBattery;
 // section Functions
 /***************************************************************************************************************/
 
+
+int r = 255;
+int g = 0;
+int b = 0;
+
+// Calculates the next value in a rainbow sequence
+void nextRainbowColor() {
+    if (r > 0 && b == 0) {
+        r--;
+        g++;
+    }
+    if (g > 0 && r == 0) {
+        g--;
+        b++;
+    }
+    if (b > 0 && g == 0) {
+        r++;
+        b--;
+    }
+}
 
 void onConnect() {
     lastBattery = PS4.Battery();
@@ -108,17 +128,6 @@ void notify() {
 
 #endif
 
-#if BUTTONS
-    boolean sq = PS4.Square(),
-              tr = PS4.Triangle();
-      if (sq)
-        Serial.print(" SQUARE pressed");
-      if (tr)
-        Serial.print(" TRIANGLE pressed");
-      if (sq | tr)
-        send();
-#endif
-
 #if JOYSTICKS
     Serial.printf("%4d, %4d, %4d, %4d, %4d, %4d \r\n",
                   (PS4.LStickX() <= -15 || PS4.LStickX() >= 15 ) ? 6127 + PS4.LStickX() : 6127,
@@ -170,47 +179,93 @@ void setup() {
 
 void loop() {
     if (PS4.isConnected()) {
-        if (PS4.Up())        send(1100);
-        if (PS4.Right())     send(1200);
-        if (PS4.Down())      send(1300);
-        if (PS4.Left())      send(1400);
 
-        if (PS4.UpRight())   send(1500);
-        if (PS4.DownRight()) send(1600);
-        if (PS4.DownLeft())  send(1700);
-        if (PS4.UpLeft())    send(1800);
+        #if BUTTONS
+            if (PS4.Up())        send(1100);
+            if (PS4.Right())     send(1200);
+            if (PS4.Down())      send(1300);
+            if (PS4.Left())      send(1400);
 
-        if (PS4.L1())        send(2100);
-        if (PS4.R1())        send(2200);
+            if (PS4.UpRight())   send(1500);
+            if (PS4.DownRight()) send(1600);
+            if (PS4.DownLeft())  send(1700);
+            if (PS4.UpLeft())    send(1800);
 
-        if (PS4.L3())        send(2300);
-        if (PS4.R3())        send(2400);
+            if (PS4.L1())        send(2100);
+            if (PS4.R1())        send(2200);
 
-        if (PS4.PSButton())  send(2500);
-        if (PS4.Touchpad())  send(2700);
+            if (PS4.L3())        send(2300);
+            if (PS4.R3())        send(2400);
 
-        if (PS4.Share())     send(2800);
-        if (PS4.Options())   send(2900);
+            if (PS4.PSButton())  send(2500);
+            if (PS4.Touchpad())  send(2700);
 
-        if (PS4.Square())    send(3100);
-        if (PS4.Cross())     send(3200);
-        if (PS4.Circle())    send(3300);
-        if (PS4.Triangle())  send(3400);
+            if (PS4.Share())     send(2800);
+            if (PS4.Options())   send(2900);
 
-        if (PS4.Charging())  send(3500);
-        if (PS4.Audio())     send(3600);
-        if (PS4.Mic())       send(3700);
-        if (PS4.Battery() < lastBattery) send(3900 + PS4.Battery());
+            if (PS4.Square())    send(3100);
+            if (PS4.Cross())     send(3200);
+            if (PS4.Circle())    send(3300);
+            if (PS4.Triangle())  send(3400);
+            if (PS4.L2()) { Serial.println(4000 + PS4.L2Value());  }
+            if (PS4.R2()) { Serial.println(5000 + PS4.R2Value());  }
+            if (PS4.LStickX() <= -15 || PS4.LStickX() >= 15 ) { Serial.println(6127 + PS4.LStickX()); } // 6 000 - 6 254
+            if (PS4.LStickY() <= -15 || PS4.LStickY() >= 15 ) { Serial.println(7127 + PS4.LStickY()); } // 7 000 - 7 254
 
-        if (PS4.L2()) { Serial.println(4000 + PS4.L2Value());  }
-        if (PS4.R2()) { Serial.println(5000 + PS4.R2Value());  }
+            if (PS4.RStickX() <= -15 || PS4.RStickX() >= 15 ) { Serial.println(8127 + PS4.RStickX()); } // 8 000 - 8 254
+            if (PS4.RStickY() <= -15 || PS4.RStickY() >= 15 ) { Serial.println(9127 + PS4.RStickY()); } // 9 000 - 9 254
 
-        if (PS4.LStickX() <= -15 || PS4.LStickX() >= 15 ) { Serial.println(6127 + PS4.LStickX()); } // 6 000 - 6 254
-        if (PS4.LStickY() <= -15 || PS4.LStickY() >= 15 ) { Serial.println(7127 + PS4.LStickY()); } // 7 000 - 7 254
+        #endif
 
-        if (PS4.RStickX() <= -15 || PS4.RStickX() >= 15 ) { Serial.println(8127 + PS4.RStickX()); } // 8 000 - 8 254
-        if (PS4.RStickY() <= -15 || PS4.RStickY() >= 15 ) { Serial.println(9127 + PS4.RStickY()); } // 9 000 - 9 254
+/*        if (PS4.LStickY() <= -15 || PS4.LStickY() >= 15 || PS4.LStickX() <= -15 || PS4.LStickX() >= 15 ) {
+            Serial.printf("%4d %4d \r\n",
+                          (PS4.LStickX() <= -15 || PS4.LStickX() >= 15) ? 6127 + PS4.LStickX() : 6127,
+                          (PS4.LStickY() <= -15 || PS4.LStickY() >= 15) ? 7127 + PS4.LStickY() : 7127
+            );
+        }
 
-        delay(15);
+        if (PS4.RStickX() <= -15 || PS4.RStickX() >= 15 || PS4.RStickY() <= -15 || PS4.RStickY() >= 15 ) {
+            Serial.printf("%4d %4d \r\n",
+                          (PS4.RStickX() <= -15 || PS4.RStickX() >= 15) ? 8127 + PS4.RStickX() : 8127,
+                          (PS4.RStickY() <= -15 || PS4.RStickY() >= 15) ? 9127 + PS4.RStickY() : 9127
+            );
+        }
+        if(PS4.L2Value() > 10 || PS4.R2Value() > 10) {
+            Serial.printf("%4d %4d \r\n",
+                          (PS4.L2()) ? 4000 + PS4.L2Value() : 4000,
+                          (PS4.R2()) ? 5000 + PS4.R2Value() : 5000
+            );
+        }*/
+
+        //        if (PS4.Charging())  send(3500);
+        //        if (PS4.Audio())     send(3600);
+        //        if (PS4.Mic())       send(3700);
+        //        if (PS4.Battery() < lastBattery) send(3900 + PS4.Battery());
+
+        // Sets the color of the controller's front light
+        // Params: Red, Green,and Blue
+        // See here for details: https://www.w3schools.com/colors/colors_rgb.asp
+        PS4.setLed(r, g, b);
+        nextRainbowColor();
+
+        // Sets how fast the controller's front light flashes
+        // Params: How long the light is on , how long the light is off
+        // Range: 0->255 (255 = 2550ms), Set to 0, 0 for the light to remain on
+
+        //PS4.setFlashRate(PS4.LStickY(), PS4.RStickY());
+
+        // Sets the rumble of the controllers
+        // Params: Weak rumble intensity, Strong rumble intensity
+        // Range: 0->255
+
+        //PS4.setRumble(PS4.L2Value(), PS4.R2Value());
+
+        // Sends data set in the above three instructions to the controller
+        PS4.sendToController();
+
+        // Don't send data to the controller immediately, will cause buffer overflow
+        delay(100);
     }
+
+
 }

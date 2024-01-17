@@ -6,7 +6,6 @@
 
 #include <IRremote.hpp>
 
-#include "PS4.h"
 #include "follow_light.h"
 #include "motor.h"
 #include "pwm_board.h"
@@ -28,6 +27,7 @@ void IRreceiver::setupIrRemote() {
 #endif
 }
 void IRreceiver::irRemote() {
+#if USE_IRREMOTE
     if (IrReceiver.decode()) {  // Grab an IR code   At 115200 baud, printing takes 200 ms for NEC protocol and 70 ms for NEC repeat
         if (IrReceiver.decodedIRData.flags & IRDATA_FLAGS_WAS_OVERFLOW) {         // Check if the buffer overflowed
             displayU8G2::display.clearDisplay();
@@ -103,4 +103,6 @@ void IRreceiver::irRemote() {
         previousZ = posZ;
         Serial1.write(" sending PESTO!!!");
     }
+#endif
 }
+

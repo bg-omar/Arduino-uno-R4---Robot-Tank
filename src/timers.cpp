@@ -7,7 +7,6 @@
 #include "pesto_matrix.h"
 #include "compass.h"
 #include "gyroscope.h"
-#include "PS4.h"
 #include "displayU8G2.h"
 #include "displayAdafruit.h"
 

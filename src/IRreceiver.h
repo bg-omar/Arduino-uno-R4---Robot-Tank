@@ -12,25 +12,25 @@
 
 class IRreceiver {
 private:
-    #define Rem_OK  0xBF407F
-    #define Rem_U   0xB946FF
-    #define Rem_D   0xEA15FF
-    #define Rem_L   0xBB44FF
-    #define Rem_R   0xBC43FF
+    #define Rem_OK  0xBF407F00
+    #define Rem_U   0xB946FF00
+    #define Rem_D   0xEA15FF00
+    #define Rem_L   0xBB44FF00
+    #define Rem_R   0xBC43FF00
 
-    #define Rem_1   0xE916FF
-    #define Rem_2   0xE619FE
-    #define Rem_3   0xF20DFE
-    #define Rem_4   0xF30CFF
-    #define Rem_5   0xE718FF
-    #define Rem_6   0xA15EFD
-    #define Rem_7   0xF708FF
-    #define Rem_8   0xE31CFF
-    #define Rem_9   0xA55AFF
-    #define Rem_0   0xAD52FF
-    #define Rem_x   0xBD42FF
-    #define Rem_y   0xB54ADF
-    #define IRepeat 0xFFFFFF
+    #define Rem_1   0xE916FF00
+    #define Rem_2   0xE619FE00
+    #define Rem_3   0xF20DFE00
+    #define Rem_4   0xF30CFF00
+    #define Rem_5   0xE718FF00
+    #define Rem_6   0xA15EFD00
+    #define Rem_7   0xF708FF00
+    #define Rem_8   0xE31CFF00
+    #define Rem_9   0xA55AFF00
+    #define Rem_0   0xAD52FF00
+    #define Rem_x   0xBD42FF00
+    #define Rem_y   0xB54ADF00
+    #define IRepeat 0xFFFFFF00
     static const unsigned int MAX_MESSAGE_LENGTH = 30;
     static unsigned int message_pos;
     static int flag;
@@ -48,3 +48,6 @@ public:
 
 
 #endif //ARDUINO_R4_UNO_WALL_Z_IRRECEIVER_H
+
+
+

@@ -9,39 +9,39 @@
 /***************************************************************************************************************/
 
 void Motor::Car_front(){
+    // Serial.println('F');
     digitalWrite(L_ROT,HIGH);
     analogWrite(L_PWM,200);
-    digitalWrite(R_ROT,HIGH);
+    digitalWrite(R_ROT,LOW);
     analogWrite(R_PWM,200);
-    delay(10);
 }
 
 void Motor::Car_left(){
+    // Serial.println('L');
     digitalWrite(L_ROT,LOW);
+    analogWrite(L_PWM,255);
+    digitalWrite(R_ROT,LOW);
+    analogWrite(R_PWM,255);
+}
+void Motor::Car_right(){
+    // Serial.println('R');
+    digitalWrite(L_ROT,HIGH);
     analogWrite(L_PWM,255);
     digitalWrite(R_ROT,HIGH);
     analogWrite(R_PWM,255);
-    delay(10);
-}
-void Motor::Car_right(){
-    digitalWrite(L_ROT,HIGH);
-    analogWrite(L_PWM,255);
-    digitalWrite(R_ROT,LOW);
-    analogWrite(R_PWM,255);
-    delay(10);
 }
 void Motor::Car_Stop(){
+    // Serial.println('S');
     digitalWrite(L_ROT,LOW);
     analogWrite(L_PWM,0);
-    digitalWrite(R_ROT,LOW);
+    digitalWrite(R_ROT,HIGH);
     analogWrite(R_PWM,0);
-    delay(10);
 }
 
 void Motor::Car_Back(){
+    // Serial.println('B');
     digitalWrite(L_ROT,LOW);
     analogWrite(L_PWM,200);
-    digitalWrite(R_ROT,LOW);
+    digitalWrite(R_ROT,HIGH);
     analogWrite(R_PWM,200);
-    delay(10);
 }

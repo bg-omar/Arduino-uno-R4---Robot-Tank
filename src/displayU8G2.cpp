@@ -4,7 +4,40 @@
 
 #include "displayU8G2.h"
 
+#if SMALL
+U8G2_SSD1306_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+#else
+U8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+#endif
+
+uint8_t u8log_buffer[U8LOG_WIDTH * U8LOG_HEIGHT]{};
+U8G2LOG u8g2log;
 uint8_t displayU8G2::draw_state = 0;
+int displayU8G2::t = 0;
+
+void displayU8G2::U8G2setup() {
+    display.begin();
+    u8g2log.begin(U8LOG_WIDTH, U8LOG_HEIGHT, u8log_buffer);
+    u8g2log.setLineHeightOffset(0);	// set extra space between lines in pixel, this can be negative
+    u8g2log.setRedrawMode(0);		// 0: Update screen with newline, 1: Update screen for every char
+}
+
+// print the output of millis() to the terminal every second
+void displayU8G2::U8G2logger(const char * log) {
+    //    if ( t > 7 ) {
+    //        u8g2log.print("\f");			// \f = form feed: clear the screen
+    //        t = 0;
+    //    } else {  t++;}
+    u8g2log.print(log);
+    u8g2log.print("\n");
+
+    // print the log window together with a title
+    display.firstPage();
+    do {
+        display.setFont(u8g2_font_5x7_tr);			// set the font for the terminal window
+        display.drawLog(0, 7, u8g2log);			// draw the log content on the display
+    } while ( display.nextPage() );
+}
 
 void displayU8G2::u8g2_prepare() {
     display.setFont(u8g2_font_6x10_tf);
@@ -204,6 +237,8 @@ void displayU8G2::draw() {
     if ( draw_state >= 14*8 )
         draw_state = 0;
 }
+
+
 
 
 
