@@ -24,14 +24,14 @@ void Motor::Car_left(){
     analogWrite(R_PWM,255);
 }
 void Motor::Car_right(){
-    // Serial.println('R');
+    //Serial.println('R');
     digitalWrite(L_ROT,HIGH);
     analogWrite(L_PWM,255);
     digitalWrite(R_ROT,HIGH);
     analogWrite(R_PWM,255);
 }
 void Motor::Car_Stop(){
-    Serial.println('Stop');
+    //Serial.println("Stop");
     digitalWrite(L_ROT,LOW);
     analogWrite(L_PWM,0);
     digitalWrite(R_ROT,HIGH);
@@ -39,7 +39,7 @@ void Motor::Car_Stop(){
 }
 
 void Motor::Car_Back(){
-    // Serial.println('B');
+    //Serial.println('B');
     digitalWrite(L_ROT,LOW);
     analogWrite(L_PWM,200);
     digitalWrite(R_ROT,HIGH);

@@ -48,7 +48,8 @@ void nextRainbowColor() {
 }
 
 void onConnect() {
-
+    Serial.println("PS4 Connected!");
+    Serial.println("");
 }
 
 void onDisConnect() {
@@ -60,7 +61,58 @@ void send(char32_t texting) {
 }
 
 void notify() {
+#if EVENTS
+    boolean sqd = PS4.event.button_down.square,     squ = PS4.event.button_up.square,
+            trd = PS4.event.button_down.triangle,   tru = PS4.event.button_up.triangle,
+            crd = PS4.event.button_down.cross,      cru = PS4.event.button_up.cross,
+            cid = PS4.event.button_down.circle,     ciu = PS4.event.button_up.circle,
+            upd = PS4.event.button_down.up,         upu = PS4.event.button_up.up,
+            rid = PS4.event.button_down.right,      riu = PS4.event.button_up.right,
+            dod = PS4.event.button_down.down,       dou = PS4.event.button_up.down,
+            led = PS4.event.button_down.left,       leu = PS4.event.button_up.left,
+            l1d = PS4.event.button_down.l1,         l1u = PS4.event.button_up.l1,
+            r1d = PS4.event.button_down.r1,         r1u = PS4.event.button_up.r1,
+            l3d = PS4.event.button_down.l3,         l3u = PS4.event.button_up.l3,
+            r3d = PS4.event.button_down.r3,         r3u = PS4.event.button_up.r3,
+            psd = PS4.event.button_down.ps,         psu = PS4.event.button_up.ps,
+            tpd = PS4.event.button_down.touchpad,   tpu = PS4.event.button_up.touchpad,
+            opd = PS4.event.button_down.options,    opu = PS4.event.button_up.options,
+            shd = PS4.event.button_down.share,      shu = PS4.event.button_up.share;
 
+    if      (sqd) send(3110);
+    else if (squ) send(3101);
+    else if (crd) send(3210);
+    else if (cru) send(3201);
+    else if (cid) send(3310);
+    else if (ciu) send(3301);
+    else if (trd) send(3410);
+    else if (tru) send(3401);
+    else if (upd) send(1110);
+    else if (upu) send(1101);
+    else if (rid) send(1210);
+    else if (riu) send(1201);
+    else if (dod) send(1310);
+    else if (dou) send(1301);
+    else if (led) send(1410);
+    else if (leu) send(1401);
+
+    else if (l1d) send(2110);
+    else if (l1u) send(2101);
+    else if (r1d) send(2210);
+    else if (r1u) send(2201);
+    else if (l3d) send(2310);
+    else if (l3u) send(2301);
+    else if (r3d) send(2410);
+    else if (r3u) send(2401);
+    else if (psd) send(2510);
+    else if (psu) send(2501);
+    else if (tpd) send(2710);
+    else if (tpu) send(2701);
+    else if (shd) send(2810);
+    else if (shu) send(2801);
+    else if (opd) send(2910);
+    else if (opu) send(2901);
+#endif
 
 #if JOYSTICKS
     Serial.printf("%4d, %4d, %4d, %4d, %4d, %4d \r\n",
@@ -148,7 +200,7 @@ void loop() {
                 );
             }
             if(PS4.L2Value() > 10 || PS4.R2Value() > 10) {
-                Serial.printf("%4d+%4d\r\n",
+                Serial.printf("%4d+%4d \r\n",
                               (PS4.L2()) ? 4000 + PS4.L2Value() : 4000,
                               (PS4.R2()) ? 5000 + PS4.R2Value() : 5000
                 );
@@ -163,59 +215,6 @@ void loop() {
                 if (PS4.RStickY() <= -10 || PS4.RStickY() >= 10 ) { Serial.println(9127 + PS4.RStickY()); } // 9 000 - 9 254
         #endif
 
-        #if EVENTS
-            boolean sqd = PS4.event.button_down.square,     squ = PS4.event.button_up.square,
-                trd = PS4.event.button_down.triangle,   tru = PS4.event.button_up.triangle,
-                crd = PS4.event.button_down.cross,      cru = PS4.event.button_up.cross,
-                cid = PS4.event.button_down.circle,     ciu = PS4.event.button_up.circle,
-                upd = PS4.event.button_down.up,         upu = PS4.event.button_up.up,
-                rid = PS4.event.button_down.right,      riu = PS4.event.button_up.right,
-                dod = PS4.event.button_down.down,       dou = PS4.event.button_up.down,
-                led = PS4.event.button_down.left,       leu = PS4.event.button_up.left,
-                l1d = PS4.event.button_down.l1,         l1u = PS4.event.button_up.l1,
-                r1d = PS4.event.button_down.r1,         r1u = PS4.event.button_up.r1,
-                l3d = PS4.event.button_down.l3,         l3u = PS4.event.button_up.l3,
-                r3d = PS4.event.button_down.r3,         r3u = PS4.event.button_up.r3,
-                psd = PS4.event.button_down.ps,         psu = PS4.event.button_up.ps,
-                tpd = PS4.event.button_down.touchpad,   tpu = PS4.event.button_up.touchpad,
-                opd = PS4.event.button_down.options,    opu = PS4.event.button_up.options,
-                shd = PS4.event.button_down.share,      shu = PS4.event.button_up.share;
-
-            if      (sqd) send(3110);
-            else if (squ) send(3101);
-            else if (crd) send(3210);
-            else if (cru) send(3201);
-            else if (cid) send(3310);
-            else if (ciu) send(3301);
-            else if (trd) send(3410);
-            else if (tru) send(3401);
-            else if (upd) send(1110);
-            else if (upu) send(1101);
-            else if (rid) send(1210);
-            else if (riu) send(1201);
-            else if (dod) send(1310);
-            else if (dou) send(1301);
-            else if (led) send(1410);
-            else if (leu) send(1401);
-
-            else if (l1d) send(2110);
-            else if (l1u) send(2101);
-            else if (r1d) send(2210);
-            else if (r1u) send(2201);
-            else if (l3d) send(2310);
-            else if (l3u) send(2301);
-            else if (r3d) send(2410);
-            else if (r3u) send(2401);
-            else if (psd) send(2510);
-            else if (psu) send(2501);
-            else if (tpd) send(2710);
-            else if (tpu) send(2701);
-            else if (shd) send(2810);
-            else if (shu) send(2801);
-            else if (opd) send(2910);
-            else if (opu) send(2901);
-        #endif
-
         if (PS4.Battery() < 2) {
             r = 255; g = 0;  b = 0;
             PS4.setFlashRate(25,10); // 250ms on 100ms off
@@ -226,7 +225,7 @@ void loop() {
 
         PS4.setLed(r, g, b);
         PS4.sendToController();
-        delay(100);
+        delay(50);
 
         // Params: Weak rumble intensity, Strong rumble intensity Range: 0->255
         // PS4.setRumble(PS4.L2Value(), PS4.R2Value());

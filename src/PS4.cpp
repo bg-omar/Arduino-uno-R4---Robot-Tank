@@ -14,6 +14,7 @@
 #include "dancing.h"
 #include "avoid_objects.h"
 #include "follow_light.h"
+#include "main_ra.h"
 
 #include <iostream>
 #include <string>
@@ -62,75 +63,55 @@ void PS4::joystick(int Xinput, int Yinput) {
         Xinput >= 5000 && Xinput <= 5255 ||
         Xinput >= 7000 && Xinput <= 7255
         ) Yinput = Xinput;
+    //    Serial.print("Xinput: "); Serial.println(Xinput); Serial.print("Yinput: "); Serial.println(Yinput);
 
-//    Serial.print("Xinput: ");
-//    Serial.println(Xinput);
-//    Serial.print("Yinput: ");
-//    Serial.println(Yinput);
     //---------------------------------------------- RIGHT THUMBSTICK
-    if (Xinput >= 8000 && Xinput <= 8128) {
-        int xMapped = map(Xinput - 8000, 0, 128, 160, 90);
-//        Serial.println(xMapped);
-        #if USE_PWM_BOARD
-            pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(xMapped));
-        #endif
-    } else if (Xinput > 8128 && Xinput <= 8255) {
-        int xMapped = map(Xinput - 8128, 0, 128, 90, 20);
-//        Serial.println(xMapped);
-        #if USE_PWM_BOARD
-            pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(xMapped));
-        #endif
-    }
-    if (Yinput >= 9000 && Yinput < 9128) {
-        int yMapped = map(Yinput - 9000, 0, 128, 0, 45);
-//        Serial.println(yMapped);
-        #if USE_PWM_BOARD
-            pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(yMapped));
-        #endif
-    } else if (Yinput >= 9128 && Yinput <= 9255) {
-        int yMapped = map(Yinput - 9128, 0, 128, 45, 70);
-//        Serial.println(yMapped);
-        #if USE_PWM_BOARD
-            pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(yMapped));
-        #endif
-    }
+    #if USE_PWM_BOARD
+        if (Xinput >= 8000 && Xinput <= 8255 || Yinput >= 9000 && Yinput <= 9255) {
+            if (Xinput >= 8000 && Xinput <= 8128) {
+                int xMapped = map(Xinput - 8000, 0, 128, 160, 90); //        Serial.println(xMapped);
+                pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(xMapped));
+            } else if (Xinput > 8128 && Xinput <= 8255) {
+                int xMapped = map(Xinput - 8128, 0, 128, 90, 20); //        Serial.println(xMapped);
+                pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(xMapped));
+            }
+            if (Yinput >= 9000 && Yinput < 9128) {
+                int yMapped = map(Yinput - 9000, 0, 128, 0, 45); //        Serial.println(yMapped);
+                pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(yMapped));
+            } else if (Yinput >= 9128 && Yinput <= 9255) {
+                int yMapped = map(Yinput - 9128, 0, 128, 45, 70); //        Serial.println(yMapped);
+                pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(yMapped));
+            }
+        }
+    #endif
 
     // Change L2/R2 Lx/Ly inputs back to -128 / +128 values
     if (Xinput >= 4000 && Xinput <= 4255 || Yinput >= 5000 && Yinput <= 5255) {
         L2 = Xinput - 4000;
         R2 = Yinput - 5000;
-
-//        Serial.print("L2: "); Serial.print(L2);
-//        Serial.print("------R2: "); Serial.println(R2);
-
-        L_velocity = R2 - L2;
-        R_velocity = R2 - L2;
+        L_velocity = R2 - L2;//        Serial.print("L2: "); Serial.print(L2);
+        R_velocity = R2 - L2;//        Serial.print("------R2: "); Serial.println(R2);
     } else if (Xinput >= 6000 && Xinput <= 6255 || Yinput >= 7000 && Yinput <= 7255) {
-        LX = Xinput - 6128;
-        LY = Yinput - 7128;
-//        Serial.print("X: "); Serial.print(LX);
-//        Serial.print("------Y: "); Serial.println(LY);
-
+        LX = Xinput - 6128;//        Serial.print("X: "); Serial.print(LX);
+        LY = Yinput - 7128;//        Serial.print("------Y: "); Serial.println(LY);
         // Calculate motor speed for Left Thumb stick
-        L_velocity = LY+LX;
-        R_velocity = LY-LX;
-//        Serial.print("L: "); Serial.print(L_velocity);
-//        Serial.print("------R: "); Serial.println(R_velocity);
+        L_velocity = LY-LX;//        Serial.print("L: "); Serial.print(L_velocity);
+        R_velocity = LY+LX;//        Serial.print("------R: "); Serial.println(R_velocity);
     }
 
     // Determine rotation for the motors and change neg to pos pwm value
-//    Serial.print("L: ");
-    if (L_velocity < 0) { digitalWrite(L_ROT, LOW); L_velocity *= -2; /*Serial.print("_");*/} else{  digitalWrite(L_ROT, HIGH); L_velocity *= 2;}
-    if (L_velocity > 255) { L_velocity = 255; }
-//    Serial.print(L_velocity);
+    if (L_velocity < 0) { digitalWrite(L_ROT, HIGH); L_velocity *= -2; /*Serial.print("_");*/} else{  digitalWrite(L_ROT, LOW); L_velocity *= 2;}
+    if (L_velocity > 255) { L_velocity = 255; } //    Serial.print(L_velocity);
 
-//    Serial.print("------R: ");
-    if (R_velocity < 0)  { digitalWrite(R_ROT, HIGH); R_velocity *= -2; /*Serial.print("_");*/} else{  digitalWrite(R_ROT, LOW); R_velocity *= 2;}
-    if (R_velocity > 255) { R_velocity = 255; }
-//    Serial.println(R_velocity);
+    if (R_velocity < 0)  { digitalWrite(R_ROT, LOW); R_velocity *= -2; /*Serial.print("_");*/} else{  digitalWrite(R_ROT, HIGH); R_velocity *= 2;}
+    if (R_velocity > 255) { R_velocity = 255; } //    Serial.println(R_velocity);
 
-    analogWrite(L_PWM, L_velocity);
-    analogWrite(R_PWM, R_velocity);
+    if (R_velocity < 50 && L_velocity < 50) {
+        Motor::Car_Stop();
+    } else {
+        analogWrite(L_PWM, L_velocity);
+        analogWrite(R_PWM, R_velocity);
+    }
 };
 
 size_t find_operator(const std::string& expression, size_t start_index = 0) {
@@ -199,11 +180,9 @@ void PS4::controller() {
                 PS4input = extract_integers(message);
             } else {
                 // message contains text
-                PS4input.push_back(0);
+                PS4input = { 0, 0 };
                 Serial.println(message);
             }
-            Serial.println(message);
-            Serial.println(PS4input[0], PS4input[1]);
 
             #if USE_U8G2
                 U8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
@@ -249,7 +228,6 @@ void PS4::controller() {
                     case 3301:
                         Motor::Car_Stop();
                         break;
-
 
                     case xSHARE:posXY = 90;posZ = 45;break;
                     case OPTION:posXY = 90;posZ = 15;break;
