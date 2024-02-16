@@ -15,30 +15,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a7a6b36-a99e-4db6-8829-f78acb2fa3fc" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/I2Cscanner.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/I2Cscanner.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IRreceiver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/IRreceiver.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IRreceiver.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/IRreceiver.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/PS4.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/PS4.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/PS4.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/PS4.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/avoid_objects.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/avoid_objects.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/avoid_objects.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/avoid_objects.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dancing.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/dancing.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dancing.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/dancing.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/displayU8G2.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayU8G2.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/displayU8G2.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayU8G2.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/follow_light.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/follow_light.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/follow_light.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/follow_light.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gyroscope.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/gyroscope.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main_ra.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_ra.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main_ra.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_ra.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/motor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/motor.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pwm_board.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/pwm_board.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pwm_board.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/pwm_board.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/motor.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/motor.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/timers.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/timers.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_esp32_ps4/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src_esp32_ps4/main_ps4.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src_esp32_ps4/main_ps4.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src_esp32_ps4/main_ps4.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,6 +198,12 @@
     <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
       <method v="2" />
     </configuration>
+    <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
+      <method v="2" />
+    </configuration>
+    <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -283,7 +279,17 @@
       <workItem from="1705396542106" duration="731000" />
       <workItem from="1705398148035" duration="5233000" />
       <workItem from="1705428583732" duration="9246000" />
-      <workItem from="1705479990718" duration="14957000" />
+      <workItem from="1705479990718" duration="14991000" />
+      <workItem from="1706031722077" duration="178000" />
+      <workItem from="1706562690158" duration="40000" />
+      <workItem from="1707908979089" duration="2991000" />
+      <workItem from="1707938308401" duration="2070000" />
+      <workItem from="1707981509733" duration="1595000" />
+      <workItem from="1708004990405" duration="1228000" />
+      <workItem from="1708012799880" duration="15186000" />
+      <workItem from="1708032427699" duration="1510000" />
+      <workItem from="1708033976632" duration="945000" />
+      <workItem from="1708091174682" duration="6911000" />
     </task>
     <task id="LOCAL-00001" summary="ps4?">
       <option name="closed" value="true" />
@@ -477,7 +483,15 @@
       <option name="project" value="LOCAL" />
       <updated>1700516905673</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="extreme changes">
+      <option name="closed" value="true" />
+      <created>1705512978612</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1705512978612</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -527,7 +541,8 @@
     <MESSAGE value="making more classes" />
     <MESSAGE value="Almost all classes complete" />
     <MESSAGE value="All classes complete, minor bugfixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="All classes complete, minor bugfixes" />
+    <MESSAGE value="extreme changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="extreme changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

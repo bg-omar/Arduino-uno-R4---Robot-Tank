@@ -47,6 +47,11 @@ PS5 Controller: 88:03:4C:B5:00:66
 U8G2_SH1106_128X64_NONAME_1_HW_I2C displayU8G2::display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 #endif
 
+#if USE_MATRIX
+    #include "Arduino_LED_Matrix.h"
+    ArduinoLEDMatrix matrix;
+#endif
+
 long baseSound;
 int r,g,b;
 
@@ -61,7 +66,13 @@ int timers::timerButton;
 
 void main::log(const char *text) {
     #if USE_U8G2
-        displayU8G2::U8G2logger((const char *) text);
+        displayU8G2::U8G2print((const char *) text);
+    #endif
+    Serial.print((const char *) text);
+}
+void main::logln(const char *text) {
+    #if USE_U8G2
+        displayU8G2::U8G2println((const char *) text);
     #endif
     Serial.println((const char *) text);
 }
@@ -81,20 +92,20 @@ void setup(){
         displayU8G2::U8G2setup();
     #endif
 
-#if USE_I2C_SCANNER
-    I2Cscanner::scan();
-    delay(500);
-#endif
+    #if USE_I2C_SCANNER
+        I2Cscanner::scan();
+        delay(500);
+    #endif
 
     delay(1);
     Serial.begin(115200); // Initialize the hardware serial port for debugging
-    main::log("Serial started");
+    main::logln("Serial started");
     delay(1);
     Serial1.begin(115200);
-    main::log("Serial1 started");
+    main::logln("Serial1 started");
     delay(1);
     SERIAL_AT.begin(115200);
-    main::log("Serial_AT started");
+    main::logln("Serial_AT started");
     delay(1);
 
     pinMode(R_ROT, OUTPUT);     /***** 13 ******/
@@ -103,7 +114,7 @@ void setup(){
     pinMode(L_PWM, OUTPUT);      /***** 3 ******/
     digitalWrite(R_ROT, HIGH);
     digitalWrite(L_ROT, HIGH);
-    main::log("Motor initialized");
+    main::logln("Motor initialized");
 
     pinMode(LED_PIN, OUTPUT);     /***** 2 ******/
 
@@ -117,7 +128,7 @@ void setup(){
     #if USE_DISTANCE
         pinMode(Trig_PIN, OUTPUT);    /***** 6 ******/
         pinMode(Echo_PIN, INPUT);     /***** 7 ******/
-    main::log("Using Sonar");
+    main::logln("Using Sonar");
     #endif
 
     #if USE_DOT
@@ -127,7 +138,7 @@ void setup(){
         digitalWrite(DotDataPIN,LOW);
         Pesto::matrix_display(clear);
         Pesto::pestoMatrix();
-    main::log("Using Dot Matrix");
+        main::logln("Using Dot Matrix");
     #endif
 
     #if USE_MIC

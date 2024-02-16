@@ -61,16 +61,15 @@ void timers::resetTimers(){
 }
 
 void timers::mouthTimer(){
-    #if USE_ADAFRUIT
-         displayAdafruit::displayLoop();
-    #elif USE_U8G2
-        #if DISPLAY_DEMO
-            displayU8G2::display.firstPage();
-            do {
+    #if DISPLAY_DEMO
+        #if USE_ADAFRUIT
+             displayAdafruit::displayLoop();
+        #elif USE_U8G2
+                displayU8G2::display.firstPage();
+                do {
+                    displayU8G2::draw();
+                } while( displayU8G2::display.nextPage() );
                 displayU8G2::draw();
-            } while( displayU8G2::display.nextPage() );
-        #else
-            displayU8G2::draw();
         #endif;
     #endif
 }

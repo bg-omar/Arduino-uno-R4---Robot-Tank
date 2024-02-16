@@ -15,11 +15,16 @@
 #include "avoid_objects.h"
 #include "follow_light.h"
 
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <vector>
+#include <cctype>
+using namespace std;
 
 int PS4::flag = 0;
 int PS4::posXY = 90;  // set horizontal servo position
 int PS4::posZ = 45;   // set vertical servo position
-int PS4::R_velocity, PS4::L_velocity, PS4::R_velocityR, PS4::L_velocityL  = 0;
 
 int PS4::exitLoop() {
     if (Serial1.available()) {
@@ -49,98 +54,131 @@ int PS4::exitLoop() {
     return 0;
 }
 
-void PS4::joystick(int PS4input) {
-/*
+void PS4::joystick(int Xinput, int Yinput) {
+    int R_velocity, L_velocity;
+    int L2, R2, LX, LY;
+    // Safety for if only Yinput is received as Xinput
+    if (Xinput >= 9000 && Xinput <= 9255 ||
+        Xinput >= 5000 && Xinput <= 5255 ||
+        Xinput >= 7000 && Xinput <= 7255
+        ) Yinput = Xinput;
 
+//    Serial.print("Xinput: ");
+//    Serial.println(Xinput);
+//    Serial.print("Yinput: ");
+//    Serial.println(Yinput);
     //---------------------------------------------- RIGHT THUMBSTICK
-    if (PS4input >= 9000 && PS4input <= 9118) {
-        int yMapped = map(PS4input - 9000, 128, 0, 45, 0);
-        Serial.print(yMapped);
-        pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(yMapped));
-    } else if (PS4input >= 9138 && PS4input <= 9255) {
-        int yMapped = map(PS4input - 9000, 128, 255, 45, 70);
-        Serial.print(yMapped);
-        pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(yMapped));
+    if (Xinput >= 8000 && Xinput <= 8128) {
+        int xMapped = map(Xinput - 8000, 0, 128, 160, 90);
+//        Serial.println(xMapped);
+        #if USE_PWM_BOARD
+            pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(xMapped));
+        #endif
+    } else if (Xinput > 8128 && Xinput <= 8255) {
+        int xMapped = map(Xinput - 8128, 0, 128, 90, 20);
+//        Serial.println(xMapped);
+        #if USE_PWM_BOARD
+            pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(xMapped));
+        #endif
+    }
+    if (Yinput >= 9000 && Yinput < 9128) {
+        int yMapped = map(Yinput - 9000, 0, 128, 0, 45);
+//        Serial.println(yMapped);
+        #if USE_PWM_BOARD
+            pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(yMapped));
+        #endif
+    } else if (Yinput >= 9128 && Yinput <= 9255) {
+        int yMapped = map(Yinput - 9128, 0, 128, 45, 70);
+//        Serial.println(yMapped);
+        #if USE_PWM_BOARD
+            pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(yMapped));
+        #endif
     }
 
+    // Change L2/R2 Lx/Ly inputs back to -128 / +128 values
+    if (Xinput >= 4000 && Xinput <= 4255 || Yinput >= 5000 && Yinput <= 5255) {
+        L2 = Xinput - 4000;
+        R2 = Yinput - 5000;
 
-    if (PS4input >= 8000 && PS4input <= 8118) {
-        int xMapped = map(PS4input - 8000, 128, 0, 90, 160);
-        Serial.print(xMapped);
-        pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(xMapped));
-    } else if (PS4input >= 8138 && PS4input <= 8255) {
-        int xMapped = map(PS4input - 8000, 128, 255, 90, 20);
-        Serial.print(xMapped);
-        pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(xMapped));
-    }
-*/
+//        Serial.print("L2: "); Serial.print(L2);
+//        Serial.print("------R2: "); Serial.println(R2);
 
-    //----------------------------------------------- R2 L2
-    if (PS4input >= 4045 && PS4input <= 4255) {
-        digitalWrite(L_ROT, HIGH);
-        digitalWrite(R_ROT, LOW);
-        L_velocity = PS4input - 4000;
-        R_velocity = PS4input - 4000;
-    }
-    if (PS4input >= 5045 && PS4input <= 5255) {
-        digitalWrite(L_ROT, LOW);
-        digitalWrite(R_ROT, HIGH);
-        L_velocity = PS4input - 5000;
-        R_velocity = PS4input - 5000;
+        L_velocity = R2 - L2;
+        R_velocity = R2 - L2;
+    } else if (Xinput >= 6000 && Xinput <= 6255 || Yinput >= 7000 && Yinput <= 7255) {
+        LX = Xinput - 6128;
+        LY = Yinput - 7128;
+//        Serial.print("X: "); Serial.print(LX);
+//        Serial.print("------Y: "); Serial.println(LY);
+
+        // Calculate motor speed for Left Thumb stick
+        L_velocity = LY+LX;
+        R_velocity = LY-LX;
+//        Serial.print("L: "); Serial.print(L_velocity);
+//        Serial.print("------R: "); Serial.println(R_velocity);
     }
 
-    //----------------------------------------------- LEFT THUMBSTICK
-    if (PS4input >= 7000 && PS4input <= 7118) {
-        digitalWrite(L_ROT, HIGH);
-        digitalWrite(R_ROT, LOW);
-        int yMapped = map(PS4input - 7000, 128, 0, 0, 255);
-        L_velocity =  yMapped;
-        R_velocity =  yMapped;
-    } else if (PS4input >= 7138 && PS4input <= 7255) {
-        digitalWrite(L_ROT, LOW);
-        digitalWrite(R_ROT, HIGH);
-        int yMapped = map(PS4input - 7000, 128, 255, 0, 255);
-        L_velocity =  yMapped;
-        R_velocity =  yMapped;
-    }
+    // Determine rotation for the motors and change neg to pos pwm value
+//    Serial.print("L: ");
+    if (L_velocity < 0) { digitalWrite(L_ROT, LOW); L_velocity *= -2; /*Serial.print("_");*/} else{  digitalWrite(L_ROT, HIGH); L_velocity *= 2;}
+    if (L_velocity > 255) { L_velocity = 255; }
+//    Serial.print(L_velocity);
 
-    L_velocityL = L_velocity;
-    R_velocityR = R_velocity;
+//    Serial.print("------R: ");
+    if (R_velocity < 0)  { digitalWrite(R_ROT, HIGH); R_velocity *= -2; /*Serial.print("_");*/} else{  digitalWrite(R_ROT, LOW); R_velocity *= 2;}
+    if (R_velocity > 255) { R_velocity = 255; }
+//    Serial.println(R_velocity);
 
-    if (PS4input >= 6000 && PS4input <= 6118) {  // X-axis used for left and right control
-        int xMapped = map(PS4input - 6000, 128, 0, 0, 255);
-        Serial.println(xMapped);
-        digitalWrite(L_ROT, LOW);
-        L_velocityL = L_velocity - xMapped;
-        R_velocityR = R_velocity + xMapped;
-    } else if (PS4input >= 6138 && PS4input <= 6255) {
-        int xMapped = map(PS4input - 6000, 128, 255, 0, 255);
-        Serial.println(xMapped);
-        digitalWrite(R_ROT, HIGH);
-        L_velocityL = L_velocity + xMapped;
-        R_velocityR = R_velocity - xMapped;
-    }
-    if (R_velocityR < 50) { R_velocityR = 0; }
-    if (L_velocityL < 50) { L_velocityL = 0; }
-    if (R_velocityR > 255) { R_velocityR = 255; }
-    if (L_velocityL > 255) { L_velocityL = 255; }
-
-    analogWrite(R_PWM, R_velocityR);
-    analogWrite(L_PWM, L_velocityL);
-
-    Serial.print("PS4input: ");
-    Serial.println(PS4input);
-    delay(1);
-
-    Serial.print("---------------------------- R_velocity: ");
-    Serial.println(R_velocityR);
-    delay(1);
-
-    Serial.print("----------------L_velocity: ");
-    Serial.println(L_velocityL);
-    delay(1);
-
+    analogWrite(L_PWM, L_velocity);
+    analogWrite(R_PWM, R_velocity);
 };
+
+size_t find_operator(const std::string& expression, size_t start_index = 0) {
+    string supported_operators = "+-_!";
+    for (char ch : supported_operators) {
+        size_t op_index = expression.find(ch, start_index);
+        if (op_index != std::string::npos) return op_index;
+    }
+    return std::string::npos;
+}
+
+vector<int> extract_integers(const string& expression){
+    vector<int> integers;
+    size_t prev_search_end = 0;
+    for (size_t i = 0; i < expression.length(); i++) {
+        size_t op_index = find_operator(expression, prev_search_end);
+        if (op_index != std::string::npos)  {
+            // operator found - produce substring of term
+            string substr = expression.substr(prev_search_end, op_index - prev_search_end);
+
+            // if there's a non-number at the end, remove it, e.g. 3x --> 3
+            if (!isdigit(substr.back())) {
+                substr.pop_back();
+            }
+            integers.push_back(stoi(substr));
+            prev_search_end = op_index + 1;
+        }
+    }
+    {   // account for last remaining term
+        string substr = expression.substr(prev_search_end);
+
+        // if there's a non-number at the end, remove it, e.g. 3x --> 3
+        if (!isdigit(substr.back())) {
+            substr.pop_back();
+        }
+        integers.push_back(stoi(substr));
+    }
+    return integers;
+}
+bool is_digit(char c) { return c >= '0' && c <= '9';}
+bool is_alpha(char c) { return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');}
+
+bool contains_letters(const std::string& s) {
+    for (char c : s) {
+        if (is_alpha(c)) { return true; }
+    }
+    return false;
+}
 
 void PS4::controller() {
     while (Serial1.available() > 0) {
@@ -153,24 +191,29 @@ void PS4::controller() {
             message_pos++;
         } else { // Full message received...
             message[message_pos] = '\0'; // Add null character to string to end string
+
             // Use the message
-            //Serial.println(message);
-            String s = message;
+            vector<int> PS4input;
+            if (!contains_letters(message)){
+                // Serial.println("extracting intergers");
+                PS4input = extract_integers(message);
+            } else {
+                // message contains text
+                PS4input.push_back(0);
+                Serial.println(message);
+            }
+            Serial.println(message);
+            Serial.println(PS4input[0], PS4input[1]);
 
             #if USE_U8G2
-                        U8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
-                    displayU8G2::display.println(message);
+                U8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+                displayU8G2::display.println(message);
             #endif
-            //Or convert to integer and print
-            int PS4input = atoi(message);
-            delay(1);
-            //Serial.println(PS4input);
-            delay(1);
 
-            if (PS4input > 4000) {
-                PS4::joystick(PS4input);
+            if (PS4input[0] >= 4000) { //for double input X-Y
+                PS4::joystick(PS4input[0], PS4input[1]);
             } else {
-                switch (PS4input) {
+                switch (PS4input[0]) {
                     case SQUARE:
                         Motor::Car_left();
                         break;
@@ -185,19 +228,20 @@ void PS4::controller() {
                         break;
 
                         //**** Head movements    ****
-                    case DPAD_U:
-                        pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(posZ += 1));
-                        break;
-                    case DPAD_R:
-                        pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(posXY -= 1));
-                        break;
-                    case DPAD_D:
-                        pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(posZ -= 1));
-                        break;
-                    case DPAD_L:
-                        pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(posXY += 1));
-                        break;
-
+                    #if USE_PWM_BOARD
+                        case DPAD_U:
+                            pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(posZ += 1));
+                            break;
+                        case DPAD_R:
+                            pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(posXY -= 1));
+                            break;
+                        case DPAD_D:
+                            pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(posZ -= 1));
+                            break;
+                        case DPAD_L:
+                            pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(posXY += 1));
+                            break;
+                    #endif
 
                     case 3101:
                     case 3401:
@@ -210,27 +254,31 @@ void PS4::controller() {
                     case xSHARE:posXY = 90;posZ = 45;break;
                     case OPTION:posXY = 90;posZ = 15;break;
                     case L1:
-                      #if USE_U8G2
-                          displayU8G2::display.clearDisplay();
-                      #endif
+                    #if USE_U8G2
+                      displayU8G2::display.clearDisplay();
+                    #endif
+                    #if USE_TIMERS
                       timers::timerTwoActive = !timers::timerTwoActive;
                       timers::timerTreeActive = false;
                       timers::timerButton = L1;
-                      delay(100);
-                      break;
+                    #endif
+                    delay(100);
+                    break;
                     case TOUCHPD:
                       #if USE_ROBOT
                           dancing::dance(); break;
                       #endif
                     case R1:
-                      #if USE_U8G2
+                        #if USE_U8G2
                           displayU8G2::display.clearDisplay();
-                      #endif
-                      timers::timerTwoActive = !timers::timerTwoActive;
-                      timers::timerTreeActive = false;
-                      timers::timerButton = R1;
-                      delay(100);
-                      break;
+                        #endif
+                        #if USE_TIMERS
+                          timers::timerTwoActive = !timers::timerTwoActive;
+                          timers::timerTreeActive = false;
+                          timers::timerButton = R1;
+                        #endif
+                        delay(100);
+                        break;
                     case L3:
                       #if USE_ROBOT
                           avoid_objects::avoid(); break;

@@ -31,7 +31,7 @@ void Motor::Car_right(){
     analogWrite(R_PWM,255);
 }
 void Motor::Car_Stop(){
-    // Serial.println('S');
+    Serial.println('Stop');
     digitalWrite(L_ROT,LOW);
     analogWrite(L_PWM,0);
     digitalWrite(R_ROT,HIGH);

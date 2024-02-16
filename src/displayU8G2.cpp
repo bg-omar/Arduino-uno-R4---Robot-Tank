@@ -11,7 +11,7 @@ U8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 #endif
 
 uint8_t u8log_buffer[U8LOG_WIDTH * U8LOG_HEIGHT]{};
-U8G2LOG u8g2log;
+U8G2LOG displayU8G2::u8g2log;
 uint8_t displayU8G2::draw_state = 0;
 int displayU8G2::t = 0;
 
@@ -23,14 +23,17 @@ void displayU8G2::U8G2setup() {
 }
 
 // print the output of millis() to the terminal every second
-void displayU8G2::U8G2logger(const char * log) {
-    //    if ( t > 7 ) {
-    //        u8g2log.print("\f");			// \f = form feed: clear the screen
-    //        t = 0;
-    //    } else {  t++;}
+void displayU8G2::U8G2print(const char * log) {
     u8g2log.print(log);
-    u8g2log.print("\n");
+    displayU8G2::U8G2printEnd();
+}
 
+void displayU8G2::U8G2println(const char * log) {
+    u8g2log.println(log);
+    displayU8G2::U8G2printEnd();
+}
+
+void displayU8G2::U8G2printEnd (){
     // print the log window together with a title
     display.firstPage();
     do {

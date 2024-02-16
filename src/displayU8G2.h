@@ -68,10 +68,11 @@
 
         static void U8G2setup();
 
-        static void U8G2logger(const char *log);
+        static void U8G2print(const char *log);
+        static void U8G2println(const char * log);
+        static void U8G2printEnd();
         static int t;
-
-
+        static U8G2LOG u8g2log;
     };
 
 

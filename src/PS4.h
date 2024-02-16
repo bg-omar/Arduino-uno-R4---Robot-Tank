@@ -44,16 +44,8 @@ public:
     #define D_LEFT   1700
     #define UPLEFT   1800
     static int exitLoop();
-    static void joystick(int PS4input);
+    static void joystick(int Xinput, int Yinput);
     static void controller();
-
-    static int R_velocity;
-    static int L_velocity;
-
-    static void joysticks(int PS4input);
-
-    static int R_velocityR;
-    static int L_velocityL;
 };
 
 

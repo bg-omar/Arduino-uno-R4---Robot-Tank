@@ -38,36 +38,36 @@ void gyroscope::gyroRead(){
 
 void gyroscope::gyroFunc(){
     gyroscope::gyroRead();
-    (gyroscope::ax > 0) ? displayU8G2::display.print("+"), displayU8G2::display.print(gyroscope::ax) : displayU8G2::display.print(gyroscope::ax);
-    displayU8G2::display.print(" ");
-    (gyroscope::ay > 0) ? displayU8G2::display.print("+"), displayU8G2::display.print(gyroscope::ay) : displayU8G2::display.print(gyroscope::ay);
-    displayU8G2::display.print(" ");
-    (gyroscope::az > 0) ? displayU8G2::display.print("+"), displayU8G2::display.print(gyroscope::az) : displayU8G2::display.print(gyroscope::az);
-    displayU8G2::display.print("   ");
+    (gyroscope::ax > 0) ? displayU8G2::u8g2log.print("+"), displayU8G2::u8g2log.print(gyroscope::ax) : displayU8G2::u8g2log.print(gyroscope::ax);
+    displayU8G2::u8g2log.print(" ");
+    (gyroscope::ay > 0) ? displayU8G2::u8g2log.print("+"), displayU8G2::u8g2log.print(gyroscope::ay) : displayU8G2::u8g2log.print(gyroscope::ay);
+    displayU8G2::u8g2log.print(" ");
+    (gyroscope::az > 0) ? displayU8G2::u8g2log.print("+"), displayU8G2::u8g2log.print(gyroscope::az) : displayU8G2::u8g2log.print(gyroscope::az);
+    displayU8G2::u8g2log.print("   ");
 
-    (gyroscope::gx > 0) ? displayU8G2::display.print("+"), displayU8G2::display.print(gyroscope::gx) : displayU8G2::display.print(gyroscope::gx);
-    displayU8G2::display.print(" ");
-    (gyroscope::gy > 0) ? displayU8G2::display.print("+"), displayU8G2::display.print(gyroscope::gy) : displayU8G2::display.print(gyroscope::gy);
-    displayU8G2::display.print(" ");
-    (gyroscope::gz > 0) ? displayU8G2::display.print("+"), displayU8G2::display.print(gyroscope::gz) : displayU8G2::display.print(gyroscope::gz);
-    displayU8G2::display.print("   ");
+    (gyroscope::gx > 0) ? displayU8G2::u8g2log.print("+"), displayU8G2::u8g2log.print(gyroscope::gx) : displayU8G2::u8g2log.print(gyroscope::gx);
+    displayU8G2::u8g2log.print(" ");
+    (gyroscope::gy > 0) ? displayU8G2::u8g2log.print("+"), displayU8G2::u8g2log.print(gyroscope::gy) : displayU8G2::u8g2log.print(gyroscope::gy);
+    displayU8G2::u8g2log.print(" ");
+    (gyroscope::gz > 0) ? displayU8G2::u8g2log.print("+"), displayU8G2::u8g2log.print(gyroscope::gz) : displayU8G2::u8g2log.print(gyroscope::gz);
+    displayU8G2::u8g2log.print("   ");
 }
 
 void gyroscope::gyroDetectMovement() {
-#if USE_TIMERS
-    gyroscope::gyroRead();
-            if(( abs(gyroscope::ax) + abs(gyroscope::ay) + abs(gyroscope::az)) > THRESHOLD){
-                timers::timerTwoActive = true;
-                timers::timerTreeActive = true;
-                timers::timerButton = 2200; // PS4::R1;
-            }
-            if(( abs(gyroscope::gx) + abs(gyroscope::gy) + abs(gyroscope::gz)) > THRESHOLD){
-                timers::timerTwoActive = true;
-                timers::timerTreeActive = true;
-                timers::timerButton = 2100; // PS4::L1;
-            }
 
-#endif
+    gyroscope::gyroRead();
+    if(( abs(gyroscope::ax) + abs(gyroscope::ay) + abs(gyroscope::az)) > THRESHOLD){
+        timers::timerTwoActive = true;
+        timers::timerTreeActive = true;
+        timers::timerButton = 2200; // PS4::R1;
+    }
+    if(( abs(gyroscope::gx) + abs(gyroscope::gy) + abs(gyroscope::gz)) > THRESHOLD){
+        timers::timerTwoActive = true;
+        timers::timerTreeActive = true;
+        timers::timerButton = 2100; // PS4::L1;
+    }
+
+
 }
 void gyroscope::gyroCalibrate_sensor() {
     float totX = 0;
@@ -106,11 +106,11 @@ void gyroscope::gyroSetup() {
     // Try to initialize!
     if (!mpu.begin()) {
 
-        displayU8G2::display.print("MPU6050 not found");
+        displayU8G2::u8g2log.println("MPU6050 not found");
         delay(500);
 
     } else {
-        displayU8G2::display.print("MPU6050 Found!    ");
+        displayU8G2::u8g2log.println("MPU6050 Found!    ");
         delay(500);
         mpu.setAccelerometerRange(MPU6050_RANGE_4_G);
         mpu.setGyroRange(MPU6050_RANGE_500_DEG);

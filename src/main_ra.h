@@ -8,16 +8,12 @@
 
 #include "config.h"
 
-
-#if USE_MATRIX
-    #include "Arduino_LED_Matrix.h"
-    ArduinoLEDMatrix matrix;
-#endif
-
 class main {
 
 public:
     static void log(const char *text);
+
+    static void logln(const char *text);
 };
 
 #if USE_LCD
