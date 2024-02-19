@@ -42,9 +42,6 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include "motor.h"
 #include "avoid_objects.h"
 #include "I2Cscanner.h"
-#include "button.h"
-
-button button(8);
 
 
 #if USE_U8G2
@@ -122,12 +119,22 @@ void setup(){
 
     pinMode(LED_PIN, OUTPUT);     /***** 2 ******/
 
-
-    pinMode(8, INPUT_PULLUP);     /***** 13 ******/
-    pinMode(9, INPUT_PULLUP);      /***** 11 ******/
-    pinMode(10, INPUT_PULLUP);     /***** 12 ******/
-    pinMode(11, INPUT_PULLUP);      /***** 3 ******/
-
+    #if USE_SWITCH
+        pinMode(SWITCH_8, INPUT_PULLUP);     /***** 2 ******/
+        pinMode(SWITCH_9, INPUT_PULLUP);     /***** 2 ******/
+//        pinMode(SWITCH_10, INPUT_PULLUP);     /***** 2 ******/
+//        pinMode(SWITCH_11, INPUT_PULLUP);     /***** 2 ******/
+        delay(50);
+        int Switch_8_State, Switch_9_State, Switch_10_State, Switch_11_State;
+        Switch_8_State = digitalRead(SWITCH_8);
+        Switch_9_State = digitalRead(SWITCH_9);
+//        Switch_10_State = digitalRead(SWITCH_10);
+//        Switch_11_State = digitalRead(SWITCH_11);
+        if (Switch_8_State == LOW) {  main::logln(" SWITCH_8 is on");} else {main::logln(" SWITCH_8 is off");}
+        if (Switch_9_State == LOW) {  main::logln(" SWITCH_9 is on");} else {main::logln(" SWITCH_9 is off");}
+//        if (Switch_10_State == LOW) {  main::logln(" SWITCH_10 is on");} else {main::logln(" SWITCH_10 is off");}
+//        if (Switch_11_State == LOW) {  main::logln(" SWITCH_11 is on");} else {main::logln(" SWITCH_11 is off");}
+    #endif
 
     #if USE_MATRIX
         matrix.loadSequence(animation);
@@ -139,7 +146,7 @@ void setup(){
     #if USE_DISTANCE
         pinMode(Trig_PIN, OUTPUT);    /***** 6 ******/
         pinMode(Echo_PIN, INPUT);     /***** 7 ******/
-    main::logln("Using Sonar");
+        main::logln("Using Sonar Distance");
     #endif
 
     #if USE_DOT
@@ -203,11 +210,6 @@ void setup(){
 
 void loop(){
     PS4::controller();
-    button.loop(); // MUST call the loop() function first
-
-    int btnState = button.getState();
-    Serial.println(btnState);
-
 
     #if USE_IRREMOTE
         IRreceiver::irRemote();

@@ -24,6 +24,8 @@
 #define USE_DOT 1
 #define USE_MIC 0
 
+#define USE_SWITCH 1
+
 #define USE_ROBOT 0
 #define USE_TIMERS 1
 #define USE_DISTANCE 1
@@ -50,8 +52,10 @@
 #define LED_PIN      2
 #define Trig_PIN     6  // ultrasonic trig Pinz
 #define Echo_PIN     7  // ultrasonic echo Pin
-#define PIN_9        9
-#define PIN_10      10
+#define SWITCH_8     8
+#define SWITCH_9     9
+#define SWITCH_10   10
+#define SWITCH_11   11
 #define IR_Pin      A2
 #define MIC_PIN     A3
 

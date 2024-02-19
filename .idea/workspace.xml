@@ -16,8 +16,10 @@
   <component name="ChangeListManager">
     <list default="true" id="9a7a6b36-a99e-4db6-8829-f78acb2fa3fc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PS4.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/PS4.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_esp32_ps4/main_ps4.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src_esp32_ps4/main_ps4.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/button.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/button.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main_ra.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_ra.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,7 +137,7 @@
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/mr/Arduino-R4_UNO_Wall-Z/test&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mr/Arduino-R4_UNO_Wall-Z/src&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -148,8 +150,8 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\test" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\src" />
+      <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\test" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\.pio\libdeps\esp32_ps4" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\.pio\libdeps" />
@@ -161,9 +163,9 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
@@ -282,7 +284,10 @@
       <workItem from="1708032427699" duration="1510000" />
       <workItem from="1708033976632" duration="945000" />
       <workItem from="1708091174682" duration="11571000" />
-      <workItem from="1708102989914" duration="362000" />
+      <workItem from="1708102989914" duration="419000" />
+      <workItem from="1708282173671" duration="2255000" />
+      <workItem from="1708363901175" duration="3903000" />
+      <workItem from="1708375964149" duration="2625000" />
     </task>
     <task id="LOCAL-00001" summary="ps4?">
       <option name="closed" value="true" />
@@ -500,7 +505,15 @@
       <option name="project" value="LOCAL" />
       <updated>1708101570225</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Motor Working nicely">
+      <option name="closed" value="true" />
+      <created>1708103367985</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1708103367985</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
