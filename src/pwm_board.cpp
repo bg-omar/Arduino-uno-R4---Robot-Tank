@@ -55,8 +55,8 @@ void pwm_board::rightLedStrip(int r_val, int g_val, int b_val) {
     g_val = 255 - g_val;
     b_val = 255 - b_val;
     pwm.setPWM(PWM_7, 0, (16*b_val<4080) ? 16*b_val : 4080);
-    pwm.setPWM(PWM_5, 0, (16*g_val<4080) ? 16*g_val : 4080);
-    pwm.setPWM(PWM_6, 0, (16*r_val<4080) ? 16*r_val : 4080);
+    pwm.setPWM(PWM_6, 0, (16*g_val<4080) ? 16*g_val : 4080);
+    pwm.setPWM(PWM_5, 0, (16*r_val<4080) ? 16*r_val : 4080);
 }
 
 

@@ -42,6 +42,10 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include "motor.h"
 #include "avoid_objects.h"
 #include "I2Cscanner.h"
+#include "button.h"
+
+button button(8);
+
 
 #if USE_U8G2
 U8G2_SH1106_128X64_NONAME_1_HW_I2C displayU8G2::display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
@@ -118,6 +122,13 @@ void setup(){
 
     pinMode(LED_PIN, OUTPUT);     /***** 2 ******/
 
+
+    pinMode(8, INPUT_PULLUP);     /***** 13 ******/
+    pinMode(9, INPUT_PULLUP);      /***** 11 ******/
+    pinMode(10, INPUT_PULLUP);     /***** 12 ******/
+    pinMode(11, INPUT_PULLUP);      /***** 3 ******/
+
+
     #if USE_MATRIX
         matrix.loadSequence(animation);
             matrix.begin();
@@ -192,6 +203,11 @@ void setup(){
 
 void loop(){
     PS4::controller();
+    button.loop(); // MUST call the loop() function first
+
+    int btnState = button.getState();
+    Serial.println(btnState);
+
 
     #if USE_IRREMOTE
         IRreceiver::irRemote();
