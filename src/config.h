@@ -16,28 +16,24 @@
 
 #define USE_GYRO 1
 #define USE_COMPASS 1
-#define USE_BAROMETER 0
+#define USE_BAROMETER 1
+#define USE_DISTANCE 1
 
 #define USE_IRREMOTE 0
 #define USE_I2C_SCANNER 1
 #define USE_PWM_BOARD 1
 #define USE_DOT 1
-#define USE_MIC 0
-
+#define USE_MIC 1
 #define USE_SWITCH 1
 
-#define USE_ROBOT 0
+#define USE_ROBOT 1
 #define USE_TIMERS 1
-#define USE_DISTANCE 1
 
-#define USE_MATRIX 0
-#define READ_ESP32 0
-#define USE_LCD 0
+
+#define USE_MATRIX 1
+#define READ_ESP32 1
+#define USE_LCD 1
 #define ARDUINO_ARCH_RENESAS_UNO
-
-
-
-
 
 /********************************************** PIN Defines ****************************************************/
 // section pin define
@@ -50,15 +46,19 @@
 #define RX_PIN       0
 #define TX_PIN       1
 #define LED_PIN      2
-#define Trig_PIN     6  // ultrasonic trig Pinz
+#define Trig_PIN     6  // ultrasonic trig Pin
 #define Echo_PIN     7  // ultrasonic echo Pin
 #define SWITCH_8     8
 #define SWITCH_9     9
 #define SWITCH_10   10
 #define SWITCH_11   11
-#define IR_Pin      A2
-#define MIC_PIN     A3
 
+#define light_L_Pin A0
+#define MIC_L_PIN   A1
+#define light_R_Pin A2
+#define MIC_R_PIN   A3
+
+//#define IR_Pin      A2
 
 #define top  0 // lcd screen top line
 #define bot  1 // lcd screen bottom line

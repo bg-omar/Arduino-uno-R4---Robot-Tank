@@ -2,11 +2,12 @@
 <project version="4">
   <component name="CidrRootsConfiguration">
     <sourceRoots>
+      <file path="$PROJECT_DIR$/include" />
       <file path="$PROJECT_DIR$/src_esp32_ps4" />
+      <file path="$PROJECT_DIR$/src_esp32_r4" />
     </sourceRoots>
     <excludeRoots>
       <file path="$PROJECT_DIR$/.pio" />
-      <file path="$PROJECT_DIR$/src_esp32" />
       <file path="$PROJECT_DIR$/src_esp32_cam" />
     </excludeRoots>
   </component>

@@ -18,6 +18,7 @@ public:
     static void Car_right() ;
     static void Car_Stop() ;
     static void Car_Back();
+    static void motor_setup();
 };
 
 #endif //MOTOR_H

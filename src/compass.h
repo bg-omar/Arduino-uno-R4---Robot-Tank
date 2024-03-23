@@ -16,6 +16,7 @@ public:
     static double readCompass();
     static void showCompass();
     static void compassSetup() ;
+    static void displaySensorDetails();
 };
 
 

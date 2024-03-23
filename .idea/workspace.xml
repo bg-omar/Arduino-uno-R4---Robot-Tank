@@ -14,12 +14,46 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9a7a6b36-a99e-4db6-8829-f78acb2fa3fc" name="Changes" comment="">
+    <list default="true" id="9a7a6b36-a99e-4db6-8829-f78acb2fa3fc" name="Changes" comment="Switch with check on boot to replace #define's">
+      <change afterPath="$PROJECT_DIR$/keypad_4x4/audio.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/keypad_4x4/audio.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/general_timer.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/general_timer.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/inductance.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src_esp32_r4/getPost.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src_esp32_r4/getPost.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src_esp32_r4/real_time.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src_esp32_r4/real_time.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/arduino-cli.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unor4wifi-updater/firmware/UNOR4-WIFI-S3-0.4.1.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/button.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/button.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/I2Cscanner.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/I2Cscanner.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IRreceiver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/IRreceiver.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PS4.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/PS4.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PS4.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/PS4.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/barometer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/barometer.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/compass.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/compass.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/compass.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/compass.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/displayU8G2.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayU8G2.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/follow_light.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/follow_light.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/follow_light.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/follow_light.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gyroscope.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/gyroscope.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main_ra.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_ra.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main_ra.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_ra.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/motor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/motor.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/motor.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/motor.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pesto_matrix.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/pesto_matrix.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pesto_matrix.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/pesto_matrix.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pwm_board.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/pwm_board.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pwm_board.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/pwm_board.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src_esp32/main_esp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src_esp32_r4/main_esp.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src_esp32_ps4/main_ps4.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src_esp32_ps4/main_ps4.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unor4wifi-updater/update.bat" beforeDir="false" afterPath="$PROJECT_DIR$/unor4wifi-updater/update.bat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +62,13 @@
   </component>
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="EmbeddedSvdWindowState">
+    <option name="loadedFiles">
+      <list>
+        <option value="C:\Users\mr\.platformio\platforms\renesas-ra\misc\svd\R7FA4M1AB.svd" />
+      </list>
+    </option>
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="src" />
   <component name="ExternalProjectsData">
@@ -127,6 +168,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;PlatformIO.PlatformIO.executor&quot;: &quot;Debug&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
@@ -137,13 +179,13 @@
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/mr/Arduino-R4_UNO_Wall-Z/src&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Users/mr/Desktop/ConsoleLogger-0.0.21-signed.zip&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;language.cpp&quot;,
     &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -151,22 +193,27 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\src" />
+      <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\unor4wifi-updater" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\test" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\.pio\libdeps\esp32_ps4" />
-      <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\.pio\libdeps" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\keypad_4x4" />
+      <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\src_esp32" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\src" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\include" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\.pio\build\esp32cam\src_esp32_cam" />
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
+      <method v="2" />
     </configuration>
     <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
       <method v="2" />
@@ -287,7 +334,26 @@
       <workItem from="1708102989914" duration="419000" />
       <workItem from="1708282173671" duration="2255000" />
       <workItem from="1708363901175" duration="3903000" />
-      <workItem from="1708375964149" duration="2625000" />
+      <workItem from="1708375964149" duration="2703000" />
+      <workItem from="1708725897944" duration="1963000" />
+      <workItem from="1708728789891" duration="3215000" />
+      <workItem from="1708783678845" duration="2814000" />
+      <workItem from="1708786927682" duration="1886000" />
+      <workItem from="1708789621196" duration="8571000" />
+      <workItem from="1708825094999" duration="1685000" />
+      <workItem from="1709068193327" duration="6827000" />
+      <workItem from="1709414925339" duration="1978000" />
+      <workItem from="1709485147134" duration="2408000" />
+      <workItem from="1709664415207" duration="6755000" />
+      <workItem from="1709710559866" duration="1902000" />
+      <workItem from="1710628943855" duration="707000" />
+      <workItem from="1710692856980" duration="2582000" />
+      <workItem from="1711142072517" duration="741000" />
+      <workItem from="1711186052400" duration="4131000" />
+      <workItem from="1711228833493" duration="1911000" />
+      <workItem from="1711231020119" duration="271000" />
+      <workItem from="1711231491768" duration="2356000" />
+      <workItem from="1711237552821" duration="13000" />
     </task>
     <task id="LOCAL-00001" summary="ps4?">
       <option name="closed" value="true" />
@@ -513,7 +579,15 @@
       <option name="project" value="LOCAL" />
       <updated>1708103367985</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Switch with check on boot to replace #define's">
+      <option name="closed" value="true" />
+      <created>1708378652564</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1708378652564</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -566,7 +640,8 @@
     <MESSAGE value="extreme changes" />
     <MESSAGE value="Receive LxLy in one string" />
     <MESSAGE value="Motor Working nicely" />
-    <option name="LAST_COMMIT_MESSAGE" value="Motor Working nicely" />
+    <MESSAGE value="Switch with check on boot to replace #define's" />
+    <option name="LAST_COMMIT_MESSAGE" value="Switch with check on boot to replace #define's" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -578,5 +653,9 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

@@ -4,6 +4,7 @@
 
 #include <Arduino.h>
 #include "pesto_matrix.h"
+#include "main_ra.h"
 
 int Pesto::screen = 0;
 /********************************************** the function for dot matrix display ****************************/
@@ -86,4 +87,15 @@ void Pesto::pestoMatrix() {
         default:matrix_display(bleh);
     }
     screen == 6 ? screen = 0 : screen += 1;
+}
+
+void Pesto::setup_pestoMatrix() {
+    unsigned char clear[] =  {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+    pinMode(DotClockPIN,OUTPUT);/***** 5 ******/
+    pinMode(DotDataPIN,OUTPUT); /***** 4 ******/
+    digitalWrite(DotClockPIN,LOW);
+    digitalWrite(DotDataPIN,LOW);
+    Pesto::matrix_display(reinterpret_cast<unsigned char *>(clear));
+    Pesto::pestoMatrix();
+    main::logln("Using Dot Matrix");
 }

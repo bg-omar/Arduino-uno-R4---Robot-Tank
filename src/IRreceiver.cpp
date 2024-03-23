@@ -23,7 +23,7 @@ void IRreceiver::setupIrRemote() {
     displayU8G2::display.clearDisplay();
 #endif
 
-    displayU8G2::display.print("InfraRed remote");
+    displayU8G2::u8g2log.println("InfraRed remote");
 #endif
 }
 void IRreceiver::irRemote() {
@@ -32,20 +32,20 @@ void IRreceiver::irRemote() {
         if (IrReceiver.decodedIRData.flags & IRDATA_FLAGS_WAS_OVERFLOW) {         // Check if the buffer overflowed
             displayU8G2::display.clearDisplay();
 
-            displayU8G2::display.print(F("Try to increase the \"RAW_BUFFER_LENGTH\" value of " STR(RAW_BUFFER_LENGTH) " in " __FILE__));
+            displayU8G2::u8g2log.println(F("Try to increase the \"RAW_BUFFER_LENGTH\" value of " STR(RAW_BUFFER_LENGTH) " in " __FILE__));
             delay(100);
         } else {
             displayU8G2::display.clearDisplay();
             if (IrReceiver.decodedIRData.protocol == UNKNOWN) {
                 ir_rec = previousIR;
 
-                displayU8G2::display.print(F("?"));
+                displayU8G2::u8g2log.println(F("?"));
                 delay(100);
             } else {
                 ir_rec = IrReceiver.decodedIRData.decodedRawData;
             }
 
-            displayU8G2::display.print(ir_rec, HEX);
+            displayU8G2::u8g2log.println(ir_rec, HEX);
         }
         IrReceiver.resume();                            // Prepare for the next value
 

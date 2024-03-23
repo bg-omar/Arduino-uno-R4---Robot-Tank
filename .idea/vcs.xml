@@ -2,5 +2,12 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/uno-r4-wifi-usb-bridge" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/hardware/esp32-patched/esp32" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/libraries/ArduinoBLE" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/libraries/Arduino_DebugUtils" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/libraries/Arduino_ESP32_OTA" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/libraries/BOSSA" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/unor4wifi-reboot/hid" vcs="Git" />
   </component>
 </project>

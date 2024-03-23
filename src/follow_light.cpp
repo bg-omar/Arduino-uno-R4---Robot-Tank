@@ -11,8 +11,8 @@
 // section Follow Light
 /***************************************************************************************************************/
 
-int Follow_light::lightSensorL = analogRead(light_R_Pin);;
-int Follow_light::lightSensorR = analogRead(light_L_Pin);;
+int Follow_light::lightSensorL = analogRead(light_R_Pin);
+int Follow_light::lightSensorR = analogRead(light_L_Pin);
 int Follow_light::flag;
 
 double Follow_light::lightSensor(){

@@ -3,11 +3,12 @@
 //
 
 #include "displayU8G2.h"
+#include "main_ra.h"
 
 #if SMALL
 U8G2_SSD1306_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 #else
-U8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+    U8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 #endif
 
 uint8_t u8log_buffer[U8LOG_WIDTH * U8LOG_HEIGHT]{};
@@ -16,10 +17,18 @@ uint8_t displayU8G2::draw_state = 0;
 int displayU8G2::t = 0;
 
 void displayU8G2::U8G2setup() {
-    display.begin();
-    u8g2log.begin(U8LOG_WIDTH, U8LOG_HEIGHT, u8log_buffer);
-    u8g2log.setLineHeightOffset(0);	// set extra space between lines in pixel, this can be negative
-    u8g2log.setRedrawMode(0);		// 0: Update screen with newline, 1: Update screen for every char
+    if (!display.begin()) {
+        Serial.println(F("U8g2 allocation failed"));
+    } else {
+        Serial.println(F("U8g2 allocation success"));
+        main::Found_Display = true;
+        display.begin();
+        u8g2log.begin(U8LOG_WIDTH, U8LOG_HEIGHT, u8log_buffer);
+        u8g2log.setLineHeightOffset(0);    // set extra space between lines in pixel, this can be negative
+        u8g2log.setRedrawMode(0);        // 0: Update screen with newline, 1: Update screen for every char
+        u8g2log.println("U8g2 initialized");
+        displayU8G2::U8G2printEnd();
+    }
 }
 
 // print the output of millis() to the terminal every second
@@ -42,7 +51,7 @@ void displayU8G2::U8G2printEnd (){
     } while ( display.nextPage() );
 }
 
-void displayU8G2::u8g2_prepare() {
+/*void displayU8G2::u8g2_prepare() {
     display.setFont(u8g2_font_6x10_tf);
     display.setFontRefHeightExtendedText();
     display.setDrawColor(1);
@@ -64,9 +73,9 @@ void displayU8G2::u8g2_box_frame(uint8_t a) {
     display.drawStr( 0, 30, "drawFrame");
     display.drawFrame(5,10+30,20,10);
     display.drawFrame(10+a,15+30,30,7);
-}
+}*/
 
-void displayU8G2::u8g2_disc_circle(uint8_t a) {
+/*void displayU8G2::u8g2_disc_circle(uint8_t a) {
     display.drawStr( 0, 0, "drawDisc");
     display.drawDisc(10,18,9);
     display.drawDisc(24+a,16,7);
@@ -239,7 +248,7 @@ void displayU8G2::draw() {
     draw_state++;
     if ( draw_state >= 14*8 )
         draw_state = 0;
-}
+}*/
 
 
 

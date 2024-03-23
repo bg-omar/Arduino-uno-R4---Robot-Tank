@@ -23,10 +23,6 @@
 #include <cctype>
 using namespace std;
 
-int PS4::flag = 0;
-int PS4::posXY = 90;  // set horizontal servo position
-int PS4::posZ = 45;   // set vertical servo position
-
 int PS4::exitLoop() {
     if (Serial1.available()) {
         static char message[MAX_MESSAGE_LENGTH]; // Create char for serial1 message
@@ -76,11 +72,13 @@ void PS4::joystick(int Xinput, int Yinput) {
                 pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(xMapped));
             }
             if (Yinput >= 9000 && Yinput < 9128) {
-                int yMapped = map(Yinput - 9000, 0, 128, 0, 45); //        Serial.println(yMapped);
+                int yMapped = map(Yinput - 9000, 0, 128, 10, 45); //        Serial.println(yMapped);
                 pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(yMapped));
+                Serial.println(yMapped);
             } else if (Yinput >= 9128 && Yinput <= 9255) {
                 int yMapped = map(Yinput - 9128, 0, 128, 45, 70); //        Serial.println(yMapped);
                 pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(yMapped));
+                Serial.println(yMapped);
             }
         }
     #endif
@@ -106,16 +104,16 @@ void PS4::joystick(int Xinput, int Yinput) {
     if (R_velocity < 0)  { digitalWrite(R_ROT, LOW); R_velocity *= -2; /*Serial.print("_");*/} else{  digitalWrite(R_ROT, HIGH); R_velocity *= 2;}
     if (R_velocity > 255) { R_velocity = 255; } //    Serial.println(R_velocity);
 
-    if (R_velocity < 50 && L_velocity < 50) {
-        Motor::Car_Stop();
-    } else {
+    if (Xinput > 4000 && Xinput < 6999) {
         analogWrite(L_PWM, L_velocity);
         analogWrite(R_PWM, R_velocity);
+    } else {
+            Motor::Car_Stop();
     }
 };
 
 size_t find_operator(const std::string& expression, size_t start_index = 0) {
-    string supported_operators = "+-_!";
+    string supported_operators = "+-_";
     for (char ch : supported_operators) {
         size_t op_index = expression.find(ch, start_index);
         if (op_index != std::string::npos) return op_index;
@@ -176,18 +174,13 @@ void PS4::controller() {
             // Use the message
             vector<int> PS4input;
             if (!contains_letters(message)){
-                // Serial.println("extracting intergers");
                 PS4input = extract_integers(message);
             } else {
                 // message contains text
                 PS4input = { 0, 0 };
-                Serial.println(message);
             }
+            main::logln(message);
 
-            #if USE_U8G2
-                U8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
-                displayU8G2::display.println(message);
-            #endif
 
             if (PS4input[0] >= 4000) { //for double input X-Y
                 PS4::joystick(PS4input[0], PS4input[1]);
@@ -209,16 +202,20 @@ void PS4::controller() {
                         //**** Head movements    ****
                     #if USE_PWM_BOARD
                         case DPAD_U:
-                            pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(posZ += 1));
+                            if (posZ > 5) posZ -= 1;
+                            Serial.println(posZ);
                             break;
                         case DPAD_R:
-                            pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(posXY -= 1));
+                            if (posXY > 10) posXY -= 1;
+                            Serial.println(posXY);
                             break;
                         case DPAD_D:
-                            pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(posZ -= 1));
+                            if (posZ < 100)posZ += 1;
+                            Serial.println(posZ);
                             break;
                         case DPAD_L:
-                            pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(posXY += 1));
+                            if (posXY < 170) posXY += 1;
+                            Serial.println(posXY);
                             break;
                     #endif
 
@@ -229,12 +226,10 @@ void PS4::controller() {
                         Motor::Car_Stop();
                         break;
 
-                    case xSHARE:posXY = 90;posZ = 45;break;
-                    case OPTION:posXY = 90;posZ = 15;break;
+                    case xSHARE: posXY = 90;posZ = 45;break;
+                    case OPTION: posXY = 90;posZ = 15;break;
                     case L1:
-                    #if USE_U8G2
-                      displayU8G2::display.clearDisplay();
-                    #endif
+                        if (main::Found_Display) displayU8G2::display.clearDisplay();
                     #if USE_TIMERS
                       timers::timerTwoActive = !timers::timerTwoActive;
                       timers::timerTreeActive = false;
@@ -247,9 +242,7 @@ void PS4::controller() {
                           dancing::dance(); break;
                       #endif
                     case R1:
-                        #if USE_U8G2
-                          displayU8G2::display.clearDisplay();
-                        #endif
+                        if (main::Found_Display) displayU8G2::display.clearDisplay();
                         #if USE_TIMERS
                           timers::timerTwoActive = !timers::timerTwoActive;
                           timers::timerTreeActive = false;
@@ -274,9 +267,15 @@ void PS4::controller() {
                     default:
                         break;
                 }
+                if (posXY < 0) posXY = 0;
+                if (posXY > 180) posXY = 180;
+                if (posZ < 0) posZ = 0;
+                if (posZ > 100) posZ = 100;
+                pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(posZ));
+                pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(posXY));
             }
             message_pos = 0; //Reset next message
-            delay(5);
+            delay(50);
         }
 
     }

@@ -49,7 +49,6 @@ void nextRainbowColor() {
 
 void onConnect() {
     Serial.println("PS4 Connected!");
-    Serial.println("");
 }
 
 void onDisConnect() {
@@ -186,20 +185,20 @@ void loop() {
         #endif
 
         #if THUMB_STICKS
-            if (PS4.LStickY() <= -10 || PS4.LStickY() >= 10 || PS4.LStickX() <= -10 || PS4.LStickX() >= 10 ) {
+            if (PS4.LStickY() <= -25 || PS4.LStickY() >= 25 || PS4.LStickX() <= -25 || PS4.LStickX() >= 25 ) {
                 Serial.printf("%4d+%4d \r\n",
                               (PS4.LStickX() <= -10 || PS4.LStickX() >= 10) ? 6127 + PS4.LStickX() : 6127,
                               (PS4.LStickY() <= -10 || PS4.LStickY() >= 10) ? 7127 + PS4.LStickY() : 7127
                 );
             }
 
-            if (PS4.RStickX() <= -10 || PS4.RStickX() >= 10 || PS4.RStickY() <= -10 || PS4.RStickY() >= 10 ) {
+            if (PS4.RStickX() <= -25 || PS4.RStickX() >= 25 || PS4.RStickY() <= -25 || PS4.RStickY() >= 25 ) {
                 Serial.printf("%4d+%4d \r\n",
                               (PS4.RStickX() <= -10 || PS4.RStickX() >= 10) ? 8127 + PS4.RStickX() : 8127,
                               (PS4.RStickY() <= -10 || PS4.RStickY() >= 10) ? 9127 + PS4.RStickY() : 9127
                 );
             }
-            if(PS4.L2Value() > 10 || PS4.R2Value() > 10) {
+            if(PS4.L2Value() > 45 || PS4.R2Value() > 45) {
                 Serial.printf("%4d+%4d \r\n",
                               (PS4.L2()) ? 4000 + PS4.L2Value() : 4000,
                               (PS4.R2()) ? 5000 + PS4.R2Value() : 5000

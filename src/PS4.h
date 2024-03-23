@@ -14,9 +14,6 @@ private:
     static const unsigned int MAX_MESSAGE_LENGTH = 30;
     static int flag;
 
-    static int posXY;  // set horizontal servo position
-    static int posZ;   // set vertical servo position
-
     int16_t lastY = 0;
 
 public:
@@ -46,6 +43,10 @@ public:
     static int exitLoop();
     static void joystick(int Xinput, int Yinput);
     static void controller();
+
+    static int posXY;
+
+    static int posZ;
 };
 
 

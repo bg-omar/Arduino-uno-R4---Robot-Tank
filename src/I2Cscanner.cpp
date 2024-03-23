@@ -10,13 +10,8 @@
 void I2Cscanner::scan() {
     byte error, address;
     int nDevices;
-    #if USE_U8G2
-        main::logln("I2C Scanning...");
-    #endif
-    #if USE_ADAFRUIT
-        displayAdafruit::display.println("I2C Scanning...");
-        displayAdafruit::display.display();
-    #endif
+
+    main::logln("I2C Scanning...");
     nDevices = 0;
 
     delay(200);
@@ -27,57 +22,28 @@ void I2Cscanner::scan() {
         if (error == 0) {
             main::log(" 0x");
             if (address<16) {
-                #if USE_U8G2
-                    main::log("0");
-                #endif
-                #if USE_ADAFRUIT
-                    displayAdafruit::display.print("0");
-                #endif
+                main::log("0");
             }
-            #if USE_U8G2
-                displayU8G2::u8g2log.println(address, HEX);
-            #endif
-            #if USE_ADAFRUIT
-                displayAdafruit::display.println(address, HEX);
-                displayAdafruit::display.display();
-            #endif
+            if (main::Found_Display) displayU8G2::u8g2log.println(address, HEX);
             nDevices++;
             delay(200);
         }
         else if (error==4) {
             main::log("Unknow error at address 0x");
             if (address<16) {
-
-                main::log("0");
+                main::logln("0");
             }
-            displayU8G2::u8g2log.println(address, HEX);
-            #if USE_ADAFRUIT
-                displayAdafruit::display.println(address, HEX);
-                displayAdafruit::display.display();
-            #endif
+            if (main::Found_Display) displayU8G2::u8g2log.println(address, HEX);
         }
     }
-    #if USE_U8G2
-        delay(20);
-        main::log(reinterpret_cast<const char *>(nDevices));
-        delay(20);
-        main::logln(" devices");
-    #endif
-    #if USE_ADAFRUIT
-        delay(20);
-        displayAdafruit::display.print(nDevices);
-        delay(20);
-        displayAdafruit::display.println(" devices");
-        displayAdafruit::display.display();
-    #endif
+    delay(20);
+    main::logln(" devices: ");
+    delay(20);
+    main::log(reinterpret_cast<const char *>(nDevices));
+
+
     delay(100);
     if (nDevices == 0) {
-    #if USE_U8G2
-            main::logln("No I2C devices found");
-    #endif
-    #if USE_ADAFRUIT
-            displayAdafruit::display.println("No I2C devices found");
-            displayAdafruit::display.display();
-    #endif
+        main::logln("No I2C devices found");
     }
 }

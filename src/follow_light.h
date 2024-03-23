@@ -7,9 +7,6 @@
 
 #include "config.h"
 
-#define light_L_Pin A0
-#define light_R_Pin A1
-
 
 class Follow_light {
 private:

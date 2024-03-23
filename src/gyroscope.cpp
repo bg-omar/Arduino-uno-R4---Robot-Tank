@@ -5,7 +5,7 @@
 #include "displayU8G2.h"
 #include "timers.h"
 #include "gyroscope.h"
-
+#include "main_ra.h"
 
 Adafruit_MPU6050 mpu; // Set the gyroscope
 
@@ -100,17 +100,29 @@ void gyroscope::gyroCalibrate_sensor() {
     gyroscope::baseGx = totgX / 10;
     gyroscope::baseGy = totgY / 10;
     gyroscope::baseGz = totgZ / 10;
+    displayU8G2::u8g2log.print(" Ax: ");
+    displayU8G2::u8g2log.print(baseAx);
+    displayU8G2::u8g2log.print(" Ay: ");
+    displayU8G2::u8g2log.print(baseAy);
+    displayU8G2::u8g2log.print(" Az: ");
+    displayU8G2::u8g2log.println(baseAz);
+    displayU8G2::u8g2log.print(" Gx: ");
+    displayU8G2::u8g2log.print(baseGx);
+    displayU8G2::u8g2log.print(" Gy: ");
+    displayU8G2::u8g2log.print(baseGy);
+    displayU8G2::u8g2log.print(" Gz: ");
+    displayU8G2::u8g2log.println(baseGz);
 }
 
 void gyroscope::gyroSetup() {
     // Try to initialize!
     if (!mpu.begin()) {
 
-        displayU8G2::u8g2log.println("MPU6050 not found");
+        main::logln("MPU6050 not found");
         delay(500);
 
     } else {
-        displayU8G2::u8g2log.println("MPU6050 Found!    ");
+        main::logln("MPU6050 Found!    ");
         delay(500);
         mpu.setAccelerometerRange(MPU6050_RANGE_4_G);
         mpu.setGyroRange(MPU6050_RANGE_500_DEG);

@@ -4,6 +4,7 @@
 
 #include <Arduino.h>
 #include "pwm_board.h"
+#include "PS4.h"
 
 
 /***************************************************** Servo PWM Angle s**********************************************/
@@ -12,15 +13,17 @@
 
 Adafruit_PWMServoDriver pwm_board::pwm = Adafruit_PWMServoDriver();
 
-int pwm_board::r = 0;
-int pwm_board::g = 0;
-int pwm_board::b = 0;
+int r = 0;
+int g = 0;
+int b = 0;
+int pwm_board::a = 0;
+
 
 void pwm_board::setupPWM(){
     pwm_board::pwm.begin();
     pwm_board::pwm.setPWMFreq(FREQUENCY);  // Analog servos run at ~50 Hz updates
-    pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(90));
-    pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(45));
+    pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(PS4::posXY));
+    pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(PS4::posZ));
 }
 
 
@@ -36,27 +39,27 @@ int pwm_board::pulseWidth(int angle){  //  pwm.setPWM(PWM_0, 0, pulseWidth(0));
 /***************************************************************************************************************/
 
 void pwm_board::RGBled(int r_val, int g_val, int b_val) {
-    pwm.setPWM(PWM_12, 0, (16*b_val<4080) ? 16*b_val : 4080);
-    pwm.setPWM(PWM_13, 0, (16*g_val<4080) ? 16*g_val : 4080);
-    pwm.setPWM(PWM_14, 0, (16*r_val<4080) ? 16*r_val : 4080);
+    pwm.setPWM(PWM_12, 0, (a*b_val<4080) ? a*b_val : 4080);
+    pwm.setPWM(PWM_13, 0, (a*g_val<4080) ? a*g_val : 4080);
+    pwm.setPWM(PWM_14, 0, (a*r_val<4080) ? a*r_val : 4080);
 }
 
 void pwm_board::leftLedStrip(int r_val, int g_val, int b_val) {
     r_val = 255 - r_val;
     g_val = 255 - g_val;
     b_val = 255 - b_val;
-    pwm.setPWM(PWM_10, 0, (16*b_val<4080) ? 16*b_val : 4080);
-    pwm.setPWM(PWM_9, 0, (16*g_val<4080) ? 16*g_val : 4080);
-    pwm.setPWM(PWM_8, 0, (16*r_val<4080) ? 16*r_val : 4080);
+    pwm.setPWM(PWM_8, 0, (a*b_val<4080) ? a*b_val : 4080);
+    pwm.setPWM(PWM_9, 0, (a*g_val<4080) ? a*g_val : 4080);
+    pwm.setPWM(PWM_10, 0, (a*r_val<4080) ? a*r_val : 4080);
 }
 
 void pwm_board::rightLedStrip(int r_val, int g_val, int b_val) {
     r_val = 255 - r_val;
     g_val = 255 - g_val;
     b_val = 255 - b_val;
-    pwm.setPWM(PWM_7, 0, (16*b_val<4080) ? 16*b_val : 4080);
-    pwm.setPWM(PWM_6, 0, (16*g_val<4080) ? 16*g_val : 4080);
-    pwm.setPWM(PWM_5, 0, (16*r_val<4080) ? 16*r_val : 4080);
+    pwm.setPWM(PWM_5, 0, (a*b_val<4080) ? a*b_val : 4080);
+    pwm.setPWM(PWM_6, 0, (a*g_val<4080) ? a*g_val : 4080);
+    pwm.setPWM(PWM_7, 0, (a*r_val<4080) ? a*r_val : 4080);
 }
 
 

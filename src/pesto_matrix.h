@@ -42,11 +42,13 @@
         static unsigned char clear;
 
         constexpr static const byte Heart[8] = { 0b00000, 0b01010, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000, 0b00000};
+
         static void IIC_start();
         static void IIC_send(unsigned char send_data);
         static void IIC_end();
         static void matrix_display(unsigned char matrix_value[]);
         static void pestoMatrix();
+        static void setup_pestoMatrix();
     };
 
 
