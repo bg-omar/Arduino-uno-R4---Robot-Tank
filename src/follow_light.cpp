@@ -6,6 +6,7 @@
 #include "follow_light.h"
 #include "motor.h"
 #include "PS4.h"
+#include "pwm_board.h"
 
 
 /*************************************************** Light Follow **********************************************/
@@ -15,6 +16,8 @@
 int Follow_light::flag;
 
 double Follow_light::lightSensor(){
+    Follow_light::lightSensorL = analogRead(light_R_Pin);
+    Follow_light::lightSensorR = analogRead(light_L_Pin);
     long outputValueR = map(Follow_light::lightSensorL, 0, 1023, 0, 255);
     long outputValueL = map(Follow_light::lightSensorR, 0, 1023, 0, 255);
     double calcValue = 255 - (outputValueR + outputValueL)*.5;
@@ -25,6 +28,7 @@ double Follow_light::lightSensor(){
 void Follow_light::light_track() {
     flag =0;
     while (flag == 0) {
+        pwm_board::RainbowColor();
         Follow_light::lightSensorL = analogRead(light_R_Pin);
         Follow_light::lightSensorR = analogRead(light_L_Pin);
         if (lightSensorR > 650 && lightSensorL > 650) {

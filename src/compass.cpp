@@ -7,6 +7,7 @@
 #include "main_ra.h"
 #include "pesto_matrix.h"
 #include "displayU8G2.h"
+#include "pwm_board.h"
 
 Adafruit_HMC5883_Unified compass::mag;
 
@@ -41,22 +42,32 @@ void compass::showCompass(){
     main::log(buffer);
     if (headingDegrees >= 0 && headingDegrees < 45){
         Pesto::matrix_display(north);
+        pwm_board::rightLedStrip(0,244,0);
+        pwm_board::leftLedStrip(0,244,0);
         main::logln("  North  ");
     }
     if (headingDegrees >= 45 && headingDegrees < 135){
         Pesto::matrix_display(east);
+        pwm_board::rightLedStrip(244,0,0);
+        pwm_board::leftLedStrip(0,244,0);
         main::logln("  East  ");
     }
     if (headingDegrees >= 135 && headingDegrees < 225){
         Pesto::matrix_display(south);
+        pwm_board::rightLedStrip(244,0,0);
+        pwm_board::leftLedStrip(244,0,0);
         main::logln("  South   ");
     }
     if (headingDegrees >= 225 && headingDegrees < 315){
         Pesto::matrix_display(west);
+        pwm_board::rightLedStrip(0,244,0);
+        pwm_board::leftLedStrip(244,0,0);
         main::logln("  West  ");
     }
     if (headingDegrees >= 315 && headingDegrees < 360){
         Pesto::matrix_display(north);
+        pwm_board::rightLedStrip(0,244,0);
+        pwm_board::leftLedStrip(0,244,0);
         main::logln("  North ");
     }
 }

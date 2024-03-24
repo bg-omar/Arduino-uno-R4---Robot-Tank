@@ -5,6 +5,7 @@
 #include "barometer.h"
 #include "displayAdafruit.h"
 #include "displayU8G2.h"
+#include "pwm_board.h"
 
 /********************************************** control ultrasonic sensor***************************************/
 // section BaroMeter
@@ -26,7 +27,8 @@ void barometer::baroSetup() {
 
 void barometer::baroMeter() {
     displayAdafruit::display.clearDisplay();
-
+    pwm_board::rightLedStrip(0,0,244);
+    pwm_board::leftLedStrip(0,0,244);
     displayU8G2::u8g2log.print("Temp= ");
     displayU8G2::u8g2log.print(bme.readTemperature());
     displayU8G2::u8g2log.print("*C ");

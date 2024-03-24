@@ -17,6 +17,7 @@
 #include "main_ra.h"
 #include "compass.h"
 #include "gyroscope.h"
+#include "barometer.h"
 
 #include <iostream>
 #include <string>
@@ -237,6 +238,7 @@ void PS4::controller() {
 
                     case xSHARE: compass::displaySensorDetails();break;
                     case OPTION: gyroscope::gyroFunc();break;
+                    case PSHOME: barometer::baroMeter();break;
                     case L1:
                         #if USE_TIMERS
                           timers::timerTwoActive = !timers::timerTwoActive;

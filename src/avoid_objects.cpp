@@ -28,6 +28,7 @@ double avoid_objects::checkDistance() {
 void avoid_objects::avoid() {
     int flag = 0; ///the design that enter obstacle avoidance function
     while (flag == 0) {
+        pwm_board::RainbowColor();
         random2 = random(1, 100);
         distanceF = checkDistance();
         if (distanceF < 25) {

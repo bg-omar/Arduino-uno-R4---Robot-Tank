@@ -6,6 +6,7 @@
 #include "timers.h"
 #include "gyroscope.h"
 #include "main_ra.h"
+#include "pwm_board.h"
 
 Adafruit_MPU6050 mpu; // Set the gyroscope
 
@@ -22,6 +23,8 @@ void gyroscope::gyroRead(){
 
 void gyroscope::gyroFunc(){
     gyroscope::gyroRead();
+    pwm_board::rightLedStrip(0,244,244);
+    pwm_board::leftLedStrip(0,244,244);
     (gyroscope::ax > 0) ? displayU8G2::u8g2log.print("+"), displayU8G2::u8g2log.print(gyroscope::ax) : displayU8G2::u8g2log.print(gyroscope::ax);
     displayU8G2::u8g2log.print(" ");  (gyroscope::ay > 0) ? displayU8G2::u8g2log.print("+"), displayU8G2::u8g2log.print(gyroscope::ay) : displayU8G2::u8g2log.print(gyroscope::ay);
     displayU8G2::u8g2log.print(" ");  (gyroscope::az > 0) ? displayU8G2::u8g2log.print("+"), displayU8G2::u8g2log.print(gyroscope::az) : displayU8G2::u8g2log.print(gyroscope::az);

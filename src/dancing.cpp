@@ -16,6 +16,7 @@ int flag = 0;
 
 void dancing::dance() {
     while (flag == 0) {
+        pwm_board::RainbowColor();
         randomXY = random(1, 180);
         randomZ = random(1, 160);
         pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(randomXY));
