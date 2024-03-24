@@ -10,14 +10,14 @@
 
 class general_timer {
 
-    static void setup_General_Timer() ;
-
-    static void loop_General_Timer();
-
 public:
     static void timer_callback(timer_callback_args_t __attribute((unused)) *p_args) ;
 
     static bool beginTimer(float rate) ;
+
+    static void setup_General_Timer() ;
+
+    static void loop_General_Timer();
 };
 
 

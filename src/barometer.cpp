@@ -44,4 +44,6 @@ void barometer::baroMeter() {
     displayU8G2::u8g2log.print(bme.readHumidity());
     displayU8G2::u8g2log.println("%");
     delay(500);
+
+
 }

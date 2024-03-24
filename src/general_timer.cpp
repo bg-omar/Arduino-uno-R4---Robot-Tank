@@ -46,7 +46,6 @@ bool general_timer::beginTimer(float rate) {
 
 
 void general_timer::setup_General_Timer() {
-    Serial.begin(115200);
     general_timer::beginTimer(8000);
     start_time = millis();
 }

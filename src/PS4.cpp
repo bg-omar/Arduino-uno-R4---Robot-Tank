@@ -15,6 +15,8 @@
 #include "avoid_objects.h"
 #include "follow_light.h"
 #include "main_ra.h"
+#include "compass.h"
+#include "gyroscope.h"
 
 #include <iostream>
 #include <string>
@@ -48,6 +50,13 @@ int PS4::exitLoop() {
                 }
             }
     #endif
+    return 0;
+
+    char bluetooth_val = Serial.read();
+    if (bluetooth_val == 'S') {
+        return 1;
+    }
+
     return 0;
 }
 
@@ -202,19 +211,19 @@ void PS4::controller() {
                         //**** Head movements    ****
                     #if USE_PWM_BOARD
                         case DPAD_U:
-                            if (posZ > 5) posZ -= 1;
+                            if (posZ > 5) posZ -= 10;
                             Serial.println(posZ);
                             break;
                         case DPAD_R:
-                            if (posXY > 10) posXY -= 1;
+                            if (posXY > 10) posXY -= 10;
                             Serial.println(posXY);
                             break;
                         case DPAD_D:
-                            if (posZ < 100)posZ += 1;
+                            if (posZ < 100)posZ += 10;
                             Serial.println(posZ);
                             break;
                         case DPAD_L:
-                            if (posXY < 170) posXY += 1;
+                            if (posXY < 170) posXY += 10;
                             Serial.println(posXY);
                             break;
                     #endif
@@ -226,23 +235,21 @@ void PS4::controller() {
                         Motor::Car_Stop();
                         break;
 
-                    case xSHARE: posXY = 90;posZ = 45;break;
-                    case OPTION: posXY = 90;posZ = 15;break;
+                    case xSHARE: compass::displaySensorDetails();break;
+                    case OPTION: gyroscope::gyroFunc();break;
                     case L1:
-                        if (main::Found_Display) displayU8G2::display.clearDisplay();
-                    #if USE_TIMERS
-                      timers::timerTwoActive = !timers::timerTwoActive;
-                      timers::timerTreeActive = false;
-                      timers::timerButton = L1;
-                    #endif
-                    delay(100);
-                    break;
+                        #if USE_TIMERS
+                          timers::timerTwoActive = !timers::timerTwoActive;
+                          timers::timerTreeActive = false;
+                          timers::timerButton = L1;
+                        #endif
+                        delay(100);
+                        break;
                     case TOUCHPD:
                       #if USE_ROBOT
                           dancing::dance(); break;
                       #endif
                     case R1:
-                        if (main::Found_Display) displayU8G2::display.clearDisplay();
                         #if USE_TIMERS
                           timers::timerTwoActive = !timers::timerTwoActive;
                           timers::timerTreeActive = false;

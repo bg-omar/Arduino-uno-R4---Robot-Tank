@@ -24,26 +24,26 @@ void I2Cscanner::scan() {
             if (address<16) {
                 main::log("0");
             }
-            if (main::Found_Display) displayU8G2::u8g2log.println(address, HEX);
+            if (main::Found_Display) displayU8G2::u8g2log.print(address, HEX);
+            main::log(", ");
             nDevices++;
             delay(200);
         }
         else if (error==4) {
             main::log("Unknow error at address 0x");
             if (address<16) {
-                main::logln("0");
+                main::log("0 ");
             }
-            if (main::Found_Display) displayU8G2::u8g2log.println(address, HEX);
+            if (main::Found_Display) displayU8G2::u8g2log.print(address, HEX);
         }
     }
     delay(20);
-    main::logln(" devices: ");
-    delay(20);
+    main::log("\n devices: ");
     main::log(reinterpret_cast<const char *>(nDevices));
 
 
     delay(100);
     if (nDevices == 0) {
-        main::logln("No I2C devices found");
+        main::logln("-- No I2C devices found--");
     }
 }

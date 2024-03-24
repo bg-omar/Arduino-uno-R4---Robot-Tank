@@ -40,13 +40,16 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include "pesto_matrix.h"
 #include "follow_light.h"
 #include "motor.h"
+#include "MicStereo.h"
 #include "avoid_objects.h"
 #include "I2Cscanner.h"
 
 
 #if USE_MATRIX
     #include "Arduino_LED_Matrix.h"
-    ArduinoLEDMatrix matrix;
+#include "general_timer.h"
+
+ArduinoLEDMatrix matrix;
 #endif
 
 long baseRSound, baseLSound;
@@ -56,7 +59,7 @@ int PS4::posXY = 90;  // set horizontal servo position
 int PS4::posZ = 5;   // set vertical servo position
 
 
-bool main::Found_Display = false;
+bool main::Found_Display;
 bool main::Found_Gyro = false;
 bool main::Found_Compass = false;
 bool main::Found_Mics = false;
@@ -90,9 +93,7 @@ void setup(){
     Wire.begin();
     Serial.begin(115200); // Initialize the hardware serial port for debugging
     Serial.println("Debug Serial started");
-    #if USE_ADAFRUIT
-        displayAdafruit::setupAdafruit();
-    #endif
+
     #if USE_U8G2
         displayU8G2::U8G2setup();
     #endif
@@ -104,10 +105,10 @@ void setup(){
 
     delay(1);
 
-    main::logln("Debug Serial started");
+    main::log("Serial,\t");
     delay(1);
     Serial1.begin(115200);
-    main::logln("Serial1 started");
+    main::log("Serial1,  \t");
     delay(1);
     SERIAL_AT.begin(115200);
     main::logln("Serial_AT started");
@@ -128,53 +129,50 @@ void setup(){
 
         if (Switch_8_State == LOW) {  main::logln(" SWITCH_8 is on");} else {main::logln(" SWITCH_8 is off");}
         if (Switch_9_State == LOW) {  main::logln(" SWITCH_9 is on");} else {main::logln(" SWITCH_9 is off");}
+
+        delay(500);
     #endif
 
     #if USE_MATRIX
         matrix.loadSequence(animation);
             matrix.begin();
-            //matrix.autoscroll(300);
+            matrix.autoscroll(300);
             matrix.play(true);
+            delay(500);
     #endif
 
     #if USE_DISTANCE
         pinMode(Trig_PIN, OUTPUT);    /***** 6 ******/
         pinMode(Echo_PIN, INPUT);     /***** 7 ******/
         main::logln("Using Sonar Distance");
+        delay(500);
     #endif
 
     #if USE_DOT
         Pesto::setup_pestoMatrix();
+        delay(500);
     #endif
 
     #if USE_MIC
-        pinMode(MIC_R_PIN, INPUT);
-        baseRSound = map(analogRead(MIC_R_PIN), 0, 1023, 0, 255); /***** A3 ******/
-        pinMode(MIC_L_PIN, INPUT);
-        baseLSound = map(analogRead(MIC_L_PIN), 0, 1023, 0, 255); /***** A1 ******/
-        main::log("     Left Mic: ");
-        if (main::Found_Display) displayU8G2::u8g2log.println(baseLSound);
-        main::log("    Right Mic: ");
-        if (main::Found_Display) displayU8G2::u8g2log.println(baseRSound);
-        main::logln("Using Mic");
+        MicStereo::MicSetup();
+        delay(500);
     #endif
 
     #if USE_GYRO
         gyroscope::gyroSetup();
+        gyroscope::gyroFunc();
+        delay(500);
     #endif
 
     #if USE_COMPASS
-        #if USE_ADAFRUIT
-            displayAdafruit::display.clearDisplay();
-        #endif
         compass::compassSetup();
+        delay(500);
     #endif
 
     #if USE_BAROMETER
-        #if USE_ADAFRUIT
-            displayAdafruit::display.clearDisplay();
-        #endif
         barometer::baroSetup();
+        barometer::baroMeter();
+        delay(500);
     #endif
 
     #if USE_IRREMOTE
@@ -188,10 +186,11 @@ void setup(){
 
     #if USE_TIMERS
         timers::initTimers();
-    #endif
-    #if USE_ADAFRUIT
-        displayAdafruit::display.clearDisplay();
-    #endif
+        delay(500);
+
+        general_timer::setup_General_Timer();
+        delay(500);
+#endif
 }
 
 /*********************************** Loop **********************************/
@@ -213,6 +212,10 @@ void loop(){
         IRreceiver::irRemote();
 	#endif
 
+#if USE_GYRO
+    gyroscope::gyroDetectMovement();
+#endif
+
     #if USE_DISTANCE
         avoid_objects::distanceF = avoid_objects::checkDistance();  /// assign the front distance detected by ultrasonic sensor to variable a
         if (avoid_objects::distanceF < 25) {
@@ -221,9 +224,11 @@ void loop(){
                 if (Switch_8_State == LOW) {
                     pwm_board::leftLedStrip(255, 0, 0);
                     pwm_board::rightLedStrip(255, 0, 0);
+                } else {
+                    pwm_board::leftLedStrip(70, 0, 70);
+                    pwm_board::rightLedStrip(70, 0, 70);
                 }
             #endif
-            main::log("      Pesto  ");
             if (main::Found_Display) displayU8G2::u8g2log.println(avoid_objects::distanceF);
             #if USE_DOT
                 Pesto::pestoMatrix();
@@ -233,27 +238,7 @@ void loop(){
         } else {
     #endif
         #if USE_MIC
-            int micRStatus = analogRead(MIC_R_PIN);
-            int micR255 = map(micRStatus, 0, 1023, 0, 255);
-
-            int micLStatus = analogRead(MIC_L_PIN);
-            int micL255 = map(micLStatus, 0, 1023, 0, 255);
-
-            if (micR255 > baseRSound) {
-                if (main::Found_Display) displayU8G2::u8g2log.println(micR255);
-                #if USE_PWM_BOARD
-                        pwm_board::RGBled(micR255, micR255, 0);
-                #endif
-            } else if (micL255 > baseLSound) {
-                if (main::Found_Display) displayU8G2::u8g2log.println(micL255);
-                #if USE_PWM_BOARD
-                    pwm_board::RGBled(0, micR255, micL255);
-                #endif
-            } else {
-                #if USE_PWM_BOARD
-                    pwm_board::RGBled(0, micR255, 0);
-                #endif
-            }
+            MicStereo::MicLoop();
         #endif
 
         #if USE_PWM_BOARD
@@ -261,18 +246,18 @@ void loop(){
             if (Switch_8_State == LOW) {
                 pwm_board::leftLedStrip(0, 255, 0);
                 pwm_board::rightLedStrip(0, 255, 0);
+            } else {
+                pwm_board::leftLedStrip(0, 70, 0);
+                pwm_board::rightLedStrip(0, 70, 0);
             }
         #endif
     #if USE_DISTANCE
         }
     #endif
 
-    #if USE_GYRO
-        gyroscope::gyroDetectMovement();
-    #endif
-
     #if USE_TIMERS
         timers::update();
+        general_timer::loop_General_Timer();
     #endif
 
     #if READ_ESP32

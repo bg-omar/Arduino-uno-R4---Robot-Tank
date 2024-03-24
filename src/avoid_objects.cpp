@@ -6,6 +6,7 @@
 
 #include "motor.h"
 #include "pwm_board.h"
+#include "PS4.h"
 
 /********************************************** control ultrasonic sensor***************************************/
 // section UltraSonic
@@ -22,34 +23,6 @@ double avoid_objects::checkDistance() {
     double checkDistance = pulseIn(Echo_PIN, HIGH) / 58.00;  //58.20, that is, 2*29.1=58.2
     delay(10);
     return checkDistance;
-}
-
-int avoid_objects::exitLoop() {
-    if (Serial1.available()) {
-        static char message[30]; // Create char for serial1 message
-        static unsigned int message_pos = 0;
-        char inByte = Serial1.read();
-        if (inByte != '\n' && (message_pos < 30 - 1)) { // Add the incoming byte to our message
-            message[message_pos] = inByte;
-            message_pos++;
-        } else { // Full message received...
-            //message[message_pos] = '\0'; // Add null character to string to end string
-            int PS4input = atoi(message);
-            if (PS4input == PSHOME){
-                return 1;
-            }
-        }
-    }
-#if USE_IRREMOTE
-    if (IrReceiver.decode()) {
-                IRRawDataType ir_rec = IrReceiver.decodedIRData.decodedRawData;
-                IrReceiver.resume();
-                if (ir_rec == Rem_OK) {
-                    flag = 1;
-                }
-            }
-#endif
-    return 0;
 }
 
 void avoid_objects::avoid() {
@@ -105,6 +78,6 @@ void avoid_objects::avoid() {
         {
             Motor::Car_front();
         }
-        flag = exitLoop();
+        flag = PS4::exitLoop();
     }
 }
