@@ -9,13 +9,14 @@
 #include "main_ra.h"
 #include "pwm_board.h"
 
-long baseRSound, baseLSound;
+
+long MicStereo::baseRSound, MicStereo::baseLSound = 0;
 
 void MicStereo::MicSetup() {
     pinMode(MIC_R_PIN, INPUT);
-    baseRSound = map(analogRead(MIC_R_PIN), 0, 1023, 0, 255); /***** A3 ******/
+    MicStereo::baseRSound = map(analogRead(MIC_R_PIN), 0, 1023, 0, 255); /***** A3 ******/
     pinMode(MIC_L_PIN, INPUT);
-    baseLSound = map(analogRead(MIC_L_PIN), 0, 1023, 0, 255); /***** A1 ******/
+    MicStereo::baseLSound = map(analogRead(MIC_L_PIN), 0, 1023, 0, 255); /***** A1 ******/
     main::log("     Left Mic: ");
     if (main::Found_Display) displayU8G2::u8g2log.println(baseLSound);
     main::log("    Right Mic: ");
@@ -31,12 +32,12 @@ void MicStereo::MicLoop() {
     int micLStatus = analogRead(MIC_L_PIN);
     int micL255 = map(micLStatus, 0, 1023, 0, 255);
 
-    if (micR255 > baseRSound) {
+    if (micR255 > MicStereo::baseRSound) {
         if (main::Found_Display) displayU8G2::u8g2log.println(micR255);
 #if USE_PWM_BOARD
         pwm_board::RGBled(micR255, micR255, 0);
 #endif
-    } else if (micL255 > baseLSound) {
+    } else if (micL255 > MicStereo::baseLSound) {
         if (main::Found_Display) displayU8G2::u8g2log.println(micL255);
 #if USE_PWM_BOARD
         pwm_board::RGBled(0, micR255, micL255);

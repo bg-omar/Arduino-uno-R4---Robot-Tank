@@ -8,7 +8,6 @@
 #include "compass.h"
 #include "gyroscope.h"
 #include "displayU8G2.h"
-#include "displayAdafruit.h"
 
 bool timers::timerTwoActive = false;
 bool timers::timerTreeActive = false;
@@ -55,9 +54,6 @@ void timers::sensorTimer(){
 void timers::resetTimers(){
     timers::timerTwoActive = false;
     timers::timerTreeActive = false;
-    #if USE_ADAFRUIT
-        displayAdafruit::display.clearDisplay();
-    #endif
 }
 
 void timers::mouthTimer(){

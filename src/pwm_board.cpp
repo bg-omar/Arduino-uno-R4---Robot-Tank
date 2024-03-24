@@ -13,9 +13,9 @@
 
 Adafruit_PWMServoDriver pwm_board::pwm = Adafruit_PWMServoDriver();
 
-int r = 0;
-int g = 0;
-int b = 0;
+int pwm_board::r = 0;
+int pwm_board::g = 0;
+int pwm_board::b = 0;
 int pwm_board::a = 0;
 
 

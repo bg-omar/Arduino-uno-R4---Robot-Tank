@@ -3,6 +3,7 @@
   <component name="CidrRootsConfiguration">
     <sourceRoots>
       <file path="$PROJECT_DIR$/include" />
+      <file path="$PROJECT_DIR$/src" />
       <file path="$PROJECT_DIR$/src_esp32_ps4" />
       <file path="$PROJECT_DIR$/src_esp32_r4" />
     </sourceRoots>

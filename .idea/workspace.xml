@@ -15,26 +15,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a7a6b36-a99e-4db6-8829-f78acb2fa3fc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/BLE.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/BLE.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MicStereo.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MicStereo.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/I2Cscanner.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/I2Cscanner.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PS4.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/PS4.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/avoid_objects.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/avoid_objects.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/barometer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/barometer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dancing.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/dancing.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/displayU8G2.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayU8G2.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MicStereo.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/MicStereo.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MicStereo.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/MicStereo.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/follow_light.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/follow_light.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/general_timer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/general_timer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/general_timer.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/general_timer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gyroscope.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/gyroscope.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main_ra.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_ra.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/motor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/motor.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge" beforeDir="false" afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/arduino-cli.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/unor4wifi-updater/package.sh" beforeDir="false" afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/unor4wifi-updater/package.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pwm_board.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/pwm_board.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -335,7 +320,7 @@
       <workItem from="1711231020119" duration="271000" />
       <workItem from="1711231491768" duration="2356000" />
       <workItem from="1711237552821" duration="363000" />
-      <workItem from="1711279145607" duration="7707000" />
+      <workItem from="1711279145607" duration="9725000" />
     </task>
     <task id="LOCAL-00001" summary="ps4?">
       <option name="closed" value="true" />
@@ -577,7 +562,23 @@
       <option name="project" value="LOCAL" />
       <updated>1711237629687</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="changes">
+      <option name="closed" value="true" />
+      <created>1711287094329</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1711287094329</updated>
+    </task>
+    <task id="LOCAL-00032" summary="cleaning">
+      <option name="closed" value="true" />
+      <created>1711288510185</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1711288510185</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -594,7 +595,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="lesson11" />
+                        <option value="Wall-Z" />
                       </list>
                     </value>
                   </entry>
@@ -632,7 +633,8 @@
     <MESSAGE value="Motor Working nicely" />
     <MESSAGE value="Switch with check on boot to replace #define's" />
     <MESSAGE value="changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="changes" />
+    <MESSAGE value="cleaning" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleaning" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

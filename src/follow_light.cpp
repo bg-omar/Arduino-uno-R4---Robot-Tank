@@ -14,6 +14,8 @@
 /***************************************************************************************************************/
 
 int Follow_light::flag;
+int Follow_light::lightSensorL;
+int Follow_light::lightSensorR;
 
 double Follow_light::lightSensor(){
     Follow_light::lightSensorL = analogRead(light_R_Pin);
@@ -28,9 +30,9 @@ double Follow_light::lightSensor(){
 void Follow_light::light_track() {
     flag =0;
     while (flag == 0) {
+        lightSensor();
         pwm_board::RainbowColor();
-        Follow_light::lightSensorL = analogRead(light_R_Pin);
-        Follow_light::lightSensorR = analogRead(light_L_Pin);
+
         if (lightSensorR > 650 && lightSensorL > 650) {
             Motor::Car_front();
         }
