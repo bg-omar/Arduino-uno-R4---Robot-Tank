@@ -7,16 +7,18 @@
 #include "gyroscope.h"
 #include "main_ra.h"
 #include "pwm_board.h"
+#include "compass.h"
 
 Adafruit_MPU6050 mpu; // Set the gyroscope
 
-float   gyroscope::ax, gyroscope::ay, gyroscope::az, gyroscope::gx, gyroscope::gy, gyroscope::gz, gyroscope::baseAx, gyroscope::baseAy, gyroscope::baseAz, gyroscope::baseGx, gyroscope::baseGy, gyroscope::baseGz, gyroscope::temperature = 0;
+float   gyroscope::ax,  gyroscope::ay, gyroscope::az, gyroscope::gx, gyroscope::gy, gyroscope::gz, gyroscope::baseAx, gyroscope::baseAy, gyroscope::baseAz, gyroscope::baseGx, gyroscope::baseGy, gyroscope::baseGz, gyroscope::temperature = 0;
+
 
 void gyroscope::gyroRead(){
     sensors_event_t a, gyro, temp;
     mpu.getEvent(&a, &gyro, &temp);
 
-    gyroscope::temperature = temp.temperature;  gyroscope::gyroscope::ax = a.acceleration.x - gyroscope::baseAx;
+    gyroscope::temperature = temp.temperature;  gyroscope::ax = a.acceleration.x - gyroscope::baseAx;
     gyroscope::ay = a.acceleration.y - gyroscope::baseAy;  gyroscope::az = a.acceleration.z - gyroscope::baseAz;
     gyroscope::gx = gyro.gyro.x - gyroscope::baseGx;  gyroscope::gy = gyro.gyro.y - gyroscope::baseGy;  gyroscope::gz = gyro.gyro.z - gyroscope::baseGz;
 }
@@ -25,24 +27,35 @@ void gyroscope::gyroFunc(){
     gyroscope::gyroRead();
     pwm_board::rightLedStrip(0,244,244);
     pwm_board::leftLedStrip(0,244,244);
-    (gyroscope::ax > 0) ? displayU8G2::u8g2log.print("+"), displayU8G2::u8g2log.print(gyroscope::ax) : displayU8G2::u8g2log.print(gyroscope::ax);
-    displayU8G2::u8g2log.print(" ");  (gyroscope::ay > 0) ? displayU8G2::u8g2log.print("+"), displayU8G2::u8g2log.print(gyroscope::ay) : displayU8G2::u8g2log.print(gyroscope::ay);
-    displayU8G2::u8g2log.print(" ");  (gyroscope::az > 0) ? displayU8G2::u8g2log.print("+"), displayU8G2::u8g2log.print(gyroscope::az) : displayU8G2::u8g2log.print(gyroscope::az);
-    displayU8G2::u8g2log.print("   ");
-    (gyroscope::gx > 0) ? displayU8G2::u8g2log.print("+"), displayU8G2::u8g2log.print(gyroscope::gx) : displayU8G2::u8g2log.print(gyroscope::gx);  displayU8G2::u8g2log.print(" ");
-    (gyroscope::gy > 0) ? displayU8G2::u8g2log.print("+"), displayU8G2::u8g2log.print(gyroscope::gy) : displayU8G2::u8g2log.print(gyroscope::gy);  displayU8G2::u8g2log.print(" ");
-    (gyroscope::gz > 0) ? displayU8G2::u8g2log.print("+"), displayU8G2::u8g2log.print(gyroscope::gz) : displayU8G2::u8g2log.print(gyroscope::gz);  displayU8G2::u8g2log.print("   ");
+    (gyroscope::ax > 0)
+                    ? displayU8G2::u8g2log.print(" +"), displayU8G2::u8g2log.print(gyroscope::ax), Serial.print(" +"), Serial.print(gyroscope::ax)
+                    : displayU8G2::u8g2log.print(" "),  displayU8G2::u8g2log.print(gyroscope::ax), Serial.print(" "),  Serial.print(gyroscope::ax);
+    (gyroscope::ay > 0)
+                    ? displayU8G2::u8g2log.print(" +"), displayU8G2::u8g2log.print(gyroscope::ay), Serial.print(" +"), Serial.print(gyroscope::ay)
+                    : displayU8G2::u8g2log.print(" "),  displayU8G2::u8g2log.print(gyroscope::ay), Serial.print(" "),  Serial.print(gyroscope::ay);
+    (gyroscope::az > 0)
+                    ? displayU8G2::u8g2log.print(" +"), displayU8G2::u8g2log.print(gyroscope::az), Serial.print(" +"), Serial.print(gyroscope::az)
+                    : displayU8G2::u8g2log.print(" "),  displayU8G2::u8g2log.print(gyroscope::az), Serial.print(" "),  Serial.print(gyroscope::az);
+    (gyroscope::gx > 0)
+                    ? displayU8G2::u8g2log.print(" +"), displayU8G2::u8g2log.print(gyroscope::gx), Serial.print(" +"), Serial.print(gyroscope::gx)
+                    : displayU8G2::u8g2log.print(" "),  displayU8G2::u8g2log.print(gyroscope::gx), Serial.print(" "),  Serial.print(gyroscope::gx);
+    (gyroscope::gy > 0)
+                    ? displayU8G2::u8g2log.print(" +"), displayU8G2::u8g2log.print(gyroscope::gy), Serial.print(" +"), Serial.print(gyroscope::gy)
+                    : displayU8G2::u8g2log.print(" "),  displayU8G2::u8g2log.print(gyroscope::gy), Serial.print(" "),  Serial.print(gyroscope::gy);
+    (gyroscope::gz > 0)
+                    ? displayU8G2::u8g2log.print(" +"), displayU8G2::u8g2log.print(gyroscope::gz), Serial.print(" +"), Serial.println(gyroscope::gz)
+                    : displayU8G2::u8g2log.print(" "),  displayU8G2::u8g2log.print(gyroscope::gz), Serial.print(" "),  Serial.println(gyroscope::gz);
 }
 
 void gyroscope::gyroDetectMovement() {
 
     gyroscope::gyroRead();
     if(( abs(gyroscope::ax) + abs(gyroscope::ay) + abs(gyroscope::az)) > THRESHOLD){
-        gyroscope::gyroFunc();
+        gyroscope::gyroFunc();       compass::showCompass();
         timers::timerTwoActive = true;      timers::timerTreeActive = true;      timers::timerButton = R1;
     }
     if(( abs(gyroscope::gx) + abs(gyroscope::gy) + abs(gyroscope::gz)) > THRESHOLD){
-        gyroscope::gyroFunc();
+        gyroscope::gyroFunc();       compass::showCompass();
         timers::timerTwoActive = true;      timers::timerTreeActive = true;      timers::timerButton = L1;
     }
 
@@ -62,8 +75,10 @@ void gyroscope::gyroCalibrate_sensor() {
         totgZ += gyro.gyro.z;      delay(10);
     }
     gyroscope::baseAx = totX / 10;  gyroscope::baseAy = totY / 10;  gyroscope::baseAz = totZ / 10;  gyroscope::baseGx = totgX / 10;  gyroscope::baseGy = totgY / 10;  gyroscope::baseGz = totgZ / 10;
-    displayU8G2::u8g2log.print(" Ax: ");  displayU8G2::u8g2log.print(baseAx);  displayU8G2::u8g2log.print(" Ay: ");  displayU8G2::u8g2log.print(baseAy);  displayU8G2::u8g2log.print(" Az: ");  displayU8G2::u8g2log.println(baseAz);
-    displayU8G2::u8g2log.print(" Gx: ");  displayU8G2::u8g2log.print(baseGx);  displayU8G2::u8g2log.print(" Gy: ");  displayU8G2::u8g2log.print(baseGy);  displayU8G2::u8g2log.print(" Gz: ");  displayU8G2::u8g2log.println(baseGz);
+//    displayU8G2::u8g2log.print(" Ax: ");  displayU8G2::u8g2log.print(baseAx);  displayU8G2::u8g2log.print(" Ay: ");  displayU8G2::u8g2log.print(baseAy);  displayU8G2::u8g2log.print(" Az: ");  displayU8G2::u8g2log.println(baseAz);
+//    displayU8G2::u8g2log.print(" Gx: ");  displayU8G2::u8g2log.print(baseGx);  displayU8G2::u8g2log.print(" Gy: ");  displayU8G2::u8g2log.print(baseGy);  displayU8G2::u8g2log.print(" Gz: ");  displayU8G2::u8g2log.println(baseGz);
+//    Serial.print(" Ax: ");  Serial.print(baseAx);  Serial.print(" Ay: ");  Serial.print(baseAy);  Serial.print(" Az: ");  Serial.println(baseAz);
+//    Serial.print(" Gx: ");  Serial.print(baseGx);  Serial.print(" Gy: ");  Serial.print(baseGy);  Serial.print(" Gz: ");  Serial.println(baseGz);
 }
 
 void gyroscope::gyroSetup() {
@@ -75,6 +90,7 @@ void gyroscope::gyroSetup() {
 
     } else {
         main::logln("MPU6050 Found!    ");
+        main::Found_Gyro = true;
         delay(500);
         mpu.setAccelerometerRange(MPU6050_RANGE_4_G);
         mpu.setGyroRange(MPU6050_RANGE_500_DEG);

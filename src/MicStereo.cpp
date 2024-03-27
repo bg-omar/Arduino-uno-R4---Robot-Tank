@@ -9,19 +9,18 @@
 #include "main_ra.h"
 #include "pwm_board.h"
 
-
 long MicStereo::baseRSound, MicStereo::baseLSound = 0;
+
 
 void MicStereo::MicSetup() {
     pinMode(MIC_R_PIN, INPUT);
     MicStereo::baseRSound = map(analogRead(MIC_R_PIN), 0, 1023, 0, 255); /***** A3 ******/
     pinMode(MIC_L_PIN, INPUT);
     MicStereo::baseLSound = map(analogRead(MIC_L_PIN), 0, 1023, 0, 255); /***** A1 ******/
-    main::log("     Left Mic: ");
+    main::log(" L-Mic: ");
     if (main::Found_Display) displayU8G2::u8g2log.println(baseLSound);
-    main::log("    Right Mic: ");
+    main::log(" R-Mic: ");
     if (main::Found_Display) displayU8G2::u8g2log.println(baseRSound);
-    main::logln("Using Mic");
 }
 
 

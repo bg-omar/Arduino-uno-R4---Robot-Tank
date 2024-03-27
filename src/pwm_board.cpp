@@ -22,8 +22,8 @@ int pwm_board::a = 0;
 void pwm_board::setupPWM(){
     pwm_board::pwm.begin();
     pwm_board::pwm.setPWMFreq(FREQUENCY);  // Analog servos run at ~50 Hz updates
-    pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(PS4::posXY));
-    pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(PS4::posZ));
+    pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(posXY));
+    pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(posZ));
 }
 
 

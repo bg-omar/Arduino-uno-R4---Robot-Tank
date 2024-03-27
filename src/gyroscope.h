@@ -14,7 +14,8 @@ private:
 
     sensors_event_t a, gyro, temp;
 public:
-    static float ax, ay, az, gx, gy, gz, baseAx, baseAy, baseAz, baseGx, baseGy, baseGz, temperature;
+    static float ax,ay, az, gx, gy, gz, baseAx, baseAy, baseAz, baseGx, baseGy, baseGz, temperature;
+
     static void gyroRead();
     static void gyroFunc();
     static void gyroDetectMovement();

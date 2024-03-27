@@ -18,10 +18,11 @@ void compass::compassSetup() {
         delay(500);
     } else {
         main::logln("Compass Found!     ");
-        compass::showCompass();
+        main::Found_Compass = true;
+        compass::displaySensorDetails();
         delay(500);
 
-        compass::displaySensorDetails();
+
     }
     /* Display the results (magnetic vector values are in micro-Tesla (uT)) */
    }
@@ -44,31 +45,31 @@ void compass::showCompass(){
         Pesto::matrix_display(north);
         pwm_board::rightLedStrip(0,244,0);
         pwm_board::leftLedStrip(0,244,0);
-        main::logln("  North  ");
+        main::log("  North  ");
     }
     if (headingDegrees >= 45 && headingDegrees < 135){
         Pesto::matrix_display(east);
         pwm_board::rightLedStrip(244,0,0);
         pwm_board::leftLedStrip(0,244,0);
-        main::logln("  East  ");
+        main::log("  East  ");
     }
     if (headingDegrees >= 135 && headingDegrees < 225){
         Pesto::matrix_display(south);
         pwm_board::rightLedStrip(244,0,0);
         pwm_board::leftLedStrip(244,0,0);
-        main::logln("  South   ");
+        main::log("  South   ");
     }
     if (headingDegrees >= 225 && headingDegrees < 315){
         Pesto::matrix_display(west);
         pwm_board::rightLedStrip(0,244,0);
         pwm_board::leftLedStrip(244,0,0);
-        main::logln("  West  ");
+        main::log("  West  ");
     }
     if (headingDegrees >= 315 && headingDegrees < 360){
         Pesto::matrix_display(north);
         pwm_board::rightLedStrip(0,244,0);
         pwm_board::leftLedStrip(0,244,0);
-        main::logln("  North ");
+        main::log("  North ");
     }
 }
 
@@ -101,13 +102,13 @@ void compass::displaySensorDetails(){
     Serial.print  ("Min Value:    "); Serial.print(sensor.min_value); Serial.println(" uT");
     Serial.print  ("Resolution:   "); Serial.print(sensor.resolution); Serial.println(" uT");
 
-    sensors_event_t event; /// Get a new sensor event */
-    mag.getEvent(&event);
-
-    Serial.print("X: "); Serial.print(event.magnetic.x); Serial.print("  ");
-    Serial.print("Y: "); Serial.print(event.magnetic.y); Serial.print("  ");
-    Serial.print("Z: "); Serial.print(event.magnetic.z); Serial.print("  ");Serial.print("  ");
-    Serial.println("------------------------------------");
-    Serial.println("");
+//    sensors_event_t event; /// Get a new sensor event */
+//    mag.getEvent(&event);
+//
+//    Serial.print("X: "); Serial.print(event.magnetic.x); Serial.print("  ");
+//    Serial.print("Y: "); Serial.print(event.magnetic.y); Serial.print("  ");
+//    Serial.print("Z: "); Serial.print(event.magnetic.z); Serial.print("  ");Serial.println("  ");
+//    Serial.println("------------------------------------");
+//    Serial.println("");
     delay(500);
 }

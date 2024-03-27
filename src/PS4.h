@@ -44,9 +44,6 @@ public:
     static void joystick(int Xinput, int Yinput);
     static void controller();
 
-    static int posXY;
-
-    static int posZ;
 };
 
 

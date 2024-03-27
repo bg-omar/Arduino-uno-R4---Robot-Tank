@@ -43,21 +43,17 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include "MicStereo.h"
 #include "avoid_objects.h"
 #include "I2Cscanner.h"
-
+#include "general_timer.h"
 
 #if USE_MATRIX
     #include "Arduino_LED_Matrix.h"
-#include "general_timer.h"
+// Define an array to hold pixel data for a single frame (4 pixels)
+    uint32_t frame[] = {
+            0, 0, 0, 0xFFFF
+    };
 
-ArduinoLEDMatrix matrix;
+    ArduinoLEDMatrix matrix;
 #endif
-
-long baseRSound, baseLSound;
-
-int PS4::flag = 0;
-int PS4::posXY = 90;  // set horizontal servo position
-int PS4::posZ = 5;   // set vertical servo position
-
 
 bool main::Found_Display;
 bool main::Found_Gyro = false;
@@ -68,11 +64,18 @@ bool main::Found_Switch = false;
 bool main::Found_Sonar = false;
 int timers::timerButton;
 
+int pwm_board::posXY = 90;  // set horizontal servo position
+int pwm_board::posZ = 5;   // set vertical servo position
 
-#if USE_U8G2
-    U8G2_SH1106_128X64_NONAME_1_HW_I2C displayU8G2::display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
-#endif
 
+
+U8G2_SH1106_128X64_NONAME_1_HW_I2C displayU8G2::display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+
+
+
+/********************************************** Setup booting the arduino **************************************/
+// section Main Functions
+/***************************************************************************************************************/
 void main::log(const char *text) {
     if (Found_Display) {
         displayU8G2::U8G2print((const char *) text);
@@ -92,7 +95,7 @@ void main::logln(const char *text) {
 void setup(){
     Wire.begin();
     Serial.begin(115200); // Initialize the hardware serial port for debugging
-    Serial.println("Debug Serial started");
+    Serial.println("Wall-Z Arduino Robot booting");
 
     #if USE_U8G2
         displayU8G2::U8G2setup();
@@ -127,24 +130,33 @@ void setup(){
         Switch_8_State = digitalRead(SWITCH_8);
         Switch_9_State = digitalRead(SWITCH_9);
 
-        if (Switch_8_State == LOW) {  main::logln(" SWITCH_8 is on");} else {main::logln(" SWITCH_8 is off");}
+        if (Switch_8_State == LOW) {  main::log(" SWITCH_8 is on");} else {main::log(" SWITCH_8 is off");}
         if (Switch_9_State == LOW) {  main::logln(" SWITCH_9 is on");} else {main::logln(" SWITCH_9 is off");}
 
         delay(500);
     #endif
 
-    #if USE_MATRIX
+    #if USE_PWM_BOARD
+        pwm_board::setupPWM();
+        delay(500);
+    #endif
+
+
+    #if USE_MATRIX_PREVIEW
+        matrix.begin();
+    #elif USE_MATRIX
         matrix.loadSequence(animation);
-            matrix.begin();
-            matrix.autoscroll(300);
-            matrix.play(true);
-            delay(500);
+        matrix.begin();
+        matrix.autoscroll(300);
+        matrix.play(true);
+        delay(500);
+        main::log(" R4 matrix ");
     #endif
 
     #if USE_DISTANCE
         pinMode(Trig_PIN, OUTPUT);    /***** 6 ******/
         pinMode(Echo_PIN, INPUT);     /***** 7 ******/
-        main::logln("Using Sonar Distance");
+        main::log(" Sonar " );
         delay(500);
     #endif
 
@@ -160,7 +172,6 @@ void setup(){
 
     #if USE_GYRO
         gyroscope::gyroSetup();
-        gyroscope::gyroFunc();
         delay(500);
     #endif
 
@@ -171,7 +182,6 @@ void setup(){
 
     #if USE_BAROMETER
         barometer::baroSetup();
-        barometer::baroMeter();
         delay(500);
     #endif
 
@@ -179,17 +189,12 @@ void setup(){
             IRreceiver::setupIrRemote();
     #endif
 
-	#if USE_PWM_BOARD
-        pwm_board::setupPWM();
-		delay(500);
-	#endif
-
     #if USE_TIMERS
         timers::initTimers();
         delay(500);
 
-        general_timer::setup_General_Timer();
-        delay(500);
+//        general_timer::setup_General_Timer();
+//        delay(500);
 #endif
 }
 
@@ -198,23 +203,27 @@ void setup(){
 /***************************************************************************/
 
 void loop(){
-    PS4::controller();
 
-    int Switch_8_State, Switch_9_State;
-    Switch_8_State = digitalRead(SWITCH_8);
-    Switch_9_State = digitalRead(SWITCH_9);
+    #if USE_PS4
+        PS4::controller();
+    #endif
+
+    #if USE_SWITCH
+        int Switch_8_State, Switch_9_State;
+        Switch_8_State = digitalRead(SWITCH_8);
+        Switch_9_State = digitalRead(SWITCH_9);
 
 
-    if (Switch_9_State == LOW) {  } else { }
+        if (Switch_9_State == LOW) {  } else { }
+    #endif
 
+        #if USE_IRREMOTE
+            IRreceiver::irRemote();
+        #endif
 
-    #if USE_IRREMOTE
-        IRreceiver::irRemote();
-	#endif
-
-#if USE_GYRO
-    gyroscope::gyroDetectMovement();
-#endif
+    #if USE_GYRO
+       if (main::Found_Gyro) gyroscope::gyroDetectMovement();
+    #endif
 
     #if USE_DISTANCE
         avoid_objects::distanceF = avoid_objects::checkDistance();  /// assign the front distance detected by ultrasonic sensor to variable a
@@ -257,7 +266,7 @@ void loop(){
 
     #if USE_TIMERS
         timers::update();
-        general_timer::loop_General_Timer();
+//        general_timer::loop_General_Timer();
     #endif
 
     #if READ_ESP32
@@ -270,6 +279,20 @@ void loop(){
                 }
             }
     #endif
+
+    #if USE_MATRIX_PREVIEW
+        // Check if there are at least 12 bytes available in the serial buffer
+        if(Serial.available() >= 12){
+            // Read 4 bytes from the serial buffer and compose them into a 32-bit value for each element in the frame
+            frame[0] = Serial.read() | Serial.read() << 8 | Serial.read() << 16 | Serial.read() << 24;
+            frame[1] = Serial.read() | Serial.read() << 8 | Serial.read() << 16 | Serial.read() << 24;
+            frame[2] = Serial.read() | Serial.read() << 8 | Serial.read() << 16 | Serial.read() << 24;
+
+            // Load and display the received frame data on the LED matrix
+            matrix.loadFrame(frame);
+        }
+    #endif
+
 }
 
 

@@ -44,6 +44,8 @@ public:
 
     static void rightLedStrip(int r_val, int g_val, int b_val);
 
+    static int posXY;
+    static int posZ;
     static int a;
 private:
     static int r;

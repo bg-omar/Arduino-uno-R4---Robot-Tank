@@ -2,10 +2,11 @@
 // Created by mr on 11/20/2023.
 //
 
-#include "I2Cscanner.h"
 #include "displayU8G2.h"
 #include "displayAdafruit.h"
 #include "main_ra.h"
+#include "I2Cscanner.h"
+
 
 void I2Cscanner::scan() {
     byte error, address;
@@ -25,6 +26,7 @@ void I2Cscanner::scan() {
                 main::log("0");
             }
             if (main::Found_Display) displayU8G2::u8g2log.print(address, HEX);
+            Serial.print(address, HEX);
             main::log(", ");
             nDevices++;
             delay(200);
@@ -35,11 +37,13 @@ void I2Cscanner::scan() {
                 main::log("0 ");
             }
             if (main::Found_Display) displayU8G2::u8g2log.print(address, HEX);
+            Serial.print(address, HEX);
         }
     }
     delay(20);
-    main::log("\n devices: ");
-    main::log(reinterpret_cast<const char *>(nDevices));
+    main::log(" devices: ");
+    Serial.println(nDevices);
+    displayU8G2::u8g2log.println(nDevices);
 
 
     delay(100);

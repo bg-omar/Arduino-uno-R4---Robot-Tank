@@ -189,7 +189,7 @@ void PS4::controller() {
                 // message contains text
                 PS4input = { 0, 0 };
             }
-            main::logln(message);
+//            main::logln(message);
 
 
             if (PS4input[0] >= 4000) { //for double input X-Y
@@ -212,20 +212,20 @@ void PS4::controller() {
                         //**** Head movements    ****
                     #if USE_PWM_BOARD
                         case DPAD_U:
-                            if (posZ > 5) posZ -= 10;
-                            Serial.println(posZ);
+                            if (pwm_board::posZ > 5) pwm_board::posZ -= 10;
+                            Serial.println(pwm_board::posZ);
                             break;
                         case DPAD_R:
-                            if (posXY > 10) posXY -= 10;
-                            Serial.println(posXY);
+                            if (pwm_board::posXY > 10) pwm_board::posXY -= 10;
+                            Serial.println(pwm_board::posXY);
                             break;
                         case DPAD_D:
-                            if (posZ < 100)posZ += 10;
-                            Serial.println(posZ);
+                            if (pwm_board::posZ < 100)pwm_board::posZ += 10;
+                            Serial.println(pwm_board::posZ);
                             break;
                         case DPAD_L:
-                            if (posXY < 170) posXY += 10;
-                            Serial.println(posXY);
+                            if (pwm_board::posXY < 170) pwm_board::posXY += 10;
+                            Serial.println(pwm_board::posXY);
                             break;
                     #endif
 
@@ -276,12 +276,12 @@ void PS4::controller() {
                     default:
                         break;
                 }
-                if (posXY < 0) posXY = 0;
-                if (posXY > 180) posXY = 180;
-                if (posZ < 0) posZ = 0;
-                if (posZ > 100) posZ = 100;
-                pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(posZ));
-                pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(posXY));
+                if (pwm_board::posXY < 0) pwm_board::posXY = 0;
+                if (pwm_board::posXY > 180) pwm_board::posXY = 180;
+                if (pwm_board::posZ < 0) pwm_board::posZ = 0;
+                if (pwm_board::posZ > 100) pwm_board::posZ = 100;
+                pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(pwm_board::posZ));
+                pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(pwm_board::posXY));
             }
             message_pos = 0; //Reset next message
             delay(50);
