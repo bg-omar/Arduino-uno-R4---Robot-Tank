@@ -36,15 +36,31 @@
         static void u8g2_bitmap_modes(uint8_t transparent) ;
         static void draw();
 
-        static U8G2_SH1106_128X64_NONAME_1_HW_I2C display;
+        static U8G2_SH1106_128X64_NONAME_F_HW_I2C display;
 
         static void U8G2setup();
-
+#if LOG_DEBUG
         static void U8G2print(const char *log);
         static void U8G2println(const char * log);
         static void U8G2printEnd();
-        static int t;
         static U8G2LOG u8g2log;
+#endif
+        static int t;
+
+
+
+        static void animateScreen(uint8_t a);
+        static void animate();
+        static int incoming;
+        static int environment;
+        static int petStatus;
+        static void happyFrame1();
+        static void happyFrame2();
+        static void happyFrame3();
+        static void sadFrame1();
+        static void sadFrame2();
+        static void sadFrame3();
+
     private:
         #define cross_width 24
         #define cross_height 24
@@ -286,6 +302,8 @@
                 mouthUno_R4_Mouth_Neutral,
                 mouthUno_R4_Mouth_talk
         };
+
+
 
     };
 

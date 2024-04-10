@@ -45,8 +45,11 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include "I2Cscanner.h"
 #include "general_timer.h"
 
+
 #if USE_MATRIX
     #include "Arduino_LED_Matrix.h"
+#include "cat_face.h"
+
 // Define an array to hold pixel data for a single frame (4 pixels)
     uint32_t frame[] = {
             0, 0, 0, 0xFFFF
@@ -67,9 +70,9 @@ int timers::timerButton;
 int pwm_board::posXY = 90;  // set horizontal servo position
 int pwm_board::posZ = 5;   // set vertical servo position
 
+int Switch_8_State, Switch_9_State;
 
-
-U8G2_SH1106_128X64_NONAME_1_HW_I2C displayU8G2::display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+U8G2_SH1106_128X64_NONAME_F_HW_I2C displayU8G2::display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 
 
 
@@ -78,13 +81,17 @@ U8G2_SH1106_128X64_NONAME_1_HW_I2C displayU8G2::display(U8G2_R0, /* reset=*/ U8X
 /***************************************************************************************************************/
 void main::log(const char *text) {
     if (Found_Display) {
-        displayU8G2::U8G2print((const char *) text);
+#if LOG_DEBUG
+displayU8G2::U8G2print((const char *) text);
+#endif
     }
     Serial.print((const char *) text);
 }
 void main::logln(const char *text) {
     if (Found_Display) {
+#if LOG_DEBUG
         displayU8G2::U8G2println((const char *) text);
+#endif
     }
     Serial.println((const char *) text);
 }
@@ -126,7 +133,6 @@ void setup(){
         pinMode(SWITCH_9, INPUT_PULLUP);     /***** 9 ******/
 
         delay(50);
-        int Switch_8_State, Switch_9_State;
         Switch_8_State = digitalRead(SWITCH_8);
         Switch_9_State = digitalRead(SWITCH_9);
 
@@ -209,12 +215,12 @@ void loop(){
     #endif
 
     #if USE_SWITCH
-        int Switch_8_State, Switch_9_State;
         Switch_8_State = digitalRead(SWITCH_8);
         Switch_9_State = digitalRead(SWITCH_9);
-
-
-        if (Switch_9_State == LOW) {  } else { }
+        delay(5);
+        if (Switch_8_State == HIGH) { displayU8G2::petStatus = 0;} else { displayU8G2::petStatus = 1;}
+        if (Switch_9_State == HIGH) { compass::displayCompass();} else { displayU8G2::animateScreen(0); }
+        delay(50);
     #endif
 
         #if USE_IRREMOTE

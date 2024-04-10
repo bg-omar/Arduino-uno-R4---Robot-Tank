@@ -27,6 +27,7 @@ void gyroscope::gyroFunc(){
     gyroscope::gyroRead();
     pwm_board::rightLedStrip(0,244,244);
     pwm_board::leftLedStrip(0,244,244);
+#if LOG_DEBUG
     (gyroscope::ax > 0)
                     ? displayU8G2::u8g2log.print(" +"), displayU8G2::u8g2log.print(gyroscope::ax), Serial.print(" +"), Serial.print(gyroscope::ax)
                     : displayU8G2::u8g2log.print(" "),  displayU8G2::u8g2log.print(gyroscope::ax), Serial.print(" "),  Serial.print(gyroscope::ax);
@@ -45,6 +46,7 @@ void gyroscope::gyroFunc(){
     (gyroscope::gz > 0)
                     ? displayU8G2::u8g2log.print(" +"), displayU8G2::u8g2log.print(gyroscope::gz), Serial.print(" +"), Serial.println(gyroscope::gz)
                     : displayU8G2::u8g2log.print(" "),  displayU8G2::u8g2log.print(gyroscope::gz), Serial.print(" "),  Serial.println(gyroscope::gz);
+#endif
 }
 
 void gyroscope::gyroDetectMovement() {

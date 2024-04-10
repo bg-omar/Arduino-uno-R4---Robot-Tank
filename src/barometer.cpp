@@ -15,12 +15,14 @@ void barometer::baroSetup() {
         displayAdafruit::display.clearDisplay();
         /* Initialise the sensor */
         if (!bme.begin(0x76)) {
-
+#if LOG_DEBUG
             displayU8G2::u8g2log.println("BME280,not found!");
+#endif
             delay(500);
         } else {
-
+#if LOG_DEBUG
             displayU8G2::u8g2log.println("BME280 Found!     ");
+#endif
             delay(500);
         }
 }
@@ -29,6 +31,7 @@ void barometer::baroMeter() {
     displayAdafruit::display.clearDisplay();
     pwm_board::rightLedStrip(0,0,244);
     pwm_board::leftLedStrip(0,0,244);
+#if LOG_DEBUG
     displayU8G2::u8g2log.print("Temp= ");
     displayU8G2::u8g2log.print(bme.readTemperature());
     displayU8G2::u8g2log.print("*C ");
@@ -45,6 +48,7 @@ void barometer::baroMeter() {
     displayU8G2::u8g2log.print("H= ");
     displayU8G2::u8g2log.print(bme.readHumidity());
     displayU8G2::u8g2log.println("%");
+#endif
     delay(500);
 
 

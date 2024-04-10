@@ -8,11 +8,13 @@
 #if SMALL
 U8G2_SSD1306_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 #else
-    U8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+    U8G2_SH1106_128X64_NONAME_F_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 #endif
 
+#if LOG_DEBUG
 uint8_t u8log_buffer[U8LOG_WIDTH * U8LOG_HEIGHT]{};
 U8G2LOG displayU8G2::u8g2log;
+#endif
 uint8_t displayU8G2::draw_state = 0;
 int displayU8G2::t = 0;
 
@@ -22,15 +24,21 @@ void displayU8G2::U8G2setup() {
     } else {
         Serial.println(F("U8g2 allocation success"));
         main::Found_Display = true;
+        display.clear();
+        display.clearDisplay();
         display.begin();
+#if LOG_DEBUG
         u8g2log.begin(U8LOG_WIDTH, U8LOG_HEIGHT, u8log_buffer);
         u8g2log.setLineHeightOffset(0);    // set extra space between lines in pixel, this can be negative
         u8g2log.setRedrawMode(0);        // 0: Update screen with newline, 1: Update screen for every char
         u8g2log.println("U8g2 initialized");
+
         displayU8G2::U8G2printEnd();
+#endif
     }
 }
 
+#if LOG_DEBUG
 // print the output of millis() to the terminal every second
 void displayU8G2::U8G2print(const char * log) {
     u8g2log.print(log);
@@ -50,8 +58,9 @@ void displayU8G2::U8G2printEnd (){
         display.drawLog(0, 7, u8g2log);			// draw the log content on the display
     } while ( display.nextPage() );
 }
+#endif
 
-/*void displayU8G2::u8g2_prepare() {
+void displayU8G2::u8g2_prepare() {
     display.setFont(u8g2_font_6x10_tf);
     display.setFontRefHeightExtendedText();
     display.setDrawColor(1);
@@ -59,196 +68,206 @@ void displayU8G2::U8G2printEnd (){
     display.setFontDirection(0);
 }
 
-void displayU8G2::u8g2_box_title(uint8_t a) {
-    display.drawStr( 10+a*2, 5, "U8g2");
-    display.drawStr( 10, 20, "GraphicsTest");
 
-    display.drawFrame(0,0,display.getDisplayWidth(),display.getDisplayHeight() );
+//u8G2_SH1106_128X64_NONAME_F_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+//8G2_SH1106_128X64_NONAME_1_HW_I2C display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+//// GLOBAL VARIABLES
+const int framesPerSecond = 3;
+int displayU8G2::incoming;
+
+// *** PICK THE ENVIRONMENT YOUR CREATURE LIVES IN ***
+// 1 = Desert, 2 = Forest, 3 = Water
+int displayU8G2::environment = 1;
+int displayU8G2::petStatus = 1; // 0=HAPPY, 1=SAD
+////
+
+////////// HERE ARE WHERE THE INSTRUCTIONS FOR ANIMATION FRAMES GO
+//NOTE: screen dimensions: 128x64
+//NOTE: use the u8g2 library to write instructions for drawing images (for example using the shape and line functions)
+//NOTE: only add your desired drawing functions, buffering/clearing/timing is handled for you :)
+// https://github.com/olikraus/u8g2/wiki/u8g2reference#drawbox
+//
+void displayU8G2::happyFrame1() {  //THE FIRST FRAME OF THE 'HAPPY' ANIMATION
+    display.drawTriangle(46,4,46,16,55,16); // left ear
+    display.drawTriangle(81,4,73,16,82,16); // right ear
+    display.drawFrame(46,15,36,33); //face
+    display.drawFilledEllipse(56.5, 25.5, 2, 2, U8G2_DRAW_ALL); // left eye
+    display.drawFilledEllipse(71.5, 25.5, 2, 2, U8G2_DRAW_ALL); // right eye
+    display.drawTriangle(61.5,34, 67.5,34, 64.5, 36.67); // nose
+    display.drawLine(64.5,36.5,64.5,40.5); // middle nose
+    display.drawLine(59.5,35.5,52.5,33.5); // left top wisk
+    display.drawLine(59.5,37.5,52.5,37.5); //left bottom wisk
+    display.drawLine(69.5,35.5,76.5,33.5); // right top wisk
+    display.drawLine(69.5,37.5,76.5,37.5); // right bottom wisk
+    display.drawLine(59.5,40.5,62,43); // mouth 1
+    display.drawLine(64.5,40.5,62,43); // mouth 2
+    display.drawLine(64.5,40.5,67,43); // mouth 3
+    display.drawLine(69.5,40.5,67,43); // mouth 4
+}
+void displayU8G2::happyFrame2() {  //THE SECOND FRAME OF THE 'HAPPY' ANIMATION
+    display.drawTriangle(46,4,46,16,55,16); // left ear
+    display.drawTriangle(81,4,73,16,82,16); // right ear
+    display.drawFrame(46,15,36,33); //face
+    display.drawFilledEllipse(56.5, 25.5, 2, 2, U8G2_DRAW_ALL); // left eye
+    display.drawFilledEllipse(71.5, 25.5, 2, 2, U8G2_DRAW_ALL); // right eye
+    display.drawTriangle(61.5,33, 67.5,34, 64.5, 36.67); // nose
+    display.drawLine(64.5,35.5,64.5,39.5); // middle nose
+    display.drawLine(59.5,35.5,52.5,31.5); // left top wisk
+    display.drawLine(59.5,37.5,52.5,36.5); //left bottom wisk
+    display.drawLine(69.5,35.5,76.5,31.5); // right top wisk
+    display.drawLine(76.5,36.5,69.5,37.5); // right bottom wisk
+    display.drawLine(59.5,39.5,62,42); // mouth 1
+    display.drawLine(64.5,39.5,62,42); // mouth 2
+    display.drawLine(64.5,39.5,67,42); // mouth 3
+    display.drawLine(69.5,39.5,67,42); // mouth 4
+}
+void displayU8G2::happyFrame3() {  //THE THIRD FRAME OF THE 'HAPPY' ANIMATION
+    display.drawTriangle(46,4,46,16,55,16); // left ear
+    display.drawTriangle(81,4,73,16,82,16); // right ear
+    display.drawFrame(46,15,36,33); //face
+    display.drawFilledEllipse(56.5, 25.5, 2, 2, U8G2_DRAW_ALL); // left eye
+    display.drawFilledEllipse(71.5, 25.5, 2, 2, U8G2_DRAW_ALL); // right eye
+    display.drawTriangle(61.5,34, 67.5,34, 64.5, 36.67); // nose
+    display.drawLine(64.5,36.5,64.5,40.5); // middle nose
+    display.drawLine(59.5,35.5,52.5,33.5); // left top wisk
+    display.drawLine(59.5,37.5,52.5,37.5); //left bottom wisk
+    display.drawLine(69.5,35.5,76.5,33.5); // right top wisk
+    display.drawLine(69.5,37.5,76.5,37.5); // right bottom wisk
+    display.drawLine(59.5,40.5,62,43); // mouth 1
+    display.drawLine(64.5,40.5,62,43); // mouth 2
+    display.drawLine(64.5,40.5,67,43); // mouth 3
+    display.drawLine(69.5,40.5,67,43); // mouth 4
 }
 
-void displayU8G2::u8g2_box_frame(uint8_t a) {
-    display.drawStr( 0, 0, "drawBox");
-    display.drawBox(5,10,20,10);
-    display.drawBox(10+a,15,30,7);
-    display.drawStr( 0, 30, "drawFrame");
-    display.drawFrame(5,10+30,20,10);
-    display.drawFrame(10+a,15+30,30,7);
-}*/
-
-/*void displayU8G2::u8g2_disc_circle(uint8_t a) {
-    display.drawStr( 0, 0, "drawDisc");
-    display.drawDisc(10,18,9);
-    display.drawDisc(24+a,16,7);
-    display.drawStr( 0, 30, "drawCircle");
-    display.drawCircle(10,18+30,9);
-    display.drawCircle(24+a,16+30,7);
+void displayU8G2::sadFrame1() {  //THE FIRST FRAME OF THE 'SAD' ANIMATION
+    display.drawTriangle(46,4,46,16,55,16); // left ear
+    display.drawTriangle(81,4,73,16,82,16); // right ear
+    display.drawFrame(46,15,36,33); //face
+    display.drawFilledEllipse(56.5, 25.5, 2, 2, U8G2_DRAW_ALL); // left eye
+    display.drawFilledEllipse(71.5, 25.5, 2, 2, U8G2_DRAW_ALL); // right eye
+    display.drawTriangle(61.5,34, 67.5,34, 64.5, 36.67); // nose
+    display.drawLine(64.5,36.5,64.5,40.5); // middle nose
+    display.drawLine(59.5,35.5,52.5,33.5); // left top wisk
+    display.drawLine(59.5,37.5,52.5,37.5); //left bottom wisk
+    display.drawLine(69.5,35.5,76.5,33.5); // right top wisk
+    display.drawLine(69.5,37.5,76.5,37.5); // right bottom wisk
+    display.drawLine(59.5,40.5,62,43); // mouth 1
+    display.drawLine(64.5,40.5,62,43); // mouth 2
+    display.drawLine(64.5,40.5,67,43); // mouth 3
+    display.drawLine(69.5,40.5,67,43); // mouth 4
 }
-
-void displayU8G2::u8g2_r_frame(uint8_t a) {
-    display.drawStr( 0, 0, "drawRFrame/Box");
-    display.drawRFrame(5, 10,40,30, a+1);
-    display.drawRBox(50, 10,25,40, a+1);
+void displayU8G2::sadFrame2() {  //THE SECOND FRAME OF THE 'SAD' ANIMATION
+    display.drawTriangle(46,4,46,16,55,16); // left ear
+    display.drawTriangle(81,4,73,16,82,16); // right ear
+    display.drawFrame(46,15,36,33); //face
+    display.drawLine(59.5,22.5,52.5,24.5); // low brow left
+    display.drawLine(69.5,22.5,76.5,24.5); // low brow right
+    display.drawFilledEllipse(56.5, 25.5, 1, 1, U8G2_DRAW_ALL); // left eye
+    display.drawFilledEllipse(71.5, 25.5, 1, 1, U8G2_DRAW_ALL); // right eye
+    display.drawTriangle(61.5,34, 67.5,34, 64.5, 36.67); // nose
+    display.drawLine(64.5,36.5,64.5,40.5); // middle nose
+    display.drawLine(59.5,35.5,52.5,35.5); // left top wisk
+    display.drawLine(59.5,37.5,52.5,39.5); //left bottom wisk
+    display.drawLine(69.5,35.5,76.5,35.5); // right top wisk
+    display.drawLine(69.5,37.5,76.5,39.5); // right bottom wisk
+    display.drawLine(58.5,41.5,62,43); // mouth 1
+    display.drawLine(64.5,40.5,62,43); // mouth 2
+    display.drawLine(64.5,40.5,67,43); // mouth 3
+    display.drawLine(70.5,41.5,67,43); // mouth 4
 }
-void displayU8G2::u8g2_string(uint8_t a) {
-    display.setFontDirection(0);
-    display.drawStr(30+a,31, " 0");
-    display.setFontDirection(1);
-    display.drawStr(30,31+a, " 90");
-    display.setFontDirection(2);
-    display.drawStr(30-a,31, " 180");
-    display.setFontDirection(3);
-    display.drawStr(30,31-a, " 270");
+void displayU8G2::sadFrame3() {  //THE THIRD FRAME OF THE 'SAD' ANIMATION
+    display.drawTriangle(46,4,46,16,55,16); // left ear
+    display.drawTriangle(81,4,73,16,82,16); // right ear
+    display.drawFrame(46,15,36,33); //face
+    display.drawFilledEllipse(56.5, 25.5, 2, 2, U8G2_DRAW_ALL); // left eye
+    display.drawFilledEllipse(71.5, 25.5, 2, 2, U8G2_DRAW_ALL); // right eye
+    display.drawTriangle(61.5,34, 67.5,34, 64.5, 36.67); // nose
+    display.drawLine(64.5,36.5,64.5,40.5); // middle nose
+    display.drawLine(59.5,35.5,52.5,33.5); // left top wisk
+    display.drawLine(59.5,37.5,52.5,37.5); //left bottom wisk
+    display.drawLine(69.5,35.5,76.5,33.5); // right top wisk
+    display.drawLine(69.5,37.5,76.5,37.5); // right bottom wisk
+    display.drawLine(59.5,40.5,62,43); // mouth 1
+    display.drawLine(64.5,40.5,62,43); // mouth 2
+    display.drawLine(64.5,40.5,67,43); // mouth 3
+    display.drawLine(69.5,40.5,67,43); // mouth 4
 }
+//////////END OF ANIMATION FRAME INSTRUCTIONS
 
-void displayU8G2::u8g2_line(uint8_t a) {
-    display.drawStr( 0, 0, "drawLine");
-    display.drawLine(7+a, 10, 40, 55);
-    display.drawLine(7+a*2, 10, 60, 55);
-    display.drawLine(7+a*3, 10, 80, 55);
-    display.drawLine(7+a*4, 10, 100, 55);
-}
 
-void displayU8G2::u8g2_triangle(uint8_t a) {
-    uint16_t offset = a;
-    display.drawStr( 0, 0, "drawTriangle");
-    display.drawTriangle(14,7, 45,30, 10,40);
-    display.drawTriangle(14+offset,7-offset, 45+offset,30-offset, 57+offset,10-offset);
-    display.drawTriangle(57+offset*2,10, 45+offset*2,30, 86+offset*2,53);
-    display.drawTriangle(10+offset,40+offset, 45+offset,30+offset, 86+offset,53+offset);
-}
+//// YOU DO NOT HAVE TO MODIFY THE REST OF THE CODE:
+void displayU8G2::animateScreen(uint8_t a) {
+    // the pet's status is checked every time animateScreen() is called
+    if (displayU8G2::petStatus == 0) { //IF PET IS HAPPY, DO THIS CODE:
+        display.clearBuffer();
+        displayU8G2::happyFrame1();
+        display.sendBuffer();
+        delay(1000 / framesPerSecond);
 
-void displayU8G2::u8g2_ascii_1() {
-    char s[2] = " ";
-    uint8_t x, y;
-    display.drawStr( 0, 0, "ASCII page 1");
-    for( y = 0; y < 6; y++ ) {
-        for( x = 0; x < 16; x++ ) {
-            s[0] = y*16 + x + 32;
-            display.drawStr(x*7, y*10+10, s);
-        }
+        display.clearBuffer();
+        displayU8G2::happyFrame2();
+        display.sendBuffer();
+        delay(1000 / framesPerSecond);
+
+        display.clearBuffer();
+        displayU8G2::happyFrame3();
+        display.sendBuffer();
+        delay(1000 / framesPerSecond);
+
+        display.clearBuffer();
+        displayU8G2::happyFrame2();
+        display.sendBuffer();
+        delay(1000 / framesPerSecond);
+    }
+    else { //IF PET IS NOT HAPPY, IT'S SAD. DO THIS CODE:
+        display.clearBuffer();
+        displayU8G2::sadFrame1();
+        display.sendBuffer();
+        delay(1000 / framesPerSecond);
+
+        display.clearBuffer();
+        displayU8G2::sadFrame2();
+        display.sendBuffer();
+        delay(1000 / framesPerSecond);
+
+        display.clearBuffer();
+        displayU8G2::sadFrame3();
+        display.sendBuffer();
+        delay(1000 / framesPerSecond);
+
+        display.clearBuffer();
+        displayU8G2::sadFrame2();
+        display.sendBuffer();
+        delay(1000 / framesPerSecond);
     }
 }
 
-void displayU8G2::u8g2_ascii_2() {
-    char s[2] = " ";
-    uint8_t x, y;
-    display.drawStr( 0, 0, "ASCII page 2");
-    for( y = 0; y < 6; y++ ) {
-        for( x = 0; x < 16; x++ ) {
-            s[0] = y*16 + x + 160;
-            display.drawStr(x*7, y*10+10, s);
-        }
-    }
-}
+void displayU8G2::animate(){
+    // picture loop
+    // picture loop
 
-void displayU8G2::u8g2_extra_page(uint8_t a)
-{
-    display.drawStr( 0, 0, "Unicode");
-    display.setFont(u8g2_font_unifont_t_symbols);
-    display.setFontPosTop();
-    display.drawUTF8(0, 24, "☀ ☁");
-    switch(a) {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-            display.drawUTF8(a*3, 36, "☂");
-            break;
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-            display.drawUTF8(a*3, 36, "☔");
-            break;
-    }
-}
+    display.firstPage();
+    do {
+        displayU8G2::draw();
+    } while( display.nextPage() );
 
-void displayU8G2::u8g2_xor(uint8_t a) {
-    uint8_t i;
-    display.drawStr( 0, 0, "XOR");
-    display.setFontMode(1);
-    display.setDrawColor(2);
-    for( i = 0; i < 5; i++)
-    {
-        display.drawBox(10+i*16, 18 + (i&1)*4, 21,31);
-    }
-    display.drawStr( 5+a, 19, "XOR XOR XOR XOR");
-    display.setDrawColor(0);
-    display.drawStr( 5+a, 29, "CLR CLR CLR CLR");
-    display.setDrawColor(1);
-    display.drawStr( 5+a, 39, "SET SET SET SET");
-    display.setFontMode(0);
+
+    displayU8G2::draw_state++;
+    if ( displayU8G2::draw_state >= 1*8 )
+        displayU8G2::draw_state = 0;
+
+    // delay between each page
+    delay(150);
 
 }
-
-
-
-void displayU8G2::u8g2_bitmap_overlay(uint8_t a) {
-    uint8_t frame_size = 28;
-
-    display.drawStr(0, 0, "Bitmap overlay");
-
-    display.drawStr(0, frame_size + 12, "Solid / transparent");
-    display.setBitmapMode(false);
-    display.drawFrame(0, 10, frame_size, frame_size);
-    display.drawXBMP(2, 12, cross_width, cross_height, cross_bits);
-    if(a & 4)
-        display.drawXBMP(7, 17, cross_block_width, cross_block_height, cross_block_bits);
-
-    display.setBitmapMode(true);
-    display.drawFrame(frame_size + 5, 10, frame_size, frame_size);
-    display.drawXBMP(frame_size + 7, 12, cross_width, cross_height, cross_bits);
-    if(a & 4)
-        display.drawXBMP(frame_size + 12, 17, cross_block_width, cross_block_height, cross_block_bits);
-}
-
-void displayU8G2::u8g2_bitmap_modes(uint8_t transparent) {
-    const uint8_t frame_size = 24;
-
-    display.drawBox(0, frame_size * 0.5, frame_size * 5, frame_size);
-    display.drawStr(frame_size * 0.5, 50, "Black");
-    display.drawStr(frame_size * 2, 50, "White");
-    display.drawStr(frame_size * 3.5, 50, "XOR");
-
-    if(!transparent) {
-        display.setBitmapMode(false );
-        display.drawStr(0, 0, "Solid bitmap");
-    } else {
-        display.setBitmapMode(true );
-        display.drawStr(0, 0, "Transparent bitmap");
-    }
-    display.setDrawColor(0);// Black
-    display.drawXBMP(frame_size * 0.5, 24, cross_width, cross_height, cross_bits);
-    display.setDrawColor(1); // White
-    display.drawXBMP(frame_size * 2, 24, cross_width, cross_height, cross_bits);
-    display.setDrawColor(2); // XOR
-    display.drawXBMP(frame_size * 3.5, 24, cross_width, cross_height, cross_bits);
-}
-
 
 void displayU8G2::draw() {
     displayU8G2::u8g2_prepare();
-    switch(draw_state >> 3) {
-        case 0: displayU8G2::u8g2_box_title(draw_state & 7); break;
-        case 1: displayU8G2::u8g2_box_frame(draw_state & 7); break;
-        case 2: displayU8G2::u8g2_disc_circle(draw_state & 7); break;
-        case 3: displayU8G2::u8g2_r_frame(draw_state & 7); break;
-        case 4: displayU8G2::u8g2_string(draw_state & 7); break;
-        case 5: displayU8G2::u8g2_line(draw_state & 7); break;
-        case 6: displayU8G2::u8g2_triangle(draw_state & 7); break;
-        case 7: displayU8G2::u8g2_ascii_1(); break;
-        case 8: displayU8G2::u8g2_ascii_2(); break;
-        case 9: displayU8G2::u8g2_extra_page(draw_state & 7); break;
-        case 10: displayU8G2::u8g2_xor(draw_state & 7); break;
-        case 11: displayU8G2::u8g2_bitmap_modes(0); break;
-        case 12: displayU8G2::u8g2_bitmap_modes(1); break;
-        case 13: displayU8G2::u8g2_bitmap_overlay(draw_state & 7); break;
+    switch(displayU8G2::draw_state >> 3) {
+        case 0: displayU8G2::animateScreen(displayU8G2::draw_state & 7); break;
+
     }
-    // increase the state
-    draw_state++;
-    if ( draw_state >= 14*8 )
-        draw_state = 0;
-}*/
+}
 
 
 

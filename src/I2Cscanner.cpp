@@ -25,7 +25,9 @@ void I2Cscanner::scan() {
             if (address<16) {
                 main::log("0");
             }
+#if LOG_DEBUG
             if (main::Found_Display) displayU8G2::u8g2log.print(address, HEX);
+#endif
             Serial.print(address, HEX);
             main::log(", ");
             nDevices++;
@@ -36,15 +38,18 @@ void I2Cscanner::scan() {
             if (address<16) {
                 main::log("0 ");
             }
+#if LOG_DEBUG
             if (main::Found_Display) displayU8G2::u8g2log.print(address, HEX);
+#endif
             Serial.print(address, HEX);
         }
     }
     delay(20);
     main::log(" devices: ");
     Serial.println(nDevices);
+#if LOG_DEBUG
     displayU8G2::u8g2log.println(nDevices);
-
+#endif
 
     delay(100);
     if (nDevices == 0) {

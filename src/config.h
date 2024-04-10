@@ -10,14 +10,15 @@
 /***************************************************************************************************************/
 
 #define USE_ADAFRUIT 0
-#define USE_U8G2 0
+#define USE_U8G2 1
 #define SMALL 0
 #define DISPLAY_DEMO 0
+#define LOG_DEBUG 0
 
 #define USE_PS4 0
 
 #define USE_GYRO 0
-#define USE_COMPASS 0
+#define USE_COMPASS 1
 #define USE_BAROMETER 0
 #define USE_DISTANCE 0
 
@@ -26,14 +27,14 @@
 #define USE_PWM_BOARD 0
 #define USE_DOT 0
 #define USE_MIC 0
-#define USE_SWITCH 0
+#define USE_SWITCH 1
 
 #define USE_ROBOT 0
 #define USE_TIMERS 0
 
 
-#define USE_MATRIX 1
-#define USE_MATRIX_PREVIEW 1
+#define USE_MATRIX 0
+#define USE_MATRIX_PREVIEW 0
 #define READ_ESP32 0
 #define USE_LCD 0
 #define ARDUINO_ARCH_RENESAS_UNO
