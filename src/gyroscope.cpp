@@ -77,10 +77,10 @@ void gyroscope::gyroCalibrate_sensor() {
         totgZ += gyro.gyro.z;      delay(10);
     }
     gyroscope::baseAx = totX / 10;  gyroscope::baseAy = totY / 10;  gyroscope::baseAz = totZ / 10;  gyroscope::baseGx = totgX / 10;  gyroscope::baseGy = totgY / 10;  gyroscope::baseGz = totgZ / 10;
-//    displayU8G2::u8g2log.print(" Ax: ");  displayU8G2::u8g2log.print(baseAx);  displayU8G2::u8g2log.print(" Ay: ");  displayU8G2::u8g2log.print(baseAy);  displayU8G2::u8g2log.print(" Az: ");  displayU8G2::u8g2log.println(baseAz);
-//    displayU8G2::u8g2log.print(" Gx: ");  displayU8G2::u8g2log.print(baseGx);  displayU8G2::u8g2log.print(" Gy: ");  displayU8G2::u8g2log.print(baseGy);  displayU8G2::u8g2log.print(" Gz: ");  displayU8G2::u8g2log.println(baseGz);
-//    Serial.print(" Ax: ");  Serial.print(baseAx);  Serial.print(" Ay: ");  Serial.print(baseAy);  Serial.print(" Az: ");  Serial.println(baseAz);
-//    Serial.print(" Gx: ");  Serial.print(baseGx);  Serial.print(" Gy: ");  Serial.print(baseGy);  Serial.print(" Gz: ");  Serial.println(baseGz);
+    displayU8G2::u8g2log.print(" Ax: ");  displayU8G2::u8g2log.print(baseAx);  displayU8G2::u8g2log.print(" Ay: ");  displayU8G2::u8g2log.print(baseAy);  displayU8G2::u8g2log.print(" Az: ");  displayU8G2::u8g2log.println(baseAz);
+    displayU8G2::u8g2log.print(" Gx: ");  displayU8G2::u8g2log.print(baseGx);  displayU8G2::u8g2log.print(" Gy: ");  displayU8G2::u8g2log.print(baseGy);  displayU8G2::u8g2log.print(" Gz: ");  displayU8G2::u8g2log.println(baseGz);
+    Serial.print(" Ax: ");  Serial.print(baseAx);  Serial.print(" Ay: ");  Serial.print(baseAy);  Serial.print(" Az: ");  Serial.println(baseAz);
+    Serial.print(" Gx: ");  Serial.print(baseGx);  Serial.print(" Gy: ");  Serial.print(baseGy);  Serial.print(" Gz: ");  Serial.println(baseGz);
 }
 
 void gyroscope::gyroSetup() {

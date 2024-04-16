@@ -44,6 +44,7 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include "avoid_objects.h"
 #include "I2Cscanner.h"
 #include "general_timer.h"
+#include "analog.h"
 
 
 #if USE_MATRIX
@@ -127,6 +128,10 @@ void setup(){
     Motor::motor_setup();
 
     pinMode(LED_PIN, OUTPUT);     /***** 2 ******/
+
+    #if USE_ANALOG
+    analog::analogSetup();
+    #endif
 
     #if USE_SWITCH
         pinMode(SWITCH_8, INPUT_PULLUP);     /***** 8 ******/
@@ -223,9 +228,13 @@ void loop(){
         delay(50);
     #endif
 
-        #if USE_IRREMOTE
-            IRreceiver::irRemote();
-        #endif
+    #if USE_ANALOG
+        analog::analogLoop();
+    #endif
+
+    #if USE_IRREMOTE
+        IRreceiver::irRemote();
+    #endif
 
     #if USE_GYRO
        if (main::Found_Gyro) gyroscope::gyroDetectMovement();
