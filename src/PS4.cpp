@@ -82,11 +82,11 @@ void PS4::joystick(int Xinput, int Yinput) {
                 pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(xMapped));
             }
             if (Yinput >= 9000 && Yinput < 9128) {
-                int yMapped = map(Yinput - 9000, 0, 128, 10, 45); //        Serial.println(yMapped);
+                int yMapped = map(Yinput - 9000, 0, 128, 10, 75); //        Serial.println(yMapped);
                 pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(yMapped));
                 Serial.println(yMapped);
             } else if (Yinput >= 9128 && Yinput <= 9255) {
-                int yMapped = map(Yinput - 9128, 0, 128, 45, 70); //        Serial.println(yMapped);
+                int yMapped = map(Yinput - 9128, 0, 128, 45, 150); //        Serial.println(yMapped);
                 pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(yMapped));
                 Serial.println(yMapped);
             }
@@ -220,7 +220,7 @@ void PS4::controller() {
                             Serial.println(pwm_board::posXY);
                             break;
                         case DPAD_D:
-                            if (pwm_board::posZ < 100)pwm_board::posZ += 10;
+                            if (pwm_board::posZ < 150)pwm_board::posZ += 10;
                             Serial.println(pwm_board::posZ);
                             break;
                         case DPAD_L:
@@ -279,7 +279,7 @@ void PS4::controller() {
                 if (pwm_board::posXY < 0) pwm_board::posXY = 0;
                 if (pwm_board::posXY > 180) pwm_board::posXY = 180;
                 if (pwm_board::posZ < 0) pwm_board::posZ = 0;
-                if (pwm_board::posZ > 100) pwm_board::posZ = 100;
+                if (pwm_board::posZ > 150) pwm_board::posZ = 150;
                 pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(pwm_board::posZ));
                 pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(pwm_board::posXY));
             }

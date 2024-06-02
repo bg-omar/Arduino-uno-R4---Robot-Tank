@@ -53,11 +53,11 @@ void gyroscope::gyroDetectMovement() {
 
     gyroscope::gyroRead();
     if(( abs(gyroscope::ax) + abs(gyroscope::ay) + abs(gyroscope::az)) > THRESHOLD){
-        gyroscope::gyroFunc();       compass::showCompass();
+        gyroscope::gyroFunc();
         timers::timerTwoActive = true;      timers::timerTreeActive = true;      timers::timerButton = R1;
     }
     if(( abs(gyroscope::gx) + abs(gyroscope::gy) + abs(gyroscope::gz)) > THRESHOLD){
-        gyroscope::gyroFunc();       compass::showCompass();
+        gyroscope::gyroFunc();
         timers::timerTwoActive = true;      timers::timerTreeActive = true;      timers::timerButton = L1;
     }
 

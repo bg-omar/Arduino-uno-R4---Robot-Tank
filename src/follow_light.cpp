@@ -18,8 +18,8 @@ int Follow_light::lightSensorL;
 int Follow_light::lightSensorR;
 
 double Follow_light::lightSensor(){
-    Follow_light::lightSensorL = analogRead(light_R_Pin);
-    Follow_light::lightSensorR = analogRead(light_L_Pin);
+    Follow_light::lightSensorL = analogRead(light_R_PIN);
+    Follow_light::lightSensorR = analogRead(light_L_PIN);
     long outputValueR = map(Follow_light::lightSensorL, 0, 1023, 0, 255);
     long outputValueL = map(Follow_light::lightSensorR, 0, 1023, 0, 255);
     double calcValue = 255 - (outputValueR + outputValueL)*.5;

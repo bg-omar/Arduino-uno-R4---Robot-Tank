@@ -72,7 +72,7 @@ void notify() {
             l1d = PS4.event.button_down.l1,         l1u = PS4.event.button_up.l1,
             r1d = PS4.event.button_down.r1,         r1u = PS4.event.button_up.r1,
             l3d = PS4.event.button_down.l3,         l3u = PS4.event.button_up.l3,
-            r3d = PS4.event.button_down.r3,         r3u = PS4.event.button_up.r3,
+//            r3d = PS4.event.button_down.r3,         r3u = PS4.event.button_up.r3,
             psd = PS4.event.button_down.ps,         psu = PS4.event.button_up.ps,
             tpd = PS4.event.button_down.touchpad,   tpu = PS4.event.button_up.touchpad,
             opd = PS4.event.button_down.options,    opu = PS4.event.button_up.options,
@@ -101,8 +101,8 @@ void notify() {
     else if (r1u) send(2201);
     else if (l3d) send(2310);
     else if (l3u) send(2301);
-    else if (r3d) send(2410);
-    else if (r3u) send(2401);
+//    else if (r3d) send(2410);
+//    else if (r3u) send(2401);
     else if (psd) send(2510);
     else if (psu) send(2501);
     else if (tpd) send(2710);
@@ -166,7 +166,7 @@ void loop() {
             if (PS4.R1())        send(2200);
 
             if (PS4.L3())        send(2300);
-            if (PS4.R3())        send(2400);
+//            if (PS4.R3())        send(2400);
 
             if (PS4.PSButton())  send(2500);
             if (PS4.Touchpad()) {

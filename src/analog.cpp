@@ -4,8 +4,9 @@
 
 #include "analog.h"
 
-
+#include "config.h"
 #include "ADS1X15.h"
+
 
 ADS1115 ADS(0x48);
 
@@ -24,17 +25,17 @@ void analog::analogLoop()
 {
     ADS.setGain(0);
 
-    int16_t val_0 = ADS.readADC(0);
-    int16_t val_1 = ADS.readADC(1);
-    int16_t val_2 = ADS.readADC(2);
-    int16_t val_3 = ADS.readADC(3);
+    int16_t ext_analog_0 = ADS.readADC( light_L_PIN );
+    int16_t ext_analog_1 = ADS.readADC( MIC_L_PIN   );
+    int16_t ext_analog_2 = ADS.readADC( light_R_PIN );
+    int16_t ext_analog_3 = ADS.readADC( MIC_R_PIN   );
 
     float f = ADS.toVoltage(2);  // voltage factor
 
-    Serial.print("\tAnalog0: "); Serial.print(val_0); Serial.print('\t'); Serial.println(val_0 * f, 3);
-    Serial.print("\tAnalog1: "); Serial.print(val_1); Serial.print('\t'); Serial.println(val_1 * f, 3);
-    Serial.print("\tAnalog2: "); Serial.print(val_2); Serial.print('\t'); Serial.println(val_2 * f, 3);
-    Serial.print("\tAnalog3: "); Serial.print(val_3); Serial.print('\t'); Serial.println(val_3 * f, 3);
+    Serial.print("\tAnalog0: "); Serial.print(ext_analog_0); Serial.print('\t'); Serial.println(ext_analog_0 * f, 3);
+    Serial.print("\tAnalog1: "); Serial.print(ext_analog_1); Serial.print('\t'); Serial.println(ext_analog_1 * f, 3);
+    Serial.print("\tAnalog2: "); Serial.print(ext_analog_2); Serial.print('\t'); Serial.println(ext_analog_2 * f, 3);
+    Serial.print("\tAnalog3: "); Serial.print(ext_analog_3); Serial.print('\t'); Serial.println(ext_analog_3 * f, 3);
     Serial.println();
 
 }

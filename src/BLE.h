@@ -8,6 +8,12 @@
 
 class BLE {
 
+	static void readBLE();
+
+public:
+	static void BLEsetup();
+
+	static void BLEloop();
 };
 
 

@@ -14,17 +14,46 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9a7a6b36-a99e-4db6-8829-f78acb2fa3fc" name="Changes" comment="build compiled">
-      <change afterPath="$PROJECT_DIR$/src/analog.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/analog.h" afterDir="false" />
+    <list default="true" id="9a7a6b36-a99e-4db6-8829-f78acb2fa3fc" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/Arduino-R4_UNO_Wall-Z.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/easycode/codebase-v2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/esp_rfc2217_server.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/espefuse.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/espsecure.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/esptool.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/unor4wifi-update-windows/bin/espflash.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/unor4wifi-update-windows/bin/unor4wifi-reboot.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/unor4wifi-update-windows/firmware/UNOR4-WIFI-S3-0.4.1.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/unor4wifi-updater/update.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/x509_crt_bundle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BLE.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/BLE.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BLE.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/BLE.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PS4.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/PS4.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/analog.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/analog.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/avoid_objects.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/avoid_objects.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/follow_light.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/follow_light.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gyroscope.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/gyroscope.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main_ra.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_ra.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pwm_board.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/pwm_board.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/motor.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/motor.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pesto_matrix.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/pesto_matrix.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src_esp32_ps4/main_ps4.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src_esp32_ps4/main_ps4.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src_esp32_r4/main_esp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src_esp32_r4/main_esp.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge" beforeDir="false" afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/UNOR4USBBridge/build/esp32-patched.esp32.arduino_unor4wifi_usb_bridge/S3-ALL.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/UNOR4USBBridge/build/esp32-patched.esp32.arduino_unor4wifi_usb_bridge/S3-APP.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/UNOR4USBBridge/build/esp32-patched.esp32.arduino_unor4wifi_usb_bridge/S3-BOOT-APP.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/UNOR4USBBridge/build/esp32-patched.esp32.arduino_unor4wifi_usb_bridge/UNOR4USBBridge.ino.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/UNOR4USBBridge/build/esp32-patched.esp32.arduino_unor4wifi_usb_bridge/UNOR4USBBridge.ino.bootloader.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/UNOR4USBBridge/build/esp32-patched.esp32.arduino_unor4wifi_usb_bridge/UNOR4USBBridge.ino.elf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/UNOR4USBBridge/build/esp32-patched.esp32.arduino_unor4wifi_usb_bridge/UNOR4USBBridge.ino.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/UNOR4USBBridge/build/esp32-patched.esp32.arduino_unor4wifi_usb_bridge/UNOR4USBBridge.ino.partitions.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/UNOR4USBBridge/build/esp32-patched.esp32.arduino_unor4wifi_usb_bridge/x509_crt_bundle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/arduino-cli.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/arduino-cli.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/unor4wifi-updater/update.bat" beforeDir="false" afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/unor4wifi-update-windows/update.bat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,13 +169,13 @@
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;bg-omar/master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Users/mr/ARDUINO/Arduino-R4_UNO_Wall-Z/include&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mr/Arduino Projects/Arduino-R4_UNO_Wall-Z&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;application.passwordSafe&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
     &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -168,9 +197,9 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
@@ -346,7 +375,18 @@
       <workItem from="1712510320331" duration="1206000" />
       <workItem from="1712779069919" duration="972000" />
       <workItem from="1713207728098" duration="1838000" />
-      <workItem from="1713252413052" duration="1687000" />
+      <workItem from="1713252413052" duration="2053000" />
+      <workItem from="1714822020805" duration="1718000" />
+      <workItem from="1714933503298" duration="917000" />
+      <workItem from="1714943512666" duration="24000" />
+      <workItem from="1714944797080" duration="16000" />
+      <workItem from="1716211719612" duration="2191000" />
+      <workItem from="1716740987670" duration="1686000" />
+      <workItem from="1716808944056" duration="1261000" />
+      <workItem from="1716815587586" duration="321000" />
+      <workItem from="1716818182434" duration="7160000" />
+      <workItem from="1717176296366" duration="1371000" />
+      <workItem from="1717363373457" duration="2912000" />
     </task>
     <task id="LOCAL-00001" summary="ps4?">
       <option name="closed" value="true" />
@@ -628,7 +668,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712779305877</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Added Analog Class">
+      <option name="closed" value="true" />
+      <created>1713254144476</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1713254144476</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -660,7 +708,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="ESP32 Seperate build" />
     <MESSAGE value="Robo Lives" />
     <MESSAGE value="Robo Lives with ps4" />
     <MESSAGE value="Robo Lives better receivers" />
@@ -683,9 +730,10 @@
     <MESSAGE value="Switch with check on boot to replace #define's" />
     <MESSAGE value="changes" />
     <MESSAGE value="cleaning" />
-    <MESSAGE value="build compiled" />
     <MESSAGE value="april 2024" />
-    <option name="LAST_COMMIT_MESSAGE" value="april 2024" />
+    <MESSAGE value="build compiled" />
+    <MESSAGE value="Added Analog Class" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Analog Class" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

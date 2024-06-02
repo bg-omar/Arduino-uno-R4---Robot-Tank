@@ -17,7 +17,7 @@
 
 #define USE_PS4 1
 
-#define USE_GYRO 1
+#define USE_GYRO 0
 #define USE_COMPASS 0
 #define USE_BAROMETER 0
 #define USE_DISTANCE 1
@@ -27,9 +27,9 @@
 #define USE_PWM_BOARD 1
 #define USE_DOT 1
 #define USE_MIC 0
-#define USE_SWITCH 1
+#define USE_SWITCH 0
 
-#define USE_ANALOG 1
+#define USE_ANALOG 0
 
 #define USE_ROBOT 0
 #define USE_TIMERS 0
@@ -39,6 +39,8 @@
 #define USE_MATRIX_PREVIEW 0
 #define READ_ESP32 0
 #define USE_LCD 0
+
+#define USE_HM_10_BLE 0
 #define ARDUINO_ARCH_RENESAS_UNO
 
 /********************************************** PIN Defines ****************************************************/
@@ -47,22 +49,36 @@
 
 #define STR_HELPER(x) #x
 #define STR(x) STR_HELPER(x)
+#define EXT_ANALOG_0 0
+#define EXT_ANALOG_1 1
+#define EXT_ANALOG_2 2
+#define EXT_ANALOG_3 3
+
 
 #define Rem_OK  0xBF407F
 #define RX_PIN       0
 #define TX_PIN       1
-#define LED_PIN      2
-#define Trig_PIN     6  // ultrasonic trig Pin
-#define Echo_PIN     7  // ultrasonic echo Pin
-#define SWITCH_8     8
-#define SWITCH_9     9
-#define SWITCH_10   10
-#define SWITCH_11   11
+#define LAZER_PIN      2
 
-#define light_L_Pin A0
-#define MIC_L_PIN   A1
-#define light_R_Pin A2
-#define MIC_R_PIN   A3
+#define L_PWM     3   // define PWM control pin of right motor
+#define R_PWM     4  // define PWM control pin of left motor
+#define L_ROT     5  // define the direction control pin of right motor
+#define R_ROT     6  // define the direction control pin of left motor
+
+
+#define Trig_PIN     7  // ultrasonic trig Pin
+#define Echo_PIN     8  // ultrasonic echo Pin
+#define DotDataPIN   9  // Set data  pin to 4
+#define DotClockPIN  10  // Set clock pin to 5
+
+#define SWITCH_8     A2
+#define SWITCH_9     A3
+
+
+#define light_L_PIN EXT_ANALOG_0
+#define MIC_L_PIN   EXT_ANALOG_1
+#define light_R_PIN EXT_ANALOG_2
+#define MIC_R_PIN   EXT_ANALOG_3
 
 //#define IR_Pin      A2
 

@@ -45,6 +45,7 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include "I2Cscanner.h"
 #include "general_timer.h"
 #include "analog.h"
+#include "BLE.h"
 
 
 #if USE_MATRIX
@@ -69,7 +70,7 @@ bool main::Found_Sonar = false;
 int timers::timerButton;
 
 int pwm_board::posXY = 90;  // set horizontal servo position
-int pwm_board::posZ = 5;   // set vertical servo position
+int pwm_board::posZ = 135;   // set vertical servo position
 
 int Switch_8_State, Switch_9_State;
 
@@ -127,7 +128,7 @@ void setup(){
 
     Motor::motor_setup();
 
-    pinMode(LED_PIN, OUTPUT);     /***** 2 ******/
+    pinMode(LAZER_PIN, OUTPUT);     /***** 2 ******/
 
     #if USE_ANALOG
     analog::analogSetup();
@@ -206,7 +207,11 @@ void setup(){
 
 //        general_timer::setup_General_Timer();
 //        delay(500);
-#endif
+	#endif
+
+	#if USE_HM_10_BLE
+		BLE::BLEsetup();
+	#endif
 }
 
 /*********************************** Loop **********************************/
@@ -214,6 +219,10 @@ void setup(){
 /***************************************************************************/
 
 void loop(){
+	#if USE_HM_10_BLE
+		BLE::BLEloop();
+	#endif
+
 
     #if USE_PS4
         PS4::controller();
@@ -242,7 +251,10 @@ void loop(){
 
     #if USE_DISTANCE
         avoid_objects::distanceF = avoid_objects::checkDistance();  /// assign the front distance detected by ultrasonic sensor to variable a
-        if (avoid_objects::distanceF < 25) {
+
+		int lazer_brightness = map(avoid_objects::distanceF, 0, 1000, 0, 255);
+		analogWrite(LAZER_PIN, lazer_brightness);
+		if (avoid_objects::distanceF < 25) {
             #if USE_PWM_BOARD
                 pwm_board::RGBled(230, 0, 0);
                 if (Switch_8_State == LOW) {
@@ -281,7 +293,7 @@ void loop(){
 
     #if USE_TIMERS
         timers::update();
-//        general_timer::loop_General_Timer();
+        general_timer::loop_General_Timer();
     #endif
 
     #if READ_ESP32

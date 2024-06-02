@@ -5,8 +5,6 @@
 #ifndef PESTO_MATRIX_H
 #define PESTO_MATRIX_H
 
-#define DotDataPIN   4  // Set data  pin to 4
-#define DotClockPIN  5  // Set clock pin to 5
 
     /********************************************** the function for dot matrix display ****************************/
     // section Pesto Matrix
