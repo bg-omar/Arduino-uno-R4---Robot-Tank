@@ -13,6 +13,7 @@
 #define USE_U8G2 1
 #define SMALL 0
 #define DISPLAY_DEMO 0
+#define USE_ROUND 1
 #define LOG_DEBUG 1
 
 #define USE_PS4 1
@@ -68,11 +69,13 @@
 
 #define Trig_PIN     7  // ultrasonic trig Pin
 #define Echo_PIN     8  // ultrasonic echo Pin
-#define DotDataPIN   9  // Set data  pin to 4
-#define DotClockPIN  10  // Set clock pin to 5
+#define TFT_DC 		 9
+#define TFT_CS 		 10
+#define DotDataPIN   A2 // Set data  pin to 4
+#define DotClockPIN  A3  // Set clock pin to 5
 
-#define SWITCH_8     A2
-#define SWITCH_9     A3
+#define SWITCH_8
+#define SWITCH_9
 
 
 #define light_L_PIN EXT_ANALOG_0
@@ -108,6 +111,28 @@
 #define DRIGHT   1600
 #define D_LEFT   1700
 #define UPLEFT   1800
+
+
+
+#define FPS 30
+
+
+enum ModTimeUnit
+{
+	set = 0,
+	hour,
+	minute
+};
+enum Gestures
+{
+	none = 0,
+	left,
+	right,
+	up,
+	down
+};
+
+
 
 
 #endif //CONFIG_H

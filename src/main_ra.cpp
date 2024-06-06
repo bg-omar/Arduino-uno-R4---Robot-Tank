@@ -15,7 +15,7 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include <Wire.h>
 #include <SPI.h>
 
-
+#include "wiring_private.h"
 #include <LiquidCrystal_I2C.h>
 #include <cstring>
 #include <cstdint>
@@ -25,8 +25,9 @@ PS5 Controller: 88:03:4C:B5:00:66
 
 #include "index.h"
 #include "PS4.h"
-//#include "secrets.h"
+#include "secrets.h"
 #include "main_ra.h"
+#include "displayMenu.h"
 #include "barometer.h"
 #include "animation.h"
 #include "pwm_board.h"
@@ -45,7 +46,6 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include "I2Cscanner.h"
 #include "general_timer.h"
 #include "analog.h"
-#include "BLE.h"
 
 
 #if USE_MATRIX
@@ -109,6 +109,10 @@ void setup(){
     #if USE_U8G2
         displayU8G2::U8G2setup();
     #endif
+
+	#if USE_ROUND
+		displayMenu::menuSetup();
+	#endif
 
     #if USE_I2C_SCANNER
         I2Cscanner::scan();
@@ -223,6 +227,9 @@ void loop(){
 		BLE::BLEloop();
 	#endif
 
+	#if USE_ROUND
+		displayMenu::menuLoop();
+	#endif
 
     #if USE_PS4
         PS4::controller();
