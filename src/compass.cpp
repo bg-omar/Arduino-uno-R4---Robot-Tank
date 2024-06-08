@@ -52,42 +52,42 @@ void compass::showCompass(){
     unsigned char west[]  =  {0x00,0x00,0x00,0x3c,0x40,0x40,0x40,0x78,0x78,0x40,0x40,0x40,0x3c,0x00,0x00,0x00};
 
     double headingDegrees = readCompass();
-    main::log("Compass ");
+	main::log("Compass ", 0);
     char buffer[20]; // Assuming a buffer size of 20 is sufficient
 
     // Convert double to char*
     snprintf(buffer, sizeof(buffer), "%f", headingDegrees);
 
-    main::log(buffer);
+	main::log(buffer, 0);
     if (headingDegrees >= 0 && headingDegrees < 45){
         Pesto::matrix_display(north);
         pwm_board::rightLedStrip(0,244,0);
         pwm_board::leftLedStrip(0,244,0);
-        main::log("  North  ");
+		main::log("  North  ", 0);
     }
     if (headingDegrees >= 45 && headingDegrees < 135){
         Pesto::matrix_display(east);
         pwm_board::rightLedStrip(244,0,0);
         pwm_board::leftLedStrip(0,244,0);
-        main::log("  East  ");
+		main::log("  East  ", 0);
     }
     if (headingDegrees >= 135 && headingDegrees < 225){
         Pesto::matrix_display(south);
         pwm_board::rightLedStrip(244,0,0);
         pwm_board::leftLedStrip(244,0,0);
-        main::log("  South   ");
+		main::log("  South   ", 0);
     }
     if (headingDegrees >= 225 && headingDegrees < 315){
         Pesto::matrix_display(west);
         pwm_board::rightLedStrip(0,244,0);
         pwm_board::leftLedStrip(244,0,0);
-        main::log("  West  ");
+		main::log("  West  ", 0);
     }
     if (headingDegrees >= 315 && headingDegrees < 360){
         Pesto::matrix_display(north);
         pwm_board::rightLedStrip(0,244,0);
         pwm_board::leftLedStrip(0,244,0);
-        main::log("  North ");
+		main::log("  North ", 0);
     }
 }
 

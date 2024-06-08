@@ -11,7 +11,7 @@
 class main {
 
 public:
-    static void log(const char *text);
+    static void log(const char *text, int i);
 
     static void logln(const char *text);
     static bool Found_Display;

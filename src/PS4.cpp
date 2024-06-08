@@ -18,6 +18,7 @@
 #include "compass.h"
 #include "gyroscope.h"
 #include "barometer.h"
+#include "displayMenu.h"
 
 #include <iostream>
 #include <string>
@@ -197,16 +198,16 @@ void PS4::controller() {
             } else {
                 switch (PS4input[0]) {
                     case SQUARE:
-                        Motor::Car_left();
+						displayMenu::menu(reinterpret_cast<int *>(3));
                         break;
                     case TRIANG:
-                        Motor::Car_front();
+						displayMenu::menu(reinterpret_cast<int *>(4));
                         break;
                     case xCROSS:
-                        Motor::Car_Back();
+						displayMenu::menu(reinterpret_cast<int *>(1));
                         break;
                     case CIRCLE:
-                        Motor::Car_right();
+						displayMenu::menu(reinterpret_cast<int *>(2));
                         break;
 
                         //**** Head movements    ****
@@ -233,12 +234,12 @@ void PS4::controller() {
                     case 3401:
                     case 3201:
                     case 3301:
-                        Motor::Car_Stop();
+                        //Motor::Car_Stop();
                         break;
 
-                    case xSHARE: compass::displaySensorDetails();break;
-                    case OPTION: gyroscope::gyroFunc();break;
-                    case PSHOME: barometer::baroMeter();break;
+                    case xSHARE: //compass::displaySensorDetails();break;
+                    case OPTION: //gyroscope::gyroFunc();break;
+                    case PSHOME: //barometer::baroMeter();break;
                     case L1:
                         #if USE_TIMERS
                           timers::timerTwoActive = !timers::timerTwoActive;

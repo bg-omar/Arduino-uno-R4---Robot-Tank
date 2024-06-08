@@ -13,10 +13,11 @@
 #define USE_U8G2 1
 #define SMALL 0
 #define DISPLAY_DEMO 0
-#define USE_ROUND 1
+#define USE_ROUND 0
 #define LOG_DEBUG 1
 
 #define USE_PS4 1
+#define USE_SD_CARD 1
 
 #define USE_GYRO 0
 #define USE_COMPASS 0
@@ -59,18 +60,22 @@
 #define Rem_OK  0xBF407F
 #define RX_PIN       0
 #define TX_PIN       1
-#define LAZER_PIN      2
+#define LAZER_PIN     2
+#define L_PWM   	  3   // define PWM control pin of right motor
 
-#define L_PWM     3   // define PWM control pin of right motor
-#define R_PWM     4  // define PWM control pin of left motor
-#define L_ROT     5  // define the direction control pin of right motor
-#define R_ROT     6  // define the direction control pin of left motor
+#define Trig_PIN      4  //   ultrasonic trig Pin
+#define Echo_PIN      5  //   ultrasonic echo Pin
 
 
-#define Trig_PIN     7  // ultrasonic trig Pin
-#define Echo_PIN     8  // ultrasonic echo Pin
-#define TFT_DC 		 9
-#define TFT_CS 		 10
+
+#define R_PWM  		  7  // define PWM control pin of left motor
+#define L_ROT  		  8  // define the direction control pin of right motor
+#define R_ROT    	  9  // define the direction control pin of left motor
+#define TFT_CS 		 10  // CS: Chipselect
+#define TFT_MOSI 	 6  // MOSI (SD-DI, DI, SIMO, SDO, DO, DOUT, SO, MTSR.)  SPI Master out Slave in
+#define TFT_MISO	 12  // MISO : SOMI, SDI, DI, DIN, SI, MRS
+#define TFT_SCK		 13  // SCLK : SCK, CLK.
+
 #define DotDataPIN   A2 // Set data  pin to 4
 #define DotClockPIN  A3  // Set clock pin to 5
 
@@ -116,21 +121,10 @@
 
 #define FPS 30
 
+// 0 for SdFat/File, 1 for FAT16/FAT32, 2 for exFAT, 3 for FAT16/FAT32 and exFAT.
+#define SD_FAT_TYPE 3
+#define CS_PIN 10
 
-enum ModTimeUnit
-{
-	set = 0,
-	hour,
-	minute
-};
-enum Gestures
-{
-	none = 0,
-	left,
-	right,
-	up,
-	down
-};
 
 
 

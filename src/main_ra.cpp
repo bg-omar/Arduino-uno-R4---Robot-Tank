@@ -46,7 +46,7 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include "I2Cscanner.h"
 #include "general_timer.h"
 #include "analog.h"
-
+#include "SD_card.h"
 
 #if USE_MATRIX
     #include "Arduino_LED_Matrix.h"
@@ -81,7 +81,7 @@ U8G2_SH1106_128X64_NONAME_F_HW_I2C displayU8G2::display(U8G2_R0, /* reset=*/ U8X
 /********************************************** Setup booting the arduino **************************************/
 // section Main Functions
 /***************************************************************************************************************/
-void main::log(const char *text) {
+void main::log(const char *text, int i) {
     if (Found_Display) {
 #if LOG_DEBUG
 displayU8G2::U8G2print((const char *) text);
@@ -114,6 +114,10 @@ void setup(){
 		displayMenu::menuSetup();
 	#endif
 
+	#if USE_SD_CARD
+		SD_card::initSD();
+	#endif
+
     #if USE_I2C_SCANNER
         I2Cscanner::scan();
         delay(500);
@@ -121,10 +125,10 @@ void setup(){
 
     delay(1);
 
-    main::log("Serial,\t");
+	main::log("Serial,\t", 0);
     delay(1);
     Serial1.begin(115200);
-    main::log("Serial1,  \t");
+	main::log("Serial1,  \t", 0);
     delay(1);
     SERIAL_AT.begin(115200);
     main::logln("Serial_AT started");
@@ -172,7 +176,7 @@ void setup(){
     #if USE_DISTANCE
         pinMode(Trig_PIN, OUTPUT);    /***** 6 ******/
         pinMode(Echo_PIN, INPUT);     /***** 7 ******/
-        main::log(" Sonar " );
+	main::log(" Sonar ", 0);
         delay(500);
     #endif
 
@@ -225,10 +229,6 @@ void setup(){
 void loop(){
 	#if USE_HM_10_BLE
 		BLE::BLEloop();
-	#endif
-
-	#if USE_ROUND
-		displayMenu::menuLoop();
 	#endif
 
     #if USE_PS4

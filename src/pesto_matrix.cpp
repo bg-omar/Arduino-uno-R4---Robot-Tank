@@ -97,5 +97,5 @@ void Pesto::setup_pestoMatrix() {
     digitalWrite(DotDataPIN,LOW);
     Pesto::matrix_display(reinterpret_cast<unsigned char *>(clear));
     Pesto::pestoMatrix();
-    main::log("Pesto Matrix");
+	main::log("Pesto Matrix", 0);
 }

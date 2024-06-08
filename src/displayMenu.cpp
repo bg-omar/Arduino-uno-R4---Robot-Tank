@@ -8,7 +8,14 @@
 #include "Adafruit_GC9A01A.h"
 #include "main_ra.h"
 
-Adafruit_GC9A01A tft(TFT_CS, TFT_DC);
+/* CS = 10
+ * DC = Digi 6
+ * SDA = 11
+ * SCL = 13
+ */
+
+
+Adafruit_GC9A01A tft(TFT_CS, TFT_MOSI);
 
 
 
@@ -271,10 +278,8 @@ unsigned long testFilledRoundRects() {
 
 static uint8_t ss;
 
-uint32_t targetTime = 0;
-uint32_t clockUpTime = 0;
-const int maxApp = 1;
-String appName[maxApp] = {"KT"};
+const int maxApp = 5;
+String appName[maxApp] = {"Menu Item 1", "Menu Item 2", "Menu Item 3", "Menu Item 4", "Menu Item 5"}; // app names  , "Set Time", "KT"
 
 void setMenuDisplay(int mSel) {
 	int curSel = 0;
@@ -296,33 +301,6 @@ void setMenuDisplay(int mSel) {
 	tft.setTextSize(2);
 	tft.setCursor(50, 190);
 	tft.print(appName[curSel]);
-}
-
-uint8_t modeMenu() {
-	int mSelect = 0;
-	int16_t x, y, tx, ty;
-
-	boolean exitMenu = false;
-
-	setMenuDisplay(0);
-
-	while (!exitMenu) {
-		if (y >= 160) {
-			mSelect += 1;
-			if (mSelect == maxApp) mSelect = 0;
-			setMenuDisplay(mSelect);
-		}
-
-		if (y <= 80) {
-			mSelect -= 1;
-			if (mSelect < 0) mSelect = maxApp - 1;
-			setMenuDisplay(mSelect);
-		}
-		if (y > 80 && y < 160) {
-			exitMenu = true;
-		}
-	}
-	return mSelect;
 }
 
 
@@ -387,16 +365,53 @@ void displayMenu::menuSetup() {
 	Serial.println(F("Done!"));
 }
 
-void displayMenu::menuLoop() {
-	switch (modeMenu()) {
-		case 0:
-			main::Found_Sonar = !main::Found_Sonar;
-			break;
+
+uint8_t modeMenu(const int *pInt) {
+	int mSelect = 0;
+	boolean exitMenu = false;
+	setMenuDisplay(0);
+
+	while (!exitMenu) {
+		if (pInt == reinterpret_cast<int *>(4)) {
+			mSelect += 1;
+			if (mSelect == maxApp) mSelect = 0;
+			setMenuDisplay(mSelect);
+		}
+
+		if (pInt == reinterpret_cast<int *>(3)) {
+			mSelect -= 1;
+			if (mSelect < 0) mSelect = maxApp - 1;
+			setMenuDisplay(mSelect);
+		}
+		if (pInt == reinterpret_cast<int *>(1)) {
+			exitMenu = true;
+		}
 	}
 
-	for(uint8_t rotation=0; rotation<4; rotation++) {
-		tft.setRotation(rotation);
-		testText();
-		delay(1000);
+	return mSelect;
+}
+
+void displayMenu::menu(const int *keyPressed) {
+	switch (modeMenu(keyPressed)) { // Call modeMenu. The return is the desired app number
+		case 0: // Zero is the clock, just exit the switch
+			break;
+		case 1:
+			tft.println("case 1");
+			break;
+		case 2:
+			tft.println("case 2");
+			break;
+		case 3:
+			tft.println("case 3");
+			break;
+		case 4:
+			tft.println("case 4");
+			break;
+/*          case 5:
+		appSetTime();
+		break;
+	  case 6:
+		KT();
+		break;*/
 	}
 }
