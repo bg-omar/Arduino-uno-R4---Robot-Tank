@@ -104,7 +104,7 @@ void main::logln(const char *text) {
 void setup(){
     Wire.begin();
     Serial.begin(115200); // Initialize the hardware serial port for debugging
-    Serial.println("Wall-Z Arduino Robot booting");
+	main::logln("Wall-Z Arduino Robot booting");
 
     #if USE_U8G2
         displayU8G2::U8G2setup();

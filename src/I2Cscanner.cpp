@@ -14,19 +14,6 @@ void I2Cscanner::scan() {
 
     main::logln("I2C Scanning...");
     nDevices = 0;
-	main::log("MOSI: ", 0);
-	main::logln(reinterpret_cast<const char *>(MOSI));
-	main::log("MISO: ", 0);
-	main::logln(reinterpret_cast<const char *>(MISO));
-	main::log("SCK: ", 0);
-	main::logln(reinterpret_cast<const char *>(SCK));
-	main::log("SS: ", 0);
-	main::logln(reinterpret_cast<const char *>(SS));
-
-	main::log("SDA: ", 0);
-	main::logln(reinterpret_cast<const char *>(SDA));
-	main::log("SCL: ", 0);
-	main::logln(reinterpret_cast<const char *>(SCL));
 
     delay(200);
     for(address = 1; address < 127; address++ ) {

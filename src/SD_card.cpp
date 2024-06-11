@@ -140,10 +140,7 @@ void SD_card::initSD() {
 	while (!Serial) {
 		yield();
 	}
-	main::logln("Type any character to start");
-	while (!Serial.available()) {
-		yield();
-	}
+
 	// Initialize the SD.
 	if (!SD.begin(CS_PIN)) {
 		main::logln("begin failed");
