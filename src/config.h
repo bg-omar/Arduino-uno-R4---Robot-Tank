@@ -14,6 +14,7 @@
 #define SMALL 0
 #define DISPLAY_DEMO 0
 #define USE_ROUND 0
+#define USE_MENU 1
 #define LOG_DEBUG 1
 
 #define USE_PS4 1

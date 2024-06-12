@@ -17,43 +17,27 @@
     <list default="true" id="9a7a6b36-a99e-4db6-8829-f78acb2fa3fc" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/.idea/Arduino-R4_UNO_Wall-Z.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/easycode/codebase-v2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/esp_rfc2217_server.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/espefuse.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/espsecure.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/esptool.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/unor4wifi-update-windows/bin/espflash.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/unor4wifi-update-windows/bin/unor4wifi-reboot.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/unor4wifi-update-windows/firmware/UNOR4-WIFI-S3-0.4.1.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/unor4wifi-updater/update.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/x509_crt_bundle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/arduino_oled_menu-main/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/arduino_oled_menu-main/oled_menu_128x64.psd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/arduino_oled_menu-main/oled_menu_128x64_u8g2.ino" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/menu.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/menu.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/menu_imgs.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BLE.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/BLE.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BLE.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/BLE.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PS4.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/PS4.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/analog.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/analog.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/avoid_objects.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/avoid_objects.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/keypad_4x4/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/keypad_4x4/.idea/14_Membrane_Switch_Module.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/keypad_4x4/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/keypad_4x4/Key.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/keypad_4x4/Key.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/keypad_4x4/Keypad.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/keypad_4x4/Keypad.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/keypad_4x4/Membrane_Switch_Module.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/keypad_4x4/audio.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/keypad_4x4/audio.h" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/follow_light.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/follow_light.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gyroscope.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/gyroscope.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main_ra.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_ra.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/motor.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/motor.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pesto_matrix.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/pesto_matrix.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_esp32_ps4/main_ps4.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src_esp32_ps4/main_ps4.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_esp32_r4/main_esp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src_esp32_r4/main_esp.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge" beforeDir="false" afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/UNOR4USBBridge/build/esp32-patched.esp32.arduino_unor4wifi_usb_bridge/S3-ALL.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/UNOR4USBBridge/build/esp32-patched.esp32.arduino_unor4wifi_usb_bridge/S3-APP.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/UNOR4USBBridge/build/esp32-patched.esp32.arduino_unor4wifi_usb_bridge/S3-BOOT-APP.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/UNOR4USBBridge/build/esp32-patched.esp32.arduino_unor4wifi_usb_bridge/UNOR4USBBridge.ino.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/UNOR4USBBridge/build/esp32-patched.esp32.arduino_unor4wifi_usb_bridge/UNOR4USBBridge.ino.bootloader.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/UNOR4USBBridge/build/esp32-patched.esp32.arduino_unor4wifi_usb_bridge/UNOR4USBBridge.ino.elf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/UNOR4USBBridge/build/esp32-patched.esp32.arduino_unor4wifi_usb_bridge/UNOR4USBBridge.ino.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/UNOR4USBBridge/build/esp32-patched.esp32.arduino_unor4wifi_usb_bridge/UNOR4USBBridge.ino.partitions.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/UNOR4USBBridge/build/esp32-patched.esp32.arduino_unor4wifi_usb_bridge/x509_crt_bundle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/arduino-cli.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/arduino-cli.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/unor4wifi-updater/update.bat" beforeDir="false" afterPath="$PROJECT_DIR$/uno-r4-wifi-usb-bridge/unor4wifi-update-windows/update.bat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,24 +153,24 @@
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;bg-omar/master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/mr/Arduino Projects/Arduino-R4_UNO_Wall-Z&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mr/Arduino Projects/Arduino-R4_UNO_Wall-Z/.pio/libdeps/src/Adafruit GC9A01A&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;language.cpp.cling&quot;,
     &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\mr\Arduino Projects\Arduino-R4_UNO_Wall-Z\.pio\libdeps\src\Adafruit GC9A01A" />
+      <recent name="C:\Users\mr\Arduino Projects\Arduino-R4_UNO_Wall-Z\src" />
       <recent name="D:\Users\mr\ARDUINO\Arduino-R4_UNO_Wall-Z\include" />
       <recent name="D:\Users\mr\ARDUINO\Arduino-R4_UNO_Wall-Z\uno-r4-wifi-usb-bridge\unor4wifi-updater" />
       <recent name="D:\Users\mr\ARDUINO\Arduino-R4_UNO_Wall-Z\uno-r4-wifi-usb-bridge" />
-      <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\src" />
-      <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\unor4wifi-updater" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\keypad_4x4" />
@@ -197,10 +181,16 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
+      <method v="2" />
+    </configuration>
+    <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
+      <method v="2" />
     </configuration>
     <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
       <method v="2" />
@@ -386,7 +376,18 @@
       <workItem from="1716815587586" duration="321000" />
       <workItem from="1716818182434" duration="7160000" />
       <workItem from="1717176296366" duration="1371000" />
-      <workItem from="1717363373457" duration="2912000" />
+      <workItem from="1717363373457" duration="3173000" />
+      <workItem from="1717402855255" duration="19127000" />
+      <workItem from="1717662595390" duration="120000" />
+      <workItem from="1717706868002" duration="21000" />
+      <workItem from="1717706903743" duration="8025000" />
+      <workItem from="1717798769330" duration="571000" />
+      <workItem from="1717849487625" duration="544000" />
+      <workItem from="1717850069327" duration="6868000" />
+      <workItem from="1717871719779" duration="868000" />
+      <workItem from="1718048639817" duration="225000" />
+      <workItem from="1718090586968" duration="234000" />
+      <workItem from="1718177467625" duration="5425000" />
     </task>
     <task id="LOCAL-00001" summary="ps4?">
       <option name="closed" value="true" />
@@ -676,7 +677,47 @@
       <option name="project" value="LOCAL" />
       <updated>1713254144476</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="added ext analog input&#10;added hm10 BLE&#10;Switched motorshield gpio 11,12,13  with 4,5,6&#10;added LAZER">
+      <option name="closed" value="true" />
+      <created>1717366748062</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1717366748062</updated>
+    </task>
+    <task id="LOCAL-00038" summary="fixed main&#10;changed location of defined pins">
+      <option name="closed" value="true" />
+      <created>1717662673316</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1717662673316</updated>
+    </task>
+    <task id="LOCAL-00039" summary="SPI added&#10;Added SD card functions&#10;Added Round screen&#10;removed PS4 R3 button">
+      <option name="closed" value="true" />
+      <created>1717856684178</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1717856684178</updated>
+    </task>
+    <task id="LOCAL-00040" summary="SPI added&#10;Added SD card functions&#10;Added Round screen&#10;removed PS4 R3 button">
+      <option name="closed" value="true" />
+      <created>1717856703905</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1717856703905</updated>
+    </task>
+    <task id="LOCAL-00041" summary="SPI added&#10;Added SD card functions&#10;Added Round screen&#10;removed PS4 R3 button">
+      <option name="closed" value="true" />
+      <created>1718090795583</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1718090795583</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -708,9 +749,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Robo Lives" />
-    <MESSAGE value="Robo Lives with ps4" />
-    <MESSAGE value="Robo Lives better receivers" />
     <MESSAGE value="All differnt seriall in one" />
     <MESSAGE value="ifdef  to if" />
     <MESSAGE value="SICK ps4 working" />
@@ -733,7 +771,10 @@
     <MESSAGE value="april 2024" />
     <MESSAGE value="build compiled" />
     <MESSAGE value="Added Analog Class" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Analog Class" />
+    <MESSAGE value="added ext analog input&#10;added hm10 BLE&#10;Switched motorshield gpio 11,12,13  with 4,5,6&#10;added LAZER" />
+    <MESSAGE value="fixed main&#10;changed location of defined pins" />
+    <MESSAGE value="SPI added&#10;Added SD card functions&#10;Added Round screen&#10;removed PS4 R3 button" />
+    <option name="LAST_COMMIT_MESSAGE" value="SPI added&#10;Added SD card functions&#10;Added Round screen&#10;removed PS4 R3 button" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

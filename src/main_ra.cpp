@@ -47,6 +47,7 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include "general_timer.h"
 #include "analog.h"
 #include "SD_card.h"
+#include "menu.h"
 
 #if USE_MATRIX
     #include "Arduino_LED_Matrix.h"
@@ -112,6 +113,10 @@ void setup(){
 
 	#if USE_ROUND
 		displayMenu::menuSetup();
+	#endif
+
+	#if USE_MENU
+		menu::setupMenu();
 	#endif
 
 	#if USE_SD_CARD
@@ -234,6 +239,10 @@ void loop(){
     #if USE_PS4
         PS4::controller();
     #endif
+
+	#if USE_MENU
+		menu::loopMenu();
+	#endif
 
     #if USE_SWITCH
         Switch_8_State = digitalRead(SWITCH_8);
