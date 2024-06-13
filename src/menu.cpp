@@ -1,9 +1,9 @@
 //
 // Created by mr on 6/12/2024.
 //
-
+#include "U8g2lib.h"
 #include "menu.h"
-#include "menu_imgs.h"
+#include "displayU8G2.h"
 
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0); // [full framebuffer, size = 1024 bytes]
 
@@ -167,15 +167,12 @@ void menu::loopMenu() {
 		// draw scrollbar handle
 		u8g2.drawBox(125, 64/NUM_ITEMS * item_selected, 3, 64/NUM_ITEMS);
 
-		// draw upir logo
-		u8g2.drawXBMP(128-16-4, 64-4, 16, 4, upir_logo);
-
 	}
 	else if (current_screen == 1) { // SCREENSHOTS SCREEN
-		u8g2.drawXBMP( 0, 0, 128, 64, bitmap_screenshots[item_selected]); // draw screenshot
+		displayU8G2::draw(); // draw screenshot
 	}
 	else if (current_screen == 2) { // QR SCREEN
-		u8g2.drawXBMP( 0, 0, 128, 64, bitmap_qr_codes[item_selected]); // draw qr code screenshot
+		displayU8G2::draw(); // draw screenshot
 	}
 
 

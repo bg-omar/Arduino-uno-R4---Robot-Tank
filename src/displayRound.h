@@ -2,13 +2,13 @@
 // Created by mr on 6/3/2024.
 //
 
-#ifndef ARDUINO_R4_UNO_WALL_Z_DISPLAYMENU_H
-#define ARDUINO_R4_UNO_WALL_Z_DISPLAYMENU_H
+#ifndef ARDUINO_R4_UNO_WALL_Z_DISPLAYROUND_H
+#define ARDUINO_R4_UNO_WALL_Z_DISPLAYROUND_H
 
 
 #include "Adafruit_SPIDevice.h"
 
-class displayMenu {
+class displayRound {
 
 public:
 	static void menuSetup();
@@ -21,4 +21,4 @@ public:
 };
 
 
-#endif //ARDUINO_R4_UNO_WALL_Z_DISPLAYMENU_H
+#endif //ARDUINO_R4_UNO_WALL_Z_DISPLAYROUND_H

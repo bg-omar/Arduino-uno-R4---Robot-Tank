@@ -1,6 +1,6 @@
 
 
-#include "displayMenu.h"
+#include "displayRound.h"
 #include "config.h"
 #include "SPI.h"
 
@@ -15,7 +15,7 @@
  */
 
 
-Adafruit_GC9A01A tft(TFT_CS, TFT_MOSI);
+Adafruit_GC9A01A tft(TFT_CS, TFT_DS);
 
 
 
@@ -304,7 +304,7 @@ void setMenuDisplay(int mSel) {
 }
 
 
-void displayMenu::menuSetup() {
+void displayRound::menuSetup() {
 	Serial.println("GC9A01A Test!");
 	tft.begin();
 
@@ -391,7 +391,7 @@ uint8_t modeMenu(const int *pInt) {
 	return mSelect;
 }
 
-void displayMenu::menu(const int *keyPressed) {
+void displayRound::menu(const int *keyPressed) {
 	switch (modeMenu(keyPressed)) { // Call modeMenu. The return is the desired app number
 		case 0: // Zero is the clock, just exit the switch
 			break;

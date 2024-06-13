@@ -27,7 +27,8 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include "PS4.h"
 #include "secrets.h"
 #include "main_ra.h"
-#include "displayMenu.h"
+#include "menu.h"
+#include "displayRound.h"
 #include "barometer.h"
 #include "animation.h"
 #include "pwm_board.h"
@@ -47,7 +48,7 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include "general_timer.h"
 #include "analog.h"
 #include "SD_card.h"
-#include "menu.h"
+
 
 #if USE_MATRIX
     #include "Arduino_LED_Matrix.h"
@@ -68,6 +69,35 @@ bool main::Found_Mics = false;
 bool main::Found_PwmBoard = false;
 bool main::Found_Switch = false;
 bool main::Found_Sonar = false;
+
+bool main::use_adafruit = false;
+bool main::use_u8g2 = false;
+bool main::small = false;
+bool main::display_demo = false;
+bool main::use_round = false;
+bool main::use_menu = false;
+bool main::log_debug = false;
+bool main::use_ps4 = false;
+bool main::use_sd_card = false;
+bool main::use_gyro = false;
+bool main::use_compass = false;
+bool main::use_barometer = false;
+bool main::use_distance = false;
+bool main::use_irremote = false;
+bool main::use_i2c_scanner = false;
+bool main::use_pwm_board = false;
+bool main::use_dot = false;
+bool main::use_mic = false;
+bool main::use_switch = false;
+bool main::use_analog = false;
+bool main::use_robot = false;
+bool main::use_timers = false;
+bool main::use_matrix = false;
+bool main::use_matrix_preview = false;
+bool main::read_esp32 = false;
+bool main::use_lcd = false;
+bool main::use_hm_10_ble = false;
+
 int timers::timerButton;
 
 int pwm_board::posXY = 90;  // set horizontal servo position
@@ -75,22 +105,22 @@ int pwm_board::posZ = 135;   // set vertical servo position
 
 int Switch_8_State, Switch_9_State;
 
-U8G2_SH1106_128X64_NONAME_F_HW_I2C displayU8G2::display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+// U8G2_SH1106_128X64_NONAME_F_HW_I2C displayU8G2::display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 
 
 
 /********************************************** Setup booting the arduino **************************************/
 // section Main Functions
 /***************************************************************************************************************/
-void main::log(const char *text, int i) {
+void main::log(const char *text = "") {
     if (Found_Display) {
 #if LOG_DEBUG
-displayU8G2::U8G2print((const char *) text);
+	displayU8G2::U8G2print((const char *) text);
 #endif
     }
     Serial.print((const char *) text);
 }
-void main::logln(const char *text) {
+void main::logln(const char *text = "") {
     if (Found_Display) {
 #if LOG_DEBUG
         displayU8G2::U8G2println((const char *) text);
@@ -104,12 +134,17 @@ void main::logln(const char *text) {
 /***************************************************************************************************************/
 void setup(){
     Wire.begin();
-    Serial.begin(115200); // Initialize the hardware serial port for debugging
+	Serial.begin(9600);// Initialize the hardware serial port for debugging
 	main::logln("Wall-Z Arduino Robot booting");
 
     #if USE_U8G2
         displayU8G2::U8G2setup();
     #endif
+
+	#if USE_SD_CARD
+		SD_card::initSD();
+		SD_card::configLoadSD();
+	#endif
 
 	#if USE_ROUND
 		displayMenu::menuSetup();
@@ -119,10 +154,6 @@ void setup(){
 		menu::setupMenu();
 	#endif
 
-	#if USE_SD_CARD
-		SD_card::initSD();
-	#endif
-
     #if USE_I2C_SCANNER
         I2Cscanner::scan();
         delay(500);
@@ -130,10 +161,10 @@ void setup(){
 
     delay(1);
 
-	main::log("Serial,\t", 0);
+	main::log("Serial,\t");
     delay(1);
     Serial1.begin(115200);
-	main::log("Serial1,  \t", 0);
+	main::log("Serial1,  \t");
     delay(1);
     SERIAL_AT.begin(115200);
     main::logln("Serial_AT started");
@@ -181,7 +212,7 @@ void setup(){
     #if USE_DISTANCE
         pinMode(Trig_PIN, OUTPUT);    /***** 6 ******/
         pinMode(Echo_PIN, INPUT);     /***** 7 ******/
-	main::log(" Sonar ", 0);
+	main::log(" Sonar ");
         delay(500);
     #endif
 
@@ -280,8 +311,11 @@ void loop(){
                     pwm_board::leftLedStrip(70, 0, 70);
                     pwm_board::rightLedStrip(70, 0, 70);
                 }
-            #endif
-            if (main::Found_Display) displayU8G2::u8g2log.println(avoid_objects::distanceF);
+			#endif
+
+			#if LOG_DEBUG
+            	if (main::Found_Display) displayU8G2::u8g2log.println(avoid_objects::distanceF);
+			#endif
             #if USE_DOT
                 Pesto::pestoMatrix();
             #endif

@@ -14,7 +14,7 @@
 #define SMALL 0
 #define DISPLAY_DEMO 0
 #define USE_ROUND 0
-#define USE_MENU 1
+#define USE_MENU 0
 #define LOG_DEBUG 1
 
 #define USE_PS4 1
@@ -66,16 +66,27 @@
 
 #define Trig_PIN      4  //   ultrasonic trig Pin
 #define Echo_PIN      5  //   ultrasonic echo Pin
-
-
+#define TFT_DS 	 	  6  //
 
 #define R_PWM  		  7  // define PWM control pin of left motor
 #define L_ROT  		  8  // define the direction control pin of right motor
 #define R_ROT    	  9  // define the direction control pin of left motor
+
 #define TFT_CS 		 10  // CS: Chipselect
-#define TFT_MOSI 	 6  // MOSI (SD-DI, DI, SIMO, SDO, DO, DOUT, SO, MTSR.)  SPI Master out Slave in
-#define TFT_MISO	 12  // MISO : SOMI, SDI, DI, DIN, SI, MRS
+
+#define TFT_MOSI	 11  // MOSI: Master Out Slave In SDO, DO, DOUT, SO, MTSR
+#define TFT_MISO	 12  // MISO: Master In Slave Out SDI, DI, DIN, SI, MRS
 #define TFT_SCK		 13  // SCLK : SCK, CLK.
+
+/* Round GC9A01 Display
+ * CS = 10
+ * DC = Digi 6
+ * SDA = 11
+ * SCL = 13 */
+
+// 0 for SdFat/File, 1 for FAT16/FAT32, 2 for exFAT, 3 for FAT16/FAT32 and exFAT.
+#define SD_FAT_TYPE 1
+#define CS_PIN TFT_CS
 
 #define DotDataPIN   A2 // Set data  pin to 4
 #define DotClockPIN  A3  // Set clock pin to 5
@@ -122,9 +133,6 @@
 
 #define FPS 30
 
-// 0 for SdFat/File, 1 for FAT16/FAT32, 2 for exFAT, 3 for FAT16/FAT32 and exFAT.
-#define SD_FAT_TYPE 3
-#define CS_PIN 10
 
 
 

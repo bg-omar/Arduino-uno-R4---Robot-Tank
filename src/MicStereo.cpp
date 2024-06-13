@@ -18,9 +18,9 @@ void MicStereo::MicSetup() {
     pinMode(MIC_L_PIN, INPUT);
     MicStereo::baseLSound = map(analogRead(MIC_L_PIN), 0, 1023, 0, 255); /***** A1 ******/
 #if LOG_DEBUG
-	main::log(" L-Mic: ", 0);
+	main::log(" L-Mic: ");
     if (main::Found_Display) displayU8G2::u8g2log.println(baseLSound);
-	main::log(" R-Mic: ", 0);
+	main::log(" R-Mic: ");
     if (main::Found_Display) displayU8G2::u8g2log.println(baseRSound);
 #endif
 }

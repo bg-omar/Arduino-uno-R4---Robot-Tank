@@ -18,7 +18,8 @@
 #include "compass.h"
 #include "gyroscope.h"
 #include "barometer.h"
-#include "displayMenu.h"
+#include "displayRound.h"
+
 
 #include <iostream>
 #include <string>
@@ -198,16 +199,16 @@ void PS4::controller() {
             } else {
                 switch (PS4input[0]) {
                     case SQUARE:
-						displayMenu::menu(reinterpret_cast<int *>(3));
+						displayRound::menu(reinterpret_cast<int *>(3));
                         break;
                     case TRIANG:
-						displayMenu::menu(reinterpret_cast<int *>(4));
+						displayRound::menu(reinterpret_cast<int *>(4));
                         break;
                     case xCROSS:
-						displayMenu::menu(reinterpret_cast<int *>(1));
+						displayRound::menu(reinterpret_cast<int *>(1));
                         break;
                     case CIRCLE:
-						displayMenu::menu(reinterpret_cast<int *>(2));
+						displayRound::menu(reinterpret_cast<int *>(2));
                         break;
 
                         //**** Head movements    ****

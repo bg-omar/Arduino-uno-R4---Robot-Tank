@@ -21,31 +21,31 @@ void I2Cscanner::scan() {
         error = Wire.endTransmission();
 
         if (error == 0) {
-			main::log(" 0x", 0);
+			main::log(" 0x");
             if (address<16) {
-				main::log("0", 0);
+				main::log("0");
             }
 #if LOG_DEBUG
             if (main::Found_Display) displayU8G2::u8g2log.print(address, HEX);
 #endif
-			main::log(reinterpret_cast<const char *>(address), HEX);
-			main::log(", ", 0);
+			main::log(reinterpret_cast<const char *>(address));
+			main::log(", ");
             nDevices++;
             delay(200);
         }
         else if (error==4) {
-			main::log("Unknow error at address 0x", 0);
+			main::log("Unknow error at address 0x");
             if (address<16) {
-				main::log("0 ", 0);
+				main::log("0 ");
             }
 #if LOG_DEBUG
             if (main::Found_Display) displayU8G2::u8g2log.print(address, HEX);
 #endif
-            main::log(reinterpret_cast<const char *>(address), HEX);
+			main::log(reinterpret_cast<const char *>(address));
         }
     }
     delay(20);
-	main::log(" devices: ", 0);
+	main::log(" devices: ");
     main::logln(reinterpret_cast<const char *>(nDevices));
 #if LOG_DEBUG
     displayU8G2::u8g2log.println(nDevices);

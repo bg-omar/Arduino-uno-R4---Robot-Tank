@@ -6,10 +6,13 @@
 #define ARDUINO_R4_UNO_WALL_Z_SD_CARD_H
 
 
+#include "Adafruit_GFX.h"
+
 class SD_card {
 
 public:
 	static void initSD();
+	static void configLoadSD();
 };
 
 
