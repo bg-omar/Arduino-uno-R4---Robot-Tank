@@ -10,7 +10,7 @@
 #include "pwm_board.h"
 #include "timers.h"
 #include "displayU8G2.h"
-#include "IRreceiver.h"
+
 #include "dancing.h"
 #include "avoid_objects.h"
 #include "follow_light.h"
@@ -18,7 +18,7 @@
 #include "compass.h"
 #include "gyroscope.h"
 #include "barometer.h"
-#include "displayRound.h"
+#include "menu.h"
 
 
 #include <iostream>
@@ -199,16 +199,16 @@ void PS4::controller() {
             } else {
                 switch (PS4input[0]) {
                     case SQUARE:
-						displayRound::menu(reinterpret_cast<int *>(3));
-                        break;
+						menu::down();
+						break;
                     case TRIANG:
-						displayRound::menu(reinterpret_cast<int *>(4));
+						menu::up();
                         break;
                     case xCROSS:
-						displayRound::menu(reinterpret_cast<int *>(1));
-                        break;
+						menu::select();
+						break;
                     case CIRCLE:
-						displayRound::menu(reinterpret_cast<int *>(2));
+						menu::down();
                         break;
 
                         //**** Head movements    ****

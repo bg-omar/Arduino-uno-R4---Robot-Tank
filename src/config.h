@@ -8,6 +8,7 @@
 /***************************************************************************************************************/
 // section define
 /***************************************************************************************************************/
+#define LOG_VERBOSE 0
 
 #define USE_ADAFRUIT 0
 #define USE_U8G2 1
@@ -16,34 +17,27 @@
 #define USE_ROUND 0
 #define USE_MENU 0
 #define LOG_DEBUG 1
-
 #define USE_PS4 1
 #define USE_SD_CARD 1
-
-#define USE_GYRO 0
-#define USE_COMPASS 0
-#define USE_BAROMETER 0
+#define USE_GYRO 1
+#define USE_COMPASS 1
+#define USE_BAROMETER 1
 #define USE_DISTANCE 1
-
 #define USE_IRREMOTE 0
 #define USE_I2C_SCANNER 1
 #define USE_PWM_BOARD 1
 #define USE_DOT 1
-#define USE_MIC 0
+#define USE_MIC 1
 #define USE_SWITCH 0
-
-#define USE_ANALOG 0
-
+#define USE_ANALOG 1
 #define USE_ROBOT 0
 #define USE_TIMERS 0
-
-
 #define USE_MATRIX 0
 #define USE_MATRIX_PREVIEW 0
 #define READ_ESP32 0
 #define USE_LCD 0
-
 #define USE_HM_10_BLE 0
+
 #define ARDUINO_ARCH_RENESAS_UNO
 
 /********************************************** PIN Defines ****************************************************/
@@ -73,7 +67,7 @@
 #define R_ROT    	  9  // define the direction control pin of left motor
 
 #define TFT_CS 		 10  // CS: Chipselect
-
+#define CS_PIN 		 10
 #define TFT_MOSI	 11  // MOSI: Master Out Slave In SDO, DO, DOUT, SO, MTSR
 #define TFT_MISO	 12  // MISO: Master In Slave Out SDI, DI, DIN, SI, MRS
 #define TFT_SCK		 13  // SCLK : SCK, CLK.
@@ -86,7 +80,7 @@
 
 // 0 for SdFat/File, 1 for FAT16/FAT32, 2 for exFAT, 3 for FAT16/FAT32 and exFAT.
 #define SD_FAT_TYPE 1
-#define CS_PIN TFT_CS
+
 
 #define DotDataPIN   A2 // Set data  pin to 4
 #define DotClockPIN  A3  // Set clock pin to 5

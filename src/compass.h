@@ -5,6 +5,8 @@
 #ifndef ARDUINO_R4_UNO_WALL_Z_COMPASS_H
 #define ARDUINO_R4_UNO_WALL_Z_COMPASS_H
 
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
 #include <Adafruit_HMC5883_U.h>
 #include "U8g2lib.h"
 

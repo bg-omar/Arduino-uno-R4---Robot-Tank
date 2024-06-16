@@ -9,8 +9,7 @@
 
 
 class Follow_light {
-private:
-    static int flag;
+
 public:
     static int lightSensorL, lightSensorR;
     static void light_track();

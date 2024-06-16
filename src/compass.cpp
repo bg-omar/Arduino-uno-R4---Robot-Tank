@@ -18,7 +18,7 @@
 //U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE); // initialization for the 128x64px OLED display
 U8G2_SH1106_128X64_NONAME_F_HW_I2C compass::u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE); // initialization for the 128x32px OLED display, [full framebuffer, size = 512 bytes]
 
-Adafruit_HMC5883_Unified compass::mag;
+Adafruit_HMC5883_Unified compass::mag = Adafruit_HMC5883_Unified(12345);
 
 void compass::compassSetup() {
     if (!u8g2.begin()) {
@@ -95,7 +95,12 @@ double compass::readCompass(){
     sensors_event_t event; /// Get a new sensor event */
     mag.getEvent(&event);
 
-    double heading = atan2(event.magnetic.y, event.magnetic.x);
+	/* Display the results (magnetic vector values are in micro-Tesla (uT)) */
+	main::log("X: "); main::log(reinterpret_cast<const char *>(char(event.magnetic.x))); main::log("  ");
+	main::log("Y: "); main::log(reinterpret_cast<const char *>(char(event.magnetic.y))); main::log("  ");
+	main::log("Z: "); main::log(reinterpret_cast<const char *>(char(event.magnetic.z))); main::log("  ");main::logln("uT");
+
+    double heading = atan2(-event.magnetic.z, event.magnetic.x);
     double declinationAngle = 0.035;
     heading += declinationAngle;
 
@@ -106,6 +111,7 @@ double compass::readCompass(){
         heading -= 2 * PI;
     }
     double headingDegrees = (heading * 180/M_PI) - 90;
+	main::log("Heading (degrees): "); main::logln(reinterpret_cast<const char *>(char(headingDegrees)));
     return (headingDegrees < 0) ? 360 + headingDegrees : headingDegrees;
 }
 
@@ -120,14 +126,14 @@ void compass::displaySensorDetails(){
     Serial.print  ("Min Value:    "); Serial.print(sensor.min_value); Serial.println(" uT");
     Serial.print  ("Resolution:   "); Serial.print(sensor.resolution); Serial.println(" uT");
 
-//    sensors_event_t event; /// Get a new sensor event */
-//    mag.getEvent(&event);
-//
-//    Serial.print("X: "); Serial.print(event.magnetic.x); Serial.print("  ");
-//    Serial.print("Y: "); Serial.print(event.magnetic.y); Serial.print("  ");
-//    Serial.print("Z: "); Serial.print(event.magnetic.z); Serial.print("  ");Serial.println("  ");
-//    Serial.println("------------------------------------");
-//    Serial.println("");
+    sensors_event_t event; /// Get a new sensor event */
+    mag.getEvent(&event);
+
+    Serial.print("X: "); Serial.print(event.magnetic.x); Serial.print("  ");
+    Serial.print("Y: "); Serial.print(event.magnetic.y); Serial.print("  ");
+    Serial.print("Z: "); Serial.print(event.magnetic.z); Serial.print("  ");Serial.println("  ");
+    Serial.println("------------------------------------");
+    Serial.println("");
     delay(500);
 }
 

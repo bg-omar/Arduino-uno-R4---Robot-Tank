@@ -7,45 +7,23 @@
 #include "config.h"
 
 #include <SPI.h>
-#include <SdFat.h>
-#define CS_PIN 10
+#include "SdFat.h"
+#include <iostream>
+#include <vector>
+#include <cstring>
 
-// 5 X 4 array
-#define ROW_DIM 27
-#define COL_DIM 2
 
 SdFat SD;
 File file;
+char line[40];
+char str[] = "";
+const char* delim = ",";
 
-void configSaveSD();
+std::vector<std::string> configName;
+std::vector<int> configValue = {};
 
 void openFile(int rule);
 
-bool stringToBool(String str) {
-	str.toLowerCase();
-	if (str == "true" || str == "1") {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-size_t readField(File* file, char* str, size_t size, const char* delim) {
-	char ch;
-	size_t n = 0;
-	while ((n + 1) < size && file->read(&ch, 1) == 1) {
-		// Delete CR.
-		if (ch == '\r') {
-			continue;
-		}
-		str[n++] = ch;
-		if (strchr(delim, ch)) {
-			break;
-		}
-	}
-	str[n] = '\0';
-	return n;
-}
 //------------------------------------------------------------------------------
 #define errorHalt(msg) {Serial.println(F(msg)); while (true) {}}
 //------------------------------------------------------------------------------
@@ -58,98 +36,175 @@ void SD_card::initSD() {
 	// Initialize the SD.
 	if (!SD.begin(CS_PIN, SD_SCK_MHZ(16))) {
 		main::logln("SD card init failed");
+		main::use_sd_card = false;
 		return;
 	} else {
 		main::logln("SD card initialized");
+		main::use_sd_card = true;
 	}
-
 }
+
+//------------------------------------------------------------------------------
+// Store error strings in flash to save RAM.
+#define error(s) sd.errorHalt(&Serial, F(s))
+//------------------------------------------------------------------------------
+// Check for extra characters in field or find minus sign.
+char* skipSpace(char* str) {
+	while (isspace(*str)) str++;
+	return str;
+}
+//------------------------------------------------------------------------------
+
+bool parseLine(char* str) {
+	char* ptr;
+
+	// Set strtok start of line.
+	str = strtok(str, delim);
+	if (!str) return false;
+
+	configName.emplace_back(str); // Append each token to the vector
+
+	// Subsequent calls to strtok expects a null pointer.
+	str = strtok(nullptr, delim);
+	if (!str) return false;
+
+	// Convert string to long integer.
+	int32_t i32 = strtol(str, &ptr, 0);
+	if (str == ptr || *skipSpace(ptr)) return false;
+	configValue.push_back(i32);
+
+
+	// Check for extra fields.
+	return strtok(nullptr, delim) == nullptr;
+}
+//------------------------------------------------------------------------------
+
 void SD_card::configLoadSD() {
-	// Array for data.
-	openFile(FILE_READ);
+	openFile(FILE_WRITE);
 	file.rewind();  // Rewind the file for read.
 
-	String array[ROW_DIM][COL_DIM];
-	// Access an element of the array
-	String i_str, j_str;  // Strings to hold i and j values
-	int i = 0;     // First array index.
-	int j = 0;     // Second array index
-	size_t n;      // Length of returned field with delimiter.
-	String value = array[i][j];
-	char str[56];  // Must hold longest field with delimiter and zero byte.
-	char *ptr;     // Test for valid field.
-
-	// Read the file and store the data.
-	for (i = 0; i < ROW_DIM; i++) {
-		for (j = 0; j < COL_DIM; j++) {
-			n = readField(&file, str, sizeof(str), ",\n");
-			if (n == 0) {
-				errorHalt("Too few lines");
-			}
-
-			array[i][j] = String(str);
-
-			while (*ptr == ' ') {
-				ptr++;
-			}
-			if (*ptr != ',' && *ptr != '\n' && *ptr != '\0') {
-				errorHalt("extra characters in field");
-			}
-			if (j < (COL_DIM-1) && str[n-1] != ',') {
-				errorHalt("line with too few fields");
-			}
+	while (file.available()) {
+		int n = file.fgets(line, sizeof(line));
+		if (n <= 0) {
+			errorHalt("fgets failed");
 		}
-		// Allow missing endl at eof.
-		if (str[n-1] != '\n' && file.available()) {
-			errorHalt("missing endl");
+		if (line[n-1] != '\n' && n == (sizeof(line) - 1)) {
+			errorHalt("line too long");
 		}
+		if (!parseLine(line)) {
+			errorHalt("parseLine failed");
+		}
+		Serial.println();
 	}
-	// Print the array.
-	for (i = 0; i < ROW_DIM; i++) {
-		for (j = 0; j < COL_DIM; j++) {
-			if (j) {
-				Serial.print(' ');
-			}
-			main::log((array[i][j]).c_str());
+
+	#if LOG_VERBOSE
+		std::cout << "configName:" << std::endl;
+		for (const auto& tok : configName) {
+			std::cout << tok  << " ";
 		}
-		main::logln("");
-	}
-	Serial.println("Done");
+		std::cout << std::endl;
+
+		std::cout << "configValue: ";
+		for (int i : configValue) {
+			std::cout << i << " ";
+		}
+		std::cout << std::endl;
+	#endif
+
+	main::logln("configName & configValue arrays build");
+
+	main::use_adafruit = 		 configValue[0] == 1;
+	main::use_u8g2 = 			 configValue[1] == 1;
+	main::small = 				 configValue[2] == 1;
+	main::display_demo = 		 configValue[3] == 1;
+	main::use_round = 			 configValue[4] == 1;
+	main::use_menu = 			 configValue[5] == 1;
+	main::log_debug = 			 configValue[6] == 1;
+	main::use_ps4 = 			 configValue[7] == 1;
+	main::use_sd_card = 		 configValue[8] == 1;
+	main::use_gyro = 			 configValue[9] == 1;
+	main::use_compass = 		 configValue[10] == 1;
+	main::use_barometer = 		 configValue[11] == 1;
+	main::use_distance = 		 configValue[12] == 1;
+	main::use_irremote = 		 configValue[13] == 1;
+	main::use_i2c_scanner = 	 configValue[14] == 1;
+	main::use_pwm_board = 		 configValue[15] == 1;
+	main::use_dot = 			 configValue[16] == 1;
+	main::use_mic = 			 configValue[17] == 1;
+	main::use_switch = 			 configValue[18] == 1;
+	main::use_analog = 			 configValue[19] == 1;
+	main::use_robot = 			 configValue[20] == 1;
+	main::use_timers = 			 configValue[21] == 1;
+	main::use_matrix = 			 configValue[22] == 1;
+	main::use_matrix_preview =	 configValue[23] == 1;
+	main::read_esp32 = 			 configValue[24] == 1;
+	main::use_lcd = 			 configValue[25] == 1;
+	main::use_hm_10_ble = 		 configValue[26] == 1;
+
+	main::logln("Settings loaded from SD");
+
+	main::log("use_adafruit: ");
+	main::logln	(main::use_adafruit ? "true": "false");
+	main::log("use_u8g2: ");
+	main::logln	(main::use_u8g2  ? "true": "false");
+	main::log("small: ");
+	main::logln	(main::small ? "true": "false");
+	main::log("display_demo: ");
+	main::logln	(main::display_demo ? "true": "false");
+	main::log("use_round: ");
+	main::logln	(main::use_round ? "true": "false");
+	main::log("use_menu: ");
+	main::logln	(main::use_menu ? "true": "false");
+	main::log("log_debug: ");
+	main::logln	(main::log_debug ? "true": "false");
+	main::log("use_ps4: ");
+	main::logln	(main::use_ps4 ? "true": "false");
+	main::log("use_sd_card: ");
+	main::logln	(main::use_sd_card ? "true": "false");
+	main::log("use_gyro: ");
+	main::logln	(main::use_gyro ? "true": "false");
+	main::log("use_compass: ");
+	main::logln	(main::use_compass ? "true": "false");
+	main::log("use_barometer: ");
+	main::logln	(main::use_barometer ? "true": "false");
+	main::log("use_distance: ");
+	main::logln	(main::use_distance ? "true": "false");
+	main::log("use_irremote: ");
+	main::logln	(main::use_irremote ? "true": "false");
+	main::log("use_i2c_scanner: ");
+	main::logln	(main::use_i2c_scanner ? "true": "false");
+	main::log("use_pwm_board: ");
+	main::logln	(main::use_pwm_board ? "true": "false");
+	main::log("use_dot: ");
+	main::logln	(main::use_dot ? "true": "false");
+	main::log("use_mic: ");
+	main::logln	(main::use_mic ? "true": "false");
+	main::log("use_switch: ");
+	main::logln	(main::use_switch ? "true": "false");
+	main::log("use_analog: ");
+	main::logln	(main::use_analog ? "true": "false");
+	main::log("use_robot: ");
+	main::logln	(main::use_robot ? "true": "false");
+	main::log("use_timers: ");
+	main::logln	(main::use_timers ? "true": "false");
+	main::log("use_matrix: ");
+	main::logln	(main::use_matrix ? "true": "false");
+	main::log("use_matrix_preview: ");
+	main::logln	(main::use_matrix_preview ? "true": "false");
+	main::log("read_esp32: ");
+	main::logln	(main::read_esp32 ? "true": "false");
+	main::log("use_lcd: ");
+	main::logln	(main::use_lcd ? "true": "false");
+	main::log("use_hm_10_ble: ");
+	main::logln	(main::use_hm_10_ble ? "true": "false");
+
+ 	Serial.println("Config Loaded from SD");
 	file.close();
-
-	main::use_adafruit = 		(array[0][1] == "1");
-	main::use_u8g2 = 			(array[1][1] == "1");
-	main::small = 				(array[2][1] == "1");
-	main::display_demo = 		(array[3][1] == "1");
-	main::use_round = 			(array[4][1] == "1");
-	main::use_menu = 			(array[5][1] == "1");
-	main::log_debug = 			(array[6][1] == "1");
-	main::use_ps4 = 			(array[7][1] == "1");
-	main::use_sd_card = 		(array[8][1] == "1");
-	main::use_gyro = 			(array[9][1] == "1");
-	main::use_compass = 		(array[10][1] == "1");
-	main::use_barometer = 		(array[11][1] == "1");
-	main::use_distance = 		(array[12][1] == "1");
-	main::use_irremote = 		(array[13][1] == "1");
-	main::use_i2c_scanner = 	(array[14][1] == "1");
-	main::use_pwm_board = 		(array[15][1] == "1");
-	main::use_dot = 			(array[16][1] == "1");
-	main::use_mic = 			(array[17][1] == "1");
-	main::use_switch = 			(array[18][1] == "1");
-	main::use_analog = 			(array[19][1] == "1");
-	main::use_robot = 			(array[20][1] == "1");
-	main::use_timers = 			(array[21][1] == "1");
-	main::use_matrix = 			(array[22][1] == "1");
-	main::use_matrix_preview =	(array[23][1] == "1");
-	main::read_esp32 = 			(array[24][1] == "1");
-	main::use_lcd = 			(array[25][1] == "1");
-	main::use_hm_10_ble = 		(array[26][1] == "1");
 }
 
-void configSaveSD() {// Create or open the file.
+void SD_card::configSaveSD() {// Create or open the file.
 	openFile(FILE_WRITE);
-	// Rewind file so test data is not appended.
-	file.rewind();
+	file.rewind(); // Rewind file so config data is not appended.
 
 	String use_adafruit_string =	 	"USE_ADAFRUIT," + 		String(main::use_adafruit) + "\r\n";
 	String use_u8g2_string =		 	"USE_U8G2," + 			String(main::use_u8g2) + "\r\n";
@@ -177,10 +232,9 @@ void configSaveSD() {// Create or open the file.
 	String use_matrix_preview_string =	"USE_MATRIX_PREVIEW," + String(main::use_matrix_preview) + "\r\n";
 	String read_esp32_string =		 	"READ_ESP32," + 		String(main::read_esp32) + "\r\n";
 	String use_lcd_string =			 	"USE_LCD," + 			String(main::use_lcd) + "\r\n";
-	String use_hm_10_ble_string =	 	"USE_HM_10_BLE," + 		String(main::use_hm_10_ble) + "\r\n";
+	String use_hm_10_ble_string =	 	"USE_HM_10_BLE," + 		String(main::use_hm_10_ble);
 
-
-	// Write test data.
+	// Write config data.
 	file.print(F(
 			use_adafruit_string +
 			use_u8g2_string +
@@ -208,8 +262,7 @@ void configSaveSD() {// Create or open the file.
 			use_matrix_preview_string +
 			read_esp32_string +
 			use_lcd_string +
-			use_hm_10_ble_string +
-		    "END,0"
+			use_hm_10_ble_string
    ));
 
 	file.close();
@@ -222,7 +275,6 @@ void openFile(int rule) {
 	}
 }
 
-//------------------------------------------------------------------------------
 
 
 

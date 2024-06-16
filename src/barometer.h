@@ -7,14 +7,14 @@
 
 #define SEALEVELPRESSURE_HPA (1013.25)
 
-#include <Adafruit_BME280.h>
-
+#include <Adafruit_BMP280.h>
 
 class barometer {
 public:
-    static Adafruit_BME280 bme;
     static void baroSetup();
     static void baroMeter();
+
+	static Adafruit_BMP280 bmp;
 };
 
 

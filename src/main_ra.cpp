@@ -14,6 +14,8 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include <Arduino.h>
 #include <Wire.h>
 #include <SPI.h>
+//#include "Arduino_LED_Matrix.h"
+
 
 #include "wiring_private.h"
 #include <LiquidCrystal_I2C.h>
@@ -28,39 +30,26 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include "secrets.h"
 #include "main_ra.h"
 #include "menu.h"
-#include "displayRound.h"
+
 #include "barometer.h"
 #include "animation.h"
 #include "pwm_board.h"
 #include "timers.h"
 #include "compass.h"
 #include "gyroscope.h"
-#include "IRreceiver.h"
+
 #include "dancing.h"
 #include "displayU8G2.h"
-#include "displayAdafruit.h"
 #include "pesto_matrix.h"
 #include "follow_light.h"
 #include "motor.h"
 #include "MicStereo.h"
 #include "avoid_objects.h"
 #include "I2Cscanner.h"
-#include "general_timer.h"
+
 #include "analog.h"
 #include "SD_card.h"
 
-
-#if USE_MATRIX
-    #include "Arduino_LED_Matrix.h"
-#include "cat_face.h"
-
-// Define an array to hold pixel data for a single frame (4 pixels)
-    uint32_t frame[] = {
-            0, 0, 0, 0xFFFF
-    };
-
-    ArduinoLEDMatrix matrix;
-#endif
 
 bool main::Found_Display;
 bool main::Found_Gyro = false;
@@ -98,35 +87,51 @@ bool main::read_esp32 = false;
 bool main::use_lcd = false;
 bool main::use_hm_10_ble = false;
 
-int timers::timerButton;
+//int timers::timerButton;
 
 int pwm_board::posXY = 90;  // set horizontal servo position
 int pwm_board::posZ = 135;   // set vertical servo position
 
 int Switch_8_State, Switch_9_State;
 
-// U8G2_SH1106_128X64_NONAME_F_HW_I2C displayU8G2::display(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
-
+// Define an array to hold pixel data for a single frame (4 pixels)
+uint32_t frame[] = {0, 0, 0, 0xFFFF};
+//ArduinoLEDMatrix matrix;
 
 
 /********************************************** Setup booting the arduino **************************************/
 // section Main Functions
 /***************************************************************************************************************/
-void main::log(const char *text = "") {
-    if (Found_Display) {
-#if LOG_DEBUG
-	displayU8G2::U8G2print((const char *) text);
-#endif
-    }
-    Serial.print((const char *) text);
+// Implementation
+void main::log_helper(const char* text, bool newline) {
+	if (Found_Display) {
+		#if LOG_DEBUG
+		if (newline) {
+			displayU8G2::U8G2println(text);
+		} else {
+			displayU8G2::U8G2print(text);
+		}
+		#endif
+	}
+	if (newline) {
+		Serial.println(text);
+	} else {
+		Serial.print(text);
+	}
 }
-void main::logln(const char *text = "") {
-    if (Found_Display) {
-#if LOG_DEBUG
-        displayU8G2::U8G2println((const char *) text);
-#endif
-    }
-    Serial.println((const char *) text);
+
+void main::log(const char* text) {
+	log_helper(text, false);
+}
+
+void main::logln(const char* text) {
+	log_helper(text, true);
+}
+
+void main::logHexln(unsigned char id, int i) {
+	Serial.println(id, i);
+	displayU8G2::u8g2log.println(id, i);
+	displayU8G2::U8G2printEnd();
 }
 
 /********************************************** Setup booting the arduino **************************************/
@@ -141,121 +146,191 @@ void setup(){
         displayU8G2::U8G2setup();
     #endif
 
-	#if USE_SD_CARD
-		SD_card::initSD();
-		SD_card::configLoadSD();
-	#endif
+	delay(1);
+	main::log("Serial");
+	delay(1);
+	Serial1.begin(115200);
+	main::log("Serial1 & ");
+	delay(1);
+	SERIAL_AT.begin(115200);
+	main::logln("Serial_AT 115200");
+	delay(1);
 
-	#if USE_ROUND
-		displayMenu::menuSetup();
-	#endif
+	Motor::motor_setup();
+	pinMode(LAZER_PIN, OUTPUT);     /***** 2 ******/
 
-	#if USE_MENU
-		menu::setupMenu();
-	#endif
+	SD_card::initSD();
+	SD_card::configLoadSD();
+	if(main::use_sd_card) {
+		if(main::use_menu)menu::setupMenu();
+		if(main::use_i2c_scanner)	I2Cscanner::scan();
+		delay(500);
+		if(main::use_analog) {
+			analog::analogSetup();
 
-    #if USE_I2C_SCANNER
-        I2Cscanner::scan();
-        delay(500);
-    #endif
+			if(main::use_mic) {
+				MicStereo::MicSetup();
+				delay(500);
+			}
+		}
 
-    delay(1);
+		if(main::use_switch) {
+			pinMode(8, INPUT_PULLUP);     /***** 8 ******/
+			pinMode(9, INPUT_PULLUP);     /***** 9 ******/
 
-	main::log("Serial,\t");
-    delay(1);
-    Serial1.begin(115200);
-	main::log("Serial1,  \t");
-    delay(1);
-    SERIAL_AT.begin(115200);
-    main::logln("Serial_AT started");
-    delay(1);
+			delay(50);
+			Switch_8_State = digitalRead(8);
+			Switch_9_State = digitalRead(9);
 
-    Motor::motor_setup();
+			if (Switch_8_State == LOW) { main::log(" SWITCH_8 is on"); } else { main::log(" SWITCH_8 is off"); }
+			if (Switch_9_State == LOW) { main::logln(" SWITCH_9 is on"); } else { main::logln(" SWITCH_9 is off"); }
 
-    pinMode(LAZER_PIN, OUTPUT);     /***** 2 ******/
+			delay(500);
+		}
 
-    #if USE_ANALOG
-    analog::analogSetup();
-    #endif
-
-    #if USE_SWITCH
-        pinMode(SWITCH_8, INPUT_PULLUP);     /***** 8 ******/
-        pinMode(SWITCH_9, INPUT_PULLUP);     /***** 9 ******/
-
-        delay(50);
-        Switch_8_State = digitalRead(SWITCH_8);
-        Switch_9_State = digitalRead(SWITCH_9);
-
-        if (Switch_8_State == LOW) {  main::log(" SWITCH_8 is on");} else {main::log(" SWITCH_8 is off");}
-        if (Switch_9_State == LOW) {  main::logln(" SWITCH_9 is on");} else {main::logln(" SWITCH_9 is off");}
-
-        delay(500);
-    #endif
-
-    #if USE_PWM_BOARD
-        pwm_board::setupPWM();
-        delay(500);
-    #endif
+		if(main::use_pwm_board) { pwm_board::setupPWM();   main::logln(" PWM board enabled");}
+		delay(500);
+//
+//		if(main::use_matrix_preview) {matrix.begin();}
+//		else if(main::use_matrix) {
+//			matrix.loadSequence(animation);
+//			matrix.begin();
+//			matrix.autoscroll(300);
+//			matrix.play(true);
+//			delay(500);
+//			main::logln(" R4 matrix ");
+//		}
 
 
-    #if USE_MATRIX_PREVIEW
-        matrix.begin();
-    #elif USE_MATRIX
-        matrix.loadSequence(animation);
-        matrix.begin();
-        matrix.autoscroll(300);
-        matrix.play(true);
-        delay(500);
-        main::log(" R4 matrix ");
-    #endif
+		if(main::use_distance) {
+			pinMode(Trig_PIN, OUTPUT);    /***** 6 ******/
+			pinMode(Echo_PIN, INPUT);     /***** 7 ******/
+			main::logln(" Sonar --> use_distance ");
+			delay(500);
+		}
 
-    #if USE_DISTANCE
-        pinMode(Trig_PIN, OUTPUT);    /***** 6 ******/
-        pinMode(Echo_PIN, INPUT);     /***** 7 ******/
-	main::log(" Sonar ");
-        delay(500);
-    #endif
+		if(main::use_dot) {
+			Pesto::setup_pestoMatrix();
+			delay(500);
+		}
 
-    #if USE_DOT
-        Pesto::setup_pestoMatrix();
-        delay(500);
-    #endif
+		if(main::use_gyro) {
+			gyroscope::gyroSetup();
+			delay(500);
+		}
 
-    #if USE_MIC
-        MicStereo::MicSetup();
-        delay(500);
-    #endif
+		if(main::use_compass) {
+			compass::compassSetup();
+			delay(500);
+		}
 
-    #if USE_GYRO
-        gyroscope::gyroSetup();
-        delay(500);
-    #endif
+		if(main::use_barometer) {
+			barometer::baroSetup();
+			delay(500);
+		}
 
-    #if USE_COMPASS
-        compass::compassSetup();
-        delay(500);
-    #endif
+//		if(main::use_timers) {
+//			timers::initTimers();
+//			delay(500);
+//
+//        }
+		main::logln("Setup from SD Complete");
+	} else {
+		main::logln("Setup from config.h");
+		#if USE_ROUND
+			displayMenu::menuSetup();
+		#endif
 
-    #if USE_BAROMETER
-        barometer::baroSetup();
-        delay(500);
-    #endif
+		#if USE_MENU
+			menu::setupMenu();
+		#endif
 
-    #if USE_IRREMOTE
-            IRreceiver::setupIrRemote();
-    #endif
+		#if USE_I2C_SCANNER
+			I2Cscanner::scan();
+			delay(500);
+		#endif
 
-    #if USE_TIMERS
-        timers::initTimers();
-        delay(500);
+		#if USE_ANALOG
+			analog::analogSetup();
+		#endif
 
-//        general_timer::setup_General_Timer();
-//        delay(500);
-	#endif
+		#if USE_SWITCH
+			pinMode(SWITCH_8, INPUT_PULLUP);     /***** 8 ******/
+			pinMode(SWITCH_9, INPUT_PULLUP);     /***** 9 ******/
 
-	#if USE_HM_10_BLE
-		BLE::BLEsetup();
-	#endif
+			delay(50);
+			Switch_8_State = digitalRead(SWITCH_8);
+			Switch_9_State = digitalRead(SWITCH_9);
+
+			if (Switch_8_State == LOW) {  main::log(" SWITCH_8 is on");} else {main::log(" SWITCH_8 is off");}
+			if (Switch_9_State == LOW) {  main::logln(" SWITCH_9 is on");} else {main::logln(" SWITCH_9 is off");}
+
+			delay(500);
+		#endif
+
+		#if USE_PWM_BOARD
+			pwm_board::setupPWM();
+			delay(500);
+		#endif
+
+
+		#if USE_MATRIX_PREVIEW
+			matrix.begin();
+		#elif USE_MATRIX
+			matrix.loadSequence(animation);
+			matrix.begin();
+			matrix.autoscroll(300);
+			matrix.play(true);
+			delay(500);
+			main::log(" R4 matrix ");
+		#endif
+
+		#if USE_DISTANCE
+			pinMode(Trig_PIN, OUTPUT);    /***** 6 ******/
+			pinMode(Echo_PIN, INPUT);     /***** 7 ******/
+			main::log(" Sonar ");
+			delay(500);
+		#endif
+
+		#if USE_DOT
+			Pesto::setup_pestoMatrix();
+			delay(500);
+		#endif
+
+		#if USE_MIC
+			MicStereo::MicSetup();
+			delay(500);
+		#endif
+
+		#if USE_COMPASS
+			compass::compassSetup();
+			delay(500);
+		#endif
+
+		#if USE_BAROMETER
+			barometer::baroSetup();
+			delay(500);
+		#endif
+
+		#if USE_GYRO
+		gyroscope::gyroSetup();
+		delay(500);
+		#endif
+
+		#if USE_TIMERS
+			timers::initTimers();
+			delay(500);
+
+		//        general_timer::setup_General_Timer();
+		//        delay(500);
+		#endif
+
+		#if USE_HM_10_BLE
+			BLE::BLEsetup();
+		#endif
+		main::logln("Setup from config.h Complete");
+	}
+	main::logln("Starting loop");
 }
 
 /*********************************** Loop **********************************/
@@ -263,19 +338,19 @@ void setup(){
 /***************************************************************************/
 
 void loop(){
-	#if USE_HM_10_BLE
-		BLE::BLEloop();
-	#endif
+    if((USE_PS4 && !main::use_sd_card) || main::use_ps4) {
+		PS4::controller();
+	}
 
-    #if USE_PS4
-        PS4::controller();
-    #endif
-
-	#if USE_MENU
+	if (main::use_menu) {
 		menu::loopMenu();
-	#endif
+	}
 
-    #if USE_SWITCH
+	if(main::use_barometer) {
+		barometer::baroMeter();
+	}
+
+	#if USE_SWITCH
         Switch_8_State = digitalRead(SWITCH_8);
         Switch_9_State = digitalRead(SWITCH_9);
         delay(5);
@@ -284,62 +359,59 @@ void loop(){
         delay(50);
     #endif
 
-    #if USE_ANALOG
-        analog::analogLoop();
-    #endif
+	if ((USE_ANALOG && !main::use_sd_card) || main::use_analog) {
+		analog::analogLoop();
+	}
 
-    #if USE_IRREMOTE
-        IRreceiver::irRemote();
-    #endif
+    if((USE_GYRO && !main::use_sd_card) || main::use_analog || main::Found_Gyro){
+		gyroscope::gyroDetectMovement();
+	}
 
-    #if USE_GYRO
-       if (main::Found_Gyro) gyroscope::gyroDetectMovement();
-    #endif
-
-    #if USE_DISTANCE
-        avoid_objects::distanceF = avoid_objects::checkDistance();  /// assign the front distance detected by ultrasonic sensor to variable a
+    if ((USE_DISTANCE && !main::use_sd_card) || main::use_distance) {
+		avoid_objects::distanceF = avoid_objects::checkDistance();  /// assign the front distance detected by ultrasonic sensor to variable a
 
 		int lazer_brightness = map(avoid_objects::distanceF, 0, 1000, 0, 255);
 		analogWrite(LAZER_PIN, lazer_brightness);
 		if (avoid_objects::distanceF < 25) {
-            #if USE_PWM_BOARD
-                pwm_board::RGBled(230, 0, 0);
-                if (Switch_8_State == LOW) {
-                    pwm_board::leftLedStrip(255, 0, 0);
-                    pwm_board::rightLedStrip(255, 0, 0);
-                } else {
-                    pwm_board::leftLedStrip(70, 0, 70);
-                    pwm_board::rightLedStrip(70, 0, 70);
-                }
+			#if USE_PWM_BOARD
+			pwm_board::RGBled(230, 0, 0);
+			if (Switch_8_State == LOW) {
+				pwm_board::leftLedStrip(255, 0, 0);
+				pwm_board::rightLedStrip(255, 0, 0);
+			} else {
+				pwm_board::leftLedStrip(70, 0, 70);
+				pwm_board::rightLedStrip(70, 0, 70);
+			}
 			#endif
 
 			#if LOG_DEBUG
-            	if (main::Found_Display) displayU8G2::u8g2log.println(avoid_objects::distanceF);
+			if (main::Found_Display) displayU8G2::u8g2log.println(avoid_objects::distanceF);
 			#endif
-            #if USE_DOT
-                Pesto::pestoMatrix();
-            #endif
-            double deltime = avoid_objects::distanceF*3;
-            delay(deltime);
-        } else {
-    #endif
-        #if USE_MIC
-            MicStereo::MicLoop();
-        #endif
+			#if USE_DOT
+			Pesto::pestoMatrix();
+			#endif
+			double deltime = avoid_objects::distanceF * 3;
+			delay(deltime);
+		} else {
+		}
 
-        #if USE_PWM_BOARD
-            pwm_board::RGBled(0, 0, Follow_light::lightSensor());
-            if (Switch_8_State == LOW) {
-                pwm_board::leftLedStrip(0, 255, 0);
-                pwm_board::rightLedStrip(0, 255, 0);
-            } else {
-                pwm_board::leftLedStrip(0, 70, 0);
-                pwm_board::rightLedStrip(0, 70, 0);
-            }
-        #endif
-    #if USE_DISTANCE
-        }
-    #endif
+
+		#if USE_MIC
+			MicStereo::MicLoop();
+		#endif
+
+		#if USE_PWM_BOARD
+		pwm_board::RGBled(0, 0, Follow_light::lightSensor());
+		if (Switch_8_State == LOW) {
+			pwm_board::leftLedStrip(0, 255, 0);
+			pwm_board::rightLedStrip(0, 255, 0);
+		} else {
+			pwm_board::leftLedStrip(0, 70, 0);
+			pwm_board::rightLedStrip(0, 70, 0);
+		}
+		#endif
+		if ((USE_DISTANCE && !main::use_sd_card) || main::use_distance) ;}
+
 
     #if USE_TIMERS
         timers::update();

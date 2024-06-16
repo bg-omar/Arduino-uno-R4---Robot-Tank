@@ -13,6 +13,8 @@ class SD_card {
 public:
 	static void initSD();
 	static void configLoadSD();
+
+	static void configSaveSD();
 };
 
 

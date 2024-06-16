@@ -25,27 +25,25 @@ void gyroscope::gyroRead(){
 
 void gyroscope::gyroFunc(){
     gyroscope::gyroRead();
-    pwm_board::rightLedStrip(0,244,244);
-    pwm_board::leftLedStrip(0,244,244);
 #if LOG_DEBUG
     (gyroscope::ax > 0)
-                    ? displayU8G2::u8g2log.print(" +"), displayU8G2::u8g2log.print(gyroscope::ax), Serial.print(" +"), Serial.print(gyroscope::ax)
-                    : displayU8G2::u8g2log.print(" "),  displayU8G2::u8g2log.print(gyroscope::ax), Serial.print(" "),  Serial.print(gyroscope::ax);
+                    ? main::log(" +"), main::log(reinterpret_cast<const char *>(char(gyroscope::ax)))
+                    : main::log(" "),  main::log(reinterpret_cast<const char *>(char(gyroscope::ax)));
     (gyroscope::ay > 0)
-                    ? displayU8G2::u8g2log.print(" +"), displayU8G2::u8g2log.print(gyroscope::ay), Serial.print(" +"), Serial.print(gyroscope::ay)
-                    : displayU8G2::u8g2log.print(" "),  displayU8G2::u8g2log.print(gyroscope::ay), Serial.print(" "),  Serial.print(gyroscope::ay);
+                    ? main::log(" +"), main::log(reinterpret_cast<const char *>(char(gyroscope::ay)))
+                    : main::log(" "),  main::log(reinterpret_cast<const char *>(char(gyroscope::ay)));
     (gyroscope::az > 0)
-                    ? displayU8G2::u8g2log.print(" +"), displayU8G2::u8g2log.print(gyroscope::az), Serial.print(" +"), Serial.print(gyroscope::az)
-                    : displayU8G2::u8g2log.print(" "),  displayU8G2::u8g2log.print(gyroscope::az), Serial.print(" "),  Serial.print(gyroscope::az);
+                    ? main::log(" +"), main::log(reinterpret_cast<const char *>(char(gyroscope::az)))
+                    : main::log(" "),  main::log(reinterpret_cast<const char *>(char(gyroscope::az)));
     (gyroscope::gx > 0)
-                    ? displayU8G2::u8g2log.print(" +"), displayU8G2::u8g2log.print(gyroscope::gx), Serial.print(" +"), Serial.print(gyroscope::gx)
-                    : displayU8G2::u8g2log.print(" "),  displayU8G2::u8g2log.print(gyroscope::gx), Serial.print(" "),  Serial.print(gyroscope::gx);
+                    ? main::log(" +"), main::log(reinterpret_cast<const char *>(char(gyroscope::gx)))
+                    : main::log(" "),  main::log(reinterpret_cast<const char *>(char(gyroscope::gx)));
     (gyroscope::gy > 0)
-                    ? displayU8G2::u8g2log.print(" +"), displayU8G2::u8g2log.print(gyroscope::gy), Serial.print(" +"), Serial.print(gyroscope::gy)
-                    : displayU8G2::u8g2log.print(" "),  displayU8G2::u8g2log.print(gyroscope::gy), Serial.print(" "),  Serial.print(gyroscope::gy);
+                    ? main::log(" +"), main::log(reinterpret_cast<const char *>(char(gyroscope::gy)))
+                    : main::log(" "),  main::log(reinterpret_cast<const char *>(char(gyroscope::gy)));
     (gyroscope::gz > 0)
-                    ? displayU8G2::u8g2log.print(" +"), displayU8G2::u8g2log.print(gyroscope::gz), Serial.print(" +"), Serial.println(gyroscope::gz)
-                    : displayU8G2::u8g2log.print(" "),  displayU8G2::u8g2log.print(gyroscope::gz), Serial.print(" "),  Serial.println(gyroscope::gz);
+                    ? main::log(" +"), main::log(reinterpret_cast<const char *>(char(gyroscope::gz)))
+                    : main::log(" "),  main::log(reinterpret_cast<const char *>(char(gyroscope::gz)));
 #endif
 }
 
@@ -54,11 +52,11 @@ void gyroscope::gyroDetectMovement() {
     gyroscope::gyroRead();
     if(( abs(gyroscope::ax) + abs(gyroscope::ay) + abs(gyroscope::az)) > THRESHOLD){
         gyroscope::gyroFunc();
-        timers::timerTwoActive = true;      timers::timerTreeActive = true;      timers::timerButton = R1;
+        //timers::timerTwoActive = true;      timers::timerTreeActive = true;      timers::timerButton = R1;
     }
     if(( abs(gyroscope::gx) + abs(gyroscope::gy) + abs(gyroscope::gz)) > THRESHOLD){
         gyroscope::gyroFunc();
-        timers::timerTwoActive = true;      timers::timerTreeActive = true;      timers::timerButton = L1;
+       // timers::timerTwoActive = true;      timers::timerTreeActive = true;      timers::timerButton = L1;
     }
 
 
@@ -78,27 +76,27 @@ void gyroscope::gyroCalibrate_sensor() {
     }
     gyroscope::baseAx = totX / 10;  gyroscope::baseAy = totY / 10;  gyroscope::baseAz = totZ / 10;  gyroscope::baseGx = totgX / 10;  gyroscope::baseGy = totgY / 10;  gyroscope::baseGz = totgZ / 10;
 	#if USE_U8G2
-		displayU8G2::u8g2log.print(" Ax: ");  displayU8G2::u8g2log.print(baseAx);  displayU8G2::u8g2log.print(" Ay: ");  displayU8G2::u8g2log.print(baseAy);  displayU8G2::u8g2log.print(" Az: ");  displayU8G2::u8g2log.println(baseAz);
-		displayU8G2::u8g2log.print(" Gx: ");  displayU8G2::u8g2log.print(baseGx);  displayU8G2::u8g2log.print(" Gy: ");  displayU8G2::u8g2log.print(baseGy);  displayU8G2::u8g2log.print(" Gz: ");  displayU8G2::u8g2log.println(baseGz);
+		main::log(" Ax: ");  main::log(reinterpret_cast<const char *>(char(baseAx)));
+		main::log(" Ay: ");  main::log(reinterpret_cast<const char *>(char(baseAy)));
+		main::log(" Az: ");  main::logln(reinterpret_cast<const char *>(char(baseAz)));
+
+		main::log(" Gx: ");  main::log(reinterpret_cast<const char *>(char(baseGx)));
+		main::log(" Gy: ");  main::log(reinterpret_cast<const char *>(char(baseGy)));
+		main::log(" Gz: ");  main::logln(reinterpret_cast<const char *>(char(baseGz)));
 	#endif
-	Serial.print(" Ax: ");  Serial.print(baseAx);  Serial.print(" Ay: ");  Serial.print(baseAy);  Serial.print(" Az: ");  Serial.println(baseAz);
-    Serial.print(" Gx: ");  Serial.print(baseGx);  Serial.print(" Gy: ");  Serial.print(baseGy);  Serial.print(" Gz: ");  Serial.println(baseGz);
 }
 
 void gyroscope::gyroSetup() {
     // Try to initialize!
     if (!mpu.begin()) {
-
         main::logln("MPU6050 not found");
         delay(500);
-
+		main::use_gyro = false;
     } else {
         main::logln("MPU6050 Found!    ");
-        main::Found_Gyro = true;
-        delay(500);
-        mpu.setAccelerometerRange(MPU6050_RANGE_4_G);
+        mpu.setAccelerometerRange(MPU6050_RANGE_2_G);
         mpu.setGyroRange(MPU6050_RANGE_500_DEG);
-        mpu.setFilterBandwidth(MPU6050_BAND_260_HZ); /// 5, 10, 21, 44, 94, 184, 260(off)
+        mpu.setFilterBandwidth(MPU6050_BAND_21_HZ); /// 5, 10, 21, 44, 94, 184, 260(off)
         gyroscope::gyroCalibrate_sensor();
         gyroscope::gyroFunc();
         delay(500);

@@ -54,6 +54,6 @@ void Motor::motor_setup() {
     pinMode(L_PWM, OUTPUT);      /***** 3 ******/
     digitalWrite(R_ROT, HIGH);
     digitalWrite(L_ROT, HIGH);
-//    main::logln("Motor initialized \n Pins R: 11, 13 \t L: 3, 12  ");
+	main::logln("Motor Pins R: 11, 13,   L: 3, 12  ");
     delay(500);
 }

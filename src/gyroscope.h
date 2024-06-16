@@ -6,6 +6,8 @@
 #define ARDUINO_R4_UNO_WALL_Z_GYROSCOPE_H
 
 #include <Adafruit_MPU6050.h>
+#include <Adafruit_Sensor.h>
+#include <Wire.h>
 
 #define THRESHOLD 5
 

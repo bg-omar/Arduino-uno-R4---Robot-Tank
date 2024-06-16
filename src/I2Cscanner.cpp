@@ -3,10 +3,9 @@
 //
 
 #include "displayU8G2.h"
-#include "displayAdafruit.h"
 #include "main_ra.h"
 #include "I2Cscanner.h"
-
+#include <Wire.h>
 
 void I2Cscanner::scan() {
     byte error, address;
@@ -26,7 +25,7 @@ void I2Cscanner::scan() {
 				main::log("0");
             }
 #if LOG_DEBUG
-            if (main::Found_Display) displayU8G2::u8g2log.print(address, HEX);
+            if (main::Found_Display) main::logHexln(address, HEX);
 #endif
 			main::log(reinterpret_cast<const char *>(address));
 			main::log(", ");
@@ -34,12 +33,12 @@ void I2Cscanner::scan() {
             delay(200);
         }
         else if (error==4) {
-			main::log("Unknow error at address 0x");
+			main::log("Unknown error at address 0x");
             if (address<16) {
 				main::log("0 ");
             }
 #if LOG_DEBUG
-            if (main::Found_Display) displayU8G2::u8g2log.print(address, HEX);
+            if (main::Found_Display) main::logHexln(address, HEX);
 #endif
 			main::log(reinterpret_cast<const char *>(address));
         }
@@ -47,9 +46,6 @@ void I2Cscanner::scan() {
     delay(20);
 	main::log(" devices: ");
     main::logln(reinterpret_cast<const char *>(nDevices));
-#if LOG_DEBUG
-    displayU8G2::u8g2log.println(nDevices);
-#endif
 
     delay(100);
     if (nDevices == 0) {

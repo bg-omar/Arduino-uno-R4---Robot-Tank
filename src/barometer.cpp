@@ -3,53 +3,66 @@
 //
 
 #include "barometer.h"
-#include "displayAdafruit.h"
-#include "displayU8G2.h"
-#include "pwm_board.h"
+#include <Wire.h>
+#include <SPI.h>
+#include <Adafruit_BMP280.h>
+
+#include "main_ra.h"
+
 
 /********************************************** control ultrasonic sensor***************************************/
 // section BaroMeter
 /***************************************************************************************************************/
-Adafruit_BME280 barometer::bme;
+Adafruit_BMP280 barometer::bmp; // I2C
+Adafruit_Sensor *bmp_temp = barometer::bmp.getTemperatureSensor();
+Adafruit_Sensor *bmp_pressure = barometer::bmp.getPressureSensor();
+
 void barometer::baroSetup() {
-        displayAdafruit::display.clearDisplay();
-        /* Initialise the sensor */
-        if (!bme.begin(0x76)) {
-#if LOG_DEBUG
-            displayU8G2::u8g2log.println("BME280,not found!");
-#endif
-            delay(500);
-        } else {
-#if LOG_DEBUG
-            displayU8G2::u8g2log.println("BME280 Found!     ");
-#endif
-            delay(500);
-        }
+	unsigned status;
+	//status = bmp.begin(BMP280_ADDRESS_ALT, BMP280_CHIPID);
+	status = bmp.begin(0x58);
+	if (!status) {
+		#if LOG_DEBUG
+		main::logln(reinterpret_cast<const char *>(F("Could not find a valid BMP280 sensor, check wiring or "
+													 "try a different address!")));
+		main::log("SensorID was: 0x"); main::logHexln(bmp.sensorID(),16);
+		main::log("        ID of 0xFF probably means a bad address, a BMP 180 or BMP 085\n");
+		main::log("   ID of 0x56-0x58 represents a BMP 280,\n");
+		main::log("        ID of 0x60 represents a BME 280.\n");
+		main::log("        ID of 0x61 represents a BME 680.\n");
+
+
+		#endif
+		main::use_barometer = false;
+		delay(500);
+	}
+
+	/* Default settings from datasheet. */
+	bmp.setSampling(Adafruit_BMP280::MODE_NORMAL,     /* Operating Mode. */
+					Adafruit_BMP280::SAMPLING_X2,     /* Temp. oversampling */
+					Adafruit_BMP280::SAMPLING_X16,    /* Pressure oversampling */
+					Adafruit_BMP280::FILTER_X16,      /* Filtering. */
+					Adafruit_BMP280::STANDBY_MS_500); /* Standby time. */
+
+	bmp_temp->printSensorDetails();
 }
 
 void barometer::baroMeter() {
-    displayAdafruit::display.clearDisplay();
-    pwm_board::rightLedStrip(0,0,244);
-    pwm_board::leftLedStrip(0,0,244);
-#if LOG_DEBUG
-    displayU8G2::u8g2log.print("Temp= ");
-    displayU8G2::u8g2log.print(bme.readTemperature());
-    displayU8G2::u8g2log.print("*C ");
+	sensors_event_t temp_event, pressure_event;
+	bmp_temp->getEvent(&temp_event);
+	bmp_pressure->getEvent(&pressure_event);
 
-    displayU8G2::u8g2log.print("P= ");
-    displayU8G2::u8g2log.print(bme.readPressure() / 100.0F);
-    displayU8G2::u8g2log.println("hPa");
+	main::log(("Temperature = "));
+	main::log(reinterpret_cast<const char *>(char(temp_event.temperature)));
+	main::logln(" *C");
 
+	main::log(("Pressure = "));
+	main::log(reinterpret_cast<const char *>(char(pressure_event.pressure)));
+	main::logln(" hPa");
 
-    displayU8G2::u8g2log.print("Alt= ");
-    displayU8G2::u8g2log.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
-    displayU8G2::u8g2log.print("m ");
+	main::logln();
+	delay(2000);
 
-    displayU8G2::u8g2log.print("H= ");
-    displayU8G2::u8g2log.print(bme.readHumidity());
-    displayU8G2::u8g2log.println("%");
-#endif
-    delay(500);
 
 
 }

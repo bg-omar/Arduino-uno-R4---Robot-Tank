@@ -11,9 +11,9 @@
 class main {
 
 public:
-    static void log(const char *text);
+	static void log(const char* text = "");
+	static void logln(const char* text = "");
 
-    static void logln(const char *text);
     static bool Found_Display;
     static bool Found_Gyro;
     static bool Found_Compass;
@@ -49,6 +49,12 @@ public:
 	static bool read_esp32;
 	static bool use_lcd;
 	static bool use_hm_10_ble;
+
+	static void logHexln(unsigned char id, int i);
+
+private:
+	static void log_helper(const char* text, bool newline);
+
 };
 
 

@@ -1,6 +1,7 @@
 //
 // Created by mr on 11/13/2023.
 //
+/*
 
 #include "timers.h"
 #include "config.h"
@@ -16,9 +17,13 @@ TimerEvent timers::timerTwo;
 TimerEvent timers::timerThree;
 TimerEvent timers::timerMouth;
 
-/***************************************************** Functions s**********************************************/
+*/
+/***************************************************** Functions s**********************************************//*
+
 // section Timer Functions
-/***************************************************************************************************************/
+*/
+/***************************************************************************************************************//*
+
 void timers::initTimers() {
     timers::timerOne.set(timers::timerOnePeriod, timers::dotMatrixTimer);
     timers::timerTwo.set(timers::timerTwoPeriod, timers::sensorTimer);
@@ -69,3 +74,4 @@ void timers::mouthTimer(){
         #endif;
     #endif
 }
+*/
