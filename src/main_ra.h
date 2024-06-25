@@ -13,6 +13,9 @@ class main {
 public:
 	static void log(const char* text = "");
 	static void logln(const char* text = "");
+	static void logHexln(unsigned char id, int i);
+	static void logFloat(float id);
+	static void logFloatln(float id);
 
     static bool Found_Display;
     static bool Found_Gyro;
@@ -50,10 +53,11 @@ public:
 	static bool use_lcd;
 	static bool use_hm_10_ble;
 
-	static void logHexln(unsigned char id, int i);
+
 
 private:
 	static void log_helper(const char* text, bool newline);
+
 
 };
 

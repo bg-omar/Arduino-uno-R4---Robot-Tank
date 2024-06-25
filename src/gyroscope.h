@@ -9,7 +9,6 @@
 #include <Adafruit_Sensor.h>
 #include <Wire.h>
 
-#define THRESHOLD 5
 
 class gyroscope {
 private:

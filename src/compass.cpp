@@ -96,9 +96,9 @@ double compass::readCompass(){
     mag.getEvent(&event);
 
 	/* Display the results (magnetic vector values are in micro-Tesla (uT)) */
-	main::log("X: "); main::log(reinterpret_cast<const char *>(char(event.magnetic.x))); main::log("  ");
-	main::log("Y: "); main::log(reinterpret_cast<const char *>(char(event.magnetic.y))); main::log("  ");
-	main::log("Z: "); main::log(reinterpret_cast<const char *>(char(event.magnetic.z))); main::log("  ");main::logln("uT");
+	main::log("X: "); main::logFloat(((event.magnetic.x))); main::log("  ");
+	main::log("Y: "); main::logFloat(((event.magnetic.y))); main::log("  ");
+	main::log("Z: "); main::logFloat(((event.magnetic.z))); main::log("  ");main::logln("uT");
 
     double heading = atan2(-event.magnetic.z, event.magnetic.x);
     double declinationAngle = 0.035;
@@ -111,7 +111,7 @@ double compass::readCompass(){
         heading -= 2 * PI;
     }
     double headingDegrees = (heading * 180/M_PI) - 90;
-	main::log("Heading (degrees): "); main::logln(reinterpret_cast<const char *>(char(headingDegrees)));
+	main::log("Heading (degrees): "); main::logFloatln(((headingDegrees)));
     return (headingDegrees < 0) ? 360 + headingDegrees : headingDegrees;
 }
 

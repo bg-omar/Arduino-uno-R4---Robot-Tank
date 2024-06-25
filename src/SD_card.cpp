@@ -94,7 +94,6 @@ void SD_card::configLoadSD() {
 		if (!parseLine(line)) {
 			errorHalt("parseLine failed");
 		}
-		Serial.println();
 	}
 
 	#if LOG_VERBOSE
@@ -198,12 +197,13 @@ void SD_card::configLoadSD() {
 	main::log("use_hm_10_ble: ");
 	main::logln	(main::use_hm_10_ble ? "true": "false");
 
- 	Serial.println("Config Loaded from SD");
+ 	main::logln("Config Loaded from SD");
 	file.close();
 }
 
 void SD_card::configSaveSD() {// Create or open the file.
 	openFile(FILE_WRITE);
+	main::logln("Saving to SD");
 	file.rewind(); // Rewind file so config data is not appended.
 
 	String use_adafruit_string =	 	"USE_ADAFRUIT," + 		String(main::use_adafruit) + "\r\n";
@@ -266,6 +266,7 @@ void SD_card::configSaveSD() {// Create or open the file.
    ));
 
 	file.close();
+	main::logln("Save Complete");
 }
 
 void openFile(int rule) {

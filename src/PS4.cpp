@@ -200,15 +200,19 @@ void PS4::controller() {
                 switch (PS4input[0]) {
                     case SQUARE:
 						menu::down();
+						delay(250);
 						break;
                     case TRIANG:
 						menu::up();
+						delay(250);
                         break;
                     case xCROSS:
 						menu::select();
+						delay(250);
 						break;
                     case CIRCLE:
 						menu::down();
+						delay(250);
                         break;
 
                         //**** Head movements    ****
@@ -250,6 +254,9 @@ void PS4::controller() {
                         delay(100);
                         break;
                     case TOUCHPD:
+						if(main::use_barometer) {
+							barometer::baroMeter();
+						}
                       #if USE_ROBOT
                           dancing::dance(); break;
                       #endif

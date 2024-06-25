@@ -128,6 +128,19 @@ void main::logln(const char* text) {
 	log_helper(text, true);
 }
 
+void main::logFloat(float id) {
+	Serial.print(id);
+	displayU8G2::u8g2log.print(id);
+	displayU8G2::U8G2printEnd();
+}
+
+void main::logFloatln(float id) {
+	Serial.println(id);
+	displayU8G2::u8g2log.println(id);
+	displayU8G2::U8G2printEnd();
+}
+
+
 void main::logHexln(unsigned char id, int i) {
 	Serial.println(id, i);
 	displayU8G2::u8g2log.println(id, i);
@@ -141,6 +154,7 @@ void setup(){
     Wire.begin();
 	Serial.begin(9600);// Initialize the hardware serial port for debugging
 	main::logln("Wall-Z Arduino Robot booting");
+	main::logln(__FILE__);
 
     #if USE_U8G2
         displayU8G2::U8G2setup();
@@ -157,7 +171,6 @@ void setup(){
 	delay(1);
 
 	Motor::motor_setup();
-	pinMode(LAZER_PIN, OUTPUT);     /***** 2 ******/
 
 	SD_card::initSD();
 	SD_card::configLoadSD();
@@ -342,12 +355,8 @@ void loop(){
 		PS4::controller();
 	}
 
-	if (main::use_menu) {
+	if(main::use_menu) {
 		menu::loopMenu();
-	}
-
-	if(main::use_barometer) {
-		barometer::baroMeter();
 	}
 
 	#if USE_SWITCH
@@ -363,15 +372,15 @@ void loop(){
 		analog::analogLoop();
 	}
 
-    if((USE_GYRO && !main::use_sd_card) || main::use_analog || main::Found_Gyro){
+    if((USE_GYRO && !main::use_sd_card) || main::use_gyro || main::Found_Gyro){
 		gyroscope::gyroDetectMovement();
 	}
 
     if ((USE_DISTANCE && !main::use_sd_card) || main::use_distance) {
 		avoid_objects::distanceF = avoid_objects::checkDistance();  /// assign the front distance detected by ultrasonic sensor to variable a
 
-		int lazer_brightness = map(avoid_objects::distanceF, 0, 1000, 0, 255);
-		analogWrite(LAZER_PIN, lazer_brightness);
+		int lazer_brightness = map(avoid_objects::distanceF, 0, 1000, 0, 4000);
+		pwm_board::pwm.setPWM(LAZER_PIN, 0, lazer_brightness);
 		if (avoid_objects::distanceF < 25) {
 			#if USE_PWM_BOARD
 			pwm_board::RGBled(230, 0, 0);

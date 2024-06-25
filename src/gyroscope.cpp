@@ -25,26 +25,26 @@ void gyroscope::gyroRead(){
 
 void gyroscope::gyroFunc(){
     gyroscope::gyroRead();
-#if LOG_DEBUG
-    (gyroscope::ax > 0)
-                    ? main::log(" +"), main::log(reinterpret_cast<const char *>(char(gyroscope::ax)))
-                    : main::log(" "),  main::log(reinterpret_cast<const char *>(char(gyroscope::ax)));
-    (gyroscope::ay > 0)
-                    ? main::log(" +"), main::log(reinterpret_cast<const char *>(char(gyroscope::ay)))
-                    : main::log(" "),  main::log(reinterpret_cast<const char *>(char(gyroscope::ay)));
-    (gyroscope::az > 0)
-                    ? main::log(" +"), main::log(reinterpret_cast<const char *>(char(gyroscope::az)))
-                    : main::log(" "),  main::log(reinterpret_cast<const char *>(char(gyroscope::az)));
-    (gyroscope::gx > 0)
-                    ? main::log(" +"), main::log(reinterpret_cast<const char *>(char(gyroscope::gx)))
-                    : main::log(" "),  main::log(reinterpret_cast<const char *>(char(gyroscope::gx)));
-    (gyroscope::gy > 0)
-                    ? main::log(" +"), main::log(reinterpret_cast<const char *>(char(gyroscope::gy)))
-                    : main::log(" "),  main::log(reinterpret_cast<const char *>(char(gyroscope::gy)));
-    (gyroscope::gz > 0)
-                    ? main::log(" +"), main::log(reinterpret_cast<const char *>(char(gyroscope::gz)))
-                    : main::log(" "),  main::log(reinterpret_cast<const char *>(char(gyroscope::gz)));
-#endif
+	#if LOG_DEBUG
+		(gyroscope::ax > 0)
+						? main::log(" +"), main::logFloat(((gyroscope::ax)))
+						: main::log(" "),  main::logFloat(((gyroscope::ax)));
+		(gyroscope::ay > 0)
+						? main::log(" +"), main::logFloat(((gyroscope::ay)))
+						: main::log(" "),  main::logFloat(((gyroscope::ay)));
+		(gyroscope::az > 0)
+						? main::log(" +"), main::logFloat(((gyroscope::az)))
+						: main::log(" "),  main::logFloat(((gyroscope::az)));
+		(gyroscope::gx > 0)
+						? main::log(" +"), main::logFloat(((gyroscope::gx)))
+						: main::log(" "),  main::logFloat(((gyroscope::gx)));
+		(gyroscope::gy > 0)
+						? main::log(" +"), main::logFloat(((gyroscope::gy)))
+						: main::log(" "),  main::logFloat(((gyroscope::gy)));
+		(gyroscope::gz > 0)
+						? main::log(" +"), main::logFloatln(((gyroscope::gz)))
+						: main::log(" "),  main::logFloatln(((gyroscope::gz)));
+	#endif
 }
 
 void gyroscope::gyroDetectMovement() {
@@ -76,13 +76,13 @@ void gyroscope::gyroCalibrate_sensor() {
     }
     gyroscope::baseAx = totX / 10;  gyroscope::baseAy = totY / 10;  gyroscope::baseAz = totZ / 10;  gyroscope::baseGx = totgX / 10;  gyroscope::baseGy = totgY / 10;  gyroscope::baseGz = totgZ / 10;
 	#if USE_U8G2
-		main::log(" Ax: ");  main::log(reinterpret_cast<const char *>(char(baseAx)));
-		main::log(" Ay: ");  main::log(reinterpret_cast<const char *>(char(baseAy)));
-		main::log(" Az: ");  main::logln(reinterpret_cast<const char *>(char(baseAz)));
+		main::log(" Ax: ");  main::logFloat(((baseAx)));
+		main::log(" Ay: ");  main::logFloat(((baseAy)));
+		main::log(" Az: ");  main::logFloatln(((baseAz)));
 
-		main::log(" Gx: ");  main::log(reinterpret_cast<const char *>(char(baseGx)));
-		main::log(" Gy: ");  main::log(reinterpret_cast<const char *>(char(baseGy)));
-		main::log(" Gz: ");  main::logln(reinterpret_cast<const char *>(char(baseGz)));
+		main::log(" Gx: ");  main::logFloat(((baseGx)));
+		main::log(" Gy: ");  main::logFloat(((baseGy)));
+		main::log(" Gz: ");  main::logFloatln(((baseGz)));
 	#endif
 }
 

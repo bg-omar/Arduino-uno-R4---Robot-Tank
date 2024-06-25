@@ -130,6 +130,8 @@ void menu::down() {
 			item_selected = 0;
 		}
 	}
+	main::logln("Item: " + item_selected);
+
 }
 
 void menu::up() {
@@ -139,90 +141,119 @@ void menu::up() {
 			item_selected = NUM_ITEMS - 1;
 		}
 	}
+	main::logln("Item: " + item_selected);
+	delay(250);
 }
 
 void menu::select() {
 	switch (item_selected) {
 		case 0:
 			main::use_adafruit = !main::use_adafruit;
+			main::logln("use_adafruit: " + char(main::use_adafruit));
 			break;
 		case 1:
 			main::use_u8g2 = !main::use_u8g2;
+			main::logln("use_u8g2: " + char(main::use_u8g2));
 			break;
 		case 2:
 			main::small = !main::small;
+			main::logln("small: " + char(main::small));
 			break;
 		case 3:
 			main::display_demo = !main::display_demo;
+			main::logln("display_demo: " + char(main::display_demo));
 			break;
 		case 4:
 			main::use_round = !main::use_round;
+			main::logln("use_round: " + char(main::use_round));
 			break;
 		case 5:
 			main::use_menu = !main::use_menu;
+			main::logln("use_menu: " + char(main::use_menu));
 			break;
 		case 6:
 			main::log_debug = !main::log_debug;
+			main::logln("log_debug: " + char(main::log_debug));
 			break;
 		case 7:
 			main::use_ps4 = !main::use_ps4;
+			main::logln("use_ps4: " + char(main::use_ps4));
 			break;
 		case 8:
 			main::use_sd_card = !main::use_sd_card;
+			main::logln("use_sd_card: " + char(main::use_sd_card));
 			break;
 		case 9:
 			main::use_gyro = !main::use_gyro;
+			main::logln("use_gyro: " + char(main::use_gyro));
 			break;
 		case 10:
 			main::use_compass = !main::use_compass;
+			main::logln("use_compass: " + char(main::use_compass));
 			break;
 		case 11:
 			main::use_barometer = !main::use_barometer;
+			main::logln("use_barometer: " + char(main::use_barometer));
 			break;
 		case 12:
 			main::use_distance = !main::use_distance;
+			main::logln("use_distance: " + char(main::use_distance));
 			break;
 		case 13:
 			main::use_irremote = !main::use_irremote;
+			main::logln("use_irremote: " + char(main::use_irremote));
 			break;
 		case 14:
 			main::use_i2c_scanner = !main::use_i2c_scanner;
+			main::logln("use_i2c_scanner: " + char(main::use_i2c_scanner));
 			break;
 		case 15:
 			main::use_pwm_board = !main::use_pwm_board;
+			main::logln("use_pwm_board: " + char(main::use_pwm_board));
 			break;
 		case 16:
 			main::use_dot = !main::use_dot;
+			main::logln("use_dot: " + char(main::use_dot));
 			break;
 		case 17:
 			main::use_mic = !main::use_mic;
+			main::logln("use_mic: " + char(main::use_mic));
 			break;
 		case 18:
 			main::use_switch = !main::use_switch;
+			main::logln("use_switch: " + char(main::use_switch));
 			break;
 		case 19:
 			main::use_analog = !main::use_analog;
+			main::logln("use_analog: " + char(main::use_analog));
 			break;
 		case 20:
 			main::use_robot = !main::use_robot;
+			main::logln("use_robot: " + char(main::use_robot));
 			break;
 		case 21:
 			main::use_timers = !main::use_timers;
+			main::logln("use_timers: " + char(main::use_timers));
 			break;
 		case 22:
 			main::use_matrix = !main::use_matrix;
+			main::logln("use_matrix: " + char(main::use_matrix));
 			break;
 		case 23:
 			main::use_matrix_preview = !main::use_matrix_preview;
+			main::logln("use_matrix_preview: " + char(main::use_matrix_preview));
 			break;
 		case 24:
 			main::read_esp32 = !main::read_esp32;
+			main::logln("read_esp32: " + char(main::read_esp32));
 			break;
 		case 25:
 			main::use_lcd = !main::use_lcd;
+			main::logln("use_lcd: " + char(main::use_lcd));
 			break;
 		case 26:
 			main::use_hm_10_ble = !main::use_hm_10_ble;
+			main::logln("use_hm_10_ble: " + char(main::use_hm_10_ble));
 			break;
 		default:
 			break;

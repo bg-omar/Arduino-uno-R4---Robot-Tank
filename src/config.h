@@ -39,7 +39,7 @@
 #define USE_HM_10_BLE 0
 
 #define ARDUINO_ARCH_RENESAS_UNO
-
+#define THRESHOLD 2
 /********************************************** PIN Defines ****************************************************/
 // section pin define
 /***************************************************************************************************************/
@@ -55,11 +55,12 @@
 #define Rem_OK  0xBF407F
 #define RX_PIN       0
 #define TX_PIN       1
-#define LAZER_PIN     2
+#define LAZER_PIN     11  //pwm11
+#define DotDataPIN    2 // Set data
 #define L_PWM   	  3   // define PWM control pin of right motor
-
-#define Trig_PIN      4  //   ultrasonic trig Pin
-#define Echo_PIN      5  //   ultrasonic echo Pin
+#define DotClockPIN  4  // Set clock
+#define Trig_PIN      5  //   ultrasonic trig Pin
+#define Echo_PIN      6  //   ultrasonic echo Pin
 #define TFT_DS 	 	  6  //
 
 #define R_PWM  		  7  // define PWM control pin of left motor
@@ -82,8 +83,8 @@
 #define SD_FAT_TYPE 1
 
 
-#define DotDataPIN   A2 // Set data  pin to 4
-#define DotClockPIN  A3  // Set clock pin to 5
+
+
 
 #define SWITCH_8
 #define SWITCH_9

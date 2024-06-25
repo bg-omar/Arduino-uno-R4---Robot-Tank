@@ -5,8 +5,6 @@
 #ifndef ARDUINO_R4_UNO_WALL_Z_BAROMETER_H
 #define ARDUINO_R4_UNO_WALL_Z_BAROMETER_H
 
-#define SEALEVELPRESSURE_HPA (1013.25)
-
 #include <Adafruit_BMP280.h>
 
 class barometer {

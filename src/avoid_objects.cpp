@@ -32,13 +32,11 @@ void avoid_objects::avoid() {
         random2 = random(1, 100);
         distanceF = checkDistance();
         if (distanceF < 25) {
-            analogWrite(LAZER_PIN, 255);
             Motor::Car_Stop(); /// robot stops
             pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(115));
             delay(10); ///delay in 200ms
             pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(90));
             delay(10); ///delay in 200ms
-            analogWrite(LAZER_PIN, 0);
             pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(160)); /// look left
             for (int j = 1;
                  j <= 10; j = j + (1)) { ///  the data will be more accurate if sensor detect a few times.

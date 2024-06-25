@@ -3,20 +3,21 @@
 //
 
 #include "analog.h"
-
+#include "Wire.h"
 #include "config.h"
 #include "ADS1X15.h"
+#include "main_ra.h"
 
-
-ADS1115 ADS(0x48);
-
+ADS1015 ADS(0x48);
 
 void analog::analogSetup()
 {
-    Serial.println(__FILE__);
-    Serial.print("ADS1X15_LIB_VERSION: ");
-    Serial.println(ADS1X15_LIB_VERSION);
-    ADS.begin();
+    if(!ADS.begin()){
+		main::log("ADS1015 LIB failed");
+		main::use_analog = false;
+	} else {
+		main::log("ADS1015 LIB loaded");
+	};
 }
 
 
@@ -30,12 +31,12 @@ void analog::analogLoop()
     analog::ext_analog_3 = ADS.readADC( MIC_R_PIN   );
 
 	#if LOG_VERBOSE
-		float f = ADS.toVoltage(2);  // voltage factor
-		Serial.print("\tlight_L_PIN: "); Serial.print(ext_analog_0); Serial.print('\t'); Serial.println(ext_analog_0 * f, 3);
-		Serial.print("\tlight_R_PIN: "); Serial.print(ext_analog_2); Serial.print('\t'); Serial.println(ext_analog_2 * f, 3);
+		float f = ADS.toVoltage(1);  // voltage factor
+		Serial.print("light_L_PIN: \t"); Serial.print(ext_analog_0); Serial.print('\t'); Serial.println(ext_analog_0 * f, 3);
+		Serial.print("light_R_PIN: \t"); Serial.print(ext_analog_2); Serial.print('\t'); Serial.println(ext_analog_2 * f, 3);
 
-		Serial.print("\tMIC_L_PIN: "); Serial.print(ext_analog_1); Serial.print('\t'); Serial.println(ext_analog_1 * f, 3);
-		Serial.print("\tMIC_R_PIN: "); Serial.print(ext_analog_3); Serial.print('\t'); Serial.println(ext_analog_3 * f, 3);
+		Serial.print("MIC_L_PIN: \t"); Serial.print(ext_analog_1); Serial.print('\t'); Serial.println(ext_analog_1 * f, 3);
+		Serial.print("MIC_R_PIN: \t"); Serial.print(ext_analog_3); Serial.print('\t'); Serial.println(ext_analog_3 * f, 3);
 		Serial.println();
 		delay(100);
 	#endif
