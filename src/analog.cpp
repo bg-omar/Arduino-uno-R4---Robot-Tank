@@ -7,16 +7,17 @@
 #include "config.h"
 #include "ADS1X15.h"
 #include "main_ra.h"
+#include "logger.h"
 
 ADS1015 ADS(0x48);
 
 void analog::analogSetup()
 {
     if(!ADS.begin()){
-		main::log("ADS1015 LIB failed");
+		logger::log("ADS1015 LIB failed");
 		main::use_analog = false;
 	} else {
-		main::log("ADS1015 LIB loaded");
+		logger::log("ADS1015 LIB loaded");
 	};
 }
 

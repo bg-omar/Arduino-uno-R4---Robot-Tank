@@ -5,6 +5,7 @@
 #include <Arduino.h>
 #include "pesto_matrix.h"
 #include "main_ra.h"
+#include "logger.h"
 
 int Pesto::screen = 0;
 /********************************************** the function for dot matrix display ****************************/
@@ -97,5 +98,5 @@ void Pesto::setup_pestoMatrix() {
     digitalWrite(DotDataPIN,LOW);
     Pesto::matrix_display(reinterpret_cast<unsigned char *>(clear));
     Pesto::pestoMatrix();
-	main::logln("Dot Matrix initialized");
+	logger::logln("Dot Matrix initialized");
 }

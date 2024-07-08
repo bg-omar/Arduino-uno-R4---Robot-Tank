@@ -7,35 +7,25 @@
 #include "main_ra.h"
 #include "pesto_matrix.h"
 
+#include "displayAdafruit.h"
+
 #include "pwm_board.h"
-#include "displayU8G2.h"
+#include "logger.h"
 
 
 #include <Arduino.h>
-#include <U8g2lib.h> // u8g2 library is used to draw graphics on the OLED display
-#include <Wire.h> // library required for IIC communication
 
-//U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE); // initialization for the 128x64px OLED display
-U8G2_SH1106_128X64_NONAME_F_HW_I2C compass::u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE); // initialization for the 128x32px OLED display, [full framebuffer, size = 512 bytes]
+#include <Wire.h> // library required for IIC communication
 
 Adafruit_HMC5883_Unified compass::mag = Adafruit_HMC5883_Unified(12345);
 
 void compass::compassSetup() {
-    if (!u8g2.begin()) {
-        Serial.println(F("U8g2 allocation failed"));
-    } else {
-        Serial.println(F("U8g2 allocation success"));
-        main::Found_Display = true;
-        u8g2.clear();
-        u8g2.clearDisplay();
-        u8g2.begin();
-    }
     /* Initialise the sensor */
     if(!mag.begin()) {
-        main::logln("HMC5883 Compass not found   ");
+        logger::logln("HMC5883 Compass not found   ");
         delay(500);
     } else {
-        main::logln("Compass Found!     ");
+        logger::logln("Compass Found!     ");
         main::Found_Compass = true;
         compass::displaySensorDetails();
         delay(500);
@@ -52,42 +42,42 @@ void compass::showCompass(){
     unsigned char west[]  =  {0x00,0x00,0x00,0x3c,0x40,0x40,0x40,0x78,0x78,0x40,0x40,0x40,0x3c,0x00,0x00,0x00};
 
     double headingDegrees = readCompass();
-	main::log("Compass ");
+	logger::log("Compass ");
     char buffer[20]; // Assuming a buffer size of 20 is sufficient
 
     // Convert double to char*
     snprintf(buffer, sizeof(buffer), "%f", headingDegrees);
 
-	main::log(buffer);
+	logger::log(buffer);
     if (headingDegrees >= 0 && headingDegrees < 45){
         Pesto::matrix_display(north);
         pwm_board::rightLedStrip(0,244,0);
         pwm_board::leftLedStrip(0,244,0);
-		main::log("  North  ");
+		logger::log("  North  ");
     }
     if (headingDegrees >= 45 && headingDegrees < 135){
         Pesto::matrix_display(east);
         pwm_board::rightLedStrip(244,0,0);
         pwm_board::leftLedStrip(0,244,0);
-		main::log("  East  ");
+		logger::log("  East  ");
     }
     if (headingDegrees >= 135 && headingDegrees < 225){
         Pesto::matrix_display(south);
         pwm_board::rightLedStrip(244,0,0);
         pwm_board::leftLedStrip(244,0,0);
-		main::log("  South   ");
+		logger::log("  South   ");
     }
     if (headingDegrees >= 225 && headingDegrees < 315){
         Pesto::matrix_display(west);
         pwm_board::rightLedStrip(0,244,0);
         pwm_board::leftLedStrip(244,0,0);
-		main::log("  West  ");
+		logger::log("  West  ");
     }
     if (headingDegrees >= 315 && headingDegrees < 360){
         Pesto::matrix_display(north);
         pwm_board::rightLedStrip(0,244,0);
         pwm_board::leftLedStrip(0,244,0);
-		main::log("  North ");
+		logger::log("  North ");
     }
 }
 
@@ -96,9 +86,9 @@ double compass::readCompass(){
     mag.getEvent(&event);
 
 	/* Display the results (magnetic vector values are in micro-Tesla (uT)) */
-	main::log("X: "); main::logFloat(((event.magnetic.x))); main::log("  ");
-	main::log("Y: "); main::logFloat(((event.magnetic.y))); main::log("  ");
-	main::log("Z: "); main::logFloat(((event.magnetic.z))); main::log("  ");main::logln("uT");
+	logger::log("X: "); logger::logFloat(((event.magnetic.x))); logger::log("  ");
+	logger::log("Y: "); logger::logFloat(((event.magnetic.y))); logger::log("  ");
+	logger::log("Z: "); logger::logFloat(((event.magnetic.z))); logger::log("  ");logger::logln("uT");
 
     double heading = atan2(-event.magnetic.z, event.magnetic.x);
     double declinationAngle = 0.035;
@@ -111,7 +101,7 @@ double compass::readCompass(){
         heading -= 2 * PI;
     }
     double headingDegrees = (heading * 180/M_PI) - 90;
-	main::log("Heading (degrees): "); main::logFloatln(((headingDegrees)));
+	logger::log("Heading (degrees): "); logger::logFloatln(((headingDegrees)));
     return (headingDegrees < 0) ? 360 + headingDegrees : headingDegrees;
 }
 
@@ -406,13 +396,9 @@ char *compass_labels[] = {"N", "NE", "E", "SE", "S", "SW", "W", "NW", "N"}; // a
 
 
 void compass::displayCompass() {
-
     compass_degrees = compass::readCompass();
     xpos_offset = round((360 - compass_degrees) / 360.0 * 240.0); // calculate the X offset for all the tickmarks, max offset is 10(px)*24(tickmarks) = 240px
-
-    u8g2.clearBuffer();	// clear the internal memory
-    u8g2.setDrawColor(1); // set the drawing color to white
-    u8g2.setBitmapMode(1); // draw transparent images
+    displayAdafruit::display.clearDisplay();	// clear the internal memory
 
     for (int i = 0; i < 24; i++) { // go over all 24 tickmarks
 
@@ -436,45 +422,46 @@ void compass::displayCompass() {
             xpos_final = round(xpos_final); // round the final x position to integer value
 
             if (i % 3 == 0) { // if the tickmark number is divisible by 3 == this is the big tickmark, show also the label
-                u8g2.drawLine(xpos_final, 7, xpos_final, 15); // draw big tickmark line
+                displayAdafruit::display.drawLine(xpos_final, 7, xpos_final, 15, SH110X_WHITE); // draw big tickmark line
 
                 // draw either scaled labels (images) or standard labels (u8g2 font)
                 if (SHOW_SCALED_LABEL == 0) { // standard label
-                    str_width = u8g2.getStrWidth(compass_labels[i / 3]); // calculate the string width
-                    u8g2.drawStr(xpos_final - str_width / 2, 24, compass_labels[i / 3]); // draw string
+					for (int i = 0; i < 8; i++) {
+						int strWidth = strlen(compass_labels[i]) * 6; // Assumes 6 pixels per character
+						displayAdafruit::display.setCursor(i * 8, 0);
+						displayAdafruit::display.print(compass_labels[i]);
+						displayAdafruit::display.drawLine(i * 8, 8, i * 8 + strWidth - 1, 8, SH110X_WHITE);
+					}
+					//str_width = displayAdafruit::display.getStrWidth(compass_labels[i / 3]); // calculate the string width
+                    //displayAdafruit::display.drawStr(xpos_final - str_width / 2, 24, compass_labels[i / 3]); // draw string
                 } else { // scaled label
                     int bitmap_index = ((i / 3) * (labels_count + 1)) + label_display; // which version of the image to display
                     int label_xpos = xpos_final - (26 / 2); // all the images have the same width, the x pos could be easily calculated
                     if (xpos_final > (0 + 3) && xpos_final < (128 - 3)) { // only draw labels if the x position is in certain range
-                        u8g2.drawXBMP(label_xpos, 10 + 7, 26, 12, character_bitmaps[bitmap_index]);
+                        displayAdafruit::display.drawBitmap(label_xpos, 10 + 7, character_bitmaps[bitmap_index], 26, 12, SH110X_WHITE);
                     }
                 }
 
                 if (label_display == labels_count) { // if we are drawing the "widest" label, draw the tickmark as 2px line (instead of just 1px line)
-                    u8g2.drawLine(xpos_final - 1, 7 + 0, xpos_final - 1, 7 + 8);
+					displayAdafruit::display.drawLine(xpos_final - 1, 7 + 0, xpos_final - 1, 7 + 8, SH110X_WHITE);
                 }
 
             } else { // small tickmark without any label
-                u8g2.drawLine(xpos_final, 7, xpos_final, 13); // draw tickmark
+                displayAdafruit::display.drawLine(xpos_final, 7, xpos_final, 13, SH110X_WHITE); // draw tickmark
             }
 
         }
     }
 
 
-    u8g2.drawLine(0, 5, 127, 5); // draw horizontal line
+    displayAdafruit::display.drawLine(0, 5, 127, 5, SH110X_WHITE); // draw horizontal line
+    displayAdafruit::display.drawBitmap(51, 0, epd_bitmap_img_bubble_outline, 26, 13, SH110X_BLACK); // bubble outline
+    displayAdafruit::display.drawBitmap(51, 0, epd_bitmap_img_bubble_fill, 26, 13, SH110X_WHITE); // bubble fill
 
-    u8g2.setDrawColor(0); // black color
-    u8g2.drawXBMP(51, 0, 26, 13, epd_bitmap_img_bubble_outline); // bubble outline
-    u8g2.setDrawColor(1); // white color
-    u8g2.drawXBMP(51, 0, 26, 13, epd_bitmap_img_bubble_fill); // bubble fill
-
-    u8g2.setDrawColor(0); // black color
-    u8g2.setFontDirection(0); // normal font direction
-    u8g2.setFont(u8g2_font_squeezed_b7_tr); // set font
     sprintf(buffer, "%d'", compass_degrees); // convert compass degree integer to string, add the ' symbol that (somehow) looks like degree symbol (degree symbol is not present in the font)
-    str_width = u8g2.getStrWidth(buffer); // calculate the string width
-    u8g2.drawStr(64 - str_width / 2, 8, buffer); // draw centered string
+    str_width = strlen(buffer) * 6; // calculate the string width
+	displayAdafruit::display.setCursor(64 - str_width / 2, 8);
+    displayAdafruit::display.print(buffer); // draw centered string
 
-    u8g2.sendBuffer(); // transfer internal memory to the display
+    displayAdafruit::display.display(); // transfer internal memory to the display
 }

@@ -11,12 +11,6 @@
 class main {
 
 public:
-	static void log(const char* text = "");
-	static void logln(const char* text = "");
-	static void logHexln(unsigned char id, int i);
-	static void logFloat(float id);
-	static void logFloatln(float id);
-
     static bool Found_Display;
     static bool Found_Gyro;
     static bool Found_Compass;

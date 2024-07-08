@@ -14,23 +14,22 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include <Arduino.h>
 #include <Wire.h>
 #include <SPI.h>
-//#include "Arduino_LED_Matrix.h"
+
 
 
 #include "wiring_private.h"
-#include <LiquidCrystal_I2C.h>
 #include <cstring>
 #include <cstdint>
 #include <cmath>
 
 #include <Adafruit_Sensor.h>
 
-#include "index.h"
 #include "PS4.h"
 #include "secrets.h"
 #include "main_ra.h"
 #include "menu.h"
 
+#include "logger.h"
 #include "barometer.h"
 #include "animation.h"
 #include "pwm_board.h"
@@ -39,7 +38,7 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include "gyroscope.h"
 
 #include "dancing.h"
-#include "displayU8G2.h"
+#include "displayAdafruit.h"
 #include "pesto_matrix.h"
 #include "follow_light.h"
 #include "motor.h"
@@ -100,82 +99,30 @@ uint32_t frame[] = {0, 0, 0, 0xFFFF};
 
 
 /********************************************** Setup booting the arduino **************************************/
-// section Main Functions
-/***************************************************************************************************************/
-// Implementation
-void main::log_helper(const char* text, bool newline) {
-	if (Found_Display) {
-		#if LOG_DEBUG
-		if (newline) {
-			displayU8G2::U8G2println(text);
-		} else {
-			displayU8G2::U8G2print(text);
-		}
-		#endif
-	}
-	if (newline) {
-		Serial.println(text);
-	} else {
-		Serial.print(text);
-	}
-}
-
-void main::log(const char* text) {
-	log_helper(text, false);
-}
-
-void main::logln(const char* text) {
-	log_helper(text, true);
-}
-
-void main::logFloat(float id) {
-	Serial.print(id);
-	displayU8G2::u8g2log.print(id);
-	displayU8G2::U8G2printEnd();
-}
-
-void main::logFloatln(float id) {
-	Serial.println(id);
-	displayU8G2::u8g2log.println(id);
-	displayU8G2::U8G2printEnd();
-}
-
-
-void main::logHexln(unsigned char id, int i) {
-	Serial.println(id, i);
-	displayU8G2::u8g2log.println(id, i);
-	displayU8G2::U8G2printEnd();
-}
-
-/********************************************** Setup booting the arduino **************************************/
 // section Setup
 /***************************************************************************************************************/
 void setup(){
     Wire.begin();
 	Serial.begin(9600);// Initialize the hardware serial port for debugging
-	main::logln("Wall-Z Arduino Robot booting");
-	main::logln(__FILE__);
+	displayAdafruit::setupAdafruit();
 
-    #if USE_U8G2
-        displayU8G2::U8G2setup();
-    #endif
+	logger::logln("Wall-Z Arduino Robot booting\n");
 
 	delay(1);
-	main::log("Serial");
+	logger::log("Serial");
 	delay(1);
 	Serial1.begin(115200);
-	main::log("Serial1 & ");
+	logger::log("Serial1 & ");
 	delay(1);
 	SERIAL_AT.begin(115200);
-	main::logln("Serial_AT 115200");
+	logger::logln("Serial_AT 115200");
 	delay(1);
 
 	Motor::motor_setup();
 
 	SD_card::initSD();
-	SD_card::configLoadSD();
+
 	if(main::use_sd_card) {
-		if(main::use_menu)menu::setupMenu();
 		if(main::use_i2c_scanner)	I2Cscanner::scan();
 		delay(500);
 		if(main::use_analog) {
@@ -195,13 +142,13 @@ void setup(){
 			Switch_8_State = digitalRead(8);
 			Switch_9_State = digitalRead(9);
 
-			if (Switch_8_State == LOW) { main::log(" SWITCH_8 is on"); } else { main::log(" SWITCH_8 is off"); }
-			if (Switch_9_State == LOW) { main::logln(" SWITCH_9 is on"); } else { main::logln(" SWITCH_9 is off"); }
+			if (Switch_8_State == LOW) { logger::log(" SWITCH_8 is on"); } else { logger::log(" SWITCH_8 is off"); }
+			if (Switch_9_State == LOW) { logger::logln(" SWITCH_9 is on"); } else { logger::logln(" SWITCH_9 is off"); }
 
 			delay(500);
 		}
 
-		if(main::use_pwm_board) { pwm_board::setupPWM();   main::logln(" PWM board enabled");}
+		if(main::use_pwm_board) { pwm_board::setupPWM();   logger::logln(" PWM board enabled");}
 		delay(500);
 //
 //		if(main::use_matrix_preview) {matrix.begin();}
@@ -211,14 +158,14 @@ void setup(){
 //			matrix.autoscroll(300);
 //			matrix.play(true);
 //			delay(500);
-//			main::logln(" R4 matrix ");
+//			logger::logln(" R4 matrix ");
 //		}
 
 
 		if(main::use_distance) {
 			pinMode(Trig_PIN, OUTPUT);    /***** 6 ******/
 			pinMode(Echo_PIN, INPUT);     /***** 7 ******/
-			main::logln(" Sonar --> use_distance ");
+			logger::logln(" Sonar --> use_distance ");
 			delay(500);
 		}
 
@@ -247,9 +194,9 @@ void setup(){
 //			delay(500);
 //
 //        }
-		main::logln("Setup from SD Complete");
+		logger::logln("Setup from SD Complete");
 	} else {
-		main::logln("Setup from config.h");
+		logger::logln("Setup from config.h");
 		#if USE_ROUND
 			displayMenu::menuSetup();
 		#endif
@@ -275,8 +222,8 @@ void setup(){
 			Switch_8_State = digitalRead(SWITCH_8);
 			Switch_9_State = digitalRead(SWITCH_9);
 
-			if (Switch_8_State == LOW) {  main::log(" SWITCH_8 is on");} else {main::log(" SWITCH_8 is off");}
-			if (Switch_9_State == LOW) {  main::logln(" SWITCH_9 is on");} else {main::logln(" SWITCH_9 is off");}
+			if (Switch_8_State == LOW) {  logger::log(" SWITCH_8 is on");} else {logger::log(" SWITCH_8 is off");}
+			if (Switch_9_State == LOW) {  logger::logln(" SWITCH_9 is on");} else {logger::logln(" SWITCH_9 is off");}
 
 			delay(500);
 		#endif
@@ -295,13 +242,13 @@ void setup(){
 			matrix.autoscroll(300);
 			matrix.play(true);
 			delay(500);
-			main::log(" R4 matrix ");
+			logger::log(" R4 matrix ");
 		#endif
 
 		#if USE_DISTANCE
 			pinMode(Trig_PIN, OUTPUT);    /***** 6 ******/
 			pinMode(Echo_PIN, INPUT);     /***** 7 ******/
-			main::log(" Sonar ");
+			logger::log(" Sonar ");
 			delay(500);
 		#endif
 
@@ -326,8 +273,8 @@ void setup(){
 		#endif
 
 		#if USE_GYRO
-		gyroscope::gyroSetup();
-		delay(500);
+			gyroscope::gyroSetup();
+			delay(500);
 		#endif
 
 		#if USE_TIMERS
@@ -341,9 +288,9 @@ void setup(){
 		#if USE_HM_10_BLE
 			BLE::BLEsetup();
 		#endif
-		main::logln("Setup from config.h Complete");
+		logger::logln("Setup from config.h Complete");
 	}
-	main::logln("Starting loop");
+	logger::logln("Starting loop");
 }
 
 /*********************************** Loop **********************************/
@@ -351,22 +298,26 @@ void setup(){
 /***************************************************************************/
 
 void loop(){
-    if((USE_PS4 && !main::use_sd_card) || main::use_ps4) {
+    if ((USE_PS4 && !main::use_sd_card) || main::use_ps4) {
 		PS4::controller();
 	}
 
-	if(main::use_menu) {
+	if ((USE_ADAFRUIT && !main::use_adafruit) || main::use_adafruit) {
+		displayAdafruit::displayLoop();
+	}
+
+	if (main::use_menu) {
 		menu::loopMenu();
 	}
 
-	#if USE_SWITCH
+	if ((USE_SWITCH && !main::use_switch) || main::use_switch) {
         Switch_8_State = digitalRead(SWITCH_8);
         Switch_9_State = digitalRead(SWITCH_9);
         delay(5);
-        if (Switch_8_State == HIGH) { displayU8G2::petStatus = 0;} else { displayU8G2::petStatus = 1;}
-        if (Switch_9_State == HIGH) { compass::displayCompass();} else { displayU8G2::animateScreen(0); }
+        if (Switch_8_State == HIGH) { displayAdafruit::petStatus = 0;} else { displayAdafruit::petStatus = 1;}
+        if (Switch_9_State == HIGH) { compass::displayCompass();} else { displayAdafruit::animateScreen(); }
         delay(50);
-    #endif
+    }
 
 	if ((USE_ANALOG && !main::use_sd_card) || main::use_analog) {
 		analog::analogLoop();
@@ -382,22 +333,22 @@ void loop(){
 		int lazer_brightness = map(avoid_objects::distanceF, 0, 1000, 0, 4000);
 		pwm_board::pwm.setPWM(LAZER_PIN, 0, lazer_brightness);
 		if (avoid_objects::distanceF < 25) {
-			#if USE_PWM_BOARD
-			pwm_board::RGBled(230, 0, 0);
-			if (Switch_8_State == LOW) {
-				pwm_board::leftLedStrip(255, 0, 0);
-				pwm_board::rightLedStrip(255, 0, 0);
-			} else {
-				pwm_board::leftLedStrip(70, 0, 70);
-				pwm_board::rightLedStrip(70, 0, 70);
+			if ((USE_PWM_BOARD && !main::use_pwm_board) || main::use_pwm_board) {
+				pwm_board::RGBled(230, 0, 0);
+				if (Switch_8_State == LOW) {
+					pwm_board::leftLedStrip(255, 0, 0);
+					pwm_board::rightLedStrip(255, 0, 0);
+				} else {
+					pwm_board::leftLedStrip(70, 0, 70);
+					pwm_board::rightLedStrip(70, 0, 70);
+				}
 			}
-			#endif
 
 			#if LOG_DEBUG
-			if (main::Found_Display) displayU8G2::u8g2log.println(avoid_objects::distanceF);
+				if (main::Found_Display) logger::logFloatln(avoid_objects::distanceF);
 			#endif
 			#if USE_DOT
-			Pesto::pestoMatrix();
+				Pesto::pestoMatrix();
 			#endif
 			double deltime = avoid_objects::distanceF * 3;
 			delay(deltime);
@@ -409,16 +360,16 @@ void loop(){
 			MicStereo::MicLoop();
 		#endif
 
-		#if USE_PWM_BOARD
-		pwm_board::RGBled(0, 0, Follow_light::lightSensor());
-		if (Switch_8_State == LOW) {
-			pwm_board::leftLedStrip(0, 255, 0);
-			pwm_board::rightLedStrip(0, 255, 0);
-		} else {
-			pwm_board::leftLedStrip(0, 70, 0);
-			pwm_board::rightLedStrip(0, 70, 0);
+		if ((USE_PWM_BOARD && !main::use_pwm_board) || main::use_pwm_board) {
+			pwm_board::RGBled(0, 0, Follow_light::lightSensor());
+			if (Switch_8_State == LOW) {
+				pwm_board::leftLedStrip(0, 255, 0);
+				pwm_board::rightLedStrip(0, 255, 0);
+			} else {
+				pwm_board::leftLedStrip(0, 70, 0);
+				pwm_board::rightLedStrip(0, 70, 0);
+			}
 		}
-		#endif
 		if ((USE_DISTANCE && !main::use_sd_card) || main::use_distance) ;}
 
 
@@ -430,10 +381,10 @@ void loop(){
     #if READ_ESP32
         // Read messages from Arduino R4 ESP32
             if (SERIAL_AT.available()) {
-                displayU8G2::u8g2log.print("ESP32 says: ");
+                main::log("ESP32 says: ");
                 while (SERIAL_AT.available()) {
                     Serial.write(SERIAL_AT.read());
-                    displayU8G2::u8g2log.println(SERIAL_AT.read());
+                    main::logln(SERIAL_AT.read());
                 }
             }
     #endif

@@ -2,7 +2,7 @@
 // Created by mr on 11/17/2023.
 //
 
-#include "displayU8G2.h"
+#include "logger.h"
 #include "timers.h"
 #include "gyroscope.h"
 #include "main_ra.h"
@@ -27,23 +27,23 @@ void gyroscope::gyroFunc(){
     gyroscope::gyroRead();
 	#if LOG_DEBUG
 		(gyroscope::ax > 0)
-						? main::log(" +"), main::logFloat(((gyroscope::ax)))
-						: main::log(" "),  main::logFloat(((gyroscope::ax)));
+						? logger::log(" +"), logger::logFloat(((gyroscope::ax)))
+						: logger::log(" "),  logger::logFloat(((gyroscope::ax)));
 		(gyroscope::ay > 0)
-						? main::log(" +"), main::logFloat(((gyroscope::ay)))
-						: main::log(" "),  main::logFloat(((gyroscope::ay)));
+						? logger::log(" +"), logger::logFloat(((gyroscope::ay)))
+						: logger::log(" "),  logger::logFloat(((gyroscope::ay)));
 		(gyroscope::az > 0)
-						? main::log(" +"), main::logFloat(((gyroscope::az)))
-						: main::log(" "),  main::logFloat(((gyroscope::az)));
+						? logger::log(" +"), logger::logFloat(((gyroscope::az)))
+						: logger::log(" "),  logger::logFloat(((gyroscope::az)));
 		(gyroscope::gx > 0)
-						? main::log(" +"), main::logFloat(((gyroscope::gx)))
-						: main::log(" "),  main::logFloat(((gyroscope::gx)));
+						? logger::log(" +"), logger::logFloat(((gyroscope::gx)))
+						: logger::log(" "),  logger::logFloat(((gyroscope::gx)));
 		(gyroscope::gy > 0)
-						? main::log(" +"), main::logFloat(((gyroscope::gy)))
-						: main::log(" "),  main::logFloat(((gyroscope::gy)));
+						? logger::log(" +"), logger::logFloat(((gyroscope::gy)))
+						: logger::log(" "),  logger::logFloat(((gyroscope::gy)));
 		(gyroscope::gz > 0)
-						? main::log(" +"), main::logFloatln(((gyroscope::gz)))
-						: main::log(" "),  main::logFloatln(((gyroscope::gz)));
+						? logger::log(" +"), logger::logFloatln(((gyroscope::gz)))
+						: logger::log(" "),  logger::logFloatln(((gyroscope::gz)));
 	#endif
 }
 
@@ -76,24 +76,24 @@ void gyroscope::gyroCalibrate_sensor() {
     }
     gyroscope::baseAx = totX / 10;  gyroscope::baseAy = totY / 10;  gyroscope::baseAz = totZ / 10;  gyroscope::baseGx = totgX / 10;  gyroscope::baseGy = totgY / 10;  gyroscope::baseGz = totgZ / 10;
 	#if USE_U8G2
-		main::log(" Ax: ");  main::logFloat(((baseAx)));
-		main::log(" Ay: ");  main::logFloat(((baseAy)));
-		main::log(" Az: ");  main::logFloatln(((baseAz)));
+		logger::log(" Ax: ");  logger::logFloat(((baseAx)));
+		logger::log(" Ay: ");  logger::logFloat(((baseAy)));
+		logger::log(" Az: ");  logger::logFloatln(((baseAz)));
 
-		main::log(" Gx: ");  main::logFloat(((baseGx)));
-		main::log(" Gy: ");  main::logFloat(((baseGy)));
-		main::log(" Gz: ");  main::logFloatln(((baseGz)));
+		logger::log(" Gx: ");  logger::logFloat(((baseGx)));
+		logger::log(" Gy: ");  logger::logFloat(((baseGy)));
+		logger::log(" Gz: ");  logger::logFloatln(((baseGz)));
 	#endif
 }
 
 void gyroscope::gyroSetup() {
     // Try to initialize!
     if (!mpu.begin()) {
-        main::logln("MPU6050 not found");
+        logger::logln("MPU6050 not found");
         delay(500);
 		main::use_gyro = false;
     } else {
-        main::logln("MPU6050 Found!    ");
+        logger::logln("MPU6050 Found!    ");
         mpu.setAccelerometerRange(MPU6050_RANGE_2_G);
         mpu.setGyroRange(MPU6050_RANGE_500_DEG);
         mpu.setFilterBandwidth(MPU6050_BAND_21_HZ); /// 5, 10, 21, 44, 94, 184, 260(off)

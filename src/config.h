@@ -58,7 +58,7 @@
 #define LAZER_PIN     11  //pwm11
 #define DotDataPIN    2 // Set data
 #define L_PWM   	  3   // define PWM control pin of right motor
-#define DotClockPIN  4  // Set clock
+#define DotClockPIN   4  // Set clock
 #define Trig_PIN      5  //   ultrasonic trig Pin
 #define Echo_PIN      6  //   ultrasonic echo Pin
 #define TFT_DS 	 	  6  //
@@ -82,13 +82,8 @@
 // 0 for SdFat/File, 1 for FAT16/FAT32, 2 for exFAT, 3 for FAT16/FAT32 and exFAT.
 #define SD_FAT_TYPE 1
 
-
-
-
-
-#define SWITCH_8
-#define SWITCH_9
-
+#define SWITCH_8 8
+#define SWITCH_9 9
 
 #define light_L_PIN EXT_ANALOG_0
 #define MIC_L_PIN   EXT_ANALOG_1
@@ -124,13 +119,6 @@
 #define D_LEFT   1700
 #define UPLEFT   1800
 
-
-
 #define FPS 30
-
-
-
-
-
 
 #endif //CONFIG_H

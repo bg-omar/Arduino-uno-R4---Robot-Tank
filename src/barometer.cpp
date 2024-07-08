@@ -6,6 +6,7 @@
 #include <Wire.h>
 
 #include "main_ra.h"
+#include "logger.h"
 #define SEALEVELPRESSURE_HPA (1013.25)
 
 /********************************************** control ultrasonic sensor***************************************/
@@ -16,14 +17,14 @@ Adafruit_BMP280 barometer::bmp; // I2C
 void barometer::baroSetup() {
 	if (!barometer::bmp.begin()) {
 		if(main::log_debug) {
-			main::logln("No valid BMP280 sensor,\n check wiring or try a different address!");
-			main::log("SensorID was: 0x");
-			main::logHexln(barometer::bmp.sensorID(), 16);
+			logger::logln("No valid BMP280 sensor,\n check wiring or try a different address!");
+			logger::log("SensorID was: 0x");
+			logger::logHexln(barometer::bmp.sensorID(), 16);
 		}
 		main::use_barometer = false;
 		delay(500);
 	} else {
-		main::logln(" Barometer initialized");
+		logger::logln(" Barometer initialized");
 	}
 
 	/* Default settings from datasheet. */
@@ -38,24 +39,24 @@ void barometer::baroSetup() {
 void barometer::baroMeter() {
 	if (bmp.takeForcedMeasurement()) {
 		// can now print out the new measurements
-		main::log(("Temp = "));
+		logger::log(("Temp = "));
 		float temp = (bmp.readTemperature());
-		main::logFloat(temp);
-		main::logln(" *C");
+		logger::logFloat(temp);
+		logger::logln(" *C");
 
-		main::log(("Press = "));
+		logger::log(("Press = "));
 		float press = (bmp.readPressure() / 100);
-		main::logFloat(press);
-		main::logln(" Pa");
+		logger::logFloat(press);
+		logger::logln(" Pa");
 
-		main::log(("Alt = "));
+		logger::log(("Alt = "));
 		float altit = (bmp.readAltitude(SEALEVELPRESSURE_HPA)/100);
-		main::logFloat(altit); /* Adjusted to local forecast! */
-		main::logln(" m");
+		logger::logFloat(altit); /* Adjusted to local forecast! */
+		logger::logln(" m");
 
-		main::logln();
+		logger::logln("");
 		delay(2000);
 	} else {
-		main::logln("Forced measurement failed!");
+		logger::logln("Forced measurement failed!");
 	}
 }

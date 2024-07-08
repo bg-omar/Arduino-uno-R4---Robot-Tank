@@ -8,6 +8,7 @@
 
 #include <SPI.h>
 #include "SdFat.h"
+#include "logger.h"
 #include <iostream>
 #include <vector>
 #include <cstring>
@@ -35,12 +36,12 @@ void SD_card::initSD() {
 
 	// Initialize the SD.
 	if (!SD.begin(CS_PIN, SD_SCK_MHZ(16))) {
-		main::logln("SD card init failed");
+		logger::logln("SD card init failed");
 		main::use_sd_card = false;
-		return;
 	} else {
-		main::logln("SD card initialized");
+		logger::logln("SD card initialized");
 		main::use_sd_card = true;
+		configLoadSD();
 	}
 }
 
@@ -110,7 +111,7 @@ void SD_card::configLoadSD() {
 		std::cout << std::endl;
 	#endif
 
-	main::logln("configName & configValue arrays build");
+	logger::logln("configName & configValue arrays build");
 
 	main::use_adafruit = 		 configValue[0] == 1;
 	main::use_u8g2 = 			 configValue[1] == 1;
@@ -140,70 +141,70 @@ void SD_card::configLoadSD() {
 	main::use_lcd = 			 configValue[25] == 1;
 	main::use_hm_10_ble = 		 configValue[26] == 1;
 
-	main::logln("Settings loaded from SD");
+	logger::logln("Settings loaded from SD");
 
-	main::log("use_adafruit: ");
-	main::logln	(main::use_adafruit ? "true": "false");
-	main::log("use_u8g2: ");
-	main::logln	(main::use_u8g2  ? "true": "false");
-	main::log("small: ");
-	main::logln	(main::small ? "true": "false");
-	main::log("display_demo: ");
-	main::logln	(main::display_demo ? "true": "false");
-	main::log("use_round: ");
-	main::logln	(main::use_round ? "true": "false");
-	main::log("use_menu: ");
-	main::logln	(main::use_menu ? "true": "false");
-	main::log("log_debug: ");
-	main::logln	(main::log_debug ? "true": "false");
-	main::log("use_ps4: ");
-	main::logln	(main::use_ps4 ? "true": "false");
-	main::log("use_sd_card: ");
-	main::logln	(main::use_sd_card ? "true": "false");
-	main::log("use_gyro: ");
-	main::logln	(main::use_gyro ? "true": "false");
-	main::log("use_compass: ");
-	main::logln	(main::use_compass ? "true": "false");
-	main::log("use_barometer: ");
-	main::logln	(main::use_barometer ? "true": "false");
-	main::log("use_distance: ");
-	main::logln	(main::use_distance ? "true": "false");
-	main::log("use_irremote: ");
-	main::logln	(main::use_irremote ? "true": "false");
-	main::log("use_i2c_scanner: ");
-	main::logln	(main::use_i2c_scanner ? "true": "false");
-	main::log("use_pwm_board: ");
-	main::logln	(main::use_pwm_board ? "true": "false");
-	main::log("use_dot: ");
-	main::logln	(main::use_dot ? "true": "false");
-	main::log("use_mic: ");
-	main::logln	(main::use_mic ? "true": "false");
-	main::log("use_switch: ");
-	main::logln	(main::use_switch ? "true": "false");
-	main::log("use_analog: ");
-	main::logln	(main::use_analog ? "true": "false");
-	main::log("use_robot: ");
-	main::logln	(main::use_robot ? "true": "false");
-	main::log("use_timers: ");
-	main::logln	(main::use_timers ? "true": "false");
-	main::log("use_matrix: ");
-	main::logln	(main::use_matrix ? "true": "false");
-	main::log("use_matrix_preview: ");
-	main::logln	(main::use_matrix_preview ? "true": "false");
-	main::log("read_esp32: ");
-	main::logln	(main::read_esp32 ? "true": "false");
-	main::log("use_lcd: ");
-	main::logln	(main::use_lcd ? "true": "false");
-	main::log("use_hm_10_ble: ");
-	main::logln	(main::use_hm_10_ble ? "true": "false");
+	logger::log("use_adafruit: ");
+	logger::logln	(main::use_adafruit ? "true": "false");
+	logger::log("use_u8g2: ");
+	logger::logln	(main::use_u8g2  ? "true": "false");
+	logger::log("small: ");
+	logger::logln	(main::small ? "true": "false");
+	logger::log("display_demo: ");
+	logger::logln	(main::display_demo ? "true": "false");
+	logger::log("use_round: ");
+	logger::logln	(main::use_round ? "true": "false");
+	logger::log("use_menu: ");
+	logger::logln	(main::use_menu ? "true": "false");
+	logger::log("log_debug: ");
+	logger::logln	(main::log_debug ? "true": "false");
+	logger::log("use_ps4: ");
+	logger::logln	(main::use_ps4 ? "true": "false");
+	logger::log("use_sd_card: ");
+	logger::logln	(main::use_sd_card ? "true": "false");
+	logger::log("use_gyro: ");
+	logger::logln	(main::use_gyro ? "true": "false");
+	logger::log("use_compass: ");
+	logger::logln	(main::use_compass ? "true": "false");
+	logger::log("use_barometer: ");
+	logger::logln	(main::use_barometer ? "true": "false");
+	logger::log("use_distance: ");
+	logger::logln	(main::use_distance ? "true": "false");
+	logger::log("use_irremote: ");
+	logger::logln	(main::use_irremote ? "true": "false");
+	logger::log("use_i2c_scanner: ");
+	logger::logln	(main::use_i2c_scanner ? "true": "false");
+	logger::log("use_pwm_board: ");
+	logger::logln	(main::use_pwm_board ? "true": "false");
+	logger::log("use_dot: ");
+	logger::logln	(main::use_dot ? "true": "false");
+	logger::log("use_mic: ");
+	logger::logln	(main::use_mic ? "true": "false");
+	logger::log("use_switch: ");
+	logger::logln	(main::use_switch ? "true": "false");
+	logger::log("use_analog: ");
+	logger::logln	(main::use_analog ? "true": "false");
+	logger::log("use_robot: ");
+	logger::logln	(main::use_robot ? "true": "false");
+	logger::log("use_timers: ");
+	logger::logln	(main::use_timers ? "true": "false");
+	logger::log("use_matrix: ");
+	logger::logln	(main::use_matrix ? "true": "false");
+	logger::log("use_matrix_preview: ");
+	logger::logln	(main::use_matrix_preview ? "true": "false");
+	logger::log("read_esp32: ");
+	logger::logln	(main::read_esp32 ? "true": "false");
+	logger::log("use_lcd: ");
+	logger::logln	(main::use_lcd ? "true": "false");
+	logger::log("use_hm_10_ble: ");
+	logger::logln	(main::use_hm_10_ble ? "true": "false");
 
- 	main::logln("Config Loaded from SD");
+ 	logger::logln("Config Loaded from SD");
 	file.close();
 }
 
 void SD_card::configSaveSD() {// Create or open the file.
 	openFile(FILE_WRITE);
-	main::logln("Saving to SD");
+	logger::logln("Saving to SD");
 	file.rewind(); // Rewind file so config data is not appended.
 
 	String use_adafruit_string =	 	"USE_ADAFRUIT," + 		String(main::use_adafruit) + "\r\n";
@@ -266,7 +267,7 @@ void SD_card::configSaveSD() {// Create or open the file.
    ));
 
 	file.close();
-	main::logln("Save Complete");
+	logger::logln("Save Complete");
 }
 
 void openFile(int rule) {

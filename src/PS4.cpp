@@ -9,7 +9,6 @@
 #include "motor.h"
 #include "pwm_board.h"
 #include "timers.h"
-#include "displayU8G2.h"
 
 #include "dancing.h"
 #include "avoid_objects.h"
@@ -20,10 +19,7 @@
 #include "barometer.h"
 #include "menu.h"
 
-
-#include <iostream>
 #include <string>
-#include <sstream>
 #include <vector>
 #include <cctype>
 using namespace std;
@@ -54,13 +50,6 @@ int PS4::exitLoop() {
             }
     #endif
     return 0;
-
-    char bluetooth_val = Serial.read();
-    if (bluetooth_val == 'S') {
-        return 1;
-    }
-
-    return 0;
 }
 
 void PS4::joystick(int Xinput, int Yinput) {
@@ -74,26 +63,33 @@ void PS4::joystick(int Xinput, int Yinput) {
     //    Serial.print("Xinput: "); Serial.println(Xinput); Serial.print("Yinput: "); Serial.println(Yinput);
 
     //---------------------------------------------- RIGHT THUMBSTICK
-    #if USE_PWM_BOARD
-        if (Xinput >= 8000 && Xinput <= 8255 || Yinput >= 9000 && Yinput <= 9255) {
-            if (Xinput >= 8000 && Xinput <= 8128) {
-                int xMapped = map(Xinput - 8000, 0, 128, 160, 90); //        Serial.println(xMapped);
-                pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(xMapped));
-            } else if (Xinput > 8128 && Xinput <= 8255) {
-                int xMapped = map(Xinput - 8128, 0, 128, 90, 20); //        Serial.println(xMapped);
-                pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(xMapped));
-            }
-            if (Yinput >= 9000 && Yinput < 9128) {
-                int yMapped = map(Yinput - 9000, 0, 128, 10, 75); //        Serial.println(yMapped);
-                pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(yMapped));
-                Serial.println(yMapped);
-            } else if (Yinput >= 9128 && Yinput <= 9255) {
-                int yMapped = map(Yinput - 9128, 0, 128, 45, 150); //        Serial.println(yMapped);
-                pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(yMapped));
-                Serial.println(yMapped);
-            }
-        }
-    #endif
+    if ((USE_PWM_BOARD && !main::use_pwm_board) || main::use_pwm_board) {
+		if (Xinput >= 8000 && Xinput <= 8255 || Yinput >= 9000 && Yinput <= 9255) {
+			if (Xinput >= 8000 && Xinput <= 8128) {
+				int xMapped = map(Xinput - 8000, 0, 128, 1, 10); //        Serial.println(xMapped);
+				if (pwm_board::posXY < 170) pwm_board::posXY += xMapped;
+			} else if (Xinput > 8128 && Xinput <= 8255) {
+				int xMapped = map(Xinput - 8128, 0, 128, 1, 10); //        Serial.println(xMapped);
+				if (pwm_board::posXY > 10) pwm_board::posXY -= xMapped;
+			}
+			if (Yinput >= 9000 && Yinput < 9128) {
+				int yMapped = map(Yinput - 9000, 0, 128, 1, 10); //        Serial.println(yMapped);
+				if (pwm_board::posZ < 150)pwm_board::posZ += yMapped;
+
+			} else if (Yinput >= 9128 && Yinput <= 9255) {
+				int yMapped = map(Yinput - 9128, 0, 128, 1, 10); //        Serial.println(yMapped);
+				if (pwm_board::posZ > 5) pwm_board::posZ -= yMapped;
+
+			}
+
+			if (pwm_board::posXY < 0) pwm_board::posXY = 0;
+			if (pwm_board::posXY > 180) pwm_board::posXY = 180;
+			if (pwm_board::posZ < 0) pwm_board::posZ = 0;
+			if (pwm_board::posZ > 150) pwm_board::posZ = 150;
+			pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(pwm_board::posZ));
+			pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(pwm_board::posXY));
+		}
+	}
 
     // Change L2/R2 Lx/Ly inputs back to -128 / +128 values
     if (Xinput >= 4000 && Xinput <= 4255 || Yinput >= 5000 && Yinput <= 5255) {
@@ -193,17 +189,15 @@ void PS4::controller() {
             }
 //            main::logln(message);
 
-
             if (PS4input[0] >= 4000) { //for double input X-Y
                 PS4::joystick(PS4input[0], PS4input[1]);
             } else {
                 switch (PS4input[0]) {
                     case SQUARE:
-						menu::down();
-						delay(250);
+
 						break;
                     case TRIANG:
-						menu::up();
+
 						delay(250);
                         break;
                     case xCROSS:
@@ -211,29 +205,28 @@ void PS4::controller() {
 						delay(250);
 						break;
                     case CIRCLE:
-						menu::down();
-						delay(250);
+
                         break;
 
                         //**** Head movements    ****
-                    #if USE_PWM_BOARD
-                        case DPAD_U:
-                            if (pwm_board::posZ > 5) pwm_board::posZ -= 10;
-                            Serial.println(pwm_board::posZ);
-                            break;
-                        case DPAD_R:
-                            if (pwm_board::posXY > 10) pwm_board::posXY -= 10;
-                            Serial.println(pwm_board::posXY);
-                            break;
-                        case DPAD_D:
-                            if (pwm_board::posZ < 150)pwm_board::posZ += 10;
-                            Serial.println(pwm_board::posZ);
-                            break;
-                        case DPAD_L:
-                            if (pwm_board::posXY < 170) pwm_board::posXY += 10;
-                            Serial.println(pwm_board::posXY);
-                            break;
-                    #endif
+                    if ((USE_PWM_BOARD && !main::use_pwm_board) || main::use_pwm_board) {
+						case DPAD_U:
+							menu::up();
+							delay(250);
+						break;
+						case DPAD_R:
+							if (pwm_board::posXY > 10) pwm_board::posXY -= 10;
+							Serial.println(pwm_board::posXY);
+						break;
+						case DPAD_D:
+							menu::down();
+							delay(250);
+						break;
+						case DPAD_L:
+							if (pwm_board::posXY < 170) pwm_board::posXY += 10;
+							Serial.println(pwm_board::posXY);
+						break;
+					}
 
                     case 3101:
                     case 3401:
@@ -242,9 +235,9 @@ void PS4::controller() {
                         //Motor::Car_Stop();
                         break;
 
-                    case xSHARE: //compass::displaySensorDetails();break;
-                    case OPTION: //gyroscope::gyroFunc();break;
-                    case PSHOME: //barometer::baroMeter();break;
+                    case xSHARE: if (main::use_compass) compass::showCompass();break;
+                    case OPTION: if (main::use_gyro)  gyroscope::gyroFunc();break;
+                    case PSHOME: if (main::use_barometer) barometer::baroMeter();break;
                     case L1:
                         #if USE_TIMERS
                           timers::timerTwoActive = !timers::timerTwoActive;
@@ -285,12 +278,6 @@ void PS4::controller() {
                     default:
                         break;
                 }
-                if (pwm_board::posXY < 0) pwm_board::posXY = 0;
-                if (pwm_board::posXY > 180) pwm_board::posXY = 180;
-                if (pwm_board::posZ < 0) pwm_board::posZ = 0;
-                if (pwm_board::posZ > 150) pwm_board::posZ = 150;
-                pwm_board::pwm.setPWM(PWM_1, 0, pwm_board::pulseWidth(pwm_board::posZ));
-                pwm_board::pwm.setPWM(PWM_0, 0, pwm_board::pulseWidth(pwm_board::posXY));
             }
             message_pos = 0; //Reset next message
             delay(50);
