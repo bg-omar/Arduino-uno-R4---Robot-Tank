@@ -140,7 +140,7 @@ void setup() {
     PS4.attach(notify);
     PS4.attachOnConnect(onConnect);
     PS4.attachOnDisconnect(onDisConnect);
-    PS4.begin("3C:E9:0E:88:65:16"); //mac Address that ESP should use
+    PS4.begin("00:1a:7d:da:71:13"); //mac Address that ESP should use
 
     /* Remove Paired Devices  */
     uint8_t pairedDeviceBtAddr[20][6];
@@ -150,7 +150,7 @@ void setup() {
         esp_bt_gap_remove_bond_device(pairedDeviceBtAddr[i]);
     }
 
-    Serial.println("my BT mac -> 3C:E9:0E:88:65:16");
+    Serial.println("my BT mac -> 00:1a:7d:da:71:13");
     Serial.println("Ready for PS4");
 }
 

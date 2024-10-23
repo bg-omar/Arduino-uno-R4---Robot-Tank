@@ -13,7 +13,13 @@
  * SDA = 11
  * SCL = 13
  */
-
+// VCC - 3.3 VDC
+// GND -Ground
+// SDA -Data In       11 DIN
+// SCL - Clock        13 CLK
+// CS - Chip Select   10
+// DC - Data / Command 7
+// RST - Reset
 
 Adafruit_GC9A01A tft(TFT_CS, TFT_DS);
 

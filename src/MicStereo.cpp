@@ -25,7 +25,8 @@ void MicStereo::MicSetup() {
 }
 
 
-void MicStereo::MicLoop() {
+void MicStereo::
+MicLoop() {
     int micRStatus = analog::ext_analog_3;
     int micR255 = map(micRStatus, 0, 1023, 0, 255);
 

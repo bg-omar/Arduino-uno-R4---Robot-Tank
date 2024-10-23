@@ -5,6 +5,8 @@ ESP 1           66:CB:3E:E9:02:8A
 ESP small cam   3C:E9:0E:88:65:16
 PS4 Controller: A4:AE:11:E1:8B:B3 (SONYWA) GooglyEyes
 PS5 Controller: 88:03:4C:B5:00:66
+USB-Shield BT   00:1a:7d:da:71:13
+				00:1a:7d:da:71:13
 */
 
 
@@ -17,7 +19,7 @@ PS5 Controller: 88:03:4C:B5:00:66
 
 
 
-#include "wiring_private.h"
+#include <wiring_private.h>
 #include <cstring>
 #include <cstdint>
 #include <cmath>
@@ -201,10 +203,6 @@ void setup(){
 			displayMenu::menuSetup();
 		#endif
 
-		#if USE_MENU
-			menu::setupMenu();
-		#endif
-
 		#if USE_I2C_SCANNER
 			I2Cscanner::scan();
 			delay(500);
@@ -311,11 +309,11 @@ void loop(){
 	}
 
 	if ((USE_SWITCH && !main::use_switch) || main::use_switch) {
-        Switch_8_State = digitalRead(SWITCH_8);
-        Switch_9_State = digitalRead(SWITCH_9);
+        //Switch_8_State = digitalRead(SWITCH_8);
+        //Switch_9_State = digitalRead(SWITCH_9);
         delay(5);
-        if (Switch_8_State == HIGH) { displayAdafruit::petStatus = 0;} else { displayAdafruit::petStatus = 1;}
-        if (Switch_9_State == HIGH) { compass::displayCompass();} else { displayAdafruit::animateScreen(); }
+        //if (Switch_8_State == HIGH) { displayAdafruit::petStatus = 0;} else { displayAdafruit::petStatus = 1;}
+        //if (Switch_9_State == HIGH) { compass::displayCompass();} else { displayAdafruit::animateScreen(); }
         delay(50);
     }
 
@@ -335,47 +333,30 @@ void loop(){
 		if (avoid_objects::distanceF < 25) {
 			if ((USE_PWM_BOARD && !main::use_pwm_board) || main::use_pwm_board) {
 				pwm_board::RGBled(230, 0, 0);
-				if (Switch_8_State == LOW) {
 					pwm_board::leftLedStrip(255, 0, 0);
 					pwm_board::rightLedStrip(255, 0, 0);
-				} else {
-					pwm_board::leftLedStrip(70, 0, 70);
-					pwm_board::rightLedStrip(70, 0, 70);
-				}
 			}
-
-			#if LOG_DEBUG
-				if (main::Found_Display) logger::logFloatln(avoid_objects::distanceF);
-			#endif
-			#if USE_DOT
-				Pesto::pestoMatrix();
-			#endif
-			double deltime = avoid_objects::distanceF * 3;
-			delay(deltime);
-		} else {
 		}
 
-
-		#if USE_MIC
-			MicStereo::MicLoop();
+		#if LOG_DEBUG
+			if (main::Found_Display) logger::logFloatln(avoid_objects::distanceF);
 		#endif
+		#if USE_DOT
+			Pesto::pestoMatrix();
+		#endif
+		double deltime = avoid_objects::distanceF * 3;
+		delay(deltime);
+	} else {
+		pwm_board::leftLedStrip(70, 0, 70);
+		pwm_board::rightLedStrip(70, 0, 70);
+	}
 
-		if ((USE_PWM_BOARD && !main::use_pwm_board) || main::use_pwm_board) {
-			pwm_board::RGBled(0, 0, Follow_light::lightSensor());
-			if (Switch_8_State == LOW) {
-				pwm_board::leftLedStrip(0, 255, 0);
-				pwm_board::rightLedStrip(0, 255, 0);
-			} else {
-				pwm_board::leftLedStrip(0, 70, 0);
-				pwm_board::rightLedStrip(0, 70, 0);
-			}
-		}
-		if ((USE_DISTANCE && !main::use_sd_card) || main::use_distance) ;}
-
+	#if USE_MIC
+		MicStereo::MicLoop();
+	#endif
 
     #if USE_TIMERS
         timers::update();
-        general_timer::loop_General_Timer();
     #endif
 
     #if READ_ESP32

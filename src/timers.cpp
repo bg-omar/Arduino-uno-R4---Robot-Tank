@@ -8,7 +8,7 @@
 #include "pesto_matrix.h"
 #include "compass.h"
 #include "gyroscope.h"
-#include "displayU8G2.h"
+#include "displayAdafruit.h"
 
 bool timers::timerTwoActive = false;
 bool timers::timerTreeActive = false;
@@ -18,12 +18,12 @@ TimerEvent timers::timerThree;
 TimerEvent timers::timerMouth;
 
 */
-/***************************************************** Functions s**********************************************//*
+/***************************************************** Functions s**********************************************/
 
 // section Timer Functions
-*/
-/***************************************************************************************************************//*
 
+/***************************************************************************************************************/
+/*
 void timers::initTimers() {
     timers::timerOne.set(timers::timerOnePeriod, timers::dotMatrixTimer);
     timers::timerTwo.set(timers::timerTwoPeriod, timers::sensorTimer);
@@ -36,7 +36,6 @@ void timers::update(){
     timers::timerTwo.update();
     timers::timerThree.update();
     timers::timerMouth.update();
-
 }
 void timers::dotMatrixTimer(){
         Pesto::pestoMatrix();

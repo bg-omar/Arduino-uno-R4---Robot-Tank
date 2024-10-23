@@ -18,6 +18,7 @@
 #include "gyroscope.h"
 #include "barometer.h"
 #include "menu.h"
+#include "displayAdafruit.h"
 
 #include <string>
 #include <vector>
@@ -194,10 +195,11 @@ void PS4::controller() {
             } else {
                 switch (PS4input[0]) {
                     case SQUARE:
-
+						//compass::displayCompass();
+						delay(250);
 						break;
                     case TRIANG:
-
+						displayAdafruit::animateScreen();
 						delay(250);
                         break;
                     case xCROSS:
@@ -205,28 +207,34 @@ void PS4::controller() {
 						delay(250);
 						break;
                     case CIRCLE:
-
+						displayAdafruit::petStatus = !displayAdafruit::petStatus;
                         break;
 
-                        //**** Head movements    ****
-                    if ((USE_PWM_BOARD && !main::use_pwm_board) || main::use_pwm_board) {
-						case DPAD_U:
+
+					case DPAD_U:
+						if ((USE_PWM_BOARD && !main::use_pwm_board) || main::use_pwm_board) {
 							menu::up();
 							delay(250);
+						}
 						break;
-						case DPAD_R:
+					case DPAD_R:
+						if ((USE_PWM_BOARD && !main::use_pwm_board) || main::use_pwm_board) {
 							if (pwm_board::posXY > 10) pwm_board::posXY -= 10;
 							Serial.println(pwm_board::posXY);
+						}
 						break;
-						case DPAD_D:
+					case DPAD_D:
+						if ((USE_PWM_BOARD && !main::use_pwm_board) || main::use_pwm_board) {
 							menu::down();
 							delay(250);
-						break;
-						case DPAD_L:
+						}
+					break;
+					case DPAD_L:
+						if ((USE_PWM_BOARD && !main::use_pwm_board) || main::use_pwm_board) {
 							if (pwm_board::posXY < 170) pwm_board::posXY += 10;
 							Serial.println(pwm_board::posXY);
-						break;
-					}
+						}
+					break;
 
                     case 3101:
                     case 3401:
@@ -250,9 +258,6 @@ void PS4::controller() {
 						if(main::use_barometer) {
 							barometer::baroMeter();
 						}
-                      #if USE_ROBOT
-                          dancing::dance(); break;
-                      #endif
                     case R1:
                         #if USE_TIMERS
                           timers::timerTwoActive = !timers::timerTwoActive;
@@ -262,10 +267,12 @@ void PS4::controller() {
                         delay(100);
                         break;
                     case L3:
-                      #if USE_ROBOT
+                        #if USE_ROBOT
                           avoid_objects::avoid(); break;
-                      #endif
-
+                        #endif
+						#if USE_ROBOT
+							//dancing::dance(); break;
+						#endif
                     case R3:
                       #if USE_ROBOT
                           Follow_light::light_track(); break;
