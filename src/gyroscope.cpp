@@ -24,8 +24,8 @@ void gyroscope::gyroRead(){
 }
 
 void gyroscope::gyroFunc(){
-    gyroscope::gyroRead();
-	#if LOG_DEBUG
+	//compass::displayCompass();
+	#if LOG_VERBOSE
 		(gyroscope::ax > 0)
 						? logger::log(" +"), logger::logFloat(((gyroscope::ax)))
 						: logger::log(" "),  logger::logFloat(((gyroscope::ax)));
@@ -75,7 +75,7 @@ void gyroscope::gyroCalibrate_sensor() {
         totgZ += gyro.gyro.z;      delay(10);
     }
     gyroscope::baseAx = totX / 10;  gyroscope::baseAy = totY / 10;  gyroscope::baseAz = totZ / 10;  gyroscope::baseGx = totgX / 10;  gyroscope::baseGy = totgY / 10;  gyroscope::baseGz = totgZ / 10;
-	#if USE_U8G2
+	#if LOG_VERBOSE
 		logger::log(" Ax: ");  logger::logFloat(((baseAx)));
 		logger::log(" Ay: ");  logger::logFloat(((baseAy)));
 		logger::log(" Az: ");  logger::logFloatln(((baseAz)));

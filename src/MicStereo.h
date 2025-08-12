@@ -10,7 +10,7 @@ class MicStereo {
 
 public:
     static void MicSetup();
-    static long baseRSound, baseLSound;
+    static int baseRSound, baseLSound;
     static void MicLoop();
 };
 

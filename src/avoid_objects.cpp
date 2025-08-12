@@ -7,22 +7,38 @@
 #include "motor.h"
 #include "pwm_board.h"
 #include "PS4.h"
+#include "logger.h"
 
 /********************************************** control ultrasonic sensor***************************************/
 // section UltraSonic
 /***************************************************************************************************************/
-double  avoid_objects::distanceF,  avoid_objects::distanceR,  avoid_objects::distanceL = 0;
+double  avoid_objects::distanceF,  avoid_objects::distanceR,  avoid_objects::distanceL;
 long  avoid_objects::random2 = 0;
 
+#define SPEED_OF_SOUND_CM_PER_US 0.0343 // Speed of sound in cm/µs (343 m/s)
+#define CM_PER_MICROSECOND 58.00       // Derived constant for HC-SR04
+
 double avoid_objects::checkDistance() {
-    digitalWrite(Trig_PIN, LOW);
-    delayMicroseconds(2);
-    digitalWrite(Trig_PIN, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(Trig_PIN, LOW);
-    double checkDistance = pulseIn(Echo_PIN, HIGH) / 58.00;  //58.20, that is, 2*29.1=58.2
-    delay(10);
-    return checkDistance;
+	// Trigger the ultrasonic sensor
+	digitalWrite(Trig_PIN, LOW);
+	delayMicroseconds(2);
+	digitalWrite(Trig_PIN, HIGH);
+	delayMicroseconds(10);
+	digitalWrite(Trig_PIN, LOW);
+
+	// Read the pulse width
+	unsigned long duration = pulseIn(Echo_PIN, HIGH, 47058); // Timeout for 400 cm range
+
+	if (duration == 0) {
+		// No echo detected; handle as needed
+		logger::logln("No echo detected");
+		return -1.0; // Sentinel value indicating an error
+	}
+
+	// Calculate the distance
+	double distance = duration / CM_PER_MICROSECOND;
+	distanceF = distance;
+	return distance;
 }
 
 void avoid_objects::avoid() {

@@ -1,60 +1,68 @@
-//
-// Created by mr on 11/20/2023.
-//
-
 #include "barometer.h"
 #include <Wire.h>
-
 #include "main_ra.h"
 #include "logger.h"
-#define SEALEVELPRESSURE_HPA (1013.25)
 
-/********************************************** control ultrasonic sensor***************************************/
-// section BaroMeter
-/***************************************************************************************************************/
-Adafruit_BMP280 barometer::bmp; // I2C
+// Define constants
+constexpr float SEALEVELPRESSURE_HPA = 1013.25;  // Standard sea-level pressure
+
+// Dynamic pointer for Adafruit_BMP280 to avoid static initialization issues
+Adafruit_BMP280* barometer::bmp = nullptr;
 
 void barometer::baroSetup() {
-	if (!barometer::bmp.begin()) {
-		if(main::log_debug) {
-			logger::logln("No valid BMP280 sensor,\n check wiring or try a different address!");
+	// Initialize the barometer object
+	barometer::bmp = new Adafruit_BMP280();
+
+	if (!barometer::bmp->begin()) {
+		if (main::log_debug) {
+			logger::logln("No valid BMP280 sensor, check wiring or try a different address!");
 			logger::log("SensorID was: 0x");
-			logger::logHexln(barometer::bmp.sensorID(), 16);
+			logger::logHexln(barometer::bmp->sensorID(), 16);
 		}
 		main::use_barometer = false;
-		delay(500);
-	} else {
-		logger::logln(" Barometer initialized");
+		delete barometer::bmp;  // Clean up memory if initialization fails
+		barometer::bmp = nullptr;
+		return;
 	}
 
-	/* Default settings from datasheet. */
-	barometer::bmp.setSampling(
-			Adafruit_BMP280::MODE_FORCED,     /* Operating Mode. */
-			Adafruit_BMP280::SAMPLING_X2,     /* Temp. oversampling */
+	logger::logln("Barometer initialized successfully");
+
+	// Default settings from datasheet
+	barometer::bmp->setSampling(
+			Adafruit_BMP280::MODE_FORCED,     /* Operating Mode */
+			Adafruit_BMP280::SAMPLING_X2,     /* Temperature oversampling */
 			Adafruit_BMP280::SAMPLING_X16,    /* Pressure oversampling */
-			Adafruit_BMP280::FILTER_X16,      /* Filtering. */
-			Adafruit_BMP280::STANDBY_MS_500); /* Standby time. */
+			Adafruit_BMP280::FILTER_X16,      /* Filtering */
+			Adafruit_BMP280::STANDBY_MS_500); /* Standby time */
 }
 
 void barometer::baroMeter() {
-	if (bmp.takeForcedMeasurement()) {
-		// can now print out the new measurements
-		logger::log(("Temp = "));
-		float temp = (bmp.readTemperature());
+	if (!barometer::bmp) {
+		logger::logln("Barometer not initialized!");
+		return;
+	}
+
+	// Trigger a forced measurement
+	if (barometer::bmp->takeForcedMeasurement()) {
+		// Retrieve and log temperature
+		float temp = barometer::bmp->readTemperature();
+		logger::log("Temperature: ");
 		logger::logFloat(temp);
-		logger::logln(" *C");
+		logger::logln(" °C");
 
-		logger::log(("Press = "));
-		float press = (bmp.readPressure() / 100);
+		// Retrieve and log pressure
+		float press = barometer::bmp->readPressure() / 100.0f;  // Convert to hPa
+		logger::log("Pressure: ");
 		logger::logFloat(press);
-		logger::logln(" Pa");
+		logger::logln(" hPa");
 
-		logger::log(("Alt = "));
-		float altit = (bmp.readAltitude(SEALEVELPRESSURE_HPA)/100);
-		logger::logFloat(altit); /* Adjusted to local forecast! */
+		// Retrieve and log altitude
+		float altitude = barometer::bmp->readAltitude(SEALEVELPRESSURE_HPA);
+		logger::log("Altitude: ");
+		logger::logFloat(altitude);
 		logger::logln(" m");
 
-		logger::logln("");
+		// Add a delay for stability
 		delay(2000);
 	} else {
 		logger::logln("Forced measurement failed!");

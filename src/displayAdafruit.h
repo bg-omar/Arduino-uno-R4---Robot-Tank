@@ -44,7 +44,8 @@ public:
 	static void Floatln(float floaty);
 	static void hexln(unsigned char hexa);
 	static void bitmap(unsigned char bmp []);
-
+	static void Doubble(double dubby);
+	static void Doubbleln(double dubby);
 
 	static void displayLoop();
 	static void setupAdafruit();

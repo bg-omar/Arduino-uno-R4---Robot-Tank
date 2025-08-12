@@ -23,6 +23,16 @@ void logger::logln(const char* text) {
 	displayAdafruit::textln(text);
 }
 
+void logger::logDoubble(double floaty) {
+	Serial.print(floaty);
+	displayAdafruit::Doubble(floaty);
+}
+
+void logger::logDoubbleln(double floaty) {
+	Serial.println(floaty);
+	displayAdafruit::Doubbleln(floaty);
+}
+
 void logger::logFloat(float floaty) {
 	Serial.print(floaty);
 	displayAdafruit::Float(floaty);

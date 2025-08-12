@@ -10,7 +10,6 @@
     </sourceRoots>
     <excludeRoots>
       <file path="$PROJECT_DIR$/.pio" />
-      <file path="$PROJECT_DIR$/arduino_oled_menu-main" />
       <file path="$PROJECT_DIR$/src_esp32_cam" />
       <file path="$PROJECT_DIR$/src_esp32_ps4" />
       <file path="$PROJECT_DIR$/src_esp32_r4" />

@@ -3,6 +3,9 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="CMakeProjectFlavorService">
+    <option name="flavorId" value="CMakePlainProjectFlavor" />
+  </component>
   <component name="CMakeRunConfigurationManager">
     <generated>
       <config projectName="Arduino-R4_UNO_Wall-Z" targetName="PlatformIO" />
@@ -15,29 +18,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a7a6b36-a99e-4db6-8829-f78acb2fa3fc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/Arduino-R4_UNO_Wall-Z.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/easycode/codebase-v2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/arduino_oled_menu-main/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/arduino_oled_menu-main/oled_menu_128x64.psd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/arduino_oled_menu-main/oled_menu_128x64_u8g2.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/menu.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/menu.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/menu_imgs.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ESP32-S3-Wroom-Pinout.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/esp32-S3-DevKitC-1-original-pinout-low.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/keypad_4x4/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/keypad_4x4/.idea/14_Membrane_Switch_Module.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/keypad_4x4/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/keypad_4x4/Key.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/keypad_4x4/Key.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/keypad_4x4/Keypad.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/keypad_4x4/Keypad.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/keypad_4x4/Membrane_Switch_Module.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/keypad_4x4/audio.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/keypad_4x4/audio.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projectFilesBackup/CMakeListsPrivate.txt" beforeDir="false" afterPath="$PROJECT_DIR$/projectFilesBackup/CMakeListsPrivate.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MicStereo.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/MicStereo.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MicStereo.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/MicStereo.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/analog.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/analog.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/avoid_objects.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/avoid_objects.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/barometer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/barometer.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/barometer.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/barometer.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/compass.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/compass.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/compass.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/compass.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/displayAdafruit.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayAdafruit.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/displayAdafruit.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayAdafruit.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gyroscope.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/gyroscope.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logger.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/logger.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logger.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/logger.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main_ra.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_ra.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src_esp32_cam/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src_esp32_cam/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uno_r3_Pinout.avif" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,13 +52,27 @@
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="EmbeddedSvdWindowState">
+    <option name="columnWidths">
+      <list>
+        <option value="237" />
+        <option value="102" />
+        <option value="1735" />
+      </list>
+    </option>
+    <option name="columnOrder">
+      <list>
+        <option value="Name" />
+        <option value="Value" />
+        <option value="Description" />
+      </list>
+    </option>
     <option name="loadedFiles">
       <list>
         <option value="C:\Users\mr\.platformio\platforms\renesas-ra\misc\svd\R7FA4M1AB.svd" />
       </list>
     </option>
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="src" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="esp32_ps4" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -76,7 +94,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="bg-omar/master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -94,6 +112,9 @@
   <component name="GithubPullRequestsUISettings">{}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="NamedScopeManager">
+    <scope name="src" pattern="file[Arduino-R4_UNO_Wall-Z]:src/*" />
   </component>
   <component name="PlatformioLocalSettings">
     <option name="availableProjects">
@@ -122,6 +143,9 @@
       </map>
     </option>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
     <option name="majorVersion" value="2023" />
@@ -146,14 +170,16 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.advertisement.text.has.clang-format&quot;: &quot;true&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;bg-omar/master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/mr/Arduino Projects/Arduino-R4_UNO_Wall-Z/.pio/libdeps/src/Adafruit GC9A01A&quot;,
+    &quot;last_opened_file_path&quot;: &quot;A:/Users/mr/Arduino_Projects/Arduino-R4_UNO_Wall-Z&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -166,25 +192,75 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\mr\Arduino_Projects\Arduino-R4_UNO_Wall-Z" />
       <recent name="C:\Users\mr\Arduino Projects\Arduino-R4_UNO_Wall-Z\.pio\libdeps\src\Adafruit GC9A01A" />
       <recent name="C:\Users\mr\Arduino Projects\Arduino-R4_UNO_Wall-Z\src" />
       <recent name="D:\Users\mr\ARDUINO\Arduino-R4_UNO_Wall-Z\include" />
       <recent name="D:\Users\mr\ARDUINO\Arduino-R4_UNO_Wall-Z\uno-r4-wifi-usb-bridge\unor4wifi-updater" />
-      <recent name="D:\Users\mr\ARDUINO\Arduino-R4_UNO_Wall-Z\uno-r4-wifi-usb-bridge" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\mr\Arduino_Projects\Arduino-R4_UNO_Wall-Z\test" />
+      <recent name="C:\Users\mr\Arduino Projects\Arduino-R4_UNO_Wall-Z\test" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\keypad_4x4" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\src_esp32" />
       <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\src" />
-      <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\include" />
-      <recent name="C:\Users\mr\Arduino-R4_UNO_Wall-Z\.pio\build\esp32cam\src_esp32_cam" />
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="BIBTEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory">
+      <texify-bibtex>
+        <compiler />
+        <compiler-path />
+        <compiler-arguments />
+        <envs />
+        <main-file />
+        <aux-dir />
+        <latex-distribution>PROJECT_SDK</latex-distribution>
+      </texify-bibtex>
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
+    </configuration>
+    <configuration default="true" type="LATEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory">
+      <texify>
+        <compiler>PDFLATEX</compiler>
+        <compiler-path />
+        <pdf-viewer>SumatraPDF</pdf-viewer>
+        <require-focus>true</require-focus>
+        <viewer-command />
+        <compiler-arguments />
+        <envs />
+        <expand-macros-in-environment-variables>false</expand-macros-in-environment-variables>
+        <before-run-command />
+        <main-file />
+        <output-path>{projectDir}/out</output-path>
+        <auxil-path>{projectDir}/auxil</auxil-path>
+        <compile-twice>false</compile-twice>
+        <output-format>PDF</output-format>
+        <latex-distribution>MIKTEX</latex-distribution>
+        <has-been-run>false</has-been-run>
+        <bib-run-config>[]</bib-run-config>
+        <makeindex-run-config>[]</makeindex-run-config>
+      </texify>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="MAKEINDEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory">
+      <texify-makeindex>
+        <program>MAKEINDEX</program>
+        <main-file />
+        <command-line-args />
+        <work-dir />
+      </texify-makeindex>
+      <method v="2" />
+    </configuration>
+    <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
+      <method v="2" />
+    </configuration>
+    <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
+      <method v="2" />
     </configuration>
     <configuration name="PlatformIO" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Arduino-R4_UNO_Wall-Z" TARGET_NAME="PlatformIO" CONFIG_NAME="PlatformIO">
       <method v="2" />
@@ -388,6 +464,36 @@
       <workItem from="1718048639817" duration="225000" />
       <workItem from="1718090586968" duration="234000" />
       <workItem from="1718177467625" duration="5425000" />
+      <workItem from="1720625681658" duration="1176000" />
+      <workItem from="1721059426429" duration="600000" />
+      <workItem from="1721419781386" duration="2236000" />
+      <workItem from="1722026764785" duration="313000" />
+      <workItem from="1728734794485" duration="859000" />
+      <workItem from="1728765627347" duration="1262000" />
+      <workItem from="1728770154959" duration="3098000" />
+      <workItem from="1729534876877" duration="1936000" />
+      <workItem from="1729579246776" duration="64000" />
+      <workItem from="1729690732666" duration="3569000" />
+      <workItem from="1729753687285" duration="13589000" />
+      <workItem from="1730635240250" duration="99000" />
+      <workItem from="1734044576493" duration="1121000" />
+      <workItem from="1734153282400" duration="3000" />
+      <workItem from="1734215620963" duration="2111000" />
+      <workItem from="1734245706831" duration="529000" />
+      <workItem from="1734741111385" duration="522000" />
+      <workItem from="1734741914986" duration="36000" />
+      <workItem from="1734742121030" duration="37000" />
+      <workItem from="1735297441877" duration="170000" />
+      <workItem from="1735927932626" duration="706000" />
+      <workItem from="1736187324776" duration="15055000" />
+      <workItem from="1736373704750" duration="1391000" />
+      <workItem from="1736765766100" duration="3413000" />
+      <workItem from="1745706938339" duration="455000" />
+      <workItem from="1745762629599" duration="1586000" />
+      <workItem from="1746465631872" duration="780000" />
+      <workItem from="1754765134964" duration="2373000" />
+      <workItem from="1754925835250" duration="761000" />
+      <workItem from="1754978520219" duration="2000" />
     </task>
     <task id="LOCAL-00001" summary="ps4?">
       <option name="closed" value="true" />
@@ -717,7 +823,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718090795583</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="just saving">
+      <option name="closed" value="true" />
+      <created>1729724144434</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1729724144434</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -734,7 +848,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="bg-omar/master" />
+                        <option value="master" />
                       </list>
                     </value>
                   </entry>
@@ -749,7 +863,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="All differnt seriall in one" />
     <MESSAGE value="ifdef  to if" />
     <MESSAGE value="SICK ps4 working" />
     <MESSAGE value="Added Cam to project too" />
@@ -774,18 +887,8 @@
     <MESSAGE value="added ext analog input&#10;added hm10 BLE&#10;Switched motorshield gpio 11,12,13  with 4,5,6&#10;added LAZER" />
     <MESSAGE value="fixed main&#10;changed location of defined pins" />
     <MESSAGE value="SPI added&#10;Added SD card functions&#10;Added Round screen&#10;removed PS4 R3 button" />
-    <option name="LAST_COMMIT_MESSAGE" value="SPI added&#10;Added SD card functions&#10;Added Round screen&#10;removed PS4 R3 button" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/IRreceiver.h</url>
-          <line>43</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="just saving" />
+    <option name="LAST_COMMIT_MESSAGE" value="just saving" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

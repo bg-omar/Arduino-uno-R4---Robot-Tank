@@ -97,6 +97,18 @@ void displayAdafruit::Intln(int inter) {
 	display.display();
 }
 
+void displayAdafruit::Doubble(double dubby) {
+	// text display tests
+	display.print(dubby);
+	display.display();
+}
+
+void displayAdafruit::Doubbleln(double dubby) {
+	// text display tests
+	display.println(dubby);
+	display.display();
+}
+
 void displayAdafruit::Float(float floaty) {
 	// text display tests
 	display.print(floaty);

@@ -17,23 +17,23 @@
 
 #include <Wire.h> // library required for IIC communication
 
-Adafruit_HMC5883_Unified compass::mag = Adafruit_HMC5883_Unified(12345);
+Adafruit_HMC5883_Unified* compass::mag = nullptr;
+float DECLINATION_ANGLE = 0.035;
 
 void compass::compassSetup() {
-    /* Initialise the sensor */
-    if(!mag.begin()) {
-        logger::logln("HMC5883 Compass not found   ");
-        delay(500);
-    } else {
-        logger::logln("Compass Found!     ");
-        main::Found_Compass = true;
-        compass::displaySensorDetails();
-        delay(500);
+	compass::mag = new Adafruit_HMC5883_Unified(12345);
+	if (!compass::mag->begin()) {
+		logger::logln("HMC5883 Compass not found");
+		delay(500);
+	} else {
+		logger::logln("Compass Found!");
+		main::Found_Compass = true;
+		compass::displaySensorDetails();
+		delay(500);
+	}
 
-
-    }
-    /* Display the results (magnetic vector values are in micro-Tesla (uT)) */
-   }
+	// Default setup for compass can be added here if needed
+}
 
 void compass::showCompass(){
     unsigned char north[] =  {0x00,0x00,0x00,0x00,0x00,0x7e,0x04,0x08,0x10,0x20,0x7e,0x00,0x00,0x00,0x00,0x00};
@@ -83,16 +83,14 @@ void compass::showCompass(){
 
 double compass::readCompass(){
     sensors_event_t event; /// Get a new sensor event */
-    mag.getEvent(&event);
+    mag->getEvent(&event);
 
 	/* Display the results (magnetic vector values are in micro-Tesla (uT)) */
 	logger::log("X: "); logger::logFloat(((event.magnetic.x))); logger::log("  ");
 	logger::log("Y: "); logger::logFloat(((event.magnetic.y))); logger::log("  ");
 	logger::log("Z: "); logger::logFloat(((event.magnetic.z))); logger::log("  ");logger::logln("uT");
 
-    double heading = atan2(-event.magnetic.z, event.magnetic.x);
-    double declinationAngle = 0.035;
-    heading += declinationAngle;
+	double heading = atan2(event.magnetic.y, event.magnetic.x) + DECLINATION_ANGLE;
 
     if(heading < 0) {
         heading += 2 * PI;
@@ -107,7 +105,7 @@ double compass::readCompass(){
 
 void compass::displaySensorDetails(){
     sensor_t sensor;
-    mag.getSensor(&sensor);
+    mag->getSensor(&sensor);
     Serial.println("------------------------------------");
     Serial.print  ("Sensor:       "); Serial.println(sensor.name);
     Serial.print  ("Driver Ver:   "); Serial.println(sensor.version);
@@ -117,7 +115,7 @@ void compass::displaySensorDetails(){
     Serial.print  ("Resolution:   "); Serial.print(sensor.resolution); Serial.println(" uT");
 
     sensors_event_t event; /// Get a new sensor event */
-    mag.getEvent(&event);
+    mag->getEvent(&event);
 
     Serial.print("X: "); Serial.print(event.magnetic.x); Serial.print("  ");
     Serial.print("Y: "); Serial.print(event.magnetic.y); Serial.print("  ");

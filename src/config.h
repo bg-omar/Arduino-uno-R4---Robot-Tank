@@ -8,29 +8,29 @@
 /***************************************************************************************************************/
 // section define
 /***************************************************************************************************************/
-#define LOG_VERBOSE 0
+#define LOG_VERBOSE 1
 
 #define USE_ADAFRUIT 0
 #define USE_U8G2 0
 #define SMALL 0
 #define DISPLAY_DEMO 0
 #define USE_ROUND 0
-#define USE_MENU 1
+#define USE_MENU 0
 #define LOG_DEBUG 1
 #define USE_PS4 1
 #define USE_SD_CARD 0
-#define USE_GYRO 1
-#define USE_COMPASS 1
-#define USE_BAROMETER 1
+#define USE_GYRO 0
+#define USE_COMPASS 0
+#define USE_BAROMETER 0
 #define USE_DISTANCE 1
 #define USE_IRREMOTE 0
 #define USE_I2C_SCANNER 1
 #define USE_PWM_BOARD 1
 #define USE_DOT 1
-#define USE_MIC 1
+#define USE_MIC 0
 #define USE_SWITCH 0
-#define USE_ANALOG 1
-#define USE_ROBOT 1
+#define USE_ANALOG 0
+#define USE_ROBOT 0
 #define USE_TIMERS 0
 #define USE_MATRIX 0
 #define USE_MATRIX_PREVIEW 0

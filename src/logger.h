@@ -19,6 +19,9 @@ public:
 
 	static void logHex(unsigned char id, int i);
 	static void logHexln(unsigned char id, int i);
+
+	static void logDoubble(double floaty);
+	static void logDoubbleln(double floaty);
 };
 
 

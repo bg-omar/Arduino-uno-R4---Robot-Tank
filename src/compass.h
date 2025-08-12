@@ -11,7 +11,7 @@
 
 class compass {
 private:
-    static Adafruit_HMC5883_Unified mag;
+
 public:
     static double readCompass();
     static void showCompass();
@@ -19,6 +19,8 @@ public:
     static void displaySensorDetails();
 
     static void displayCompass();
+
+	static Adafruit_HMC5883_Unified *mag;
 };
 
 

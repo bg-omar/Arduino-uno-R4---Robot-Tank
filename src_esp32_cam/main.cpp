@@ -25,6 +25,7 @@ PS5 Controller: 88:03:4C:B5:00:66
 #include "esp_bt_device.h"
 #include "esp_gap_bt_api.h"
 #include "esp_err.h"
+#include "AudioTools.h"
 
 #ifdef USE_WIFI_PHOTO
     #include "WifiCam.hpp"

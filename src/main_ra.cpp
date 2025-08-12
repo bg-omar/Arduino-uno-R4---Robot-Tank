@@ -326,30 +326,40 @@ void loop(){
 	}
 
     if ((USE_DISTANCE && !main::use_sd_card) || main::use_distance) {
-		avoid_objects::distanceF = avoid_objects::checkDistance();  /// assign the front distance detected by ultrasonic sensor to variable a
+		int distance = std::lround(avoid_objects::checkDistance());  /// assign the front distance detected by ultrasonic sensor to variable a
 
-		int lazer_brightness = map(avoid_objects::distanceF, 0, 1000, 0, 4000);
+		#if LOG_DEBUG
+			if (main::Found_Display) {
+				logger::log("Distance: ");
+				logger::logIntln(distance);
+			}
+		#endif
+
+		int lazer_brightness = map(distance, 0, 1000, 0, 4000);
 		pwm_board::pwm.setPWM(LAZER_PIN, 0, lazer_brightness);
-		if (avoid_objects::distanceF < 25) {
+		if (distance < 35) {
 			if ((USE_PWM_BOARD && !main::use_pwm_board) || main::use_pwm_board) {
-				pwm_board::RGBled(230, 0, 0);
-					pwm_board::leftLedStrip(255, 0, 0);
-					pwm_board::rightLedStrip(255, 0, 0);
+				pwm_board::leftLedStrip(255, 0, 0);
+				pwm_board::rightLedStrip(255, 0, 0);
+			}
+		} else {
+			if ((USE_PWM_BOARD && !main::use_pwm_board) || main::use_pwm_board) {
+				pwm_board::leftLedStrip(70, 0, 70);
+				pwm_board::rightLedStrip(70, 0, 70);
 			}
 		}
 
-		#if LOG_DEBUG
-			if (main::Found_Display) logger::logFloatln(avoid_objects::distanceF);
-		#endif
-		#if USE_DOT
-			Pesto::pestoMatrix();
-		#endif
-		double deltime = avoid_objects::distanceF * 3;
+
+		double deltime = distance * 3;
 		delay(deltime);
 	} else {
-		pwm_board::leftLedStrip(70, 0, 70);
-		pwm_board::rightLedStrip(70, 0, 70);
+		pwm_board::leftLedStrip(0, 0, 70);
+		pwm_board::rightLedStrip(0, 0, 70);
 	}
+
+	#if USE_DOT
+		Pesto::pestoMatrix();
+	#endif
 
 	#if USE_MIC
 		MicStereo::MicLoop();

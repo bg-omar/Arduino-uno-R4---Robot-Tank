@@ -12,7 +12,7 @@ public:
     static void baroSetup();
     static void baroMeter();
 
-	static Adafruit_BMP280 bmp;
+	static Adafruit_BMP280 *bmp;
 };
 
 
